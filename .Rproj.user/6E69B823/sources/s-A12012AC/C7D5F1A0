@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "3200454640",
+    "hash" : "0",
     "id" : "C7D5F1A0",
     "lastKnownWriteTime" : 1554233519,
     "last_content_update" : 1554233519829,
     "path" : "~/GitHub/nichevol/R/histograms_env.R",
     "project_path" : "R/histograms_env.R",
     "properties" : {
-        "cursorPosition" : "3,1",
-        "scrollLine" : "0"
+        "cursorPosition" : "72,26",
+        "scrollLine" : "55"
     },
     "relative_order" : 2,
     "source_on_save" : false,

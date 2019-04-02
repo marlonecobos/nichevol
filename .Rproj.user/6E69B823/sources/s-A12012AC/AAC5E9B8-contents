@@ -1,0 +1,20 @@
+mval <- rep(c(-23:-20, -7:22, 35, 40:45))
+
+mval1 <- rep(c(-45:-40, -35, -22:22, 35, 40:45))
+
+mval2 <- rep(c(-45:-40, -35, -22:7, 23:20))
+
+## distance of each absolute value to median value
+medians <- median(mval2)
+df_layer <- abs(mval2 - medians)
+names(df_layer) <- mval2
+
+## limit
+limit <- floor((100 - percentage_out) * length(df_layer) / 100)
+df_layera <- sort(df_layer)[1:limit]
+
+M_range <- range(as.numeric(names(df_layera)))
+
+M_range1 <- range(as.numeric(names(df_layera)))
+
+M_range2 <- range(as.numeric(names(df_layera)))

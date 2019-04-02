@@ -65,7 +65,7 @@ bins_table <- function(M_folder, M_format = "shp", occ_folder, longitude_col, la
 
       ## limit
       limit <- floor((100 - percentage_out) * length(df_layer) / 100)
-      df_layer <- df_layer[1:limit]
+      df_layer <- sort(df_layer)[1:limit]
 
       M_range[[j]] <- range(as.numeric(names(df_layer)))
 

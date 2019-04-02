@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "219219652",
+    "hash" : "2987979725",
     "id" : "A6D7AB43",
-    "lastKnownWriteTime" : 1554233529,
-    "last_content_update" : 1554233529630,
+    "lastKnownWriteTime" : 1554238765,
+    "last_content_update" : 1554238765041,
     "path" : "~/GitHub/nichevol/R/bins_table.R",
     "project_path" : "R/bins_table.R",
     "properties" : {
-        "cursorPosition" : "4,1",
-        "scrollLine" : "0"
+        "cursorPosition" : "67,18",
+        "scrollLine" : "53"
     },
     "relative_order" : 3,
     "source_on_save" : false,
