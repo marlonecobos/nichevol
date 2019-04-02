@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1554232859178.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3200454640",
+    "id" : "C7D5F1A0",
+    "lastKnownWriteTime" : 1554233519,
+    "last_content_update" : 1554233519829,
+    "path" : "~/GitHub/nichevol/R/histograms_env.R",
+    "project_path" : "R/histograms_env.R",
+    "properties" : {
+        "cursorPosition" : "3,1",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

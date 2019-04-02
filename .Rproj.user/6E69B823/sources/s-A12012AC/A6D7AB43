@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1554232875528.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "219219652",
+    "id" : "A6D7AB43",
+    "lastKnownWriteTime" : 1554233529,
+    "last_content_update" : 1554233529630,
+    "path" : "~/GitHub/nichevol/R/bins_table.R",
+    "project_path" : "R/bins_table.R",
+    "properties" : {
+        "cursorPosition" : "4,1",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
