@@ -1,4 +1,4 @@
-bins_env <- function(overall_range, M_range, sp_range, bin_size){
+bins_env <- function(overall_range, M_range, sp_range, bin_size) {
   # sequences
   sequence_vals <- seq(overall_range[1], overall_range[2], bin_size)
 
@@ -44,6 +44,19 @@ bins_env <- function(overall_range, M_range, sp_range, bin_size){
     }
 
     invar_sum <- invar_M + invar_sp
+    n <- 1:length(invar_sum)
+    whereM <- range(n[invar_sum == 1])
+    wheresp <- range(n[invar_sum >= 100])
+
+    places <- wheresp - whereM
+
+    if (places[1] > 0) {
+      invar_sum[1:(whereM[1] - 1)] <- 1
+    }
+
+    if (places[2] <= 0) {
+      invar_sum[(whereM[2] + 1):length(invar_sum)] <- 1
+    }
 
     bin_tab[[i]] <- vector()
     for (j in 1:length(invar_sum)) {

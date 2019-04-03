@@ -12,10 +12,10 @@
     "path" : "~/GitHub/nichevol/R/bins_table.R",
     "project_path" : "R/bins_table.R",
     "properties" : {
-        "cursorPosition" : "49,21",
-        "scrollLine" : "30"
+        "cursorPosition" : "83,4",
+        "scrollLine" : "72"
     },
-    "relative_order" : 3,
+    "relative_order" : 2,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_source"
