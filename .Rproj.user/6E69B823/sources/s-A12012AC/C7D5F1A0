@@ -7,13 +7,13 @@
     "folds" : "",
     "hash" : "0",
     "id" : "C7D5F1A0",
-    "lastKnownWriteTime" : 1554233519,
-    "last_content_update" : 1554233519829,
+    "lastKnownWriteTime" : 1554312681,
+    "last_content_update" : 1554312681141,
     "path" : "~/GitHub/nichevol/R/histograms_env.R",
     "project_path" : "R/histograms_env.R",
     "properties" : {
-        "cursorPosition" : "1,71",
-        "scrollLine" : "0"
+        "cursorPosition" : "125,26",
+        "scrollLine" : "109"
     },
     "relative_order" : 2,
     "source_on_save" : false,

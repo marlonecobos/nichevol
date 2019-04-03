@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1554306989459.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "D25128E0",
+    "lastKnownWriteTime" : 1554307040,
+    "last_content_update" : 1554307040079,
+    "path" : "~/GitHub/nichevol/R/bins_env.R",
+    "project_path" : "R/bins_env.R",
+    "properties" : {
+        "cursorPosition" : "62,0",
+        "scrollLine" : "0",
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
