@@ -44,10 +44,10 @@ bin_tables <- function(ranges, percentage_out = 5, bin_size = 10,
     bin_tabs[[i]] <- bin_table
 
     # write table
-    write.csv(bin_table, paste0(output_folder, "/", names(variables)[i], "_bin_table.csv"),
+    write.csv(bin_table, paste0(output_folder, "/", names(ranges)[i], "_bin_table.csv"),
               row.names = FALSE)
 
-    cat(i, "of", dim(variables)[3], "variables processed\n")
+    cat(i, "of", length(ranges), "variables processed\n")
   }
 
   names(bin_tabs) <- names(ranges)
