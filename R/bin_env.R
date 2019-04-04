@@ -54,7 +54,7 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
       invar_sum[1:(whereM[1] - 1)] <- 1
     }
 
-    if (places[2] <= 0 & whereM[2] != 0) {
+    if (places[2] <= 0) {
       invar_sum[(whereM[2] + 1):length(invar_sum)] <- 1
     }
 
