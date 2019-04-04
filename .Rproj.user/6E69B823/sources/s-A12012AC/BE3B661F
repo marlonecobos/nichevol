@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1554342634344.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "BE3B661F",
+    "lastKnownWriteTime" : 1554354244,
+    "last_content_update" : 1554354244316,
+    "path" : "~/GitHub/nichevol/R/bin_tables.R",
+    "project_path" : "R/bin_tables.R",
+    "properties" : {
+        "cursorPosition" : "55,0",
+        "scrollLine" : "33",
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
