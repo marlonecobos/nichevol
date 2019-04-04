@@ -45,7 +45,13 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
 
     invar_sum <- invar_M + invar_sp
     n <- 1:length(invar_sum)
-    whereM <- range(ifelse(sum(invar_sum == 1) == 0, c(0, 0), n[invar_sum == 1]))
+    whereM <- range({
+      if (sum(invar_sum == 1) == 0) {
+        c(0, 0)
+      } else {
+        n[invar_sum == 1]
+      }
+    })
     wheresp <- range(n[invar_sum >= 100])
 
     places <- wheresp - whereM
