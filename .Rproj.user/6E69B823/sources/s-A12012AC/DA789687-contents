@@ -39,6 +39,8 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
   # directory for results
   dir.create(output_folder)
 
+  bin_tabs <- list()
+
   for (i in 1:dim(variables)[3]) {
     # data
     M_range <- list()
@@ -81,11 +83,24 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
     sp_range <- do.call(rbind, sp_range)
     overall_range <- range(c(c(M_range), c(sp_range)))
 
+    if (overall_range[2] > 999) {
+      overall_range <- round(overall_range / 10)
+      M_range <- round(M_range / 10)
+      sp_range <- round(sp_range / 10)
+    }
+    if (overall_range[2] > 9999) {
+      overall_range <- round(overall_range / 100)
+      M_range <- round(M_range / 100)
+      sp_range <- round(sp_range / 100)
+    }
+
+    # modification of range
     o_minimum <- overall_range[1]
-    o_minimumc <- ifelse(o_minimum == 0, 0, floor(o_minimum / 10) * 10) - 10
+    o_minimumc <- ifelse(o_minimum == 0, 0, floor(o_minimum / bin_size) * bin_size) - bin_size
 
     o_maximum <- overall_range[2]
-    o_maximumc <- ifelse(o_maximum == 0, 0, ceiling(o_maximum / 10) * 10) + 10
+    o_maximumc <- ifelse(o_maximum == 0, 0, ceiling(o_maximum / bin_size) * bin_size) + bin_size
+
     overall_range <- c(o_minimumc, o_maximumc)
 
     # bin tables
@@ -96,10 +111,15 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
     bin_table <- data.frame(gsub("_", " ", spnames), bin_table)
     colnames(bin_table) <- c("Species", bin_heads)
 
+    bin_tabs[[i]] <- bin_table
+
     # write table
     write.csv(bin_table, paste0(output_folder, "/", names(variables)[i], "_bin_table.csv"),
               row.names = FALSE)
 
     cat(i, "of", dim(variables)[3], "variables processed\n")
   }
+
+  names(bin_tabs) <- names(variables)
+  return(bin_tabs)
 }

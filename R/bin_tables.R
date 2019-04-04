@@ -38,7 +38,7 @@ bin_tables <- function(ranges, percentage_out = 5, bin_size = 10,
     # bin tables
     bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
     bin_heads <- colnames(bin_table)
-    bin_table <- data.frame(gsub("_", " ", spnames), bin_table)
+    bin_table <- data.frame(as.character(ranges[[i]][, 1]), bin_table)
     colnames(bin_table) <- c("Species", bin_heads)
 
     bin_tabs[[i]] <- bin_table
