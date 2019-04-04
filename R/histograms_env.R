@@ -104,7 +104,7 @@ histograms_env <- function(M_folder, M_format = "shp", occ_folder, longitude_col
     ranges[[i]] <- data.frame(gsub("_", " ", spnames), do.call(rbind, sp_ranges),
                               do.call(rbind, M_ranges), limits)
     colnames(ranges[[i]]) <- c("Species", "Species_lower", "Species_upper", "M_lower", "M_upper",
-                            paste0("M_", rep(CL_lines, each = 2), "_CL"))
+                            paste0("M_", rep(CL_lines, each = 2), c("_lowerCL", "_upperCL")))
 
     write.csv(ranges[[i]], file = paste0(output_folder, "/Ranges_", names(variables)[i], ".csv"),
               row.names = FALSE)

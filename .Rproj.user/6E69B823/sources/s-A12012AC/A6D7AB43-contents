@@ -1,4 +1,4 @@
-bins_table <- function(M_folder, M_format = "shp", occ_folder, longitude_col, latitude_col,
+bin_tables <- function(M_folder, M_format = "shp", occ_folder, longitude_col, latitude_col,
                        vars_folder, vars_format = "GTiff", round = FALSE, round_names,
                        multiplication_factor = 1, percentage_out = 5, bin_size = 10,
                        output_folder = "Species_E_space_bins"){
@@ -91,7 +91,7 @@ bins_table <- function(M_folder, M_format = "shp", occ_folder, longitude_col, la
     # bin tables
     cat("\nPreparing bin tables using ranges:\n")
 
-    bin_table <- bins_env(overall_range, M_range, sp_range, bin_size)
+    bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
     bin_heads <- colnames(bin_table)
     bin_table <- data.frame(gsub("_", " ", spnames), bin_table)
     colnames(bin_table) <- c("Species", bin_heads)
