@@ -9,9 +9,10 @@ bin_tables <- function(ranges, percentage_out = 5, bin_size = 10,
   bin_tabs <- list()
   for (i in 1:length(ranges)) {
     # preparing ranges
-    overall_range <- range(c(ranges[[i]][, c(2:3, 6:7)]))
-
     cl <- paste0("M_", 100 - percentage_out, c("_lowerCL", "_upperCL"))
+    sp_r <- paste0("Species_", c("lower", "upper"))
+
+    overall_range <- range(c(ranges[[i]][, c(sp_r, cl)]))
     M_range <- ranges[[i]][, cl]
     sp_range <- ranges[[i]][, 2:3]
 
