@@ -118,7 +118,7 @@ histograms_env <- function(M_folder, M_format = "shp", occ_folder, longitude_col
   }
 
   if (save_ranges == TRUE) {
-    cat("save_ranges = TRUE:\ncsv files with the environmental ranges were saved in", output_folder)
+    cat("\nsave_ranges = TRUE:\ncsv files with the environmental ranges were saved in", output_folder, "\n")
   }
 
   names(ranges) <- names(variables)
