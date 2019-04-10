@@ -111,8 +111,8 @@ histograms_env <- function(M_folder, M_format = "shp", occ_folder, longitude_col
 
     ## frecuency of each value in M
     pdf_histograms(env_data = df_layer, occ_data = occ_dfs, y_values = y_values, sp_names = spnames,
-                   variable_name = names(variables)[i], CL_lines = CL_lines, col = col,
-                   output_folder = output_folder)
+                   variable_name = names(variables)[i], CL_lines = CL_lines, limits = limits,
+                   col = col, output_folder = output_folder)
 
     cat(i, "of", dim(variables)[3], "variables processed\n")
   }

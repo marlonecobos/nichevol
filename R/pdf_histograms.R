@@ -1,5 +1,5 @@
-pdf_histograms <- function(env_data, occ_data, y_values, sp_names, variable_name, CL_lines, col,
-                           output_folder = "Histogram_ranges_check") {
+pdf_histograms <- function(env_data, occ_data, y_values, sp_names, variable_name, CL_lines,
+                           limits, col, output_folder = "Histogram_ranges_check") {
 
   col1 <- rep(col, each = 2) # colors for limits in actual values
 
