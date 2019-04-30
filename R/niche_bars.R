@@ -18,7 +18,7 @@ niche_bars <- function(bin_table, present = "1", unknown = "?", width = 50,
 
   dir.create(output_dir)
 
-  barss <- sapply(1:dim(bin_table)[1], function(j) {
+  barss <- sapply(1:nrow(bin_table), function(j) {
     bar_name <- paste0(output_dir, "/", gsub(" ", "_", spnames[j]), "_bar.png")
 
     png(filename = bar_name, width = width, height = height, units = "mm",
