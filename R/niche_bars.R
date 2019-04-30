@@ -27,10 +27,10 @@ niche_bars <- function(bin_table, present = "1", unknown = "?", width = 50,
     plot(x = c(0, 1), y = c(0, 0.05), col = "transparent", axes = FALSE)
 
     polys <- sapply(1:(length(h_vertices) - 1), function(x) {
-      if (bin_table[j, x] == unknown) {
-        pcolor <- "grey70"
+      if (as.character(bin_table[j, x]) == unknown) {
+        pcolor <- "grey85"
       } else {
-        pcolor <- ifelse(as.character(bin_table[j, x]) == present, "red", "blue")
+        pcolor <- ifelse(as.character(bin_table[j, x]) == present, "red4", "royalblue1")
       }
 
       xs <- c(h_vertices[x], h_vertices[x + 1], h_vertices[x + 1], h_vertices[x])

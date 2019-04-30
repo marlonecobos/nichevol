@@ -19,6 +19,7 @@ niche_diffbars <- function(reconstructed_bins, present = "1", absent = "0", unkn
 
   h_vertices <- seq(0, 1, wpol)
   v_vertices <- rep(c(0, 0.05), each = 2)
+  y_line <- rep(mean(c(0, 0.05)), 2)
 
   # combinations for comparisons
   all_comb <- t(combn(x = nod, m = 2))
@@ -67,6 +68,9 @@ niche_diffbars <- function(reconstructed_bins, present = "1", absent = "0", unkn
       }
     }
 
+    # infor for lines
+    linesp <- rec_bins[all_comb[x, 1], ]
+
     # bar creation
     bar_name <- paste0(output_dir, "/", all_nam[x], "_bar.png")
 
@@ -75,16 +79,28 @@ niche_diffbars <- function(reconstructed_bins, present = "1", absent = "0", unkn
     par(mar = rep(0, 4))
     plot(x = c(0, 1), y = c(0, 0.05), col = "transparent", axes = FALSE)
 
-    polys <- sapply(1:(length(h_vertices) - 1), function(y) {
+    poly_lines <- sapply(1:(length(h_vertices) - 1), function(y) {
+      # polygons
       if (comp[y] == "nc") {
-        pcolor <- "grey85"
+        pcolor <- "grey90"
       } else {
-        pcolor <- ifelse(comp[y] == "gain", "forestgreen", "dodgerblue3")
+        pcolor <- ifelse(comp[y] == "gain", "green1", "dodgerblue3")
       }
 
       xs <- c(h_vertices[y], h_vertices[y + 1], h_vertices[y + 1], h_vertices[y])
 
       polygon(x = xs, y = v_vertices, col = pcolor, border = NA)
+
+      # lines
+      if (linesp[y] == unknown) {
+        pcolor <- "white"
+      } else {
+        pcolor <- ifelse(linesp[y] == present, "grey10", "transparent")
+      }
+
+      xs <- c(h_vertices[y], h_vertices[y + 1])
+
+      lines(x = xs, y = y_line, col = pcolor, lty = 1, lwd = 1.7)
     })
     dev.off()
 
