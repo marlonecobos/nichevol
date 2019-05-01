@@ -39,6 +39,16 @@ niche_bars <- function(bin_table, present = "1", unknown = "?", width = 50,
     })
     dev.off()
   })
+
+  # legend
+  png(filename = paste0(output_dir, "/0_Legend.png"), width = 50, height = 30, units = "mm",
+      bg = "transparent", res = res)
+  par(mar = rep(0, 4), cex = 1.2)
+  plot(x = c(0, 0.5), y = c(0, 0.5), col = "transparent", axes = FALSE)
+  legend("center", legend = c("Uncertain", "Present", "Not present"), box.col = "grey94",
+         pch = 22, pt.bg = c("grey85", "red4", "royalblue1"), pt.cex = 2.2,
+         lty = 1, col = "transparent", bg = "grey94")
+  invisible(dev.off())
 }
 
 
