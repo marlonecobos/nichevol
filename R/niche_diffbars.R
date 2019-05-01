@@ -1,4 +1,4 @@
-niche_diffbars <- function(reconstructed_bins, present = "1", absent = "0", unknown = "0 1",
+niche_diffbars <- function(reconstructed_bins, spp_rows, present = "1", absent = "0", unknown = "0 1",
                            width = 50, height = 5, res = 300, output_dir = "Difference_bars") {
 
   # testing for potential errors
@@ -7,12 +7,15 @@ niche_diffbars <- function(reconstructed_bins, present = "1", absent = "0", unkn
   }
 
   # organizing data
-  nod <- as.character(reconstructed_bins[, 1])
+  nod <- as.character(reconstructed_bins[!1:nrow(reconstructed_bins) %in% spp_rows, 1])
   nodes <- gsub("\\D", "", nod)
+
+  sps <- as.character(reconstructed_bins[1:nrow(reconstructed_bins) %in% spp_rows, 1])
+  spp <- gsub(" ", "_", sps)
 
   rec_bins <- reconstructed_bins[, -1]
   rec_bins <- data.frame(lapply(rec_bins, as.character), stringsAsFactors = FALSE)
-  row.names(rec_bins) <- nod
+  row.names(rec_bins) <- c(nod, sps)
 
   tpol <- ncol(rec_bins)
   wpol <- 1 / tpol
@@ -23,10 +26,12 @@ niche_diffbars <- function(reconstructed_bins, present = "1", absent = "0", unkn
 
   # combinations for comparisons
   all_comb <- t(combn(x = nod, m = 2))
-  all_comb <- rbind(all_comb, all_comb[, 2:1])
+  nod_sps <- cbind(rep(nod, each = length(sps)), rep(sps, length(nod)))
+  all_comb <- rbind(all_comb, all_comb[, 2:1], nod_sps)
 
   all_nam <- t(combn(x = nodes, m = 2))
-  all_nam <- rbind(all_nam, all_nam[, 2:1])
+  nodes_spp <- cbind(rep(nodes, each = length(sps)), rep(spp, length(nod)))
+  all_nam <- rbind(all_nam, all_nam[, 2:1], nodes_spp)
   all_nam <- paste("From_node", all_nam[, 1], "to", all_nam[, 2], sep = "_")
 
   # plotting data
