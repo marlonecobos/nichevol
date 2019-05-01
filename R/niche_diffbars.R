@@ -110,4 +110,20 @@ niche_diffbars <- function(reconstructed_bins, spp_rows, present = "1", absent =
     dev.off()
 
   })
+
+  # legend
+  png(filename = paste0(output_dir, "/0_Legend.png"), width = 50, height = 50, units = "mm",
+      bg = "transparent", res = res)
+  par(mar = rep(0, 4), cex = 1.2)
+  plot(x = c(0, 0.5), y = c(0, 0.5), col = "transparent", axes = FALSE)
+  legend("center", legend = c("Uncertain", "Present", "No change", "Retraction", "Expansion"), box.col = "grey94",
+         lty = c(1, NA, NA, NA, NA), lwd = 2, col = c("transparent", NA, NA, NA, NA), bg = "grey94")
+
+  legend("center", legend = c("                ", "", "", "", ""), bty = "n",
+         pch = 22, pt.bg = c(NA, NA, "grey90", "dodgerblue3", "green1"), pt.cex = 2.2,
+         lty = 1, col = "transparent")
+
+  legend("center", legend = c("                  ", "", "", "", ""), bty = "n",
+         lty = c(1, 1, NA, NA, NA), lwd = 2, col = c("white", "grey10", NA, NA, NA))
+  invisible(dev.off())
 }
