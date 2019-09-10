@@ -2,32 +2,29 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
                         vars_folder, vars_format = "GTiff", round = FALSE, round_names,
                         multiplication_factor = 1, percentage_out = 5, bin_size = 10,
                         output_folder = "Species_E_space_bins"){
-  # formats
-  if (M_format == "shp") {
-    M_patt <- ".shp$"
-    subs <- ".shp"
+  # formats and data to start
+  if (M_format %in% c("shp", "gpkg")) {
+    if (M_format == "shp") {
+      M_patt <- ".shp$"
+      subs <- ".shp"
+      mlist <- gsub(subs, "", list.files(path = M_folder, pattern = M_patt))
+      spnames <- mlist
+    } else {
+      M_patt <- ".gpkg$"
+      subs <- ".gpkg"
+      mlist <- list.files(path = M_folder, pattern = M_patt)
+      spnames <- gsub(subs, "", mlist)
+    }
+  } else {
+    M_patt <- paste0(rformat_type(var_format), "$")
+    subs <- rformat_type(var_format)
+    mlist <- list.files(path = M_folder, pattern = M_patt, full.names = TRUE)
+    spnames <- gsub(subs, "", list.files(path = M_folder, pattern = M_patt))
   }
-  if (M_format == "ascii") {
-    M_patt <- ".asc$"
-    subs <- ".asc"
-  }
-  if (M_format == "GTiff") {
-    M_patt <- ".tif$"
-    subs <- ".tif"
-  }
-  if (M_format == "EHdr") {
-    M_patt <- ".bil$"
-    subs <- ".tif"
-  }
-  if (vars_format == "ascii") {v_patt <- ".asc$"}
-  if (vars_format == "GTiff") {v_patt <- ".tif$"}
-  if (vars_format == "EHdr") {v_patt <- ".bil$"}
+  v_patt <- paste0(rformat_type(var_format), "$")
 
-  # needed data to start
-  mlist <- gsub(subs, "",list.files(path = M_folder, pattern = paste0(".", M_format, "$")))
-  occlist <- list.files(path = occ_folder, pattern = ".csv$", full.names = TRUE)
-  spnames <- gsub(".csv", "", list.files(path = occ_folder, pattern = ".csv$"))
   variables <- raster::stack(list.files(path = vars_folder, pattern = v_patt, full.names = TRUE))
+  occlist <- list.files(path = occ_folder, pattern = ".csv$", full.names = TRUE)
 
   if (round == TRUE) {
     rounds <- round(variables[[round_names]] * multiplication_factor)
@@ -39,9 +36,7 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
   # directory for results
   dir.create(output_folder)
 
-  bin_tabs <- list()
-
-  for (i in 1:dim(variables)[3]) {
+  bin_tabs <- lapply(1:dim(variables)[3], function(i) {
     # data
     M_range <- list()
     sp_range <- list()
@@ -49,8 +44,16 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
     cat("\nPreparing range values from environmental layers and species data:\n")
 
     for (j in 1:length(occlist)) {
-      ## M shapefiles
-      M <- rgdal::readOGR(dsn = M_folder, layer = mlist[j], verbose = FALSE)
+      ## M
+      if (M_format %in% c("shp", "gpkg")) {
+        if (M_format == "shp") {
+          M <- rgdal::readOGR(dsn = M_folder, layer = mlist[j], verbose = FALSE)
+        } else {
+          M <- rgdal::readOGR(paste0(M_folder, "/", mlist[j]), spnames[j], verbose = FALSE)
+        }
+      } else {
+        M <- raster::raster(mlist[j])
+      }
 
       ## occurrences
       occ <- read.csv(occlist[j])
@@ -58,7 +61,7 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
       # processing
       ## get values of variables in M
       mvar <- raster::mask(raster::crop(variables[[i]], M), M)
-      mval <- na.omit(raster::values(mvar))
+      mval <- na.omit(mvar[])
 
       ## distance of each absolute value to median value
       medians <- median(mval)
@@ -111,14 +114,13 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
     bin_table <- data.frame(gsub("_", " ", spnames), bin_table)
     colnames(bin_table) <- c("Species", bin_heads)
 
-    bin_tabs[[i]] <- bin_table
-
     # write table
     write.csv(bin_table, paste0(output_folder, "/", names(variables)[i], "_bin_table.csv"),
               row.names = FALSE)
 
     cat(i, "of", dim(variables)[3], "variables processed\n")
-  }
+    return(bin_table)
+  })
 
   names(bin_tabs) <- names(variables)
   return(bin_tabs)
