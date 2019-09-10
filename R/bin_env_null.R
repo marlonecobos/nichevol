@@ -56,6 +56,5 @@ bin_env_null <- function(overall_range, M_range, bin_size) {
     colnames(bin_tab) <- sequence_vals
   }
 
-
   return(bin_tab)
 }
