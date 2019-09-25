@@ -1,7 +1,59 @@
-bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, latitude_col,
-                        vars_folder, vars_format = "GTiff", round = FALSE, round_names,
-                        multiplication_factor = 1, percentage_out = 5, bin_size = 10,
-                        output_folder = "Species_E_space_bins"){
+#' Bin tables of environemntal conditions in M and occurrences
+#'
+#' @description bin_tables0 helps in creating csv files with bin tables
+#' of environmental conditions in M and species occurrence records. All of this
+#' starting from raw data, for various species, and using multiple variables.
+#'
+#' @param M_folder (character) name of the folder containing files representing
+#' the accessible area (M) for all species to be analyzed.
+#' @param M_format format of files representing the accessible area (M) for the
+#' species. Names must match with the ones for occurrence files in
+#' \code{occ_folder}. Options are: "shp", "gpkg", or any of the options in
+#' \code{\link[raster]{writeFormats}}.
+#' @param occ_folder (character) name of the folder containing csv files of
+#' occurrence data for all species.
+#' @param longitude (character) name of the column containing values of longitude
+#' of occurrences.
+#' @param latitude (character) name of the column containing values of latitude
+#' of occurrences.
+#' @param var_folder (character) name of the folder conatining layers to
+#' represent environmental variables.
+#' @param var_format format of layers to represent environmental variables. See
+#' options in \code{\link[raster]{writeFormats}}.
+#' @param round (logical) whether or not to round the values of one or more
+#' variables after multiplying them times \code{multiplication_factor}.
+#' Default = FALSE.
+#' @param round_names (character) names of the variables to be rounded.
+#' Default = NULL. If \code{round} = TRUE, names must be defined.
+#' @param multiplication_factor (numeric) value to be used to multiply the
+#' variables defined in \code{round_names}. Default = 1.
+#' @param percentage_out (numeric) percentage of extreme environmental data in M
+#' to be excluded in bin creation for further analyses. Default = 5.
+#' @param bin_size (numeric) size of bins. Interval of values to be considered
+#' when creating bin tables. Default = 10.
+#' @param output_directory (character) name of the folder in which results will be
+#' written. Default = "Species_E_bins".
+#'
+#' @export
+#'
+#' @return
+#' A folder named as in \code{output_directory} containing all resultant csv
+#' files for all variables, with bins for all species.
+
+bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
+                        latitude, var_folder, var_format,
+                        round = FALSE, round_names, multiplication_factor = 1,
+                        percentage_out = 5, bin_size = 10,
+                        output_directory = "Species_E_bins"){
+  # checking for potential errors
+  if (missing(M_folder)) {stop("Argument M_folder is missing.")}
+  if (missing(M_format)) {stop("Argument M_format is missing.")}
+  if (missing(occ_folder)) {stop("Argument occ_folder is missing.")}
+  if (missing(longitude)) {stop("Argument longitude is missing.")}
+  if (missing(latitude)) {stop("Argument latitude is missing.")}
+  if (missing(var_folder)) {stop("Argument var_folder is missing.")}
+  if (missing(var_format)) {stop("Argument var_format is missing.")}
+
   # formats and data to start
   if (M_format %in% c("shp", "gpkg")) {
     if (M_format == "shp") {
@@ -23,8 +75,9 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
   }
   v_patt <- paste0(rformat_type(var_format), "$")
 
-  variables <- raster::stack(list.files(path = vars_folder, pattern = v_patt, full.names = TRUE))
   occlist <- list.files(path = occ_folder, pattern = ".csv$", full.names = TRUE)
+  variables <- raster::stack(list.files(path = var_folder, pattern = v_patt,
+                                        full.names = TRUE))
 
   if (round == TRUE) {
     rounds <- round(variables[[round_names]] * multiplication_factor)
@@ -34,7 +87,7 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
   }
 
   # directory for results
-  dir.create(output_folder)
+  dir.create(output_directory)
 
   bin_tabs <- lapply(1:dim(variables)[3], function(i) {
     # data
@@ -49,7 +102,8 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
         if (M_format == "shp") {
           M <- rgdal::readOGR(dsn = M_folder, layer = mlist[j], verbose = FALSE)
         } else {
-          M <- rgdal::readOGR(paste0(M_folder, "/", mlist[j]), spnames[j], verbose = FALSE)
+          M <- rgdal::readOGR(paste0(M_folder, "/", mlist[j]), spnames[j],
+                              verbose = FALSE)
         }
       } else {
         M <- raster::raster(mlist[j])
@@ -75,7 +129,8 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
       M_range[[j]] <- range(as.numeric(names(df_layer)))
 
       ## occurrences
-      occval <- na.omit(raster::extract(mvar, occ[, c(longitude_col, latitude_col)]))
+      occval <- na.omit(raster::extract(mvar, occ[, c(longitude,
+                                                      latitude)]))
       sp_range[[j]] <- range(occval)
 
       cat("\t", j, "of", length(occlist), "species finished\n")
@@ -99,10 +154,12 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
 
     # modification of range
     o_minimum <- overall_range[1]
-    o_minimumc <- ifelse(o_minimum == 0, 0, floor(o_minimum / bin_size) * bin_size) - bin_size
+    o_minimumc <- ifelse(o_minimum == 0, 0,
+                         floor(o_minimum / bin_size) * bin_size) - bin_size
 
     o_maximum <- overall_range[2]
-    o_maximumc <- ifelse(o_maximum == 0, 0, ceiling(o_maximum / bin_size) * bin_size) + bin_size
+    o_maximumc <- ifelse(o_maximum == 0, 0,
+                         ceiling(o_maximum / bin_size) * bin_size) + bin_size
 
     overall_range <- c(o_minimumc, o_maximumc)
 
@@ -115,7 +172,8 @@ bin_tables0 <- function(M_folder, M_format = "shp", occ_folder, longitude_col, l
     colnames(bin_table) <- c("Species", bin_heads)
 
     # write table
-    write.csv(bin_table, paste0(output_folder, "/", names(variables)[i], "_bin_table.csv"),
+    write.csv(bin_table,
+              paste0(output_directory, "/", names(variables)[i], "_bin_table.csv"),
               row.names = FALSE)
 
     cat(i, "of", dim(variables)[3], "variables processed\n")

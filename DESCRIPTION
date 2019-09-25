@@ -1,12 +1,12 @@
 Package: nichevol
 Type: Package
 Title: An R package for assessment of evolutionary change of ecological niches.
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"))
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
-Date: 2019-02-0
+Date: 2019-09-25
 Description: This package helps to perform critical steps of the process of assessment of
     evolution of species ecological niches. The main analyses include: intial exploration
     of environmental data in species records and accessible areas, preparation of data for
@@ -23,4 +23,4 @@ VignetteBuilder: knitr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1

@@ -1,8 +1,51 @@
-bin_tables_null <- function(M_folder, M_format = "shp", vars_folder,
-                            var_format = "GTiff", round = FALSE, round_names,
+#' Bin tables of environemntal conditions for virtual species
+#'
+#' @description bin_tables_null helps in creating csv files with bin tables
+#' of environmental conditions for virtual species. All of this for various
+#' species and multiple variables.
+#'
+#' @param M_folder (character) name of the folder containing files representing
+#' the accessible area (M) for all species to be analyzed.
+#' @param M_format format of files representing the accessible area (M) for the
+#' species. Options are: "shp", "gpkg", or any of the options in
+#' \code{\link[raster]{writeFormats}}.
+#' @param var_folder (character) name of the folder conatining layers to
+#' represent environmental variables.
+#' @param var_format format of layers to represent environmental variables. See
+#' options in \code{\link[raster]{writeFormats}}.
+#' @param round (logical) whether or not to round the values of one or more
+#' variables after multiplying them times \code{multiplication_factor}.
+#' Default = FALSE.
+#' @param round_names (character) names of the variables to be rounded.
+#' Default = NULL. If \code{round} = TRUE, names must be defined.
+#' @param multiplication_factor (numeric) value to be used to multiply the
+#' variables defined in \code{round_names}. Default = 1.
+#' @param bin_size (numeric) size of bins. Interval of values to be considered
+#' when creating bin tables. Default = 10.
+#' @param output_directory (character) name of the folder in which results will be
+#' written. Default = "Virtual_species_E_bins".
+#'
+#' @export
+#'
+#' @return
+#' A folder named as in \code{output_directory} containing all resultant csv
+#' files for all variables, with bins for all species.
+
+bin_tables_null <- function(M_folder, M_format, var_folder, var_format,
+                            round = FALSE, round_names = NULL,
                             multiplication_factor = 1, bin_size = 10,
-                            output_folder = "Null_species_E_space_bins"){
+                            output_directory = "Virtual_species_E_bins"){
+  # checking for potential errors
+  if (missing(M_folder)) {stop("Argument M_folder is missing.")}
+  if (missing(M_format)) {stop("Argument M_format is missing.")}
+  if (missing(var_folder)) {stop("Argument var_folder is missing.")}
+  if (missing(var_format)) {stop("Argument var_format is missing.")}
+  if (round == TRUE & is.null(round_names)) {
+    stop("Argument round_names cannot be NULL if round = TRUE.")
+  }
+
   # formats and data to start
+  cat("\nPreparing data, please wait...\n\n")
   if (M_format %in% c("shp", "gpkg")) {
     if (M_format == "shp") {
       M_patt <- ".shp$"
@@ -23,7 +66,8 @@ bin_tables_null <- function(M_folder, M_format = "shp", vars_folder,
   }
   v_patt <- paste0(rformat_type(var_format), "$")
 
-  variables <- raster::stack(list.files(path = vars_folder, pattern = v_patt, full.names = TRUE))
+  variables <- raster::stack(list.files(path = var_folder, pattern = v_patt,
+                                        full.names = TRUE))
 
   if (round == TRUE) {
     rounds <- round(variables[[round_names]] * multiplication_factor)
@@ -33,7 +77,7 @@ bin_tables_null <- function(M_folder, M_format = "shp", vars_folder,
   }
 
   # directory for results
-  dir.create(output_folder)
+  dir.create(output_directory)
 
   bin_tabs <- lapply(1:dim(variables)[3], function(i) {
     cat("\nPreparing range values from environmental layers:\n")
@@ -42,7 +86,8 @@ bin_tables_null <- function(M_folder, M_format = "shp", vars_folder,
         if (M_format == "shp") {
           M <- rgdal::readOGR(dsn = M_folder, layer = mlist[j], verbose = FALSE)
         } else {
-          M <- rgdal::readOGR(paste0(M_folder, "/", mlist[j]), spnames[j], verbose = FALSE)
+          M <- rgdal::readOGR(paste0(M_folder, "/", mlist[j]), spnames[j],
+                              verbose = FALSE)
         }
       } else {
         M <- raster::raster(mlist[j])
@@ -70,10 +115,12 @@ bin_tables_null <- function(M_folder, M_format = "shp", vars_folder,
 
     # modification of range
     o_minimum <- overall_range[1]
-    o_minimumc <- ifelse(o_minimum == 0, 0, floor(o_minimum / bin_size) * bin_size) - bin_size
+    o_minimumc <- ifelse(o_minimum == 0, 0,
+                         floor(o_minimum / bin_size) * bin_size) - bin_size
 
     o_maximum <- overall_range[2]
-    o_maximumc <- ifelse(o_maximum == 0, 0, ceiling(o_maximum / bin_size) * bin_size) + bin_size
+    o_maximumc <- ifelse(o_maximum == 0, 0,
+                         ceiling(o_maximum / bin_size) * bin_size) + bin_size
 
     overall_range <- c(o_minimumc, o_maximumc)
 
@@ -86,7 +133,8 @@ bin_tables_null <- function(M_folder, M_format = "shp", vars_folder,
     colnames(bin_table) <- c("Species", bin_heads)
 
     # write table
-    write.csv(bin_table, paste0(output_folder, "/", names(variables)[i], "_bin_table.csv"),
+    write.csv(bin_table,
+              paste0(output_directory, "/", names(variables)[i], "_bin_table.csv"),
               row.names = FALSE)
 
     cat(i, "of", dim(variables)[3], "variables processed\n")

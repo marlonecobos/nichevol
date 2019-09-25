@@ -1,40 +1,96 @@
-histograms_env <- function(M_folder, M_format = "shp", occ_folder, longitude_col, latitude_col,
-                           vars_folder, vars_format = "GTiff", CL_lines = c(95, 99), col,
-                           round = FALSE, round_names, multiplication_factor = 1,
-                           output_folder = "Histogram_ranges_check", save_ranges = TRUE){
-   # checking for potential errors
-  if (missing(col)) {
-    col <- sort(gray.colors(length(CL_lines) + 1), decreasing = TRUE)[1:length(CL_lines)]
+#' Histograms of environemntal conditions in M and occurrences
+#'
+#' @description histograms_env helps in creating PDF files with histogram plots
+#' of environmental conditions in M, lines for the confidence limits of values in
+#' M, and the location of values in occurrence records. All of this for various
+#' species and multiple variables.
+#'
+#' @param M_folder (character) name of the folder containing files representing
+#' the accessible area (M) for all species to be analyzed.
+#' @param M_format format of files representing the accessible area (M) for the
+#' species. Names must match with the ones for occurrence files in
+#' \code{occ_folder}. Options are: "shp", "gpkg", or any of the options in
+#' \code{\link[raster]{writeFormats}}.
+#' @param occ_folder (character) name of the folder containing csv files of
+#' occurrence data for all species.
+#' @param longitude (character) name of the column containing values of longitude
+#' of occurrences.
+#' @param latitude (character) name of the column containing values of latitude
+#' of occurrences.
+#' @param var_folder (character) name of the folder conatining layers to
+#' represent environmental variables.
+#' @param var_format format of layers to represent environmental variables. See
+#' options in \code{\link[raster]{writeFormats}}.
+#' @param CL_lines (numeric) confidence limits to be plotted in the histograms.
+#' Default = c(95, 99).
+#' @param col colors for lines representing confidence limits. If NULL, colors
+#' are selected from a grey palette. Default = NULL.
+#' @param round (logical) whether or not to round the values of one or more
+#' variables after multiplying them times \code{multiplication_factor}.
+#' Default = FALSE.
+#' @param round_names (character) names of the variables to be rounded.
+#' Default = NULL. If \code{round} = TRUE, names must be defined.
+#' @param multiplication_factor (numeric) value to be used to multiply the
+#' variables defined in \code{round_names}. Default = 1.
+#' @param save_ranges (logical) whether or not to save the values identified as
+#' ranges considering the whole set of values and confidence limits defined in
+#' \code{CL_lines}. Default = TRUE.
+#' @param output_directory (character) name of the folder in which results will be
+#' written. Default = "Histogram_ranges".
+#'
+#' @export
+#'
+#' @return
+#' A folder named as in \code{output_directory} containing all resultant PDF
+#' files for all variables, with histograms for all species.
+
+histograms_env <- function(M_folder, M_format, occ_folder, longitude,
+                           latitude, var_folder, var_format,
+                           CL_lines = c(95, 99), col = NULL, round = FALSE,
+                           round_names = NULL, multiplication_factor = 1,
+                           save_ranges = TRUE, output_directory = "Histogram_ranges"){
+  # checking for potential errors
+  if (missing(M_folder)) {stop("Argument M_folder is missing.")}
+  if (missing(M_format)) {stop("Argument M_format is missing.")}
+  if (missing(occ_folder)) {stop("Argument occ_folder is missing.")}
+  if (missing(longitude)) {stop("Argument longitude is missing.")}
+  if (missing(latitude)) {stop("Argument latitude is missing.")}
+  if (missing(var_folder)) {stop("Argument var_folder is missing.")}
+  if (missing(var_format)) {stop("Argument var_format is missing.")}
+
+  lcll <- length(CL_lines)
+  if (is.null(col)) {
+    col <- sort(gray.colors(lcll + 1), decreasing = TRUE)[1:lcll]
+  }
+  if (round == TRUE & is.null(round_names)) {
+    stop("Argument round_names cannot be NULL if round = TRUE.")
   }
 
-  # formats
-  if (M_format == "shp") {
-    M_patt <- ".shp$"
-    subs <- ".shp"
-  }
-  if (M_format == "ascii") {
-    M_patt <- ".asc$"
-    subs <- ".asc"
-  }
-  if (M_format == "GTiff") {
-    M_patt <- ".tif$"
-    subs <- ".tif"
-  }
-  if (M_format == "EHdr") {
-    M_patt <- ".bil$"
-    subs <- ".tif"
-  }
-  if (vars_format == "ascii") {v_patt <- ".asc$"}
-  if (vars_format == "GTiff") {v_patt <- ".tif$"}
-  if (vars_format == "EHdr") {v_patt <- ".bil$"}
-
-  # needed data to start
+  # formats and data to start
   cat("\nPreparing data, please wait...\n\n")
+  if (M_format %in% c("shp", "gpkg")) {
+    if (M_format == "shp") {
+      M_patt <- ".shp$"
+      subs <- ".shp"
+      mlist <- gsub(subs, "", list.files(path = M_folder, pattern = M_patt))
+      spnames <- mlist
+    } else {
+      M_patt <- ".gpkg$"
+      subs <- ".gpkg"
+      mlist <- list.files(path = M_folder, pattern = M_patt)
+      spnames <- gsub(subs, "", mlist)
+    }
+  } else {
+    M_patt <- paste0(rformat_type(var_format), "$")
+    subs <- rformat_type(var_format)
+    mlist <- list.files(path = M_folder, pattern = M_patt, full.names = TRUE)
+    spnames <- gsub(subs, "", list.files(path = M_folder, pattern = M_patt))
+  }
+  v_patt <- paste0(rformat_type(var_format), "$")
 
-  mlist <- gsub(subs, "",list.files(path = M_folder, pattern = paste0(".", M_format, "$")))
   occlist <- list.files(path = occ_folder, pattern = ".csv$", full.names = TRUE)
-  spnames <- gsub(".csv", "", list.files(path = occ_folder, pattern = ".csv$"))
-  variables <- raster::stack(list.files(path = vars_folder, pattern = v_patt, full.names = TRUE))
+  variables <- raster::stack(list.files(path = vars_folder, pattern = v_patt,
+                                        full.names = TRUE))
 
   if (round == TRUE) {
     rounds <- round(variables[[round_names]] * multiplication_factor)
@@ -44,11 +100,11 @@ histograms_env <- function(M_folder, M_format = "shp", occ_folder, longitude_col
   }
 
   # directory for results
-  dir.create(output_folder)
+  dir.create(output_directory)
 
-  ranges <- list()
+  nvars <- raster::nlayers(variables)
 
-  for (i in 1:dim(variables)[3]) {
+  ranges <- lapply(1:nvars, function(i) {
     # data
     df_layer <- list()
     occ_dfs <- list()
@@ -75,20 +131,19 @@ histograms_env <- function(M_folder, M_format = "shp", occ_folder, longitude_col
       df_layer[[j]] <- abs(mval - medians)
       names(df_layer[[j]]) <- mval
 
-      occval <- na.omit(raster::extract(mvar, occ[, c(longitude_col, latitude_col)]))
+      occval <- na.omit(raster::extract(mvar, occ[, c(longitude, latitude)]))
       occ_dfs[[j]] <- abs(occval - medians)
       names(occ_dfs[[j]]) <- occval
 
       y_values[[j]] <- c(max(table(mval)), max(table(df_layer[[j]])))
 
       ## ranges of real values
-      M_limit <- list()
-      for (k in 1:length(CL_lines)) {
+      M_limit <- lapply(1:lcll, function(k) {
         limit <- floor((CL_lines[k]) * length(df_layer[[j]]) / 100)
         df_layera <- sort(df_layer[[j]])[1:limit]
 
-        M_limit[[k]] <- range(as.numeric(names(df_layera)))
-      }
+        range(as.numeric(names(df_layera)))
+      })
 
       M_ranges[[j]] <- range(mval)
       M_limits[[j]] <- do.call(c, M_limit)
@@ -99,26 +154,32 @@ histograms_env <- function(M_folder, M_format = "shp", occ_folder, longitude_col
 
     ## ranges final values for variables
     limits <- do.call(rbind, M_limits)
-    ranges[[i]] <- data.frame(gsub("_", " ", spnames), do.call(rbind, sp_ranges),
-                              do.call(rbind, M_ranges), limits)
-    colnames(ranges[[i]]) <- c("Species", "Species_lower", "Species_upper", "M_lower", "M_upper",
-                            paste0("M_", rep(CL_lines, each = 2), c("_lowerCL", "_upperCL")))
+    ranges <- data.frame(gsub("_", " ", spnames), do.call(rbind, sp_ranges),
+                         do.call(rbind, M_ranges), limits)
+    colnames(ranges) <- c("Species", "Species_lower", "Species_upper",
+                               "M_lower", "M_upper", paste0("M_",
+                                                            rep(CL_lines, each = 2),
+                                                            c("_lowerCL", "_upperCL")))
 
     if (save_ranges == TRUE) {
-      write.csv(ranges[[i]], file = paste0(output_folder, "/Ranges_", names(variables)[i], ".csv"),
+      write.csv(ranges, file = paste0(output_directory, "/Ranges_",
+                                      names(variables)[i], ".csv"),
                 row.names = FALSE)
     }
 
     ## frecuency of each value in M
-    pdf_histograms(env_data = df_layer, occ_data = occ_dfs, y_values = y_values, sp_names = spnames,
-                   variable_name = names(variables)[i], CL_lines = CL_lines, limits = limits,
-                   col = col, output_folder = output_folder)
+    pdf_histograms(env_data = df_layer, occ_data = occ_dfs, y_values = y_values,
+                   sp_names = spnames, variable_name = names(variables)[i],
+                   CL_lines = CL_lines, limits = limits, col = col,
+                   output_directory = output_directory)
 
-    cat(i, "of", dim(variables)[3], "variables processed\n")
-  }
+    cat(i, "of", nvars, "variables processed\n")
+    return(ranges)
+  })
 
   if (save_ranges == TRUE) {
-    cat("\nsave_ranges = TRUE:\ncsv files with the environmental ranges were saved in", output_folder, "\n")
+    cat("\ncsv files with the environmental ranges were saved in",
+        output_directory, "\n")
   }
 
   names(ranges) <- names(variables)
