@@ -55,6 +55,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
   if (missing(var_format)) {stop("Argument var_format is missing.")}
 
   # formats and data to start
+  cat("\nPreparing data, please wait...\n\n")
   if (M_format %in% c("shp", "gpkg")) {
     if (M_format == "shp") {
       M_patt <- ".shp$"
@@ -88,13 +89,13 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
 
   # directory for results
   dir.create(output_directory)
-
+  cat("Preparing range values and bin tables from environmental layers and species data:\n")
   bin_tabs <- lapply(1:dim(variables)[3], function(i) {
     # data
     M_range <- list()
     sp_range <- list()
 
-    cat("\nPreparing range values from environmental layers and species data:\n")
+    cat("\n   Preparing range values:\n")
 
     for (j in 1:length(occlist)) {
       ## M
@@ -164,7 +165,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
     overall_range <- c(o_minimumc, o_maximumc)
 
     # bin tables
-    cat("\nPreparing bin tables using ranges:\n")
+    cat("\n   Preparing bin tables using ranges:\n")
 
     bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
     bin_heads <- colnames(bin_table)
