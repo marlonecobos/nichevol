@@ -54,7 +54,8 @@ written. Default = "Species_E_bins".}
 }
 \value{
 A folder named as in \code{output_directory} containing all resultant csv
-files for all variables, with bins for all species.
+files for all variables, with bins for all species. Results will also be
+returned as a list.
 }
 \description{
 bin_tables0 helps in creating csv files with bin tables

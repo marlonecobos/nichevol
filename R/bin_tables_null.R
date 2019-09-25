@@ -29,7 +29,8 @@
 #'
 #' @return
 #' A folder named as in \code{output_directory} containing all resultant csv
-#' files for all variables, with bins for all species.
+#' files for all variables, with bins for all species. Results will also be
+#' returned as a list.
 
 bin_tables_null <- function(M_folder, M_format, var_folder, var_format,
                             round = FALSE, round_names = NULL,

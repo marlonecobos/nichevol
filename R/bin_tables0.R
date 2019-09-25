@@ -38,7 +38,8 @@
 #'
 #' @return
 #' A folder named as in \code{output_directory} containing all resultant csv
-#' files for all variables, with bins for all species.
+#' files for all variables, with bins for all species. Results will also be
+#' returned as a list.
 
 bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
                         latitude, var_folder, var_format,

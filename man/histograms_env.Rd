@@ -58,7 +58,8 @@ written. Default = "Histogram_ranges".}
 }
 \value{
 A folder named as in \code{output_directory} containing all resultant PDF
-files for all variables, with histograms for all species.
+files for all variables, with histograms for all species. Results will also be
+returned as a list.
 }
 \description{
 histograms_env helps in creating PDF files with histogram plots

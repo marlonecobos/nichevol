@@ -18,7 +18,8 @@
 #'
 #' @return
 #' A folder named as in \code{output_directory} containing all resultant csv
-#' files for all variables, with bins for all species.
+#' files for all variables, with bins for all species. Results will also be
+#' returned as a list.
 
 bin_tables <- function(ranges, percentage_out = 5, bin_size = 10,
                        output_directory = "Species_E_bins") {

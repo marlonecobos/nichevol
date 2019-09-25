@@ -42,7 +42,8 @@
 #'
 #' @return
 #' A folder named as in \code{output_directory} containing all resultant PDF
-#' files for all variables, with histograms for all species.
+#' files for all variables, with histograms for all species. Results will also be
+#' returned as a list.
 
 histograms_env <- function(M_folder, M_format, occ_folder, longitude,
                            latitude, var_folder, var_format,
