@@ -89,7 +89,7 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
   v_patt <- paste0(rformat_type(var_format), "$")
 
   occlist <- list.files(path = occ_folder, pattern = ".csv$", full.names = TRUE)
-  variables <- raster::stack(list.files(path = vars_folder, pattern = v_patt,
+  variables <- raster::stack(list.files(path = var_folder, pattern = v_patt,
                                         full.names = TRUE))
 
   if (round == TRUE) {
