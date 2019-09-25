@@ -165,7 +165,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
     overall_range <- c(o_minimumc, o_maximumc)
 
     # bin tables
-    cat("\n   Preparing bin tables using ranges:\n")
+    cat("   Preparing bin tables using ranges:\n")
 
     bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
     bin_heads <- colnames(bin_table)
