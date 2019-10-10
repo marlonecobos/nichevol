@@ -8,8 +8,9 @@
 #'
 #' @section Main functions in nichevol:
 #' \code{\link{bin_tables}}, \code{\link{bin_tables0}},
-#' \code{\link{bin_tables_null}}, \code{\link{histograms_env}},
-#' \code{\link{niche_bars}}, \code{\link{nichevol_bars}}
+#' \code{\link{bin_tables_virtual}}, \code{\link{histograms_env}},
+#' \code{\link{niche_bars}}, \code{\link{nichevol_bars}},
+#' \code{\link{stats_evalues}}, \code{\link{stats_evalues_virtual}}
 #'
 #' Other functions (important helpers)
 #'
