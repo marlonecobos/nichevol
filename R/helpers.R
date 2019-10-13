@@ -390,3 +390,73 @@ bin_env_null <- function(overall_range, M_range, bin_size) {
 
   return(bin_tab)
 }
+
+
+#' Helper function to rename tips of trees
+#' @param tree an object of class "phylo".
+#' @param names (character) vector of new names. Length must be equal to number
+#' of tips.
+#' @export
+rename_tips <- function(tree, names) {
+  if (missing(tree)) {stop("Argument tree needs to be defined.")}
+  if (missing(names)) {stop("Argument names needs to be defined.")}
+  tree$tip.label <- names
+  return(tree)
+}
+
+
+#' Helper function to get sigma squared values for a given dataset
+#' @param tree_data a list of two elements (phy and data) resulted from using the
+#' function \code{\link[geiger]{treedata}}.
+#' @param model model to fit to comparative data; see
+#' \code{\link[geiger]{fitContinuous}}. Default = "BM".
+#' @export
+sig_sq <- function(tree_data, model = "BM") {
+  if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
+  tmp <- geiger::fitContinuous(tree_data$phy, tree_data$dat, model = model)
+  sigmaSquared <- tmp$opt$sigsq
+  return(sigmaSquared)
+}
+
+
+#' Helper function to calculate the median bin score for a given species
+#' @param tree an object of class "phylo".
+#' @param character_table data.frame containig characters for all species.
+#' @param species_col (character) name of the column containing name of species.
+#' @param species_name (character) name of the species to be analyzed.
+#' @param unknown (logical) whether or not there are unknown tips.
+#' @export
+score_tip <- function(character_table, species_col, species_name, unknown = FALSE) {
+  if (missing(character_table)) {stop("Argument character_table needs to be defined.")}
+  if (missing(species_col)) {stop("Argument species_col needs to be defined.")}
+  if (missing(species_name)) {stop("Argument species_name needs to be defined.")}
+  binVals <- as.data.frame(character_table[character_table[, species_col] ==
+                                             species_name, ])
+  if(unknown == T) {
+    score <- median(as.numeric(colnames(binVals)[binVals == 1 | binVals == "?"]))
+  }
+  else{
+    score <- median(as.numeric(colnames(binVals)[binVals == 1]))
+  }
+  return(score)
+}
+
+
+#' Helper function to assign bin scores to every tip in a given tree
+#' @param tree an object of class "phylo".
+#' @param character_table data.frame containig characters for all species.
+#' @param species_col (character) name of the column containing name of species.
+#' @param unknown (logical) whether or not there are unknown tips.
+#' @export
+score_tree <- function(tree, character_table, species_col, unknown = FALSE) {
+  if (missing(tree)) {stop("Argument species_name needs to be defined.")}
+  if (missing(character_table)) {stop("Argument character_table needs to be defined.")}
+  if (missing(species_col)) {stop("Argument species_col needs to be defined.")}
+  tCode <- unlist(lapply(tree$tip.label, function(x) {
+    binScore(character_table = character_table, species_col = species_col,
+             species_name = x, unknown = unknown)
+  }))
+  names(tCode) <- tree$tip.label
+  twd <- geiger::treedata(tree, tCode)
+  return(twd)
+}
