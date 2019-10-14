@@ -460,3 +460,24 @@ score_tree <- function(tree, character_table, species_col, unknown = FALSE) {
   twd <- geiger::treedata(tree, tCode)
   return(twd)
 }
+
+
+#' Helper function to split geographic points in 9 blocks of equal size
+#' @param data matrix with longitude and latitude columns, in that order.
+#' @export
+make_9blocks <- function(data) {
+  if (missing(data)) {stop("Argument data needs to be defined.")}
+  ndata <- nrow(data)
+  n1 <- ceiling(ndata / 3); n2 <- n1 * 2; n3 <- ndata - n2
+  xylor <- data[order(data[, 2]), ]
+  grp_a <- xylor[1:n1, ]
+  grp_b <- xylor[(n1 + 1):n2, ]
+  grp_c <- xylor[(n2 + 1):ndata, ]
+  sn1 <- ceiling(n1 / 3); sn3 <- n1 - (sn1 * 2)
+  sn7 <- ceiling(n3 / 3); sn9 <- n3 - (sn7 * 2)
+  all_gs <- c(rep(1, sn1), rep(2, sn1), rep(3, sn3), rep(4, sn1), rep(5, sn1),
+              rep(6, sn3), rep(7, sn7), rep(8, sn7), rep(9, sn9))
+  xyg <- cbind(rbind(grp_a[order(grp_a[, 1]), ], grp_b[order(grp_b[, 1]), ],
+                     grp_c[order(grp_c[, 1]), ]), all_gs)
+  return(xyg)
+}
