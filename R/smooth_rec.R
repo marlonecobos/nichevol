@@ -11,8 +11,9 @@ smooth_rec <- function(whole_rec_table) {
   nrows <- nrow(whole_rec_table)
 
   if ("LogLik" %in% rownames(whole_rec_table)) {
-    statRows <- whole_rec_table[-(nrows-3:nrows), ]
-    whole_rec_table <- whole_rec_table[1:(nrows-3), ]
+    statRows <- whole_rec_table[-((nrows - 3):nrows), ]
+    whole_rec_table <- whole_rec_table[1:(nrows - 3), ]
+    nrows <- nrows - 3
   }
 
   for (k in 1:nrows){
