@@ -5,6 +5,20 @@
 #'
 #' @importFrom stats smooth
 #'
+#' @examples
+#'
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5));
+#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+#'                    "242" = rep("1", length(tree$tip.label)),
+#'                    "243" = c("1", "1", "0", "0", "0"),
+#'                    "244" = c("1", "1", "0", "0", "0"),
+#'                    "245" = c("1", "?", "0", "0", "0"));
+#' rownames(dataTable) <- tree$tip.label;
+#' treeWdata <- geiger::treedata(tree, dataTable);
+#' parsimonyReconstruction <- bin_par_rec(treeWdata);
+#' smooth_rec(parsimonyReconstruction);
+#'
 #' @export
 
 smooth_rec <- function(whole_rec_table) {
