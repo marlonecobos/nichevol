@@ -25,6 +25,9 @@
 #' be written. The directory will be created as part of the process.
 #' Default = "Niche_bars"
 #'
+#' @importFrom graphics par plot polygon legend
+#' @importFrom grDevices dev.off png
+#'
 #' @export
 #'
 #' @return

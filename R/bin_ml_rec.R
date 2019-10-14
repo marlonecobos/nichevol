@@ -1,12 +1,29 @@
-#' Maximum likelihood reconstruction of characters
-#' @param tree_data a list of two elements (phy and data) resulted from using the
+#' @title Maximum likelihood reconstruction of characters
+#'
+#' @param tree_data a list of two elements (phy and data) resulting from using the
 #' function \code{\link[geiger]{treedata}}.
+#'
+#' @return A table with columns representing bins, rows representing first tip states and then reconstructed nodes
+#'
+#' @examples
+#'
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5));
+#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+#'                    "242" = rep("1", length(tree$tip.label)),
+#'                    "243" = c("1", "1", "0", "0", "0"),
+#'                    "244" = c("1", "1", "0", "0", "0"),
+#'                    "245" = c("1", "?", "0", "0", "0"));
+#' rownames(dataTable) <- tree$tip.label;
+#' treeWdata <- geiger::treedata(tree, dataTable);
+#' bin_ml_rec(treeWdata);
+#'
 #' @export
 
 bin_ml_rec <- function(tree_data){
   if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
 
-  # Data fro analyses
+  # Data from geiger::treedata
   tphy <- tree_data$phy
   ntips <- length(tphy$tip.label)
   nnode <- tphy$Nnode

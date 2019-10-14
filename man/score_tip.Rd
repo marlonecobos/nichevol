@@ -7,15 +7,13 @@
 score_tip(character_table, species_col, species_name, unknown = FALSE)
 }
 \arguments{
-\item{character_table}{data.frame containig characters for all species.}
+\item{character_table}{data.frame containing characters for all species.}
 
 \item{species_col}{(character) name of the column containing name of species.}
 
 \item{species_name}{(character) name of the species to be analyzed.}
 
 \item{unknown}{(logical) whether or not there are unknown tips.}
-
-\item{tree}{an object of class "phylo".}
 }
 \description{
 Helper function to calculate the median bin score for a given species

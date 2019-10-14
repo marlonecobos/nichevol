@@ -33,7 +33,12 @@ rformat_type <- function(format) {
 #' @param col color for lines representing the confidence limits of M.
 #' @param output_directory (character) name of the folder in which results will be
 #' written. Default = "Histogram_ranges_check".
+#'
+#' @importFrom grDevices pdf
+#' @importFrom graphics abline layout hist plot.new points title
+#'
 #' @export
+#'
 #' @return
 #' A PDF file written in the output directory containing all resultant figures.
 
@@ -420,8 +425,7 @@ sig_sq <- function(tree_data, model = "BM") {
 
 
 #' Helper function to calculate the median bin score for a given species
-#' @param tree an object of class "phylo".
-#' @param character_table data.frame containig characters for all species.
+#' @param character_table data.frame containing characters for all species.
 #' @param species_col (character) name of the column containing name of species.
 #' @param species_name (character) name of the species to be analyzed.
 #' @param unknown (logical) whether or not there are unknown tips.
@@ -453,7 +457,7 @@ score_tree <- function(tree, character_table, species_col, unknown = FALSE) {
   if (missing(character_table)) {stop("Argument character_table needs to be defined.")}
   if (missing(species_col)) {stop("Argument species_col needs to be defined.")}
   tCode <- unlist(lapply(tree$tip.label, function(x) {
-    binScore(character_table = character_table, species_col = species_col,
+    score_tip(character_table = character_table, species_col = species_col,
              species_name = x, unknown = unknown)
   }))
   names(tCode) <- tree$tip.label

@@ -14,6 +14,8 @@
 #' @param output_directory (character) name of the folder in which results will be
 #' written. Default = "Species_E_bins".
 #'
+#' @importFrom utils write.csv
+#'
 #' @export
 #'
 #' @return

@@ -2,6 +2,9 @@
 #' @param whole_rec_table matrix containing all reconstructed charaters for all
 #' tips and nodes. It results from using the functions \code{\link{bin_par_rec}}
 #' or \code{\link{bin_ml_rec}}.
+#'
+#' @importFrom stats smooth
+#'
 #' @export
 
 smooth_rec <- function(whole_rec_table) {

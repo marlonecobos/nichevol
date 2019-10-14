@@ -38,6 +38,9 @@
 #' @param output_directory (character) name of the folder in which results will be
 #' written. Default = "Histogram_ranges".
 #'
+#' @importFrom stats median
+#' @importFrom grDevices gray.colors
+#'
 #' @export
 #'
 #' @return

@@ -1,6 +1,6 @@
 ---
 title: "nichevol: An R package for assessment of evolutionary change of ecological niches"
-author: "Marlon E. Cobos and A. Townsend Peterson"
+author: "Marlon E. Cobos, Hannah Owens, and A. Townsend Peterson"
 output:
   github_document:
     toc: yes
