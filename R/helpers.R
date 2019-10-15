@@ -397,10 +397,19 @@ bin_env_null <- function(overall_range, M_range, bin_size) {
 }
 
 
-#' Helper function to rename tips of trees
+#' Helper function to rename tips of trees for simulations
 #' @param tree an object of class "phylo".
 #' @param names (character) vector of new names. Length must be equal to number
-#' of tips.
+#' of tips. They will be assigned in the order given.
+#'
+#' @return Tree of class "phylo" with specified names
+#'
+#' @examples
+#'
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5));
+#' renamedTree <- rename_tips(tree, c("a", "b", "c", "d", "e"));
+#'
 #' @export
 rename_tips <- function(tree, names) {
   if (missing(tree)) {stop("Argument tree needs to be defined.")}
