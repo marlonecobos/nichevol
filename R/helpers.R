@@ -412,13 +412,28 @@ rename_tips <- function(tree, names) {
 
 #' Helper function to get sigma squared values for a given dataset
 #' @param tree_data a list of two elements (phy and data) resulted from using the
-#' function \code{\link[geiger]{treedata}}.
+#' function \code{\link[geiger]{treedata}}. NOTE: data must be a single vector (i.e. a single column).
 #' @param model model to fit to comparative data; see
 #' \code{\link[geiger]{fitContinuous}}. Default = "BM".
+#'
+#' @return the sigma squared value (evolutionary rate) for the data, given the tree
+#'
+#' @examples
+#'
+#' # Simulate data
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5));
+#' data <- rnorm(n = length(tree$tip.label));
+#' names(data) <- tree$tip.label;
+#' treeWdata <- geiger::treedata(tree, data);
+#'
+#' # Estimating sigma squared for the dataset
+#' sig_sq(treeWdata);
+#'
 #' @export
 sig_sq <- function(tree_data, model = "BM") {
   if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
-  tmp <- geiger::fitContinuous(tree_data$phy, tree_data$dat, model = model)
+  tmp <- geiger::fitContinuous(tree_data$phy, tree_data$dat, model = model, ncores = 1)
   sigmaSquared <- tmp$opt$sigsq
   return(sigmaSquared)
 }

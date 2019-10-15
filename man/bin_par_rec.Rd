@@ -28,14 +28,6 @@ dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
                    "245" = c("1", "?", "0", "0", "0"));
 rownames(dataTable) <- tree$tip.label;
 
-#Format data for parsimony reconstruction
-dataTable <- gsub(dataTable, pattern = "?",
-                  replacement = "3", fixed = TRUE);
-dataTable <- gsub(dataTable, pattern = "1",
-                  replacement = "2", fixed = TRUE);
-dataTable <- gsub(dataTable, pattern = "0",
-                  replacement = "1", fixed = TRUE);
-dataTable <- apply(dataTable, c(1,2), as.integer);
 treeWdata <- geiger::treedata(tree, dataTable);
 
 #Do the acutal reconstruction
