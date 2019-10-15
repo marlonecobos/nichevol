@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{rename_tips}
 \alias{rename_tips}
-\title{Helper function to rename tips of trees}
+\title{Helper function to rename tips of trees for simulations}
 \usage{
 rename_tips(tree, names)
 }
@@ -10,8 +10,18 @@ rename_tips(tree, names)
 \item{tree}{an object of class "phylo".}
 
 \item{names}{(character) vector of new names. Length must be equal to number
-of tips.}
+of tips. They will be assigned in the order given.}
+}
+\value{
+Tree of class "phylo" with specified names
 }
 \description{
-Helper function to rename tips of trees
+Helper function to rename tips of trees for simulations
+}
+\examples{
+
+tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+                         nsim = 1, type = "continuous", set.seed(5));
+renamedTree <- rename_tips(tree, c("a", "b", "c", "d", "e"));
+
 }

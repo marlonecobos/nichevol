@@ -4,19 +4,34 @@
 \alias{score_tip}
 \title{Helper function to calculate the median bin score for a given species}
 \usage{
-score_tip(character_table, species_col, species_name, unknown = FALSE)
+score_tip(character_table, species_name, include_unknown = FALSE)
 }
 \arguments{
-\item{character_table}{data.frame containig characters for all species.}
-
-\item{species_col}{(character) name of the column containing name of species.}
+\item{character_table}{data.frame containing bin scores for all species. NOTE: row names must be species' names.}
 
 \item{species_name}{(character) name of the species to be analyzed.}
 
-\item{unknown}{(logical) whether or not there are unknown tips.}
-
-\item{tree}{an object of class "phylo".}
+\item{include_unknown}{(logical) whether or not unknown bin status should be included.}
+}
+\value{
+median bin value for a given species (for inferring sigma squared or other comparative phylogenetic analyses requiring a single continuous variable).
 }
 \description{
 Helper function to calculate the median bin score for a given species
+}
+\examples{
+
+# Simulate data
+dataTable <- cbind("241" = rep("1", 5),
+                   "242" = rep("1", 5),
+                   "243" = c("1", "1", "0", "0", "0"),
+                   "244" = c("1", "1", "0", "0", "0"),
+                   "245" = c("1", "?", "0", "0", "0"));
+ rownames(dataTable) <- c("GadusMorhua", "GadusMacrocephalus",
+                          "GadusChalcogrammus", "ArctogadusGlacials",
+                          "BoreogadusSaida");
+
+ # Use function
+ score_tip(character_table = dataTable, species_name = "GadusMorhua", include_unknown = TRUE);
+
 }

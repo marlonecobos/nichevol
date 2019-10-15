@@ -4,17 +4,42 @@
 \alias{score_tree}
 \title{Helper function to assign bin scores to every tip in a given tree}
 \usage{
-score_tree(tree, character_table, species_col, unknown = FALSE)
+score_tree(tree_data, include_unknown = FALSE)
 }
 \arguments{
-\item{tree}{an object of class "phylo".}
+\item{tree_data}{a list of two elements (phy and data) resulting from using the
+function \code{\link[geiger]{treedata}}.}
 
-\item{character_table}{data.frame containig characters for all species.}
-
-\item{species_col}{(character) name of the column containing name of species.}
-
-\item{unknown}{(logical) whether or not there are unknown tips.}
+\item{include_unknown}{(logical) whether or not there are unknown tips.}
+}
+\value{
+a list of two elements (phy and data). Data is the median bin scored as present or present + unknown
 }
 \description{
 Helper function to assign bin scores to every tip in a given tree
+}
+\examples{
+#Simulate data table
+dataTable <- cbind("241" = rep("1", 5),
+                   "242" = rep("1", 5),
+                   "243" = c("1", "1", "0", "0", "0"),
+                   "244" = c("1", "1", "0", "0", "0"),
+                   "245" = c("1", "?", "0", "0", "0"));
+rownames(dataTable) <- c("GadusMorhua", "GadusMacrocephalus",
+                         "GadusChalcogrammus", "ArctogadusGlacials",
+                         "BoreogadusSaida");
+
+#Simulate phylogeny
+tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+                         nsim = 1, type = "continuous", set.seed(5));
+tree$tip.label <- c("GadusMorhua", "GadusMacrocephalus",
+                    "GadusChalcogrammus", "ArctogadusGlacials",
+                    "BoreogadusSaida");
+
+# Unite data
+treeWithData <- geiger::treedata(tree, dataTable);
+
+# Get a new tree with tips scored from median bin scores
+ score_tree(treeWithData, include_unknown = TRUE);
+
 }

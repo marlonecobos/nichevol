@@ -33,6 +33,9 @@
 #' be written. The directory will be created as part of the process.
 #' Default = "Difference_bars"
 #'
+#' @importFrom utils combn
+#' @importFrom graphics legend lines
+#'
 #' @export
 #'
 #' @return

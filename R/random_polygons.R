@@ -28,6 +28,8 @@
 #' Style for random polygons "BR" may help to get smaller and more uniformely
 #' distributed across the area.
 #'
+#' @importFrom grDevices chull
+#'
 #' @export
 #'
 #' @return
