@@ -449,43 +449,83 @@ sig_sq <- function(tree_data, model = "BM") {
 
 
 #' Helper function to calculate the median bin score for a given species
-#' @param character_table data.frame containing characters for all species.
-#' @param species_col (character) name of the column containing name of species.
+#' @param character_table data.frame containing bin scores for all species. NOTE: row names must be species' names.
 #' @param species_name (character) name of the species to be analyzed.
-#' @param unknown (logical) whether or not there are unknown tips.
+#' @param include_unknown (logical) whether or not unknown bin status should be included.
+#'
+#' @return median bin value for a given species (for inferring sigma squared or other comparative phylogenetic analyses requiring a single continuous variable).
+#'
+#' @examples
+#'
+#' # Simulate data
+#' dataTable <- cbind("241" = rep("1", 5),
+#'                    "242" = rep("1", 5),
+#'                    "243" = c("1", "1", "0", "0", "0"),
+#'                    "244" = c("1", "1", "0", "0", "0"),
+#'                    "245" = c("1", "?", "0", "0", "0"));
+#'  rownames(dataTable) <- c("GadusMorhua", "GadusMacrocephalus",
+#'                           "GadusChalcogrammus", "ArctogadusGlacials",
+#'                           "BoreogadusSaida");
+#'
+#'  # Use function
+#'  score_tip(character_table = dataTable, species_name = "GadusMorhua", include_unknown = TRUE);
+#'
 #' @export
-score_tip <- function(character_table, species_col, species_name, unknown = FALSE) {
+score_tip <- function(character_table, species_name, include_unknown = FALSE) {
   if (missing(character_table)) {stop("Argument character_table needs to be defined.")}
-  if (missing(species_col)) {stop("Argument species_col needs to be defined.")}
   if (missing(species_name)) {stop("Argument species_name needs to be defined.")}
-  binVals <- as.data.frame(character_table[character_table[, species_col] ==
-                                             species_name, ])
-  if(unknown == T) {
-    score <- median(as.numeric(colnames(binVals)[binVals == 1 | binVals == "?"]))
+  binVals <- as.data.frame(character_table[rownames(character_table) == species_name,])
+  if(include_unknown == TRUE) {
+    score <- median(as.numeric(rownames(binVals)[binVals == 1 | binVals == "?"]))
   }
   else{
-    score <- median(as.numeric(colnames(binVals)[binVals == 1]))
+    score <- median(as.numeric(rownames(binVals)[binVals == 1]))
   }
   return(score)
 }
 
 
 #' Helper function to assign bin scores to every tip in a given tree
-#' @param tree an object of class "phylo".
-#' @param character_table data.frame containig characters for all species.
-#' @param species_col (character) name of the column containing name of species.
-#' @param unknown (logical) whether or not there are unknown tips.
+#' @param tree_data a list of two elements (phy and data) resulting from using the
+#' function \code{\link[geiger]{treedata}}.
+#' @param include_unknown (logical) whether or not there are unknown tips.
+#'
+#' @return a list of two elements (phy and data). Data is the median bin scored as present or present + unknown
+#'
+#' @examples
+#' #Simulate data table
+#' dataTable <- cbind("241" = rep("1", 5),
+#'                    "242" = rep("1", 5),
+#'                    "243" = c("1", "1", "0", "0", "0"),
+#'                    "244" = c("1", "1", "0", "0", "0"),
+#'                    "245" = c("1", "?", "0", "0", "0"));
+#' rownames(dataTable) <- c("GadusMorhua", "GadusMacrocephalus",
+#'                          "GadusChalcogrammus", "ArctogadusGlacials",
+#'                          "BoreogadusSaida");
+#'
+#' #Simulate phylogeny
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5));
+#' tree$tip.label <- c("GadusMorhua", "GadusMacrocephalus",
+#'                     "GadusChalcogrammus", "ArctogadusGlacials",
+#'                     "BoreogadusSaida");
+#'
+#' # Unite data
+#' treeWithData <- geiger::treedata(tree, dataTable);
+#'
+#' # Get a new tree with tips scored from median bin scores
+#'  score_tree(treeWithData, include_unknown = TRUE);
+#'
 #' @export
-score_tree <- function(tree, character_table, species_col, unknown = FALSE) {
-  if (missing(tree)) {stop("Argument species_name needs to be defined.")}
-  if (missing(character_table)) {stop("Argument character_table needs to be defined.")}
-  if (missing(species_col)) {stop("Argument species_col needs to be defined.")}
-  tCode <- unlist(lapply(tree$tip.label, function(x) {
-    score_tip(character_table = character_table, species_col = species_col,
-             species_name = x, unknown = unknown)
+score_tree <- function(tree_data, include_unknown = FALSE) {
+  if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
+  tCode <- unlist(lapply(tree_data$phy$tip.label, function(x) {
+    score_tip(character_table = tree_data$data,
+             species_name = x, include_unknown = include_unknown)
   }))
-  names(tCode) <- tree$tip.label
-  twd <- geiger::treedata(tree, tCode)
+  names(tCode) <- tree_data$phy$tip.label
+  twd <- geiger::treedata(tree_data$phy, tCode)
+  colnames(twd$data) <- c("Median_Bin_Value")
   return(twd)
 }
 
