@@ -4,7 +4,7 @@
 \alias{niche_labels}
 \title{Labels to represent niches of tips and ancestors}
 \usage{
-niche_labels(whole_rec_table, label_type = c("tip", "node", "tip_node"),
+niche_labels(whole_rec_table, label_type = "tip_node",
   tip_offset = 0.015, present = "1", unknown = "?",
   present_col = "red4", unknown_col = "lightblue",
   absent_col = "royalblue1")
@@ -12,6 +12,11 @@ niche_labels(whole_rec_table, label_type = c("tip", "node", "tip_node"),
 \arguments{
 \item{whole_rec_table}{matrix of environmental bins for all tips and nodes
 derived from functions \code{\link{bin_par_rec}} or \code{\link{bin_ml_rec}}.}
+
+\item{label_type}{(character) type of label; options are: "tip", "node", and
+"tip_node". Default = "tip_node".}
+
+\item{tip_offset}{(numeric) space between tips and the labels. Default = 0.015.}
 
 \item{present}{(character) code indicating environmental bins in which the
 species is present. Default = "1".}
