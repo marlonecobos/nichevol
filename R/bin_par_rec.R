@@ -2,7 +2,8 @@
 #' @param tree_data a list of two elements (phy and data) resulting from using the
 #' function \code{\link[geiger]{treedata}}.
 #'
-#' @return A table with columns representing bins, rows representing first tip states and then reconstructed nodes
+#' @return A table with columns representing bins, rows representing first tip
+#' states and then reconstructed nodes.
 #'
 #' @examples
 #'
