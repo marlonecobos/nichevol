@@ -11,7 +11,8 @@ bin_ml_rec(tree_data)
 function \code{\link[geiger]{treedata}}.}
 }
 \value{
-A table with columns representing bins, rows representing first tip states and then reconstructed nodes
+A table with columns representing bins, rows representing first tip
+states and then reconstructed nodes.
 }
 \description{
 Maximum likelihood reconstruction of characters
