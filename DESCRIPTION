@@ -1,7 +1,7 @@
 Package: nichevol
 Type: Package
 Title: An R package for assessment of evolutionary change of ecological niches
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
     person("Hannah", "Owens", email = "hannah.owens@gmail.com", role = "aut"),
