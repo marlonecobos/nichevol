@@ -1,7 +1,7 @@
 nichevol: An R package for assessment of evolutionary change of
 ecological niches
 ================
-Marlon E. Cobos and A. Townsend Peterson
+Marlon E. Cobos, Hannah Owens, and A. Townsend Peterson
 
   - [Package description](#package-description)
   - [Installing the package](#installing-the-package)
