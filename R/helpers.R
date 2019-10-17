@@ -476,10 +476,22 @@ score_tip <- function(character_table, species_name, include_unknown = FALSE) {
   if (missing(species_name)) {stop("Argument species_name needs to be defined.")}
   binVals <- as.data.frame(character_table[rownames(character_table) == species_name,])
   if(include_unknown == TRUE) {
-    score <- median(as.numeric(rownames(binVals)[binVals == 1 | binVals == "?"]))
+    binsWunknown <- rownames(binVals)[binVals == 1 | binVals == "?"]
+    if(!grepl(x = binsWunknown[1], pattern = "to")){
+      score <- (max(binsWunknown) - min(binsWunknown))/2
+    } else{
+      bnVals <- unique(unlist(strsplit(binsWunknown, " to ")));
+      score <- (max(bnVals) - min(bnVals))/2
+    }
   }
   else{
-    score <- median(as.numeric(rownames(binVals)[binVals == 1]))
+    binsWknown <- rownames(binVals)[binVals == 1];
+    if(!grepl(x = binsWknown[1], pattern = "to")){
+      score <- (max(binsWknown) - min(binsWknown))/2
+    } else{
+      bnVals <- unique(unlist(strsplit(binsWknown, " to ")));
+      score <- (max(bnVals) - min(bnVals))/2
+    }
   }
   return(score)
 }
