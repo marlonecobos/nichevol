@@ -457,7 +457,7 @@ sig_sq <- function(tree_data, model = "BM") {
 #'
 #' @examples
 #'
-#' # Simulate data
+#' # Simulate data for single number bin labels
 #' dataTable <- cbind("241" = rep("1", 5),
 #'                    "242" = rep("1", 5),
 #'                    "243" = c("1", "1", "0", "0", "0"),
@@ -466,9 +466,18 @@ sig_sq <- function(tree_data, model = "BM") {
 #'  rownames(dataTable) <- c("GadusMorhua", "GadusMacrocephalus",
 #'                           "GadusChalcogrammus", "ArctogadusGlacials",
 #'                           "BoreogadusSaida");
-#'
+#' # Simulate data for bin labels as strings
+#' dataTableStringLabel <- cbind("241 to 244" = rep("1", 5),
+#'                    "244 to 246" = c("1", "1", "0", "0", "0"),
+#'                    "246 to 248" = c("1", "?", "0", "0", "0"));
+#'  rownames(dataTableStringLabel) <- c("GadusMorhua", "GadusMacrocephalus",
+#'                           "GadusChalcogrammus", "ArctogadusGlacials",
+#'                           "BoreogadusSaida");#'
 #'  # Use function
-#'  score_tip(character_table = dataTable, species_name = "GadusMorhua", include_unknown = TRUE);
+#'  score_tip(character_table = dataTable, species_name = "GadusMorhua",
+#'            include_unknown = TRUE);
+#'  score_tip(character_table = dataTableStringLabel, species_name = "GadusMorhua",
+#'            include_unknown = FALSE);
 #'
 #' @export
 score_tip <- function(character_table, species_name, include_unknown = FALSE) {
@@ -478,19 +487,21 @@ score_tip <- function(character_table, species_name, include_unknown = FALSE) {
   if(include_unknown == TRUE) {
     binsWunknown <- rownames(binVals)[binVals == 1 | binVals == "?"]
     if(!grepl(x = binsWunknown[1], pattern = "to")){
-      score <- (max(binsWunknown) - min(binsWunknown))/2
+      binsWunknown <- as.numeric(binsWunknown)
+      score <- ((max(binsWunknown) - min(binsWunknown))/2 + min(binsWunknown))
     } else{
-      bnVals <- unique(unlist(strsplit(binsWunknown, " to ")));
-      score <- (max(bnVals) - min(bnVals))/2
+      bnVals <- as.numeric(unique(unlist(strsplit(binsWunknown, " to "))));
+      score <- (max(bnVals) - min(bnVals))/2 + min(bnVals)
     }
   }
   else{
     binsWknown <- rownames(binVals)[binVals == 1];
     if(!grepl(x = binsWknown[1], pattern = "to")){
-      score <- (max(binsWknown) - min(binsWknown))/2
+      binsWknown <- as.numeric(binsWknown)
+      score <- ((max(binsWknown) - min(binsWknown))/2 + min(binsWknown))
     } else{
-      bnVals <- unique(unlist(strsplit(binsWknown, " to ")));
-      score <- (max(bnVals) - min(bnVals))/2
+      bnVals <- as.numeric(unique(unlist(strsplit(binsWknown, " to "))));
+      score <- (max(bnVals) - min(bnVals))/2 + min(bnVals)
     }
   }
   return(score)

@@ -105,6 +105,7 @@ niche_labels <- function(whole_rec_table, label_type = "tip_node",
 #'
 #' @param whole_rec_table matrix of reconstructed bins for nodes and species
 #' derived from a process of maximum parsimony reconstruction.
+#' @param ancestor_line controls whether ancestor line is plotted.
 #' @param present (character) code indicating environmental bins in which the
 #' species is present. Default = "1".
 #' @param absent (character) code indicating environmental bins in which the

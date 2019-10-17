@@ -13,6 +13,8 @@ nichevol_labels(whole_rec_table, ancestor_line = FALSE, present = "1",
 \item{whole_rec_table}{matrix of reconstructed bins for nodes and species
 derived from a process of maximum parsimony reconstruction.}
 
+\item{ancestor_line}{controls whether ancestor line is plotted.}
+
 \item{present}{(character) code indicating environmental bins in which the
 species is present. Default = "1".}
 
