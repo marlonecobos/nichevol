@@ -34,7 +34,7 @@ smooth_rec <- function(whole_rec_table) {
   }
 
   for (k in 1:nrows){
-    test <- paste0(whole_rec_table[k, ], collapse = "")
+    test <- paste(whole_rec_table[k, ], collapse = "")
     test <- gsub("?", replacement = "u", x = test, fixed = T)
 
     # First, get rid of unknowns at flanks of a row that are bordered by 0s
@@ -45,19 +45,20 @@ smooth_rec <- function(whole_rec_table) {
     if (grepl(x = test, pattern = "1u+1")) {#fills in unknowns sandwiched between 1s
       while (grepl(x = test, pattern = "1u+1")) {test <- gsub("1u", "11", test)}
     }
+
     if (grepl(x = test, pattern = "0u+0")) {#fills in unknowns sandwiched between 0s
       while (grepl(x = test, pattern = "0u+0")) {test <- gsub("0u", "00", test)}
     }
-    uSplit <- unlist(strsplit(x = test, split = "u", fixed = T))
-    if(any(nchar(uSplit) > 1)){
-      midString <- uSplit[nchar(uSplit) > 1] # Trims off unknowns at bin periferies
+
+    midString <- regmatches(test,regexpr("[01]+",test))
+    if(length(midString) > 3){
       if (grepl(pattern = "10+1", x = test)){# Forces unimodal reconstruction
-        midString <- paste0(as.character(smooth(as.numeric(whole_rec_table[1, ]), )),
-                            collapse = "")
+        midString <- paste(smooth(as.numeric(unlist(strsplit(tmp, split = "")))),collapse = "");
       }
-      test <- gsub(x = test, pattern = "[01]+", replacement = midString)
+      test <- gsub(test, pattern = "[01]+", replacement = midString);
     }
-    test <- gsub("u", replacement = "?", x = test, fixed = T)
+
+    test <- gsub("u", replacement = "?", x = test, fixed = T);
     whole_rec_table[k, ] <- unlist(strsplit(test, split = ""));
   }
   if (!is.null(statRows)){
