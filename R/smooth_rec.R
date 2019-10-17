@@ -48,16 +48,17 @@ smooth_rec <- function(whole_rec_table) {
     if (grepl(x = test, pattern = "0u+0")) {#fills in unknowns sandwiched between 0s
       while (grepl(x = test, pattern = "0u+0")) {test <- gsub("0u", "00", test)}
     }
-
     uSplit <- unlist(strsplit(x = test, split = "u", fixed = T))
-    midString <- uSplit[nchar(uSplit) > 1] # Trims off unknowns at bin periferies
-    if (grepl(pattern = "10+1", x = test)){# Forces unimodal reconstruction
-      midString <- paste0(as.character(smooth(as.numeric(whole_rec_table[1, ]), )),
-                          collapse = "")
+    if(any(nchar(uSplit) > 1)){
+      midString <- uSplit[nchar(uSplit) > 1] # Trims off unknowns at bin periferies
+      if (grepl(pattern = "10+1", x = test)){# Forces unimodal reconstruction
+        midString <- paste0(as.character(smooth(as.numeric(whole_rec_table[1, ]), )),
+                            collapse = "")
+      }
+      test <- gsub(x = test, pattern = "[01]+", replacement = midString)
     }
-    test <- gsub(x = test, pattern = "[01]+", replacement = midString)
     test <- gsub("u", replacement = "?", x = test, fixed = T)
-    whole_rec_table[k, ] <- unlist(strsplit(test, split = ""))
+    whole_rec_table[k, ] <- unlist(strsplit(test, split = ""));
   }
   if (!is.null(statRows)){
     whole_rec_table <- rbind(whole_rec_table, statRows)
