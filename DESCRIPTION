@@ -4,7 +4,7 @@ Title: An R package for assessment of evolutionary change of ecological niches
 Version: 0.1.5
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
-    person("Hannah", "Owens", email = "hannah.owens@gmail.com", role = "aut"),
+    person("Hannah L.", "Owens", email = "hannah.owens@gmail.com", role = "aut"),
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"))
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
 Date: 2019-09-25
@@ -24,6 +24,7 @@ Imports:
     rgeos (>= 0.5),
     sp (>= 1.3),
     stats (>= 3.6),
+    stringr (>= 1.4.0),
     utils (>= 3.6)
 Suggests:
 	  castor,

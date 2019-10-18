@@ -21,7 +21,7 @@ Helper function to calculate the median bin score for a given species
 }
 \examples{
 
-# Simulate data
+# Simulate data for single number bin labels
 dataTable <- cbind("241" = rep("1", 5),
                    "242" = rep("1", 5),
                    "243" = c("1", "1", "0", "0", "0"),
@@ -30,8 +30,17 @@ dataTable <- cbind("241" = rep("1", 5),
  rownames(dataTable) <- c("GadusMorhua", "GadusMacrocephalus",
                           "GadusChalcogrammus", "ArctogadusGlacials",
                           "BoreogadusSaida");
-
+# Simulate data for bin labels as strings
+dataTableStringLabel <- cbind("241 to 244" = rep("1", 5),
+                   "244 to 246" = c("1", "1", "0", "0", "0"),
+                   "246 to 248" = c("1", "?", "0", "0", "0"));
+ rownames(dataTableStringLabel) <- c("GadusMorhua", "GadusMacrocephalus",
+                          "GadusChalcogrammus", "ArctogadusGlacials",
+                          "BoreogadusSaida");#'
  # Use function
- score_tip(character_table = dataTable, species_name = "GadusMorhua", include_unknown = TRUE);
+ score_tip(character_table = dataTable, species_name = "GadusMorhua",
+           include_unknown = TRUE);
+ score_tip(character_table = dataTableStringLabel, species_name = "GadusMorhua",
+           include_unknown = FALSE);
 
 }
