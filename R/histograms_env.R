@@ -119,8 +119,17 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
     y_values <- list()
 
     for (j in 1:length(occlist)) {
-      ## M shapefiles
-      M <- rgdal::readOGR(dsn = M_folder, layer = mlist[j], verbose = FALSE)
+      ## M
+      if (M_format %in% c("shp", "gpkg")) {
+        if (M_format == "shp") {
+          M <- rgdal::readOGR(dsn = M_folder, layer = mlist[j], verbose = FALSE)
+        } else {
+          M <- rgdal::readOGR(paste0(M_folder, "/", mlist[j]), spnames[j],
+                              verbose = FALSE)
+        }
+      } else {
+        M <- raster::raster(mlist[j])
+      }
 
       ## occurrences
       occ <- read.csv(occlist[j])
