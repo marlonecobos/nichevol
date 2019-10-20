@@ -4,21 +4,34 @@
 \alias{nichevol_legend}
 \title{Legends for niche evolution labels in phylogenetic trees}
 \usage{
-nichevol_legend(position, legend = c("Uncertain", "Present", "No change",
-  "Retraction", "Expansion"), pch = 22, pt.cex = 2.2, lty = 1,
-  lwd = 1, col = c("orange", "grey10", "grey90", "dodgerblue3",
-  "green1"), cex = 1, bty = "n", ...)
+nichevol_legend(position, ancestor_line = FALSE,
+  ancestor_legend = c("Uncertain", "Present"),
+  evol_legend = c("No change", "Retraction", "Expansion"),
+  ancestor_col = c("orange", "grey10"), evol_col = c("grey90",
+  "dodgerblue3", "green1"), pch = 22, pt.cex = 2.2, lty = 1,
+  lwd = 1, cex = 1, bty = "n", ...)
 }
 \arguments{
 \item{position}{(character or numeric) position of legend. If character,
 part of the plot (e.g., "topleft"), see \code{\link[graphics]{legend}}. If
 numeric, vector of two values indicating x and y postion (e.g., c(0.1, 6)).}
 
-\item{legend}{(character) vector of length = five indicating the text to
-identify environments with uncertain presence and presence of the species,
-as well as, areas where niches have not changed, have retracted or expanded.
-Default = c("Uncertain", "Present", "No change", "Retraction", "Expansion").
-Order must be mantained.}
+\item{ancestor_line}{whether or not ancestor line was plotted.
+Default = FALSE.}
+
+\item{ancestor_legend}{(character) vector of length = two indicating the text
+to identify environments with uncertain presence and true presence of the
+species. Default = c("Uncertain", "Present").}
+
+\item{evol_legend}{(character) vector of length = three indicating the text
+to identify environments where niches have not changed, have retracted or
+expanded. Default = c("No change", "Retraction", "Expansion").}
+
+\item{ancestor_col}{vector of two colors to represent what is indicated in
+\code{ancestor_legend}. Default = c("orange", "grey10").}
+
+\item{evol_col}{vector of three colors to represent what is indicated in
+\code{evol_legend}. Default = c("grey90", "dodgerblue3", "green1").}
 
 \item{pch}{point type as in \code{\link[graphics]{points}}. Default = 22.}
 
@@ -27,9 +40,6 @@ Order must be mantained.}
 \item{lty}{line type see \code{\link[graphics]{par}}. Default = 1.}
 
 \item{lwd}{line width see \code{\link[graphics]{par}}. Default = 1.}
-
-\item{col}{vector of five colors to represent what is in legend.
-Default = c("orange", "grey10", "grey90", "dodgerblue3", "green1").}
 
 \item{cex}{size of all elements in legend see \code{\link[graphics]{par}}.
 Deafult = 1.}

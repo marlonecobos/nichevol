@@ -282,15 +282,20 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #' @param position (character or numeric) position of legend. If character,
 #' part of the plot (e.g., "topleft"), see \code{\link[graphics]{legend}}. If
 #' numeric, vector of two values indicating x and y postion (e.g., c(0.1, 6)).
-#' @param legend (character) vector of length = five indicating the text to
-#' identify environments with uncertain presence and presence of the species,
-#' as well as, areas where niches have not changed, have retracted or expanded.
-#' Default = c("Uncertain", "Present", "No change", "Retraction", "Expansion").
-#' Order must be mantained.
+#' @param ancestor_line whether or not ancestor line was plotted.
+#' Default = FALSE.
+#' @param ancestor_legend (character) vector of length = two indicating the text
+#' to identify environments with uncertain presence and true presence of the
+#' species. Default = c("Uncertain", "Present").
+#' @param evol_legend (character) vector of length = three indicating the text
+#' to identify environments where niches have not changed, have retracted or
+#' expanded. Default = c("No change", "Retraction", "Expansion").
+#' @param ancestor_col vector of two colors to represent what is indicated in
+#' \code{ancestor_legend}. Default = c("orange", "grey10").
+#' @param evol_col vector of three colors to represent what is indicated in
+#' \code{evol_legend}. Default = c("grey90", "dodgerblue3", "green1").
 #' @param pch point type as in \code{\link[graphics]{points}}. Default = 22.
 #' @param pt.cex size of symbol (points). Default = 2.2.
-#' @param col vector of five colors to represent what is in legend.
-#' Default = c("orange", "grey10", "grey90", "dodgerblue3", "green1").
 #' @param lty line type see \code{\link[graphics]{par}}. Default = 1.
 #' @param lwd line width see \code{\link[graphics]{par}}. Default = 1.
 #' @param cex size of all elements in legend see \code{\link[graphics]{par}}.
@@ -303,11 +308,13 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #'
 #' @export
 
-nichevol_legend <- function(position, legend = c("Uncertain", "Present", "No change",
-                                                 "Retraction", "Expansion"),
+nichevol_legend <- function(position, ancestor_line = FALSE,
+                            ancestor_legend = c("Uncertain", "Present"),
+                            evol_legend = c("No change", "Retraction", "Expansion"),
+                            ancestor_col = c("orange", "grey10"),
+                            evol_col = c("grey90", "dodgerblue3", "green1"),
                             pch = 22, pt.cex = 2.2, lty = 1, lwd = 1,
-                            col = c("orange", "grey10", "grey90", "dodgerblue3",
-                                    "green1"), cex = 1, bty = "n", ...) {
+                            cex = 1, bty = "n", ...) {
   if (missing(position)) {stop("Argument position needs to be defined")}
   cp <- class(position)[1]
   if (!cp %in% c("character", "numeric")) {
@@ -315,30 +322,43 @@ nichevol_legend <- function(position, legend = c("Uncertain", "Present", "No cha
   }
 
   # legend
-  if (cp == "character") {
-    legend(position, legend = legend, cex = cex, lty = c(lty, NA, NA, NA, NA),
-           lwd = lwd, col = c("transparent", NA, NA, NA, NA), bty = bty, ...)
+  if (ancestor_line == TRUE) {
+    if (cp == "character") {
+      legend(position, legend = c(ancestor_legend, evol_legend),
+             cex = cex, lty = c(lty, NA, NA, NA, NA),
+             lwd = lwd, col = c("transparent", NA, NA, NA, NA), bty = bty, ...)
 
-    legend(position, legend = c("                ", "", "", "", ""), bty = "n",
-           pch = pch, pt.bg = c(NA, NA, col[3], col[4], col[5]),
-           pt.cex = pt.cex, lty = lty, col = "transparent", cex = cex)
+      legend(position, legend = c("                ", "", "", "", ""), bty = "n",
+             pch = pch, pt.bg = c(NA, NA, evol_col), pt.cex = pt.cex, lty = lty,
+             col = "transparent", cex = cex)
 
-    legend(position, legend = c("                  ", "", "", "", ""), bty = "n",
-           lty = c(lty, lty, NA, NA, NA), lwd = lwd, cex = cex,
-           col = c(col[1], col[2], NA, NA, NA))
+      legend(position, legend = c("                  ", "", "", "", ""),
+             bty = "n", lty = c(lty, lty, NA, NA, NA), lwd = lwd, cex = cex,
+             col = c(ancestor_col, NA, NA, NA))
+    } else {
+      legend(x = position[1], y = position[2], cex = cex, bty = bty,
+             legend = c(ancestor_legend, evol_legend),
+             lty = c(lty, NA, NA, NA, NA), lwd = lwd,
+             col = c("transparent", NA, NA, NA, NA), ...)
+
+      legend(x = position[1], y = position[2], cex = cex,
+             legend = c("                ", "", "", "", ""), bty = "n",
+             pch = pch, pt.bg = c(NA, NA, evol_col), pt.cex = pt.cex, lty = lty,
+             col = "transparent")
+
+      legend(x = position[1], y = position[2], cex = cex,
+             legend = c("                  ", "", "", "", ""),
+             bty = "n", lty = c(lty, lty, NA, NA, NA), lwd = lwd,
+             col = c(ancestor_col, NA, NA, NA))
+    }
   } else {
-    legend(x = position[1], y = position[2], cex = cex, legend = legend,
-           lty = c(lty, NA, NA, NA, NA), lwd = lwd,
-           col = c("transparent", NA, NA, NA, NA), bty = bty, ...)
-
-    legend(x = position[1], y = position[2], cex = cex,
-           legend = c("                ", "", "", "", ""), bty = "n",
-           pch = pch, pt.bg = c(NA, NA, col[3], col[4], col[5]),
-           pt.cex = pt.cex, lty = lty, col = "transparent")
-
-    legend(x = position[1], y = position[2], cex = cex,
-           legend = c("                  ", "", "", "", ""), bty = "n",
-           lty = c(lty, lty, NA, NA, NA), lwd = lwd,
-           col = c(col[1], col[2], NA, NA, NA))
+    if (cp == "character") {
+      legend(position, legend = evol_legend, pch = pch, pt.bg = evol_col,
+             col = "transparent", pt.cex = pt.cex, cex = cex, bty = bty, ...)
+    } else {
+      legend(x = position[1], y = position[2], legend = evol_legend, pch = pch,
+             pt.bg = evol_col, col = "transparent", pt.cex = pt.cex, cex = cex,
+             bty = bty, ...)
+    }
   }
 }
