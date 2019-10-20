@@ -3,6 +3,7 @@
 #' @description niche_labels helps in adding bar-type labels that represent how
 #' species niches are compared to others.
 #'
+#' @param tree an object of class "phylo".
 #' @param whole_rec_table matrix of environmental bins for all tips and nodes
 #' derived from functions \code{\link{bin_par_rec}} or \code{\link{bin_ml_rec}}.
 #' @param label_type (character) type of label; options are: "tip", "node", and
@@ -23,13 +24,22 @@
 #'
 #' @export
 
-niche_labels <- function(whole_rec_table, label_type = "tip_node",
+niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
                          tip_offset = 0.015, present = "1", unknown = "?",
                          present_col = "red4", unknown_col = "lightblue",
                          absent_col = "royalblue1") {
-  if (missing(whole_rec_table)) {
-    stop("Argument whole_rec_table is needed to perform the analyses.")
+  if (missing(tree)) {stop("Argument tree needs to be defined.")}
+  if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
+  if ("LogLik" %in% rownames(whole_rec_table)) {
+    whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
   }
+
+  # reorganizing character table
+  tlab <- tree$tip.label
+  nrt <- nrow(whole_rec_table)
+  rns <- c(tlab, rownames(whole_rec_table)[length(tlab):nrt])
+  whole_rec_table <- rbind(whole_rec_table[tlab, ], whole_rec_table[length(tlab):nrt, ])
+  rownames(whole_rec_table) <- rns
 
   # getting info from plot
   tp_info <- get("last_plot.phylo", envir = .PlotPhyloEnv)
@@ -38,6 +48,11 @@ niche_labels <- function(whole_rec_table, label_type = "tip_node",
   edges <- tp_info$edge
   tpos <- 1:tp_info$Ntip
   npos <- (tp_info$Ntip + 1):(tp_info$Ntip + tp_info$Nnode)
+  otips <- xx[tpos]
+  rtip <- range(otips)
+  if ((rtip[2] - rtip[1]) <= 0.00001) {
+    xx[tpos] <- rep(max(otips), length(otips))
+  }
 
   # organizing data
   tpol <- ncol(whole_rec_table)
@@ -52,7 +67,7 @@ niche_labels <- function(whole_rec_table, label_type = "tip_node",
       barss <- sapply(tpos, function(j) {
         ys <- yy[j] - (wt / 2)
         hver <- ys + h_vertices
-        xs <- 1 + tip_offset; xs1 <- xs - 0.005; xs2 <- xs + 0.005
+        xs <- xx[j] + tip_offset; xs1 <- xs - 0.005; xs2 <- xs + 0.005
         wver <- rep(c(xs1, xs2), each = 2)
 
         polys <- sapply(1:(length(h_vertices) - 1), function(x) {
@@ -103,9 +118,11 @@ niche_labels <- function(whole_rec_table, label_type = "tip_node",
 #' @description nichevol_labels helps in adding bar-type labels that represent how
 #' species niches changed from ancestors to descendants.
 #'
+#' @param tree an object of class "phylo".
 #' @param whole_rec_table matrix of reconstructed bins for nodes and species
 #' derived from a process of maximum parsimony reconstruction.
 #' @param ancestor_line controls whether ancestor line is plotted.
+#' Default = FALSE.
 #' @param present (character) code indicating environmental bins in which the
 #' species is present. Default = "1".
 #' @param absent (character) code indicating environmental bins in which the
@@ -127,12 +144,23 @@ niche_labels <- function(whole_rec_table, label_type = "tip_node",
 #'
 #' @export
 
-nichevol_labels <- function(whole_rec_table, ancestor_line = FALSE,
+nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
                             present = "1", absent = "0", unknown = "?",
                             present_col = "grey10", unknown_col = "orange",
                             no_change_col = "grey90", retraction_col = "dodgerblue3",
                             expansion_col = "green1") {
+  if (missing(tree)) {stop("Argument tree needs to be defined.")}
   if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
+  if ("LogLik" %in% rownames(whole_rec_table)) {
+    whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
+  }
+
+  # reorganizing character table
+  tlab <- tree$tip.label
+  nrt <- nrow(whole_rec_table)
+  rns <- c(tlab, rownames(whole_rec_table)[length(tlab):nrt])
+  whole_rec_table <- rbind(whole_rec_table[tlab, ], whole_rec_table[length(tlab):nrt, ])
+  rownames(whole_rec_table) <- rns
 
   # getting info from plot
   tp_info <- get("last_plot.phylo", envir = .PlotPhyloEnv)
@@ -254,15 +282,20 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #' @param position (character or numeric) position of legend. If character,
 #' part of the plot (e.g., "topleft"), see \code{\link[graphics]{legend}}. If
 #' numeric, vector of two values indicating x and y postion (e.g., c(0.1, 6)).
-#' @param legend (character) vector of length = five indicating the text to
-#' identify environments with uncertain presence and presence of the species,
-#' as well as, areas where niches have not changed, have retracted or expanded.
-#' Default = c("Uncertain", "Present", "No change", "Retraction", "Expansion").
-#' Order must be mantained.
+#' @param ancestor_line whether or not ancestor line was plotted.
+#' Default = FALSE.
+#' @param ancestor_legend (character) vector of length = two indicating the text
+#' to identify environments with uncertain presence and true presence of the
+#' species. Default = c("Uncertain", "Present").
+#' @param evol_legend (character) vector of length = three indicating the text
+#' to identify environments where niches have not changed, have retracted or
+#' expanded. Default = c("No change", "Retraction", "Expansion").
+#' @param ancestor_col vector of two colors to represent what is indicated in
+#' \code{ancestor_legend}. Default = c("orange", "grey10").
+#' @param evol_col vector of three colors to represent what is indicated in
+#' \code{evol_legend}. Default = c("grey90", "dodgerblue3", "green1").
 #' @param pch point type as in \code{\link[graphics]{points}}. Default = 22.
 #' @param pt.cex size of symbol (points). Default = 2.2.
-#' @param col vector of five colors to represent what is in legend.
-#' Default = c("orange", "grey10", "grey90", "dodgerblue3", "green1").
 #' @param lty line type see \code{\link[graphics]{par}}. Default = 1.
 #' @param lwd line width see \code{\link[graphics]{par}}. Default = 1.
 #' @param cex size of all elements in legend see \code{\link[graphics]{par}}.
@@ -275,11 +308,13 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #'
 #' @export
 
-nichevol_legend <- function(position, legend = c("Uncertain", "Present", "No change",
-                                                 "Retraction", "Expansion"),
+nichevol_legend <- function(position, ancestor_line = FALSE,
+                            ancestor_legend = c("Uncertain", "Present"),
+                            evol_legend = c("No change", "Retraction", "Expansion"),
+                            ancestor_col = c("orange", "grey10"),
+                            evol_col = c("grey90", "dodgerblue3", "green1"),
                             pch = 22, pt.cex = 2.2, lty = 1, lwd = 1,
-                            col = c("orange", "grey10", "grey90", "dodgerblue3",
-                                    "green1"), cex = 1, bty = "n", ...) {
+                            cex = 1, bty = "n", ...) {
   if (missing(position)) {stop("Argument position needs to be defined")}
   cp <- class(position)[1]
   if (!cp %in% c("character", "numeric")) {
@@ -287,30 +322,43 @@ nichevol_legend <- function(position, legend = c("Uncertain", "Present", "No cha
   }
 
   # legend
-  if (cp == "character") {
-    legend(position, legend = legend, cex = cex, lty = c(lty, NA, NA, NA, NA),
-           lwd = lwd, col = c("transparent", NA, NA, NA, NA), bty = bty, ...)
+  if (ancestor_line == TRUE) {
+    if (cp == "character") {
+      legend(position, legend = c(ancestor_legend, evol_legend),
+             cex = cex, lty = c(lty, NA, NA, NA, NA),
+             lwd = lwd, col = c("transparent", NA, NA, NA, NA), bty = bty, ...)
 
-    legend(position, legend = c("                ", "", "", "", ""), bty = "n",
-           pch = pch, pt.bg = c(NA, NA, col[3], col[4], col[5]),
-           pt.cex = pt.cex, lty = lty, col = "transparent", cex = cex)
+      legend(position, legend = c("                ", "", "", "", ""), bty = "n",
+             pch = pch, pt.bg = c(NA, NA, evol_col), pt.cex = pt.cex, lty = lty,
+             col = "transparent", cex = cex)
 
-    legend(position, legend = c("                  ", "", "", "", ""), bty = "n",
-           lty = c(lty, lty, NA, NA, NA), lwd = lwd, cex = cex,
-           col = c(col[1], col[2], NA, NA, NA))
+      legend(position, legend = c("                  ", "", "", "", ""),
+             bty = "n", lty = c(lty, lty, NA, NA, NA), lwd = lwd, cex = cex,
+             col = c(ancestor_col, NA, NA, NA))
+    } else {
+      legend(x = position[1], y = position[2], cex = cex, bty = bty,
+             legend = c(ancestor_legend, evol_legend),
+             lty = c(lty, NA, NA, NA, NA), lwd = lwd,
+             col = c("transparent", NA, NA, NA, NA), ...)
+
+      legend(x = position[1], y = position[2], cex = cex,
+             legend = c("                ", "", "", "", ""), bty = "n",
+             pch = pch, pt.bg = c(NA, NA, evol_col), pt.cex = pt.cex, lty = lty,
+             col = "transparent")
+
+      legend(x = position[1], y = position[2], cex = cex,
+             legend = c("                  ", "", "", "", ""),
+             bty = "n", lty = c(lty, lty, NA, NA, NA), lwd = lwd,
+             col = c(ancestor_col, NA, NA, NA))
+    }
   } else {
-    legend(x = position[1], y = position[2], cex = cex, legend = legend,
-           lty = c(lty, NA, NA, NA, NA), lwd = lwd,
-           col = c("transparent", NA, NA, NA, NA), bty = bty, ...)
-
-    legend(x = position[1], y = position[2], cex = cex,
-           legend = c("                ", "", "", "", ""), bty = "n",
-           pch = pch, pt.bg = c(NA, NA, col[3], col[4], col[5]),
-           pt.cex = pt.cex, lty = lty, col = "transparent")
-
-    legend(x = position[1], y = position[2], cex = cex,
-           legend = c("                  ", "", "", "", ""), bty = "n",
-           lty = c(lty, lty, NA, NA, NA), lwd = lwd,
-           col = c(col[1], col[2], NA, NA, NA))
+    if (cp == "character") {
+      legend(position, legend = evol_legend, pch = pch, pt.bg = evol_col,
+             col = "transparent", pt.cex = pt.cex, cex = cex, bty = bty, ...)
+    } else {
+      legend(x = position[1], y = position[2], legend = evol_legend, pch = pch,
+             pt.bg = evol_col, col = "transparent", pt.cex = pt.cex, cex = cex,
+             bty = bty, ...)
+    }
   }
 }

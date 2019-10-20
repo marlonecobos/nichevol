@@ -4,12 +4,14 @@
 \alias{niche_labels}
 \title{Labels to represent niches of tips and ancestors}
 \usage{
-niche_labels(whole_rec_table, label_type = "tip_node",
+niche_labels(tree, whole_rec_table, label_type = "tip_node",
   tip_offset = 0.015, present = "1", unknown = "?",
   present_col = "red4", unknown_col = "lightblue",
   absent_col = "royalblue1")
 }
 \arguments{
+\item{tree}{an object of class "phylo".}
+
 \item{whole_rec_table}{matrix of environmental bins for all tips and nodes
 derived from functions \code{\link{bin_par_rec}} or \code{\link{bin_ml_rec}}.}
 

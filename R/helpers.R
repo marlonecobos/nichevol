@@ -231,8 +231,8 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
   }
 
   bin_tab <- lapply(1:dim(M_range)[1], function(i) {
-    M_test <- seq(M_range[i, 1], M_range[i, 2], 1)
-    sp_test <- seq(sp_range[i, 1], sp_range[i, 2], 1)
+    M_test <- seq(round(M_range[i, 1]), round(M_range[i, 2]), 1)
+    sp_test <- seq(round(sp_range[i, 1]), round(sp_range[i, 2]), 1)
 
     if (bin_size > 1) {
       invar_M <- vector()
@@ -363,7 +363,7 @@ bin_env_null <- function(overall_range, M_range, bin_size) {
   }
 
   bin_tab <- lapply(1:dim(M_range)[1], function(i) {
-    M_test <- seq(M_range[i, 1], M_range[i, 2], 1)
+    M_test <- seq(round(M_range[i, 1]), round(M_range[i, 2]), 1)
 
     if (bin_size > 1) {
       invar_M <- sapply(1:dim(ranges)[2], function(j) {
