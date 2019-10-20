@@ -27,13 +27,19 @@ niche_labels <- function(whole_rec_table, label_type = "tip_node",
                          tip_offset = 0.015, present = "1", unknown = "?",
                          present_col = "red4", unknown_col = "lightblue",
                          absent_col = "royalblue1") {
-  if (missing(whole_rec_table)) {
-    stop("Argument whole_rec_table is needed to perform the analyses.")
+  if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
+  if ("LogLik" %in% rownames(whole_rec_table)) {
+    whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
   }
 
   # getting info from plot
   tp_info <- get("last_plot.phylo", envir = .PlotPhyloEnv)
   xx <- tp_info$xx
+  otips <- xx[1:tp_info$Ntip]
+  rtip <- range(otips)
+  if ((rtip[2] - rtip[1]) <= 0.00001) {
+    xx[1:tp_info$Ntip] <- rep(max(otips), length(otips))
+  }
   yy <- tp_info$yy
   edges <- tp_info$edge
   tpos <- 1:tp_info$Ntip
@@ -52,7 +58,7 @@ niche_labels <- function(whole_rec_table, label_type = "tip_node",
       barss <- sapply(tpos, function(j) {
         ys <- yy[j] - (wt / 2)
         hver <- ys + h_vertices
-        xs <- 1 + tip_offset; xs1 <- xs - 0.005; xs2 <- xs + 0.005
+        xs <- xx[j] + tip_offset; xs1 <- xs - 0.005; xs2 <- xs + 0.005
         wver <- rep(c(xs1, xs2), each = 2)
 
         polys <- sapply(1:(length(h_vertices) - 1), function(x) {
@@ -106,6 +112,7 @@ niche_labels <- function(whole_rec_table, label_type = "tip_node",
 #' @param whole_rec_table matrix of reconstructed bins for nodes and species
 #' derived from a process of maximum parsimony reconstruction.
 #' @param ancestor_line controls whether ancestor line is plotted.
+#' Default = FALSE.
 #' @param present (character) code indicating environmental bins in which the
 #' species is present. Default = "1".
 #' @param absent (character) code indicating environmental bins in which the
@@ -133,6 +140,9 @@ nichevol_labels <- function(whole_rec_table, ancestor_line = FALSE,
                             no_change_col = "grey90", retraction_col = "dodgerblue3",
                             expansion_col = "green1") {
   if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
+  if ("LogLik" %in% rownames(whole_rec_table)) {
+    whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
+  }
 
   # getting info from plot
   tp_info <- get("last_plot.phylo", envir = .PlotPhyloEnv)
