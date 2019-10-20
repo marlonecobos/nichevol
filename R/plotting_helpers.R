@@ -3,6 +3,7 @@
 #' @description niche_labels helps in adding bar-type labels that represent how
 #' species niches are compared to others.
 #'
+#' @param tree an object of class "phylo".
 #' @param whole_rec_table matrix of environmental bins for all tips and nodes
 #' derived from functions \code{\link{bin_par_rec}} or \code{\link{bin_ml_rec}}.
 #' @param label_type (character) type of label; options are: "tip", "node", and
@@ -23,27 +24,35 @@
 #'
 #' @export
 
-niche_labels <- function(whole_rec_table, label_type = "tip_node",
+niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
                          tip_offset = 0.015, present = "1", unknown = "?",
                          present_col = "red4", unknown_col = "lightblue",
                          absent_col = "royalblue1") {
+  if (missing(tree)) {stop("Argument tree needs to be defined.")}
   if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
   if ("LogLik" %in% rownames(whole_rec_table)) {
     whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
   }
 
+  # reorganizing character table
+  tlab <- tree$tip.label
+  nrt <- nrow(whole_rec_table)
+  rns <- c(tlab, rownames(whole_rec_table)[length(tlab):nrt])
+  whole_rec_table <- rbind(whole_rec_table[tlab, ], whole_rec_table[length(tlab):nrt, ])
+  rownames(whole_rec_table) <- rns
+
   # getting info from plot
   tp_info <- get("last_plot.phylo", envir = .PlotPhyloEnv)
   xx <- tp_info$xx
-  otips <- xx[1:tp_info$Ntip]
-  rtip <- range(otips)
-  if ((rtip[2] - rtip[1]) <= 0.00001) {
-    xx[1:tp_info$Ntip] <- rep(max(otips), length(otips))
-  }
   yy <- tp_info$yy
   edges <- tp_info$edge
   tpos <- 1:tp_info$Ntip
   npos <- (tp_info$Ntip + 1):(tp_info$Ntip + tp_info$Nnode)
+  otips <- xx[tpos]
+  rtip <- range(otips)
+  if ((rtip[2] - rtip[1]) <= 0.00001) {
+    xx[tpos] <- rep(max(otips), length(otips))
+  }
 
   # organizing data
   tpol <- ncol(whole_rec_table)
@@ -109,6 +118,7 @@ niche_labels <- function(whole_rec_table, label_type = "tip_node",
 #' @description nichevol_labels helps in adding bar-type labels that represent how
 #' species niches changed from ancestors to descendants.
 #'
+#' @param tree an object of class "phylo".
 #' @param whole_rec_table matrix of reconstructed bins for nodes and species
 #' derived from a process of maximum parsimony reconstruction.
 #' @param ancestor_line controls whether ancestor line is plotted.
@@ -134,15 +144,23 @@ niche_labels <- function(whole_rec_table, label_type = "tip_node",
 #'
 #' @export
 
-nichevol_labels <- function(whole_rec_table, ancestor_line = FALSE,
+nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
                             present = "1", absent = "0", unknown = "?",
                             present_col = "grey10", unknown_col = "orange",
                             no_change_col = "grey90", retraction_col = "dodgerblue3",
                             expansion_col = "green1") {
+  if (missing(tree)) {stop("Argument tree needs to be defined.")}
   if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
   if ("LogLik" %in% rownames(whole_rec_table)) {
     whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
   }
+
+  # reorganizing character table
+  tlab <- tree$tip.label
+  nrt <- nrow(whole_rec_table)
+  rns <- c(tlab, rownames(whole_rec_table)[length(tlab):nrt])
+  whole_rec_table <- rbind(whole_rec_table[tlab, ], whole_rec_table[length(tlab):nrt, ])
+  rownames(whole_rec_table) <- rns
 
   # getting info from plot
   tp_info <- get("last_plot.phylo", envir = .PlotPhyloEnv)

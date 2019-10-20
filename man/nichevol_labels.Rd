@@ -4,16 +4,20 @@
 \alias{nichevol_labels}
 \title{Labels to represent changes of between ancestors and descendants}
 \usage{
-nichevol_labels(whole_rec_table, ancestor_line = FALSE, present = "1",
-  absent = "0", unknown = "?", present_col = "grey10",
-  unknown_col = "orange", no_change_col = "grey90",
-  retraction_col = "dodgerblue3", expansion_col = "green1")
+nichevol_labels(tree, whole_rec_table, ancestor_line = FALSE,
+  present = "1", absent = "0", unknown = "?",
+  present_col = "grey10", unknown_col = "orange",
+  no_change_col = "grey90", retraction_col = "dodgerblue3",
+  expansion_col = "green1")
 }
 \arguments{
+\item{tree}{an object of class "phylo".}
+
 \item{whole_rec_table}{matrix of reconstructed bins for nodes and species
 derived from a process of maximum parsimony reconstruction.}
 
-\item{ancestor_line}{controls whether ancestor line is plotted.}
+\item{ancestor_line}{controls whether ancestor line is plotted.
+Default = FALSE.}
 
 \item{present}{(character) code indicating environmental bins in which the
 species is present. Default = "1".}
