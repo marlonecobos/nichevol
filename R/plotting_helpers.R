@@ -213,7 +213,7 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
     hver <- ys + h_vertices
 
     wdt <- 0.01 * width
-    xs <- xx[j]; xs1 <- xs - (wdt / 2); xs2 <- xs + (wdt / 2)
+    xs <- xx[x]; xs1 <- xs - (wdt / 2); xs2 <- xs + (wdt / 2)
     wver <- rep(c(xs1, xs2), each = 2)
     x_line <- rep(mean(c(xs1, xs2)) - 0.002, 2)
 
