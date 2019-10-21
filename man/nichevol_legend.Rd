@@ -7,8 +7,8 @@
 nichevol_legend(position, ancestor_line = FALSE,
   ancestor_legend = c("Uncertain", "Present"),
   evol_legend = c("No change", "Retraction", "Expansion"),
-  ancestor_col = c("#d9d9d9", "#252525"), evol_col = c("#ffff33",
-  "#377eb8", "#4daf4a"), pch = 22, pt.cex = 2.2, lty = 1, lwd = 1,
+  ancestor_col = c("#d9d9d9", "#252525"), evol_col = c("#b2df8a",
+  "#984ea3", "#4daf4a"), pch = 22, pt.cex = 2.2, lty = 1, lwd = 1,
   cex = 1, bty = "n", ...)
 }
 \arguments{
@@ -31,7 +31,7 @@ expanded. Default = c("No change", "Retraction", "Expansion").}
 \code{ancestor_legend}. Default = c("#d9d9d9", "#252525").}
 
 \item{evol_col}{vector of three colors to represent what is indicated in
-\code{evol_legend}. Default = c("#ffff33", "#377eb8", "#4daf4a").}
+\code{evol_legend}. Default = c("#b2df8a", "#984ea3", "#4daf4a").}
 
 \item{pch}{point type as in \code{\link[graphics]{points}}. Default = 22.}
 

@@ -18,7 +18,7 @@
 #' @param unknown_col color for area of the bar representing environments where
 #' the species presence is unknown (uncertain). Default = "#969696".
 #' @param absent_col color for area of the bar representing environments where
-#' no change has been detected. Default = "#984ea3".
+#' no change has been detected. Default = "#377eb8".
 #' @param width value defining the width of niche bars; default = 1.
 #' @param height value defining the height of niche bars; default = 1.
 #'
@@ -29,7 +29,7 @@
 niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
                          tip_offset = 0.015, present = "1", unknown = "?",
                          present_col = "#e41a1c", unknown_col = "#969696",
-                         absent_col = "#984ea3", width = 1, height = 1) {
+                         absent_col = "#377eb8", width = 1, height = 1) {
   if (missing(tree)) {stop("Argument tree needs to be defined.")}
   if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
   if ("LogLik" %in% rownames(whole_rec_table)) {
@@ -138,9 +138,9 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 #' @param unknown_col color for line representing environments where the species
 #' presence is unknown (uncertain). Default = "#d9d9d9".
 #' @param no_change_col color for area of the bar representing environments where
-#' no change has been detected. Default = "#ffff33".
+#' no change has been detected. Default = "#b2df8a".
 #' @param retraction_col color for area of the bar representing environments where
-#' niche retraction has been detected. Default = "#377eb8".
+#' niche retraction has been detected. Default = "#984ea3".
 #' @param expansion_col color for area of the bar representing environments where
 #' niche expansion has been detected. Default = "#4daf4a".
 #' @param width value defining the width of bars representing changes in niches;
@@ -155,7 +155,7 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
                             present = "1", absent = "0", unknown = "?",
                             present_col = "#252525", unknown_col = "#d9d9d9",
-                            no_change_col = "#ffff33", retraction_col = "#377eb8",
+                            no_change_col = "#b2df8a", retraction_col = "#984ea3",
                             expansion_col = "#4daf4a", width = 1, height = 1) {
   if (missing(tree)) {stop("Argument tree needs to be defined.")}
   if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
@@ -255,7 +255,7 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 #' species. Default = c("Uncertain", "Present", "Not present").
 #' @param pch point type as in \code{\link[graphics]{points}}. Default = 22.
 #' @param pt.bg colors to represent what is in \code{legend}.
-#' Default = c("#969696", "#e41a1c", "#984ea3").
+#' Default = c("#969696", "#e41a1c", "#377eb8").
 #' @param col border of symbol (points). Default = "transparent".
 #' @param pt.cex size of symbol (points). Default = 2.2.
 #' @param bty legend border type. Default = "n".
@@ -267,7 +267,7 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 #' @export
 
 niche_legend <- function(position, legend = c("Uncertain", "Present", "Not present"),
-                         pch = 22, pt.bg = c("#969696", "#e41a1c", "#984ea3"),
+                         pch = 22, pt.bg = c("#969696", "#e41a1c", "#377eb8"),
                          col = "transparent", pt.cex = 2.2, bty = "n", ...) {
   if (missing(position)) {stop("Argument position needs to be defined")}
   cp <- class(position)[1]
@@ -302,7 +302,7 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #' @param ancestor_col vector of two colors to represent what is indicated in
 #' \code{ancestor_legend}. Default = c("#d9d9d9", "#252525").
 #' @param evol_col vector of three colors to represent what is indicated in
-#' \code{evol_legend}. Default = c("#ffff33", "#377eb8", "#4daf4a").
+#' \code{evol_legend}. Default = c("#b2df8a", "#984ea3", "#4daf4a").
 #' @param pch point type as in \code{\link[graphics]{points}}. Default = 22.
 #' @param pt.cex size of symbol (points). Default = 2.2.
 #' @param lty line type see \code{\link[graphics]{par}}. Default = 1.
@@ -321,7 +321,7 @@ nichevol_legend <- function(position, ancestor_line = FALSE,
                             ancestor_legend = c("Uncertain", "Present"),
                             evol_legend = c("No change", "Retraction", "Expansion"),
                             ancestor_col = c("#d9d9d9", "#252525"),
-                            evol_col = c("#ffff33", "#377eb8", "#4daf4a"),
+                            evol_col = c("#b2df8a", "#984ea3", "#4daf4a"),
                             pch = 22, pt.cex = 2.2, lty = 1, lwd = 1,
                             cex = 1, bty = "n", ...) {
   if (missing(position)) {stop("Argument position needs to be defined")}

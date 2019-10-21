@@ -7,7 +7,7 @@
 niche_labels(tree, whole_rec_table, label_type = "tip_node",
   tip_offset = 0.015, present = "1", unknown = "?",
   present_col = "#e41a1c", unknown_col = "#969696",
-  absent_col = "#984ea3", width = 1, height = 1)
+  absent_col = "#377eb8", width = 1, height = 1)
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
@@ -33,7 +33,7 @@ the species is present. Default = "#e41a1c".}
 the species presence is unknown (uncertain). Default = "#969696".}
 
 \item{absent_col}{color for area of the bar representing environments where
-no change has been detected. Default = "#984ea3".}
+no change has been detected. Default = "#377eb8".}
 
 \item{width}{value defining the width of niche bars; default = 1.}
 

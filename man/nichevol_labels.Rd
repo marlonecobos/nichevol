@@ -7,7 +7,7 @@
 nichevol_labels(tree, whole_rec_table, ancestor_line = FALSE,
   present = "1", absent = "0", unknown = "?",
   present_col = "#252525", unknown_col = "#d9d9d9",
-  no_change_col = "#ffff33", retraction_col = "#377eb8",
+  no_change_col = "#b2df8a", retraction_col = "#984ea3",
   expansion_col = "#4daf4a", width = 1, height = 1)
 }
 \arguments{
@@ -35,10 +35,10 @@ is present. Default = "#252525".}
 presence is unknown (uncertain). Default = "#d9d9d9".}
 
 \item{no_change_col}{color for area of the bar representing environments where
-no change has been detected. Default = "#ffff33".}
+no change has been detected. Default = "#b2df8a".}
 
 \item{retraction_col}{color for area of the bar representing environments where
-niche retraction has been detected. Default = "#377eb8".}
+niche retraction has been detected. Default = "#984ea3".}
 
 \item{expansion_col}{color for area of the bar representing environments where
 niche expansion has been detected. Default = "#4daf4a".}
