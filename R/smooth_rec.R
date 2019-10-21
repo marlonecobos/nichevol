@@ -37,26 +37,25 @@ smooth_rec <- function(whole_rec_table) {
     test <- paste(whole_rec_table[k, ], collapse = "")
     test <- gsub("?", replacement = "u", x = test, fixed = T)
 
-    # First, get rid of unknowns at flanks of a row that are bordered by 0s
-    while (grepl(pattern = "^u+0", x = test)) {test <- gsub(pattern = "u0", replacement = "00", x = test)} # At the start
-    while (grepl(pattern = "0u+$", x = test)) {test <- gsub(pattern = "0u", replacement = "00", x = test)} # At the end
+    # First, get rid of 0s at flanks of a row that are bordered by unknowns
+    while (grepl(pattern = "^0+u", x = test)) {test <- gsub(pattern = "0u", replacement = "uu", x = test)} # At the start
+    while (grepl(pattern = "u0+$", x = test)) {test <- gsub(pattern = "u0", replacement = "uu", x = test)} # At the end
 
-    # Smooth estimates for unimodal reconstructions
+    # 0s between unknowns
+    if (grepl(x = test, pattern = "u0+u")) {
+      while (grepl(x = test, pattern = "u0+u")) {
+        pull <- stringr::str_extract(string = test, pattern = "u0+u")[1];
+        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = "u");
+        test <- stringr::str_replace(test, "u0+u", paste(pull, collapse= ""));
+      }
+    }
+
     # Unknowns between 1s
     if (grepl(x = test, pattern = "1u+1")) {#fills in unknowns sandwiched between 1s
       while (grepl(x = test, pattern = "1u+1")) {
         pull <- stringr::str_extract(string = test, pattern = "1u+1")[1];
         pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "u", replacement = 1);
         test <- stringr::str_replace(test, "1u+1", paste(pull, collapse= ""));
-      }
-    }
-
-    # Unknowns between 0s
-    if (grepl(x = test, pattern = "0u+0")) {#fills in unknowns sandwiched between 1s
-      while (grepl(x = test, pattern = "0u+0")) {
-        pull <- stringr::str_extract(string = test, pattern = "0u+0")[1];
-        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "u", replacement = 1);
-        test <- stringr::str_replace(test, "0u+0", paste(pull, collapse= ""));
       }
     }
 
@@ -71,12 +70,30 @@ smooth_rec <- function(whole_rec_table) {
         test <- stringr::str_replace(test, "1[01]+",midString);
       }
     }
-    # Last check to clear any 0s flanked by 1s
-    if (grepl(x = test, pattern = "10+1")) {#fills in unknowns sandwiched between 1s
-      while (grepl(x = test, pattern = "10+1")) {
-        pull <- stringr::str_extract(string = test, pattern = "10+1")[1];
-        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = 1);
-        test <- stringr::str_replace(test, "10+1", paste(pull, collapse= ""));
+
+    # Last check to clear any 0 or unknowns flanked by 1s
+    if (grepl(x = test, pattern = "1[0u]+1")) {#fills in unknowns sandwiched between 1s
+      while (grepl(x = test, pattern = "1[0u]+1")) {
+        pull <- stringr::str_extract(string = test, pattern = "1[0u]+1")[1];
+        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "[0u]", replacement = 1);
+        test <- stringr::str_replace(test, "1[0u]+1", paste(pull, collapse= ""));
+      }
+    }
+
+    # Check for 0s flanked by a 1 and an unknown
+    if (grepl(x = test, pattern = "u0+1")) {
+      while (grepl(x = test, pattern = "u0+1")) {
+        pull <- stringr::str_extract(string = test, pattern = "u0+1")[1];
+        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = "u");
+        test <- stringr::str_replace(test, "u0+1", paste(pull, collapse= ""));
+      }
+    }
+
+    if (grepl(x = test, pattern = "10+u")) {
+      while (grepl(x = test, pattern = "10+u")) {
+        pull <- stringr::str_extract(string = test, pattern = "10+u")[1];
+        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = "u");
+        test <- stringr::str_replace(test, "10+u", paste(pull, collapse= ""));
       }
     }
 
