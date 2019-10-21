@@ -5,7 +5,7 @@
 \title{Legends for niche labels in phylogenetic trees}
 \usage{
 niche_legend(position, legend = c("Uncertain", "Present", "Not present"),
-  pch = 22, pt.bg = c("lightblue", "red4", "royalblue1"),
+  pch = 22, pt.bg = c("#969696", "#e41a1c", "#984ea3"),
   col = "transparent", pt.cex = 2.2, bty = "n", ...)
 }
 \arguments{
@@ -20,7 +20,7 @@ species. Default = c("Uncertain", "Present", "Not present").}
 \item{pch}{point type as in \code{\link[graphics]{points}}. Default = 22.}
 
 \item{pt.bg}{colors to represent what is in \code{legend}.
-Default = c("lightblue", "red4", "royalblue1").}
+Default = c("#969696", "#e41a1c", "#984ea3").}
 
 \item{col}{border of symbol (points). Default = "transparent".}
 
