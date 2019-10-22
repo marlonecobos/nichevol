@@ -6,8 +6,8 @@
 \usage{
 niche_labels(tree, whole_rec_table, label_type = "tip_node",
   tip_offset = 0.015, present = "1", unknown = "?",
-  present_col = "red4", unknown_col = "lightblue",
-  absent_col = "royalblue1")
+  present_col = "#e41a1c", unknown_col = "#969696",
+  absent_col = "#377eb8", width = 1, height = 1)
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
@@ -27,13 +27,17 @@ species is present. Default = "1".}
 species presence is unknown (uncertain). Default = "?".}
 
 \item{present_col}{color for area of the bar representing environments where
-the species is present. Default = "red4".}
+the species is present. Default = "#e41a1c".}
 
 \item{unknown_col}{color for area of the bar representing environments where
-the species presence is unknown (uncertain). Default = "lightblue".}
+the species presence is unknown (uncertain). Default = "#969696".}
 
 \item{absent_col}{color for area of the bar representing environments where
-no change has been detected. Default = "royalblue1".}
+no change has been detected. Default = "#377eb8".}
+
+\item{width}{value defining the width of niche bars; default = 1.}
+
+\item{height}{value defining the height of niche bars; default = 1.}
 }
 \description{
 niche_labels helps in adding bar-type labels that represent how

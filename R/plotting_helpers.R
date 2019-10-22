@@ -14,11 +14,13 @@
 #' @param unknown (character) code indicating environmental bins in which the
 #' species presence is unknown (uncertain). Default = "?".
 #' @param present_col color for area of the bar representing environments where
-#' the species is present. Default = "red4".
+#' the species is present. Default = "#e41a1c".
 #' @param unknown_col color for area of the bar representing environments where
-#' the species presence is unknown (uncertain). Default = "lightblue".
+#' the species presence is unknown (uncertain). Default = "#969696".
 #' @param absent_col color for area of the bar representing environments where
-#' no change has been detected. Default = "royalblue1".
+#' no change has been detected. Default = "#377eb8".
+#' @param width value defining the width of niche bars; default = 1.
+#' @param height value defining the height of niche bars; default = 1.
 #'
 #' @importFrom graphics plot polygon
 #'
@@ -26,8 +28,8 @@
 
 niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
                          tip_offset = 0.015, present = "1", unknown = "?",
-                         present_col = "red4", unknown_col = "lightblue",
-                         absent_col = "royalblue1") {
+                         present_col = "#e41a1c", unknown_col = "#969696",
+                         absent_col = "#377eb8", width = 1, height = 1) {
   if (missing(tree)) {stop("Argument tree needs to be defined.")}
   if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
   if ("LogLik" %in% rownames(whole_rec_table)) {
@@ -56,7 +58,7 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 
   # organizing data
   tpol <- ncol(whole_rec_table)
-  wt <- ((max(yy) / tp_info$Ntip) / 10) * 4
+  wt <- ((max(yy) / tp_info$Ntip) / 10) * (height * 6)
   wpol <- wt / tpol
 
   h_vertices <- seq(0, wt, wpol)
@@ -67,7 +69,8 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
       barss <- sapply(tpos, function(j) {
         ys <- yy[j] - (wt / 2)
         hver <- ys + h_vertices
-        xs <- xx[j] + tip_offset; xs1 <- xs - 0.005; xs2 <- xs + 0.005
+        wdt <- 0.01 * width
+        xs <- xx[j] + tip_offset; xs1 <- xs - (wdt / 2); xs2 <- xs + (wdt / 2)
         wver <- rep(c(xs1, xs2), each = 2)
 
         polys <- sapply(1:(length(h_vertices) - 1), function(x) {
@@ -89,7 +92,8 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
       barss <- sapply(npos, function(j) {
         ys <- yy[j] - (wt / 2)
         hver <- ys + h_vertices
-        xs <- xx[j]; xs1 <- xs - 0.005; xs2 <- xs + 0.005
+        wdt <- 0.01 * width
+        xs <- xx[j]; xs1 <- xs - (wdt / 2); xs2 <- xs + (wdt / 2)
         wver <- rep(c(xs1, xs2), each = 2)
 
         polys <- sapply(1:(length(h_vertices) - 1), function(x) {
@@ -130,15 +134,19 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 #' @param unknown (character) code indicating environmental bins in which the
 #' species presence is unknown (uncertain). Default = "?".
 #' @param present_col color for line representing environments where the species
-#' is present. Default = "grey10".
+#' is present. Default = "#252525".
 #' @param unknown_col color for line representing environments where the species
-#' presence is unknown (uncertain). Default = "white".
+#' presence is unknown (uncertain). Default = "#d9d9d9".
 #' @param no_change_col color for area of the bar representing environments where
-#' no change has been detected. Default = "grey90".
+#' no change has been detected. Default = "#b2df8a".
 #' @param retraction_col color for area of the bar representing environments where
-#' niche retraction has been detected. Default = "dodgerblue3".
+#' niche retraction has been detected. Default = "#984ea3".
 #' @param expansion_col color for area of the bar representing environments where
-#' niche expansion has been detected. Default = "green1".
+#' niche expansion has been detected. Default = "#4daf4a".
+#' @param width value defining the width of bars representing changes in niches;
+#' default = 1.
+#' @param height value defining the height of bars representing changes in niches;
+#' default = 1.
 #'
 #' @importFrom graphics plot polygon lines
 #'
@@ -146,9 +154,9 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 
 nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
                             present = "1", absent = "0", unknown = "?",
-                            present_col = "grey10", unknown_col = "orange",
-                            no_change_col = "grey90", retraction_col = "dodgerblue3",
-                            expansion_col = "green1") {
+                            present_col = "#252525", unknown_col = "#d9d9d9",
+                            no_change_col = "#b2df8a", retraction_col = "#984ea3",
+                            expansion_col = "#4daf4a", width = 1, height = 1) {
   if (missing(tree)) {stop("Argument tree needs to be defined.")}
   if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
   if ("LogLik" %in% rownames(whole_rec_table)) {
@@ -176,7 +184,7 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 
   ## organizing data
   tpol <- ncol(whole_rec_table)
-  wt <- ((max(yy) / tp_info$Ntip) / 10) * 4
+  wt <- ((max(yy) / tp_info$Ntip) / 10) * (height * 6)
   wpol <- wt / tpol
 
   h_vertices <- seq(0, wt, wpol)
@@ -204,7 +212,8 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
     ys <- yy[edges[x, 2]] - (wt / 2)
     hver <- ys + h_vertices
 
-    xs <- xb[x]; xs1 <- xs - 0.005; xs2 <- xs + 0.005
+    wdt <- 0.01 * width
+    xs <- xb[x]; xs1 <- xs - (wdt / 2); xs2 <- xs + (wdt / 2)
     wver <- rep(c(xs1, xs2), each = 2)
     x_line <- rep(mean(c(xs1, xs2)) - 0.002, 2)
 
@@ -246,7 +255,7 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 #' species. Default = c("Uncertain", "Present", "Not present").
 #' @param pch point type as in \code{\link[graphics]{points}}. Default = 22.
 #' @param pt.bg colors to represent what is in \code{legend}.
-#' Default = c("lightblue", "red4", "royalblue1").
+#' Default = c("#969696", "#e41a1c", "#377eb8").
 #' @param col border of symbol (points). Default = "transparent".
 #' @param pt.cex size of symbol (points). Default = 2.2.
 #' @param bty legend border type. Default = "n".
@@ -258,7 +267,7 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 #' @export
 
 niche_legend <- function(position, legend = c("Uncertain", "Present", "Not present"),
-                         pch = 22, pt.bg = c("lightblue", "red4", "royalblue1"),
+                         pch = 22, pt.bg = c("#969696", "#e41a1c", "#377eb8"),
                          col = "transparent", pt.cex = 2.2, bty = "n", ...) {
   if (missing(position)) {stop("Argument position needs to be defined")}
   cp <- class(position)[1]
@@ -291,9 +300,9 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #' to identify environments where niches have not changed, have retracted or
 #' expanded. Default = c("No change", "Retraction", "Expansion").
 #' @param ancestor_col vector of two colors to represent what is indicated in
-#' \code{ancestor_legend}. Default = c("orange", "grey10").
+#' \code{ancestor_legend}. Default = c("#d9d9d9", "#252525").
 #' @param evol_col vector of three colors to represent what is indicated in
-#' \code{evol_legend}. Default = c("grey90", "dodgerblue3", "green1").
+#' \code{evol_legend}. Default = c("#b2df8a", "#984ea3", "#4daf4a").
 #' @param pch point type as in \code{\link[graphics]{points}}. Default = 22.
 #' @param pt.cex size of symbol (points). Default = 2.2.
 #' @param lty line type see \code{\link[graphics]{par}}. Default = 1.
@@ -311,8 +320,8 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 nichevol_legend <- function(position, ancestor_line = FALSE,
                             ancestor_legend = c("Uncertain", "Present"),
                             evol_legend = c("No change", "Retraction", "Expansion"),
-                            ancestor_col = c("orange", "grey10"),
-                            evol_col = c("grey90", "dodgerblue3", "green1"),
+                            ancestor_col = c("#d9d9d9", "#252525"),
+                            evol_col = c("#b2df8a", "#984ea3", "#4daf4a"),
                             pch = 22, pt.cex = 2.2, lty = 1, lwd = 1,
                             cex = 1, bty = "n", ...) {
   if (missing(position)) {stop("Argument position needs to be defined")}

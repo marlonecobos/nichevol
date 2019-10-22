@@ -6,9 +6,9 @@
 \usage{
 nichevol_labels(tree, whole_rec_table, ancestor_line = FALSE,
   present = "1", absent = "0", unknown = "?",
-  present_col = "grey10", unknown_col = "orange",
-  no_change_col = "grey90", retraction_col = "dodgerblue3",
-  expansion_col = "green1")
+  present_col = "#252525", unknown_col = "#d9d9d9",
+  no_change_col = "#b2df8a", retraction_col = "#984ea3",
+  expansion_col = "#4daf4a", width = 1, height = 1)
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
@@ -29,19 +29,25 @@ species is absent. Default = "0".}
 species presence is unknown (uncertain). Default = "?".}
 
 \item{present_col}{color for line representing environments where the species
-is present. Default = "grey10".}
+is present. Default = "#252525".}
 
 \item{unknown_col}{color for line representing environments where the species
-presence is unknown (uncertain). Default = "white".}
+presence is unknown (uncertain). Default = "#d9d9d9".}
 
 \item{no_change_col}{color for area of the bar representing environments where
-no change has been detected. Default = "grey90".}
+no change has been detected. Default = "#b2df8a".}
 
 \item{retraction_col}{color for area of the bar representing environments where
-niche retraction has been detected. Default = "dodgerblue3".}
+niche retraction has been detected. Default = "#984ea3".}
 
 \item{expansion_col}{color for area of the bar representing environments where
-niche expansion has been detected. Default = "green1".}
+niche expansion has been detected. Default = "#4daf4a".}
+
+\item{width}{value defining the width of bars representing changes in niches;
+default = 1.}
+
+\item{height}{value defining the height of bars representing changes in niches;
+default = 1.}
 }
 \description{
 nichevol_labels helps in adding bar-type labels that represent how
