@@ -39,8 +39,9 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
   # reorganizing character table
   tlab <- tree$tip.label
   nrt <- nrow(whole_rec_table)
-  rns <- c(tlab, rownames(whole_rec_table)[length(tlab):nrt])
-  whole_rec_table <- rbind(whole_rec_table[tlab, ], whole_rec_table[length(tlab):nrt, ])
+  rns <- c(tlab, rownames(whole_rec_table)[(length(tlab) + 1):nrt])
+  whole_rec_table <- rbind(whole_rec_table[tlab, ],
+                           whole_rec_table[(length(tlab) + 1):nrt, ])
   rownames(whole_rec_table) <- rns
 
   # getting info from plot
@@ -166,8 +167,9 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
   # reorganizing character table
   tlab <- tree$tip.label
   nrt <- nrow(whole_rec_table)
-  rns <- c(tlab, rownames(whole_rec_table)[length(tlab):nrt])
-  whole_rec_table <- rbind(whole_rec_table[tlab, ], whole_rec_table[length(tlab):nrt, ])
+  rns <- c(tlab, rownames(whole_rec_table)[(length(tlab) + 1):nrt])
+  whole_rec_table <- rbind(whole_rec_table[tlab, ],
+                           whole_rec_table[(length(tlab) + 1):nrt, ])
   rownames(whole_rec_table) <- rns
 
   # getting info from plot
