@@ -1,10 +1,17 @@
-#' @title Maximum likelihood reconstruction of characters
+#' Maximum likelihood reconstruction of characters
 #'
 #' @param tree_data a list of two elements (phy and data) resulting from using the
 #' function \code{\link[geiger]{treedata}}.
 #'
 #' @return A table with columns representing bins, rows representing first tip
 #' states and then reconstructed nodes.
+#'
+#' @details
+#' Reconstructions are done using the function \code{\link[ape]{ace}} from the
+#' \code{\link[ape]} package. The argument method is set as "ML" and the type
+#' of variable is "discrete".
+#'
+#' @importFrom ape ace
 #'
 #' @examples
 #' # a simple tree

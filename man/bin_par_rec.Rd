@@ -2,7 +2,7 @@
 % Please edit documentation in R/bin_par_rec.R
 \name{bin_par_rec}
 \alias{bin_par_rec}
-\title{Parsimony reconstruction of characters}
+\title{Maximum parsimony reconstruction of characters}
 \usage{
 bin_par_rec(tree_data)
 }
@@ -15,23 +15,29 @@ A table with columns representing bins, rows representing first tip
 states and then reconstructed nodes.
 }
 \description{
-Parsimony reconstruction of characters
+Maximum parsimony reconstruction of characters
+}
+\details{
+Reconstructions are done using the \code{\link[castor]{asr_max_parsimony}}
+function from the \code{\link[castor]} package.
 }
 \examples{
-
-#Simulate data
+# a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-                         nsim = 1, type = "continuous", set.seed(5));
+                         nsim = 1, type = "continuous", set.seed(5))
+
+# a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
 dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
                    "242" = rep("1", length(tree$tip.label)),
                    "243" = c("1", "1", "0", "0", "0"),
                    "244" = c("1", "1", "0", "0", "0"),
-                   "245" = c("1", "?", "0", "0", "0"));
-rownames(dataTable) <- tree$tip.label;
+                   "245" = c("1", "?", "0", "0", "0"))
+rownames(dataTable) <- tree$tip.label
 
-treeWdata <- geiger::treedata(tree, dataTable);
+# list with two objects (tree and character table)
+treeWdata <- geiger::treedata(tree, dataTable)
 
-#Do the acutal reconstruction
-bin_par_rec(treeWdata);
+# Maximum parsimony reconstruction
+bin_par_rec(treeWdata)
 
 }
