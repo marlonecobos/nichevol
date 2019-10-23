@@ -8,7 +8,7 @@
 #'
 #' @details
 #' Reconstructions are done using the function \code{\link[ape]{ace}} from the
-#' \code{\link[ape]} package. The argument method is set as "ML" and the type
+#' \code{ape} package. The argument method is set as "ML" and the type
 #' of variable is "discrete".
 #'
 #' @importFrom ape ace

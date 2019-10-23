@@ -8,7 +8,7 @@
 #'
 #' @details
 #' Reconstructions are done using the \code{\link[castor]{asr_max_parsimony}}
-#' function from the \code{\link[castor]} package.
+#' function from the \code{castor} package.
 #'
 #' @examples
 #' # a simple tree
