@@ -1,4 +1,4 @@
-#' Parsimony reconstruction of characters
+#' Maximum parsimony reconstruction of characters
 #' @param tree_data a list of two elements (phy and data) resulting from using the
 #' function \code{\link[geiger]{treedata}}.
 #'
@@ -6,21 +6,23 @@
 #' states and then reconstructed nodes.
 #'
 #' @examples
-#'
-#' #Simulate data
+#' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-#'                          nsim = 1, type = "continuous", set.seed(5));
+#'                          nsim = 1, type = "continuous", set.seed(5))
+#'
+#' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
 #' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
 #'                    "242" = rep("1", length(tree$tip.label)),
 #'                    "243" = c("1", "1", "0", "0", "0"),
 #'                    "244" = c("1", "1", "0", "0", "0"),
-#'                    "245" = c("1", "?", "0", "0", "0"));
-#' rownames(dataTable) <- tree$tip.label;
+#'                    "245" = c("1", "?", "0", "0", "0"))
+#' rownames(dataTable) <- tree$tip.label
 #'
-#' treeWdata <- geiger::treedata(tree, dataTable);
+#' # list with two objects (tree and character table)
+#' treeWdata <- geiger::treedata(tree, dataTable)
 #'
-#' #Do the acutal reconstruction
-#' bin_par_rec(treeWdata);
+#' # Maximum parsimony reconstruction
+#' bin_par_rec(treeWdata)
 #'
 #' @export
 

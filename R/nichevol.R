@@ -2,9 +2,9 @@
 #'
 #' nichevol implements multiple tools to help in performing critical steps of the
 #' process of assessment of evolution of species ecological niches. The main
-#' analyses include: intial exploration of environmental data in species records
-#' and accessible areas, preparation of data for phylogenetic analyses,
-#' phylogenetical analyses, and plotting for interpretations.
+#' functionalities include: intial exploration of environmental data in species
+#' records and accessible areas, preparation of data for phylogenetic analyses,
+#' phylogenetic analyses of ecological niches, and plotting for interpretations.
 #'
 #' @section Main functions in nichevol:
 #' \code{\link{bin_ml_rec}}, \code{\link{bin_par_rec}},
