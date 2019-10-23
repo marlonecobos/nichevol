@@ -491,7 +491,7 @@ score_tip <- function(character_table, species_name, include_unknown = FALSE) {
       score <- ((max(binsWunknown) - min(binsWunknown))/2 + min(binsWunknown))
     } else{
       bnVals <- as.numeric(unique(unlist(strsplit(binsWunknown, " to "))));
-      score <- (max(bnVals) - min(bnVals))/2 + min(bnVals)
+      score <- (max(bnVals) - min(bnVals))/2
     }
   }
   else{
