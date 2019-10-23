@@ -4,30 +4,66 @@
 \alias{bin_tables}
 \title{Bin tables of environemntal conditions in M and occurrences}
 \usage{
-bin_tables(ranges, percentage_out = 5, bin_size = 10,
-  output_directory = "Species_E_bins")
+bin_tables(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
+  overwrite = FALSE, output_directory = "Species_E_bins")
 }
 \arguments{
 \item{ranges}{list of ranges of environmental values in M and in species
 occurrences derived from using the function \code{\link{histograms_env}}.}
 
 \item{percentage_out}{(numeric) percentage of extreme environmental data in M
-to be excluded in bin creation for further analyses. Default = 5.}
+to be excluded in bin creation for further analyses. See details. Default = 5.}
 
-\item{bin_size}{(numeric) size of bins. Interval of values to be considered
-when creating bin tables. Default = 10.}
+\item{bin_size}{(numeric) size of bins. Interval of environmental values to
+be considered when creating bin tables. Default = 10.}
+
+\item{save}{(logical) whether or not to save the results in working directory.}
 
 \item{output_directory}{(character) name of the folder in which results will be
 written. Default = "Species_E_bins".}
 }
 \value{
+A list named as in \code{ranges} containg the table(s) of characters.
 A folder named as in \code{output_directory} containing all resultant csv
-files for all variables, with bins for all species. Results will also be
-returned as a list.
+files with the tables of characters will be created in \code{save} is set as
+TRUE.
 }
 \description{
-bin_tables0 helps in creating csv files with bin tables
-of environmental conditions in M and species occurrence records. All of this
-starting from results of previous analyses, for various species, and using
-multiple variables.
+bin_tables helps in creating bin tables of environmental
+conditions in accessible areas (M) and species occurrence records
+(i.e., table of characters). This is done using results from previous
+analyses, and can be applied to various species and multiple variables.
+}
+\details{
+The percentage to be defined in \code{percentage_out} must correspond with
+one of the confidence limits defined in \code{\link{histograms_env}}
+(argument \code{CL_lines}). For instance, if \code{CL_lines} = 95, then
+\code{percentage_out} can only be either 5 (keeping data inside the 95 CL) or
+0 (to avoid exclussion of extreme values in M).
+
+Excluding a certain percentage of extreme environmental values prevents from
+considering extremely rare environmental values in the accessible area for
+the species (M). Being too rare, these values may have never been explored by
+the species; therefore, including them in the process of preparation of the
+table of characters (bin table) is risky.
+}
+\examples{
+# simple list of ranges
+ranges <- list(temp = data.frame(Species = c("sp1", "sp2", "sp3"),
+                                 Species_lower = c(120, 56, 59.75),
+                                 Species_upper = c(265, 333, 333),
+                                 M_lower = c(93, 39, 56),
+                                 M_upper = c(302, 333, 333),
+                                 M_95_lowerCL = c(158, 91, 143),
+                                 M_95_upperCL = c(292, 290, 326)),
+               prec = data.frame(Species = c("sp1", "sp2", "sp3"),
+                                 Species_lower = c(597, 3, 3),
+                                 Species_upper = c(3492, 2673, 6171),
+                                 M_lower = c(228, 3, 3),
+                                 M_upper = c(6369, 7290, 6606),
+                                 M_95_lowerCL = c(228, 3, 3),
+                                 M_95_upperCL = c(3114, 2376, 2568)))
+
+# bin preparation
+bins <- bin_tables(ranges, percentage_out = 5, bin_size = 10)
 }
