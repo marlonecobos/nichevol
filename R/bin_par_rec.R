@@ -24,13 +24,15 @@
 #' # Maximum parsimony reconstruction
 #' bin_par_rec(treeWdata)
 #'
+#' @importFrom ape reorder.phylo
+#'
 #' @export
 
 bin_par_rec <- function(tree_data) {
   if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
 
   # Data fro analyses
-  tphy <- tree_data$phy
+  tphy <- ape::reorder.phylo(tree_data$phy, order = "cladewise")
   ntips <- length(tphy$tip.label)
   nnode <- tphy$Nnode
   tdata <- tree_data$data
