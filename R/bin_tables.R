@@ -111,12 +111,7 @@ bin_tables <- function(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
 
     # bin tables
     bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
-    #bin_heads <- colnames(bin_table)
-    #bin_table <- data.frame(as.character(ranges[[i]][, 1]), bin_table)
-    #colnames(bin_table) <- c("Species", bin_heads)
     rownames(bin_table) <- as.character(ranges[[i]][, 1])
-
-    #bin_tabs <- bin_table
 
     # write table
     if (save == TRUE) {
