@@ -38,6 +38,13 @@
 #' will be created if \code{save} is set as TRUE.
 #'
 #' @importFrom grDevices chull
+#' @importFrom sf as_Spatial st_multipoint st_sf st_sfc st_zm
+#' @importFrom sp Polygon Polygons rbind.SpatialPolygonsDataFrame
+#' @importFrom sp SpatialPointsDataFrame SpatialPolygons SpatialPolygonsDataFrame
+#' @importFrom concaveman concaveman
+#' @importFrom raster extent
+#' @importFrom rgeos gBuffer gIntersection
+#' @importFrom rgdal writeOGR
 #'
 #' @export
 #'

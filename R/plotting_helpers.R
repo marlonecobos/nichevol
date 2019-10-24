@@ -1,7 +1,7 @@
 #' Labels to represent niches of tips and ancestors
 #'
-#' @description niche_labels helps in adding bar-type labels that represent how
-#' species niches are compared to others.
+#' @description niche_labels helps in adding bar-type labels that represent
+#' species ecological niches in one environmental variable.
 #'
 #' @param tree an object of class "phylo".
 #' @param whole_rec_table matrix of environmental bins for all tips and nodes
@@ -22,9 +22,43 @@
 #' @param width value defining the width of niche bars; default = 1.
 #' @param height value defining the height of niche bars; default = 1.
 #'
+#' @details
+#' For the moment, only plots of type "phylogram" with "rightwards" or "leftwards"
+#' directions, created with the function \code{\link[ape]{plot.phylo}} from the
+#' package \code{ape} are suported.
+#'
+#' Ecological niches are represented in one environmental dimension with vertical
+#' bars that indicate if the species is present, absent, or if its presence is
+#' uncertain in the range of environmental conditions. Lower values of
+#' environmental variables are represted in the lower part of the bar, and the
+#' oposite part of the bar represents higher values.
+#'
 #' @importFrom graphics plot polygon
 #'
 #' @export
+#'
+#' @examples
+#' # a simple tree
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5))
+#'
+#' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
+#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+#'                    "242" = rep("1", length(tree$tip.label)),
+#'                    "243" = c("1", "1", "0", "0", "0"),
+#'                    "244" = c("1", "1", "0", "0", "0"),
+#'                    "245" = c("1", "?", "0", "0", "0"))
+#' rownames(dataTable) <- tree$tip.label
+#'
+#' # list with two objects (tree and character table)
+#' treeWdata <- geiger::treedata(tree, dataTable)
+#'
+#' # Maximum parsimony reconstruction
+#' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
+#'
+#' # plotting and adding labels
+#' ape::plot.phylo(tree, label.offset = 0.04)
+#' niche_labels(tree, rec_tab, height = 0.6)
 
 niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
                          tip_offset = 0.015, present = "1", unknown = "?",
@@ -46,6 +80,14 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 
   # getting info from plot
   tp_info <- get("last_plot.phylo", envir = .PlotPhyloEnv)
+  if (tp_info$type != "phylogram") {
+    stop("niche_labels can be used only for plots of type phylogram.")
+  }
+  if (!tp_info$direction %in% c("rightwards", "leftwards")) {
+    stop("niche_labels can be used only for rightwards or leftwards phylograms.")
+  }
+  if (tp_info$direction == "leftwards") {tip_offset <- -tip_offset}
+
   xx <- tp_info$xx
   yy <- tp_info$yy
   edges <- tp_info$edge
@@ -149,9 +191,59 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 #' @param height value defining the height of bars representing changes in niches;
 #' default = 1.
 #'
+#' @details
+#' For the moment, only plots of type "phylogram" with "rightwards" or "leftwards"
+#' directions, created with the function \code{\link[ape]{plot.phylo}} from the
+#' package \code{ape} are suported.
+#'
+#' Evolution of ecological niches is represented in one environmental dimension
+#' with vertical bars indicating if the niche of the descendant has expanded,
+#' retracted, or has not changed compared to its ancestor's. Lower values of
+#' environmental variables are represted in the lower part of the bar, and the
+#' oposite part of the bar represents higher values.
+#'
+#' Changes in niches (evolution) are defined as follows:
+#' - if (ancestor == present & descendant == absent) {change <- "retraction"}
+#' - if (ancestor == present & descendant == present) {change <- "no_change"}
+#' - if (ancestor == present & descendant == unknown) {change <- "no_change"}
+#' - if (ancestor == absent & descendant == present) {change <- "expansion"}
+#' - if (ancestor == absent & descendant == absent) {change <- "no_change"}
+#' - if (ancestor == absent & descendant == unknown) {change <- "no_change"}
+#' - if (ancestor == unknown & descendant == absent) {change <- "no_change"}
+#' - if (ancestor == unknown & descendant == present) {change <- "no_change"}
+#' - if (ancestor == unknown & descendant == unknown) {change <- "no_change"}
+#'
+#' If \code{ancestor_line} is TRUE, the ancestor line will be plotted on the bar
+#' representing niche evolution. The line will represent where, in the range of
+#' environmental conditions, the ancestor was present, and where its presence is
+#' uncertain (unknown).
+#'
 #' @importFrom graphics plot polygon lines
 #'
 #' @export
+#'
+#' @examples
+#' # a simple tree
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5))
+#'
+#' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
+#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+#'                    "242" = rep("1", length(tree$tip.label)),
+#'                    "243" = c("1", "1", "0", "0", "0"),
+#'                    "244" = c("1", "1", "0", "0", "0"),
+#'                    "245" = c("1", "?", "0", "0", "0"))
+#' rownames(dataTable) <- tree$tip.label
+#'
+#' # list with two objects (tree and character table)
+#' treeWdata <- geiger::treedata(tree, dataTable)
+#'
+#' # Maximum parsimony reconstruction
+#' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
+#'
+#' # plotting and adding labels
+#' ape::plot.phylo(tree, label.offset = 0.04)
+#' nichevol_labels(tree, rec_tab, height = 0.6)
 
 nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
                             present = "1", absent = "0", unknown = "?",
@@ -174,6 +266,13 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 
   # getting info from plot
   tp_info <- get("last_plot.phylo", envir = .PlotPhyloEnv)
+  if (tp_info$type != "phylogram") {
+    stop("nichevol_labels can be used only for plots of type phylogram.")
+  }
+  if (!tp_info$direction %in% c("rightwards", "leftwards")) {
+    stop("nichevol_labels can be used only for rightwards or leftwards phylograms.")
+  }
+
   xx <- tp_info$xx
   yy <- tp_info$yy
   edges <- tp_info$edge
@@ -267,6 +366,30 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 #' @importFrom graphics legend
 #'
 #' @export
+#'
+#' @examples
+#' # a simple tree
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5))
+#'
+#' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
+#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+#'                    "242" = rep("1", length(tree$tip.label)),
+#'                    "243" = c("1", "1", "0", "0", "0"),
+#'                    "244" = c("1", "1", "0", "0", "0"),
+#'                    "245" = c("1", "?", "0", "0", "0"))
+#' rownames(dataTable) <- tree$tip.label
+#'
+#' # list with two objects (tree and character table)
+#' treeWdata <- geiger::treedata(tree, dataTable)
+#'
+#' # Maximum parsimony reconstruction
+#' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
+#'
+#' # plotting and adding labels and legends
+#' ape::plot.phylo(tree, label.offset = 0.04)
+#' niche_labels(tree, rec_tab, height = 0.6)
+#' niche_legend(position = "topleft", cex = 0.7)
 
 niche_legend <- function(position, legend = c("Uncertain", "Present", "Not present"),
                          pch = 22, pt.bg = c("#969696", "#e41a1c", "#377eb8"),
@@ -318,6 +441,30 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #' @importFrom graphics legend
 #'
 #' @export
+#'
+#' @examples
+#' # a simple tree
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5))
+#'
+#' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
+#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+#'                    "242" = rep("1", length(tree$tip.label)),
+#'                    "243" = c("1", "1", "0", "0", "0"),
+#'                    "244" = c("1", "1", "0", "0", "0"),
+#'                    "245" = c("1", "?", "0", "0", "0"))
+#' rownames(dataTable) <- tree$tip.label
+#'
+#' # list with two objects (tree and character table)
+#' treeWdata <- geiger::treedata(tree, dataTable)
+#'
+#' # Maximum parsimony reconstruction
+#' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
+#'
+#' # plotting and adding labels and legends
+#' ape::plot.phylo(tree, label.offset = 0.04)
+#' nichevol_labels(tree, rec_tab, height = 0.6)
+#' nichevol_legend(position = "bottomleft", cex = 0.7)
 
 nichevol_legend <- function(position, ancestor_line = FALSE,
                             ancestor_legend = c("Uncertain", "Present"),

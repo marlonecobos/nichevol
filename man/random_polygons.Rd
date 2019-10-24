@@ -6,7 +6,7 @@
 \usage{
 random_polygons(polygon, style = "TR", n_polygons = 100,
   n_vertices = 25, minimum_distance = 10, length_threshold = 5,
-  buffer_distance = 0, overwrite = FALSE,
+  buffer_distance = 0, save = FALSE, overwrite = FALSE,
   output_directory = "Random_polygons")
 }
 \arguments{
@@ -30,15 +30,20 @@ concavity in polygons. Default = 5.}
 \item{buffer_distance}{(numeric) approximate distance in km to buffer
 restultant polygons. Default = 0.}
 
-\item{overwrite}{(logical) whether or not to overwrite previous results.}
+\item{save}{(logical) whether or not to save the results in working directory.
+Default = FALSE.}
+
+\item{overwrite}{(logical) whether or not to overwrite exitent results in
+\code{output_directory}. Default = FALSE.}
 
 \item{output_directory}{(character) name of the folder in which results will
 be written. Default = "Random_polygons".}
 }
 \value{
-A folder named as in \code{output_directory} containing all resultant
-shapefiles of random polygons. Results will also be returned as a list of
-spatial objects.
+A list of all random polygons created names will be "r_polygon" plus numbers
+from 1 to the number defined in \code{n_polygons}. A folder named as in
+\code{output_directory} containing all resultant shapefiles of the polygons
+will be created if \code{save} is set as TRUE.
 }
 \description{
 random_polygons creates polygons of random size and complexity in
@@ -51,4 +56,16 @@ km.
 
 Style for random polygons "BR" may help to get smaller and more uniformely
 distributed across the area.
+}
+\examples{
+# crreating a simple polygon
+rdata <- cbind(x = rnorm(100, -80, 12), y = rnorm(100, -3, 15))
+WGS84 <- sp::CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+sp_data <- sp::SpatialPoints(rdata, proj4string = WGS84)
+pol <- suppressWarnings(rgeos::gBuffer(sp_data, width = 10))
+pol <- sp::SpatialPolygonsDataFrame(pol, data = data.frame(ID = 1),
+                                    match.ID = FALSE)
+
+# creating 50 random polygons in the whole area using the "BR" style
+r_pols <- random_polygons(polygon, style = "BR", n_polygons = 50)
 }

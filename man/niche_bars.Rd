@@ -2,7 +2,7 @@
 % Please edit documentation in R/niche_bars.R
 \name{niche_bars}
 \alias{niche_bars}
-\title{Bars for niche shifts among distinct taxa}
+\title{Bar plots to represent niches of distinct taxa}
 \usage{
 niche_bars(bin_table, present = "1", unknown = "?",
   present_col = "red4", unknown_col = "grey85",
@@ -46,6 +46,6 @@ A folder named as in \code{output_directory} containing all bar figures
 produced.
 }
 \description{
-niche_bars helps in producing bar figures that represent how
-species niches have changed compared to others.
+niche_bars helps in producing bar plots that represent species
+ecological niches in one environmental variable.
 }

@@ -1,7 +1,7 @@
-#' Bars for niche shifts among distinct taxa
+#' Bar plots to represent niches of distinct taxa
 #'
-#' @description niche_bars helps in producing bar figures that represent how
-#' species niches have changed compared to others.
+#' @description niche_bars helps in producing bar plots that represent species
+#' ecological niches in one environmental variable.
 #'
 #' @param bin_table matrix of environmental bins for all species derived from
 #' using the functions \code{\link{bin_tables}} or \code{\link{bin_tables0}}.

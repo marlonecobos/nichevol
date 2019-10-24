@@ -8,11 +8,14 @@ rformat_type(format)
 }
 \arguments{
 \item{format}{(character) any of the format types allowed for raster objects.
-See \code{\link[raster]{writeFormats}}}
+See \code{\link[raster]{writeFormats}} (e.g., "GTiff").}
 }
 \value{
 Raster extension according to format type.
 }
 \description{
 Helper function to find raster extention
+}
+\examples{
+rformat <- rformat_type("GTiff")
 }

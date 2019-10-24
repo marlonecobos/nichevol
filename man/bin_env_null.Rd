@@ -13,8 +13,9 @@ Ms to be analyzed.}
 \item{M_range}{matrix of ranges of  environmental values in M for all species.
 Columns must be minimum and maximum, and rows correspond to species.}
 
-\item{bin_size}{(numeric) size of bins. Interval of values to be considered
-when creating bin tables. Default = 10.}
+\item{bin_size}{(numeric) size of bins. Range of environmental values to
+be considered when creating each character in bin tables. See details.
+Default = 10.}
 }
 \value{
 A character matrix containing bins that identify accessibility of environments
@@ -24,4 +25,12 @@ in such conditions given accessibility; "?").
 }
 \description{
 Helper function to prepare bin tables of null species
+}
+\details{
+The argument \code{bin_size} helps to create characters that represent not
+only one value of an environmental variable, but a range of environmental
+conditions. For instance, if a variable of precipitation in mm is used, a
+value of 10 for \code{bin_size} indicates that each character will represent
+a class that correspond to 10 continuous values of precipitation (e.g., from
+100 to 110 mm).
 }

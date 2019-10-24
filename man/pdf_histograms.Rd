@@ -36,3 +36,21 @@ A PDF file written in the output directory containing all resultant figures.
 \description{
 Helper function to create PDF files with histograms
 }
+\examples{
+# example data
+e_data <- list(rnorm(1000, 15, 7), rnorm(800, 20, 6), rnorm(1000, 12, 3))
+o_data <- list(sample(seq(5, 29, 0.1), 45), sample(seq(10, 33, 0.1), 40),
+               sample(seq(1, 16, 0.1), 50))
+y_val <- list(rep(3, length(o_data)), rep(4, length(o_data)),
+              rep(2, length(o_data)))
+s_names <- c("sp1", "sp2", "sp3")
+lims <- rbind(c(3.5, 26.47), c(10.83, 29.66), c(6.92, 16.91))
+
+# the runing (before running, create output_directory in current directory)
+\dontrun{
+bins <- pdf_histograms(env_data = e_data, occ_data = o_data, y_values = y_val,
+                       sp_names = s_names, variable_name = "Temperature",
+                       CL_lines = 95, limits = lims, col = "geen",
+                       output_directory = "Histogram_ranges_check")
+}
+}

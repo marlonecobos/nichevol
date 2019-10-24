@@ -7,28 +7,30 @@
 sig_sq(tree_data, model = "BM")
 }
 \arguments{
-\item{tree_data}{a list of two elements (phy and data) resulted from using the
-function \code{\link[geiger]{treedata}}. NOTE: data must be a single vector (i.e. a single column).}
+\item{tree_data}{a list of two elements (phy and data) resulted from using
+the function \code{\link[geiger]{treedata}}. NOTE: data must be a single
+vector (i.e., a single column).}
 
 \item{model}{model to fit to comparative data; see
 \code{\link[geiger]{fitContinuous}}. Default = "BM".}
 }
 \value{
-the sigma squared value (evolutionary rate) for the data, given the tree
+the sigma squared value (evolutionary rate) for the data, given the
+tree.
 }
 \description{
 Helper function to get sigma squared values for a given dataset
 }
 \examples{
-
-# Simulate data
+# a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-                         nsim = 1, type = "continuous", set.seed(5));
-data <- rnorm(n = length(tree$tip.label));
-names(data) <- tree$tip.label;
-treeWdata <- geiger::treedata(tree, data);
+                         nsim = 1, type = "continuous", set.seed(5))
+# simple data
+data <- rnorm(n = length(tree$tip.label))
+names(data) <- tree$tip.label
+# tree with data
+treeWdata <- geiger::treedata(tree, data)
 
 # Estimating sigma squared for the dataset
-sig_sq(treeWdata);
-
+sig_sq(treeWdata)
 }

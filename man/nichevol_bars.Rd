@@ -2,7 +2,7 @@
 % Please edit documentation in R/niche_diffbars.R
 \name{nichevol_bars}
 \alias{nichevol_bars}
-\title{Bars for niche shifts among distinct taxa}
+\title{Bars for representing niche evolution}
 \usage{
 nichevol_bars(reconstructed_bins, species_rows, present = "1",
   absent = "0", unknown = "0 1", present_col = "grey10",
@@ -60,6 +60,7 @@ A folder named as in \code{output_directory} containing all bar figures
 produced.
 }
 \description{
-nichevol_bars helps in producing bar figures that represent how
-species niches have changed compared to others.
+nichevol_bars helps in producing bar plots that represent how
+species niches (considering one environmental variable) have changed from
+ancestors to decendants.
 }

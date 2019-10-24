@@ -1,7 +1,8 @@
-#' Bars for niche shifts among distinct taxa
+#' Bars for representing niche evolution
 #'
-#' @description nichevol_bars helps in producing bar figures that represent how
-#' species niches have changed compared to others.
+#' @description nichevol_bars helps in producing bar plots that represent how
+#' species niches (considering one environmental variable) have changed from
+#' ancestors to decendants.
 #'
 #' @param reconstructed_bins matrix of reconstructed bins for nodes and species
 #' derived from a process of maximum parsimony reconstruction.
