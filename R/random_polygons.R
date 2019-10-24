@@ -58,7 +58,7 @@
 #'                                     match.ID = FALSE)
 #'
 #' # creating 50 random polygons in the whole area using the "BR" style
-#' r_pols <- random_polygons(polygon, style = "BR", n_polygons = 50)
+#' r_pols <- random_polygons(pol, style = "BR", n_polygons = 50)
 
 random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices = 25,
                             minimum_distance = 10, length_threshold = 5,
@@ -132,6 +132,7 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
 
     pfin <- sp::SpatialPolygonsDataFrame(hulls, data = data.frame(RD = x),
                                          match.ID = FALSE)
+    pfin@proj4string <- crsxy
 
     cat("\t", x, "of", n_polygons, "polygons\n")
     return(pfin)
