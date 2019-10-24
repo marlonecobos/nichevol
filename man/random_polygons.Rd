@@ -67,5 +67,5 @@ pol <- sp::SpatialPolygonsDataFrame(pol, data = data.frame(ID = 1),
                                     match.ID = FALSE)
 
 # creating 50 random polygons in the whole area using the "BR" style
-r_pols <- random_polygons(polygon, style = "BR", n_polygons = 50)
+r_pols <- random_polygons(pol, style = "BR", n_polygons = 50)
 }
