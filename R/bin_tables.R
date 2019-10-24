@@ -1,4 +1,4 @@
-#' Bin tables of environemntal conditions in M and occurrences
+#' Bin tables of environemntal conditions in M and occurrences from objects
 #'
 #' @description bin_tables helps in creating bin tables of environmental
 #' conditions in accessible areas (M) and species occurrence records
@@ -9,9 +9,13 @@
 #' occurrences derived from using the function \code{\link{histograms_env}}.
 #' @param percentage_out (numeric) percentage of extreme environmental data in M
 #' to be excluded in bin creation for further analyses. See details. Default = 5.
-#' @param bin_size (numeric) size of bins. Interval of environmental values to
-#' be considered when creating bin tables. Default = 10.
+#' @param bin_size (numeric) size of bins. Range of environmental values to
+#' be considered when creating each character in bin tables. See details.
+#' Default = 10.
 #' @param save (logical) whether or not to save the results in working directory.
+#' Default = FALSE.
+#' @param overwrite (logical) whether or not to overwrite exitent results in
+#' \code{output_directory}. Default = FALSE.
 #' @param output_directory (character) name of the folder in which results will be
 #' written. Default = "Species_E_bins".
 #'
@@ -28,11 +32,31 @@
 #' the species; therefore, including them in the process of preparation of the
 #' table of characters (bin table) is risky.
 #'
+#' The argument \code{bin_size} helps to create characters that represent not
+#' only one value of an environmental variable, but a range of environmental
+#' conditions. For instance, if a variable of precipitation in mm is used, a
+#' value of 10 for \code{bin_size} indicates that each character will represent
+#' a class that correspond to 10 continuous values of precipitation (e.g., from
+#' 100 to 110 mm).
+#'
 #' @return
 #' A list named as in \code{ranges} containg the table(s) of characters.
 #' A folder named as in \code{output_directory} containing all resultant csv
-#' files with the tables of characters will be created in \code{save} is set as
+#' files with the tables of characters will be created if \code{save} is set as
 #' TRUE.
+#'
+#' Potential values for characters are:
+#'
+#' "1" = the species is present in those environmental conditions.
+#'
+#' "0" = the species is not present in those environmental conditions. This is,
+#' those environmental conditions inside the accessible area (M) are more extreme
+#' than the ones used for the species.
+#'
+#' "?" = there is no certainty about the species presence in those environmental
+#' conditions. This happens in environmental combinations more extreme than the
+#' ones found in the accessible area (M), when environmental conditions in
+#' species records are as extreme as the most extreme ones in M.
 #'
 #' @importFrom utils write.csv
 #'
@@ -58,8 +82,6 @@
 #' # bin preparation
 #' bins <- bin_tables(ranges, percentage_out = 5, bin_size = 10)
 
-
-
 bin_tables <- function(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
                        overwrite = FALSE, output_directory = "Species_E_bins") {
   # checking for potential errors
@@ -76,7 +98,7 @@ bin_tables <- function(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
   cat("\nPreparing bin tables using ranges:\n")
 
   # directory for results
-  dir.create(output_directory)
+  if (save == TRUE) {dir.create(output_directory)}
 
   bin_tabs <- lapply(1:length(ranges), function(i) {
     # preparing ranges
