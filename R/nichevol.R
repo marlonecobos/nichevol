@@ -1,4 +1,4 @@
-#' nichevol: An R package for assessment of the evolution of ecological niches
+#' nichevol: An R package for assessment of evolution of ecological niches
 #' considering uncertainty in niche reconstructions
 #'
 #' nichevol implements multiple tools to help in performing critical steps of

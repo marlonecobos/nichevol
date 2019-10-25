@@ -4,7 +4,7 @@
 \name{nichevol}
 \alias{nichevol}
 \alias{nichevol-package}
-\title{nichevol: An R package for assessment of the evolution of ecological niches
+\title{nichevol: An R package for assessment of evolution of ecological niches
 considering uncertainty in niche reconstructions}
 \description{
 nichevol implements multiple tools to help in performing critical steps of
