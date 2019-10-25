@@ -1,54 +1,106 @@
-#' Bar plots to represent niches of distinct taxa
+#' PNG bar figures to represent ecological niches of distinct taxa
 #'
 #' @description niche_bars helps in producing bar plots that represent species
-#' ecological niches in one environmental variable.
+#' ecological niches in one environmental variable. Bars are exported as png
+#' figures to an output directory for posterior use.
 #'
-#' @param bin_table matrix of environmental bins for all species derived from
-#' using the functions \code{\link{bin_tables}} or \code{\link{bin_tables0}}.
+#' @param tree an object of class "phylo".
+#' @param whole_rec_table matrix of environmental bins for all tips and nodes
+#' derived from functions \code{\link{bin_par_rec}} or \code{\link{bin_ml_rec}}.
 #' @param present (character) code indicating environmental bins in which the
 #' species is present. Default = "1".
 #' @param unknown (character) code indicating environmental bins in which the
 #' species presence is unknown (uncertain). Default = "?".
-#' @param present_col color for line representing environments where the species
-#' is present. Default = "red4".
-#' @param unknown_col color for line representing environments where the species
-#' presence is unknown (uncertain). Default = "grey85".
+#' @param present_col color for area of the bar representing environments where
+#' the species is present. Default = "#e41a1c".
+#' @param unknown_col color for area of the bar representing environments where
+#' the species presence is unknown (uncertain). Default = "#969696".
 #' @param absent_col color for area of the bar representing environments where
-#' no change has been detected. Default = "royalblue1".
+#' no change has been detected. Default = "#377eb8".
 #' @param width (numeric) width of the device in mm to be passed to the
 #' \code{\link[grDevices]{png}} function. Default = 50.
 #' @param height (numeric) height of the device in mm to be passed to the
 #' \code{\link[grDevices]{png}} function. Default = 5.
 #' @param res (numeric) nominal resolution in ppi to be passed to the
 #' \code{\link[grDevices]{png}} function. Default = 300.
+#' @param overwrite (logical) whether or not to overwrite exitent results in
+#' \code{output_directory}. Default = FALSE.
 #' @param output_directory (character) name of the folder in which results will
 #' be written. The directory will be created as part of the process.
-#' Default = "Niche_bars"
+#' Default = "Niche_bars".
+#'
+#' @details
+#' Ecological niches are represented in one environmental dimension with vertical
+#' bars that indicate if the species is present, absent, or if its presence is
+#' uncertain in the range of environmental conditions. Lower values of
+#' environmental variables are represted in the left part of the bar, and the
+#' oposite part of the bar represents higher values.
+#'
+#' @return
+#' A folder named as in \code{output_directory} containing all bar figures
+#' produced, as well as a legend to describe what is plotted.
 #'
 #' @importFrom graphics par plot polygon legend
 #' @importFrom grDevices dev.off png
 #'
 #' @export
 #'
-#' @return
-#' A folder named as in \code{output_directory} containing all bar figures
-#' produced.
+#' @examples
+#' # a simple tree
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5))
+#'
+#' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
+#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+#'                    "242" = rep("1", length(tree$tip.label)),
+#'                    "243" = c("1", "1", "0", "0", "0"),
+#'                    "244" = c("1", "1", "0", "0", "0"),
+#'                    "245" = c("1", "?", "0", "0", "0"))
+#' rownames(dataTable) <- tree$tip.label
+#'
+#' # list with two objects (tree and character table)
+#' treeWdata <- geiger::treedata(tree, dataTable)
+#'
+#' # Maximum parsimony reconstruction
+#' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
+#'
+#' # the running (before running, define a working directory)
+#' \dontrun{
+#' niche_bars(tree, rec_tab)
+#' }
 
-niche_bars <- function(bin_table, present = "1", unknown = "?",
-                       present_col = "red4", unknown_col = "grey85",
-                       absent_col = "royalblue1", width = 50, height = 5,
-                       res = 300, output_directory = "Niche_bars") {
+niche_bars <- function(tree, whole_rec_table, present = "1", unknown = "?",
+                       present_col = "#e41a1c", unknown_col = "#969696",
+                       absent_col = "#377eb8", width = 50, height = 5, res = 300,
+                       overwrite = FALSE, output_directory = "Niche_bars") {
 
   # testing for potential errors
-  if (missing(bin_table)) {
-    stop("Argument bin_table is needed to perform the analyses.")
+  if (missing(tree)) {stop("Argument tree is needed to perform the analyses.")}
+  if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
+  if ("LogLik" %in% rownames(whole_rec_table)) {
+    whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
+  }
+  if (overwrite == FALSE & dir.exists(output_directory)) {
+    stop("output_directory already exists, to replace it use overwrite = TRUE.")
+  }
+  if (overwrite == TRUE & dir.exists(output_directory)) {
+    unlink(x = output_directory, recursive = TRUE, force = TRUE)
   }
 
-  # organizing data
-  spnames <- as.character(bin_table[, 1])
-  bin_table <- bin_table[, -1]
+  # reorganizing character table
+  tlab <- tree$tip.label
+  nrt <- nrow(whole_rec_table)
+  rns <- c(tlab, rownames(whole_rec_table)[(length(tlab) + 1):nrt])
+  whole_rec_table <- rbind(whole_rec_table[tlab, ],
+                           whole_rec_table[(length(tlab) + 1):nrt, ])
+  rownames(whole_rec_table) <- rns
 
-  tpol <- ncol(bin_table)
+  # organizing data
+  nnames <- rownames(whole_rec_table); nnames <- nnames[!nnames %in% tlab]
+  spnames <- c(tlab, nnames)
+  bnames <- c(tlab, paste0("Node", nnames))
+
+  tpol <- ncol(whole_rec_table)
   wpol <- 1 / tpol
 
   h_vertices <- seq(0, 1, wpol)
@@ -56,8 +108,8 @@ niche_bars <- function(bin_table, present = "1", unknown = "?",
 
   dir.create(output_directory)
 
-  barss <- sapply(1:nrow(bin_table), function(j) {
-    bar_name <- paste0(output_directory, "/", gsub(" ", "_", spnames[j]),
+  barss <- sapply(1:nrow(whole_rec_table), function(j) {
+    bar_name <- paste0(output_directory, "/", bnames[j],
                        "_bar.png")
 
     png(filename = bar_name, width = width, height = height, units = "mm",
@@ -66,10 +118,10 @@ niche_bars <- function(bin_table, present = "1", unknown = "?",
     plot(x = c(0, 1), y = c(0, 0.05), col = "transparent", axes = FALSE)
 
     polys <- sapply(1:(length(h_vertices) - 1), function(x) {
-      if (as.character(bin_table[j, x]) == unknown) {
+      if (as.character(whole_rec_table[j, x]) == unknown) {
         pcolor <- unknown_col
       } else {
-        pcolor <- ifelse(as.character(bin_table[j, x]) == present,
+        pcolor <- ifelse(as.character(whole_rec_table[j, x]) == present,
                          present_col, absent_col)
       }
 
@@ -86,8 +138,8 @@ niche_bars <- function(bin_table, present = "1", unknown = "?",
   par(mar = rep(0, 4), cex = 1.2)
   plot(x = c(0, 0.5), y = c(0, 0.5), col = "transparent", axes = FALSE)
   legend("center", legend = c("Uncertain", "Present", "Not present"),
-         box.col = "grey94", pch = 22, pt.cex = 2.2, lty = 1, col = "transparent",
-         pt.bg = c(unknown_col, present_col, absent_col), bg = "grey94")
+         bty = "n", pch = 22, pt.cex = 2.2, col = "transparent",
+         pt.bg = c(unknown_col, present_col, absent_col))
   invisible(dev.off())
 }
 

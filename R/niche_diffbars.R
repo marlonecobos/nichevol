@@ -1,74 +1,135 @@
-#' Bars for representing niche evolution
+#' PNG bar figures for representing niche evolution
 #'
 #' @description nichevol_bars helps in producing bar plots that represent how
 #' species niches (considering one environmental variable) have changed from
-#' ancestors to decendants.
+#' ancestors to decendants. Bars are exported as png figures to an output directory
+#' for posterior use.
 #'
-#' @param reconstructed_bins matrix of reconstructed bins for nodes and species
+#' @param tree an object of class "phylo".
+#' @param whole_rec_table matrix of reconstructed bins for nodes and species
 #' derived from a process of maximum parsimony reconstruction.
-#' @param species_rows (numeric) vector indicating the rows of the matrix in
-#' which species bins are.
+#' @param ancestor_line controls whether ancestor line is plotted.
+#' Default = FALSE.
 #' @param present (character) code indicating environmental bins in which the
 #' species is present. Default = "1".
 #' @param absent (character) code indicating environmental bins in which the
 #' species is absent. Default = "0".
 #' @param unknown (character) code indicating environmental bins in which the
-#' species presence is unknown (uncertain). Default = "0 1".
+#' species presence is unknown (uncertain). Default = "?".
 #' @param present_col color for line representing environments where the species
-#' is present. Default = "grey10".
+#' is present. Default = "#252525".
 #' @param unknown_col color for line representing environments where the species
-#' presence is unknown (uncertain). Default = "white".
+#' presence is unknown (uncertain). Default = "#d9d9d9".
 #' @param no_change_col color for area of the bar representing environments where
-#' no change has been detected. Default = "grey90".
+#' no change has been detected. Default = "#b2df8a".
 #' @param retraction_col color for area of the bar representing environments where
-#' niche retraction has been detected. Default = "dodgerblue3".
+#' niche retraction has been detected. Default = "#984ea3".
 #' @param expansion_col color for area of the bar representing environments where
-#' niche expansion has been detected. Default = "green1".
+#' niche expansion has been detected. Default = "#4daf4a".
 #' @param width (numeric) width of the device in mm to be passed to the
 #' \code{\link[grDevices]{png}} function. Default = 50.
 #' @param height (numeric) height of the device in mm to be passed to the
 #' \code{\link[grDevices]{png}} function. Default = 5.
 #' @param res (numeric) nominal resolution in ppi to be passed to the
 #' \code{\link[grDevices]{png}} function. Default = 300.
+#' @param overwrite (logical) whether or not to overwrite exitent results in
+#' \code{output_directory}. Default = FALSE.
 #' @param output_directory (character) name of the folder in which results will
 #' be written. The directory will be created as part of the process.
-#' Default = "Difference_bars"
+#' Default = "Nichevol_bars".
 #'
-#' @importFrom utils combn
-#' @importFrom graphics legend lines
+#' @details
+#' Evolution of ecological niches is represented in one environmental dimension
+#' with horizontal bars indicating if the niche of the descendant has expanded,
+#' retracted, or has not changed compared to its ancestor's. Lower values of
+#' environmental variables are represted in the left part of the bar, and the
+#' oposite part of the bar represents higher values.
 #'
-#' @export
+#' Changes in niches (evolution) are defined as follows:
+#' - if (ancestor == present & descendant == absent) {change <- "retraction"}
+#' - if (ancestor == present & descendant == present) {change <- "no_change"}
+#' - if (ancestor == present & descendant == unknown) {change <- "no_change"}
+#' - if (ancestor == absent & descendant == present) {change <- "expansion"}
+#' - if (ancestor == absent & descendant == absent) {change <- "no_change"}
+#' - if (ancestor == absent & descendant == unknown) {change <- "no_change"}
+#' - if (ancestor == unknown & descendant == absent) {change <- "no_change"}
+#' - if (ancestor == unknown & descendant == present) {change <- "no_change"}
+#' - if (ancestor == unknown & descendant == unknown) {change <- "no_change"}
+#'
+#' If \code{ancestor_line} is TRUE, the ancestor line will be plotted on the bar
+#' representing niche evolution. The line will represent where, in the range of
+#' environmental conditions, the ancestor was present, and where its presence is
+#' uncertain (unknown).
 #'
 #' @return
 #' A folder named as in \code{output_directory} containing all bar figures
-#' produced.
+#' produced, as well as a legend to describe what is plotted.
+#'
+#' @importFrom utils combn
+#' @importFrom graphics par plot polygon legend lines
+#' @importFrom grDevices dev.off png
+#'
+#' @export
+#'
+#' @examples
+#' # a simple tree
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5))
+#'
+#' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
+#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+#'                    "242" = rep("1", length(tree$tip.label)),
+#'                    "243" = c("1", "1", "0", "0", "0"),
+#'                    "244" = c("1", "1", "0", "0", "0"),
+#'                    "245" = c("1", "?", "0", "0", "0"))
+#' rownames(dataTable) <- tree$tip.label
+#'
+#' # list with two objects (tree and character table)
+#' treeWdata <- geiger::treedata(tree, dataTable)
+#'
+#' # Maximum parsimony reconstruction
+#' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
+#'
+#' # the running (before running, define a working directory)
+#' \dontrun{
+#' nichevol_bars(tree, rec_tab)
+#' }
 
-nichevol_bars <- function(reconstructed_bins, species_rows, present = "1",
-                          absent = "0", unknown = "0 1", present_col = "grey10",
-                          unknown_col = "white", no_change_col = "grey90",
-                          retraction_col = "dodgerblue3", expansion_col = "green1",
-                          width = 50, height = 5, res = 300,
-                          output_directory = "Difference_bars") {
+nichevol_bars <- function(tree, whole_rec_table, ancestor_line = FALSE,
+                          present = "1", absent = "0", unknown = "?",
+                          present_col = "#252525", unknown_col = "#d9d9d9",
+                          no_change_col = "#b2df8a", retraction_col = "#984ea3",
+                          expansion_col = "#4daf4a", width = 50, height = 5,
+                          res = 300, overwrite = FALSE,
+                          output_directory = "Nichevol_bars") {
 
   # testing for potential errors
-  if (missing(reconstructed_bins)) {
-    stop("Argument reconstructed_bins is needed to perform the analyses.")
+  if (missing(tree)) {stop("Argument tree is needed to perform the analyses.")}
+  if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
+  if ("LogLik" %in% rownames(whole_rec_table)) {
+    whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
+  }
+  if (overwrite == FALSE & dir.exists(output_directory)) {
+    stop("output_directory already exists, to replace it use overwrite = TRUE.")
+  }
+  if (overwrite == TRUE & dir.exists(output_directory)) {
+    unlink(x = output_directory, recursive = TRUE, force = TRUE)
   }
 
-  # organizing data
-  nod <- as.character(reconstructed_bins[!1:nrow(reconstructed_bins)
-                                         %in% species_rows, 1])
-  nodes <- gsub("\\D", "", nod)
+  # reorganizing character table
+  tlab <- tree$tip.label
+  nrt <- nrow(whole_rec_table)
+  rns <- c(tlab, rownames(whole_rec_table)[(length(tlab) + 1):nrt])
+  whole_rec_table <- rbind(whole_rec_table[tlab, ],
+                           whole_rec_table[(length(tlab) + 1):nrt, ])
+  rownames(whole_rec_table) <- rns
 
-  sps <- as.character(reconstructed_bins[1:nrow(reconstructed_bins)
-                                         %in% species_rows, 1])
-  spp <- gsub(" ", "_", sps)
+  edges <- tree$edge
 
-  rec_bins <- reconstructed_bins[, -1]
-  rec_bins <- data.frame(lapply(rec_bins, as.character), stringsAsFactors = FALSE)
-  row.names(rec_bins) <- c(nod, sps)
+  # preparing plotting parameters
+  spp <- rownames(whole_rec_table)
 
-  tpol <- ncol(rec_bins)
+  tpol <- ncol(whole_rec_table)
   wpol <- 1 / tpol
 
   h_vertices <- seq(0, 1, wpol)
@@ -76,23 +137,17 @@ nichevol_bars <- function(reconstructed_bins, species_rows, present = "1",
   y_line <- rep(mean(c(0, 0.05)), 2)
 
   # combinations for comparisons
-  all_comb <- t(combn(x = nod, m = 2))
-  nod_sps <- cbind(rep(nod, each = length(sps)), rep(sps, length(nod)))
-  all_comb <- rbind(all_comb, all_comb[, 2:1], nod_sps)
-
-  all_nam <- t(combn(x = nodes, m = 2))
-  nodes_spp <- cbind(rep(nodes, each = length(sps)), rep(spp, length(nod)))
-  all_nam <- rbind(all_nam, all_nam[, 2:1], nodes_spp)
-  all_nam <- paste("From_node", all_nam[, 1], "to", all_nam[, 2], sep = "_")
+  all_comb <- cbind(spp[edges[, 1]], spp[edges[, 2]])
+  all_nam <- paste("From_node", all_comb[, 1], "to", all_comb[, 2], sep = "_")
 
   # plotting data
   dir.create(output_directory) # folder
 
   # comparisons and plots
   comp_list <- lapply(1:nrow(all_comb), function(x){
-    comp <- sapply(1:ncol(rec_bins), function(z) {
-      from <- rec_bins[all_comb[x, 1], z]
-      to <- rec_bins[all_comb[x, 2], z]
+    comp <- sapply(1:ncol(whole_rec_table), function(z) {
+      from <- whole_rec_table[all_comb[x, 1], z]
+      to <- whole_rec_table[all_comb[x, 2], z]
       if (from == present & to == absent) {comp <- "loss"}
       if (from == present & to == present) {comp <- "nc"}
       if (from == present & to == unknown) {comp <- "nc"}
@@ -106,7 +161,7 @@ nichevol_bars <- function(reconstructed_bins, species_rows, present = "1",
     })
 
     # infor for lines
-    linesp <- rec_bins[all_comb[x, 1], ]
+    linesp <- whole_rec_table[all_comb[x, 1], ]
 
     # bar creation
     bar_name <- paste0(output_directory, "/", all_nam[x], "_bar.png")
@@ -128,14 +183,16 @@ nichevol_bars <- function(reconstructed_bins, species_rows, present = "1",
       polygon(x = xs, y = v_vertices, col = pcolor, border = NA)
 
       # lines
-      if (linesp[y] == unknown) {
-        pcolor <- unknown_col
-      } else {
-        pcolor <- ifelse(linesp[y] == present, present_col, "transparent")
-      }
+      if (ancestor_line == TRUE) {
+        if (linesp[y] == unknown) {
+          pcolor <- unknown_col
+        } else {
+          pcolor <- ifelse(linesp[y] == present, present_col, "transparent")
+        }
 
-      xs <- c(h_vertices[y], h_vertices[y + 1])
-      lines(x = xs, y = y_line, col = pcolor, lty = 1, lwd = 1.7)
+        xs <- c(h_vertices[y], h_vertices[y + 1])
+        lines(x = xs, y = y_line, col = pcolor, lty = 1, lwd = 1.7)
+      }
     })
     dev.off()
 
@@ -146,18 +203,25 @@ nichevol_bars <- function(reconstructed_bins, species_rows, present = "1",
       units = "mm", bg = "transparent", res = res)
   par(mar = rep(0, 4), cex = 1.2)
   plot(x = c(0, 0.5), y = c(0, 0.5), col = "transparent", axes = FALSE)
-  legend("center",
-         legend = c("Uncertain", "Present", "No change", "Retraction", "Expansion"),
-         box.col = "grey94",
-         lty = c(1, NA, NA, NA, NA),
-         lwd = 2, col = c("transparent", NA, NA, NA, NA), bg = "grey94")
 
-  legend("center", legend = c("                ", "", "", "", ""), bty = "n",
-         pch = 22, pt.bg = c(NA, NA, no_change_col, retraction_col, expansion_col),
-         pt.cex = 2.2, lty = 1, col = "transparent")
+  if (ancestor_line == TRUE) {
+    legend("center",
+           legend = c("Uncertain", "Present", "No change", "Retraction", "Expansion"),
+           lty = c(1, NA, NA, NA, NA), lwd = 2,
+           col = c("transparent", NA, NA, NA, NA), bty = "n")
 
-  legend("center", legend = c("                  ", "", "", "", ""), bty = "n",
-         lty = c(1, 1, NA, NA, NA), lwd = 2,
-         col = c(unknown_col, present_col, NA, NA, NA))
+    legend("center", legend = c("                ", "", "", "", ""), bty = "n",
+           pch = 22, pt.bg = c(NA, NA, no_change_col, retraction_col, expansion_col),
+           pt.cex = 2.2, lty = 1, col = "transparent")
+
+    legend("center", legend = c("                  ", "", "", "", ""),
+           bty = "n", lty = c(1, 1, NA, NA, NA), lwd = 2,
+           col = c(unknown_col, present_col, NA, NA, NA))
+  } else {
+    legend("center", legend = c("No change", "Retraction", "Expansion"),
+           pch = 22, pt.bg = c(no_change_col, retraction_col, expansion_col),
+           col = "transparent", pt.cex = 2.2, bty = "n")
+  }
+
   invisible(dev.off())
 }

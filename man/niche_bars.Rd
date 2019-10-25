@@ -2,16 +2,18 @@
 % Please edit documentation in R/niche_bars.R
 \name{niche_bars}
 \alias{niche_bars}
-\title{Bar plots to represent niches of distinct taxa}
+\title{PNG bar figures to represent ecological niches of distinct taxa}
 \usage{
-niche_bars(bin_table, present = "1", unknown = "?",
-  present_col = "red4", unknown_col = "grey85",
-  absent_col = "royalblue1", width = 50, height = 5, res = 300,
-  output_directory = "Niche_bars")
+niche_bars(tree, whole_rec_table, present = "1", unknown = "?",
+  present_col = "#e41a1c", unknown_col = "#969696",
+  absent_col = "#377eb8", width = 50, height = 5, res = 300,
+  overwrite = FALSE, output_directory = "Niche_bars")
 }
 \arguments{
-\item{bin_table}{matrix of environmental bins for all species derived from
-using the functions \code{\link{bin_tables}} or \code{\link{bin_tables0}}.}
+\item{tree}{an object of class "phylo".}
+
+\item{whole_rec_table}{matrix of environmental bins for all tips and nodes
+derived from functions \code{\link{bin_par_rec}} or \code{\link{bin_ml_rec}}.}
 
 \item{present}{(character) code indicating environmental bins in which the
 species is present. Default = "1".}
@@ -19,14 +21,14 @@ species is present. Default = "1".}
 \item{unknown}{(character) code indicating environmental bins in which the
 species presence is unknown (uncertain). Default = "?".}
 
-\item{present_col}{color for line representing environments where the species
-is present. Default = "red4".}
+\item{present_col}{color for area of the bar representing environments where
+the species is present. Default = "#e41a1c".}
 
-\item{unknown_col}{color for line representing environments where the species
-presence is unknown (uncertain). Default = "grey85".}
+\item{unknown_col}{color for area of the bar representing environments where
+the species presence is unknown (uncertain). Default = "#969696".}
 
 \item{absent_col}{color for area of the bar representing environments where
-no change has been detected. Default = "royalblue1".}
+no change has been detected. Default = "#377eb8".}
 
 \item{width}{(numeric) width of the device in mm to be passed to the
 \code{\link[grDevices]{png}} function. Default = 50.}
@@ -37,15 +39,50 @@ no change has been detected. Default = "royalblue1".}
 \item{res}{(numeric) nominal resolution in ppi to be passed to the
 \code{\link[grDevices]{png}} function. Default = 300.}
 
+\item{overwrite}{(logical) whether or not to overwrite exitent results in
+\code{output_directory}. Default = FALSE.}
+
 \item{output_directory}{(character) name of the folder in which results will
 be written. The directory will be created as part of the process.
-Default = "Niche_bars"}
+Default = "Niche_bars".}
 }
 \value{
 A folder named as in \code{output_directory} containing all bar figures
-produced.
+produced, as well as a legend to describe what is plotted.
 }
 \description{
 niche_bars helps in producing bar plots that represent species
-ecological niches in one environmental variable.
+ecological niches in one environmental variable. Bars are exported as png
+figures to an output directory for posterior use.
+}
+\details{
+Ecological niches are represented in one environmental dimension with vertical
+bars that indicate if the species is present, absent, or if its presence is
+uncertain in the range of environmental conditions. Lower values of
+environmental variables are represted in the left part of the bar, and the
+oposite part of the bar represents higher values.
+}
+\examples{
+# a simple tree
+tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+                         nsim = 1, type = "continuous", set.seed(5))
+
+# a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
+dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+                   "242" = rep("1", length(tree$tip.label)),
+                   "243" = c("1", "1", "0", "0", "0"),
+                   "244" = c("1", "1", "0", "0", "0"),
+                   "245" = c("1", "?", "0", "0", "0"))
+rownames(dataTable) <- tree$tip.label
+
+# list with two objects (tree and character table)
+treeWdata <- geiger::treedata(tree, dataTable)
+
+# Maximum parsimony reconstruction
+rec_tab <- smooth_rec(bin_par_rec(treeWdata))
+
+# the running (before running, define a working directory)
+\dontrun{
+niche_bars(tree, rec_tab)
+}
 }
