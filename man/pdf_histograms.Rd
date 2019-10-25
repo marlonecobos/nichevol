@@ -46,7 +46,7 @@ y_val <- list(rep(3, length(o_data)), rep(4, length(o_data)),
 s_names <- c("sp1", "sp2", "sp3")
 lims <- rbind(c(3.5, 26.47), c(10.83, 29.66), c(6.92, 16.91))
 
-# the runing (before running, create output_directory in current directory)
+# the running (before running, create output_directory in current directory)
 \dontrun{
 bins <- pdf_histograms(env_data = e_data, occ_data = o_data, y_values = y_val,
                        sp_names = s_names, variable_name = "Temperature",
