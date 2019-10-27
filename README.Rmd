@@ -1,6 +1,6 @@
 ---
-title: "nichevol: An R package for assessment of evolutionary change of ecological niches"
-author: "Marlon E. Cobos, Hannah Owens, and A. Townsend Peterson"
+title: "nichevol: An R package for assessment of evolution of ecological niches considering uncertainty in niche reconstructions"
+author: "Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson"
 output:
   github_document:
     toc: yes
@@ -8,18 +8,22 @@ output:
 ---
 
 ```{r knitr_init, echo=FALSE, cache=FALSE, message=FALSE}
-packages <- c("knitr", "raster", "rgdal")
-suppressWarnings(s <- sapply(packages, function(x) {library(x, character.only = T)}))
+library(knitr)
 opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
+opts_knit$set(root.dir = "C:/Marlon/test/nichevol")
 ```
 
 <br>
 
+<hr>
+
 ## Package description
 
-The **nichevol** R package helps to perform critical steps of the process of assessment of evolution of species ecological niches. The main analyses include: intial exploration of environmental data in species records and accessible areas, preparation of data for phylogenetic analyses, phylogenetical analyses, and plotting for interpretations.
+The **nichevol** R package helps in performing critical steps of the process of assessment of evolution of species ecological niches with uncertainty incorporated in reconstructions. The main functionalities of the package include: initial exploration of environmental data in species records and accessible areas, preparation of data for phylogenetic analyses, phylogenetic analyses of ecological niches, and plotting for interpretations.
 
 <br>
+
+<hr>
 
 ## Installing the package
 
@@ -27,7 +31,7 @@ The **nichevol** R package helps to perform critical steps of the process of ass
 
 Note: Try the code below first... If you have any problem during the installation, restart your R session, close other sessions you may have open, and try again. If during the installation you are asked to update packages, please do it (select the option that says All). If any of the packages gives an error, please install it alone using install.packages(), then try re-installing **nichevol** again. Also, it may be a good idea to update R and RStudio (if you are using it).
 
-```{r, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+```{r installation, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
 # Installing and loading packages
 if(!require(devtools)){
     install.packages("devtools")
@@ -35,27 +39,350 @@ if(!require(devtools)){
 if(!require(nichevol)){
     devtools::install_github("marlonecobos/nichevol")
 }
-library(nichevol)
 ```
 
 <br>
+
+<hr>
 
 ## Exploring the nichevol package
 
 ### Setting a directory
 
-The main functions of the **nichevol** package produce results that need to be written in a directory in your computer. Writing the results outside the R environment helps to avoid problems related to RAM limitations. That is why, setting a working directory is recommended before starting. You ca do that using the code below:
+Some of the main functions of the **nichevol** package use data that need to be loaded from a local directory and some of them produce results that need to be written in a local directory as well. Loading data and writing the results outside the R environment helps to avoid problems related to RAM limitations. That is why, setting a working directory is recommended before starting. You ca do that using the code below:
 
-```{r, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
-setwd("Drive:/Your/Directory") # change the characters accordingly
+```{r directory, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+directory <- "DRIVE:/YOUR/DIRECTORY" # change the characters accordingly
+setwd(directory) 
+```
+
+<br>
+
+### Loading the package
+
+Once **nichevol** is installed you can load the package with the following line.
+
+```{r load, include=TRUE, message=FALSE, warning=FALSE}
+library(nichevol)
 ```
 
 <br>
 
 ### Functions in nichevol
 
+Four main types of functions are included in **nichevol**: (1) the ones that help in preparing data (exploration plots and tables of characters) for ancestral reconstruction; (2) the ones that perform the ancestral reconstructions (Maximum Parsimony and Maximum Likelihood); (3) some complementary functions that help in performing post-reconstruction steps (reconstruction smoothing, and niche and niche evolution representations); and (4) the ones that help in producing virtual species for exploring hypothesis. Of course, other helper functions are used in the package but they won't be used as commonly.
+
 A complete list of the main functions in the **nichevol** package can be found in the package documentation. Use the following code to see the list.
 
-```{r, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+```{r pack_help, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
 help(nichevol)
 ```
+
+<br>
+
+#### Functions for data preparation
+
+These functions are used to explore numerically and graphically how environments in the areas accessible to the species (M) and in their occurrences look like. They also help to prepare tables of characters that represent species ecological niches considering used and non-used conditions, as well as conditions where the use is uncertain. Most of the functions in this module can be used to consider all species of interest and multiple environmental variables at the time. For that reason they read data from a local directory and have the option to write results in such directories as well. The functions that work with data from the R environment are the ones specifically designed to work with multiple species but only one variable. These last functions do not write results in local directories. We have intentionally designed some of our functions to work interacting with local directories to avoid RAM-related limitations (specially when working with multiple environmental raster layers at high resolution). 
+
+
+#### Functions for ancestral reconstruction
+
+This module contains functions that help in performing ancestral reconstruction of species ecological niches. These functions use as inputs the results of the ones from the previous module (tables of characters) and phylogenetic trees as in objects of class "phylo" (see the package **ape**). There are two types of reconstructions available to date (Maximum Likelihood and Maximum Parsimony), but at least other type will be included. All these functions use imputs and produce outputs in the R environment.
+
+
+#### Functions for post-reconstruction processes
+
+Functions in this module are intended to help with two main processes. First, one of these functions helps in smoothing results from ancestral reconstructions. This is necessary to prevent misinterpretations of results from comparing reconstructed niches of ancestors with niches of descendants (younger ancestors or taxa of interest). Second, other functions help in representing results of previous analyses. For instance, they help in producing bar-like labels that represent the niche of a species, or, they can also be used to represent how niches have evolved across the phylogeny.
+
+
+#### Functions for simulation of virtual species
+
+These module is still under development but it is inteded to help in creating a suit of virtual species niches and their phylogenetic relationships to explore hypothesis of niche evolution.
+
+<br>
+
+<hr>
+
+## Using nichevol with simple examples
+
+### Packages needed for data management
+
+The following packages are needed for specific tasks. They are used internally by **nichevol** but parts of these code will require them. Notice that **nichevol** is already loaded but these other packages need to be loaded separately.
+
+```{r more_packages, include=TRUE, message=FALSE, warning=FALSE}
+library(raster) # for reading environmental layers
+library(rgdal) # for reading shapefiles
+library(ape) # for plotting phylogenetic trees and node labels
+library(geiger) # for merging a phylogenetic tree with a table of niche characters
+```
+
+### Initial data (example data)
+
+The following lines of code will help to get example data prepared for demonstrating the usage of **nichevol**. These data were used in an article in which the methods implemented in **nichevol** were proposed, ilustrated, and explained (see Owens et al. in review). These data are included in the package, so its use if straitforward. 
+
+```{r example_data, include=TRUE, message=FALSE, warning=FALSE}
+# variable at coarse resolution to be used as example only
+temp <- getData("worldclim", var = "bio", res = 10)[[1]]
+
+# examples of species accessible areas
+data("m_list", package = "nichevol")
+
+# examples of species occurrences
+data("occ_list", package = "nichevol")
+
+# a simple phylogenetic tree for demonstrations
+data("tree", package = "nichevol")
+
+# a table of charaters representing species ecological niches derived from bin_table
+data("character_table", package = "nichevol")
+
+# a list that matches the tree with the character table 
+data("tree_data", package = "nichevol")
+```
+
+
+<br>
+
+### Preparing data for analyses
+
+Before starting playing with the functions consider that **nichevol** allows distinct ways to prepare data depending on the user needs. The example data downloaded before can be used with the functions desiged to work with multiple variables and all taxa at the time (*histograms_env*, *stats_evalues*, *bin_tables*, *bin_tables0*). We will see examples with these options first, but examples with the functions that work with data in the R environment and only for one variable at the time are also shown.
+
+#### Exploring data numerically
+
+**Multiple variables**
+
+First check the healp:
+
+```{r healp1, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+help(stats_evalues)
+```
+
+Now the running:
+
+```{r stats, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+stats <- stats_evalues(stats = c("mean", "sd", "median", "range", "quantile"), 
+                       M_folder = "Folder_with_Ms", M_format = "shp", 
+                       occ_folder = "Folder_with_occs", longitude = "lon_column", 
+                       latitude = "lat_column", var_folder = "Folder_with_vars", 
+                       var_format = "GTiff", percentage_out = 0)
+```
+
+**One variable**
+
+First check the healp:
+
+```{r healp2, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+help(stats_eval)
+```
+
+Now the running:
+
+```{r stat, include=TRUE, message=FALSE, warning=FALSE}
+stat <- stats_eval(stats = c("mean", "sd", "median", "range", "quantile"), 
+                   Ms = m_list, occurrences = occ_list, species = "species",
+                   longitude = "x", latitude = "y", variable = temp, 
+                   percentage_out = 0)
+```
+
+<br>
+
+#### Exploring data graphically
+
+**Multiple variables**
+
+First check the healp:
+
+```{r healp3, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+help(histograms_env)
+```
+
+Now the running:
+
+```{r histograms, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+hists <- histograms_env(M_folder = "Folder_with_Ms", M_format = "shp",
+                        occ_folder = "Folder_with_occs", longitude = "lon_column",
+                        latitude = "lat_column", var_folder = "Folder_with_vars",
+                        var_format = "GTiff")
+```
+
+**One variable**
+
+First check the healp:
+
+```{r healp4, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+help(hist_evalues)
+```
+
+Now the running:
+
+```{r histogram, include=TRUE, message=FALSE, warning=FALSE, fig.width=10}
+hist_evalues(M = m_list[[1]], occurrences = occ_list[[1]], species = "species", 
+             longitude = "x", latitude = "y", variable = temp,
+             CL_lines = c(95, 99), col = c("blue", "red"))
+```
+
+<br>
+
+#### Preparing tables of ecological niche characters 
+
+**Multiple variables: When using ranges obtained in histograms**
+
+First check the healp:
+
+```{r healp5, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+help(bin_tables)
+```
+
+Now the running:
+
+```{r bin_tables, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+bins <- bin_tables(ranges, percentage_out = 5, bin_size = 10)
+```
+
+**Multiple variables: When using data from local directory**
+
+First check the healp:
+
+```{r healp6, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+help(bin_tables0)
+```
+
+Now the running:
+
+```{r bin_tables0, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+bins <- bin_tables0(M_folder = "Folder_with_Ms", M_format = "shp",
+                    occ_folder = "Folder_with_occs", longitude = "lon_column",
+                    latitude = "lat_column", var_folder = "Folder_with_vars",
+                    var_format = "GTiff", percentage_out = 5, bin_size = 10)
+```
+
+**One variables: When using data from the R environment**
+
+First check the healp:
+
+```{r healp7, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+help(bin_table)
+```
+
+Now the running:
+
+```{r bin_table, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+bin_tabl <- bin_table(Ms = m_list, occurrences = occ_list, species = "species",
+                      longitude = "x", latitude = "y", variable = temp, 
+                      percentage_out = 5, bin_size = 10)
+
+knitr::kable(bin_tabl, caption = "Table characters for ecological niches of the species of interest.")
+```
+
+<br>
+
+### Ancestral reconstructions and smoothing of results
+
+These functions work with one variable at the time, but users can perform several analyses in loop if needed. The variable to be explored here is temperature.
+
+#### Phylogenetic tree and data
+
+With the following code, the phylogenetic tree will be plotted and its nodes will be added.
+
+```{r tree_data, include=TRUE, message=FALSE, warning=FALSE}
+# exploring tree
+plot.phylo(tree, label.offset = 0.04)
+nodelabels()
+```
+
+<br>
+
+#### Maximum parsimony reconstruction
+
+First check the healp:
+
+```{r healp8, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+help(bin_par_rec)
+help(smooth_rec)
+```
+
+Now the running:
+
+```{r par_rec, include=TRUE, message=FALSE, warning=FALSE}
+# reconstruction
+par_rec_table <- bin_par_rec(tree_data)
+
+# smoothing
+s_par_rec_table <- smooth_rec(par_rec_table)
+
+# results
+knitr::kable(s_par_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum parsimony reconstructions for their ancestors.")
+```
+
+<br>
+
+#### Maximum likelihood reconstruction
+
+First check the healp:
+
+```{r healp9, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+help(bin_ml_rec)
+```
+
+Now the running:
+
+```{r ml_rec, include=TRUE, message=FALSE, warning=FALSE}
+# reconstruction
+ml_rec_table <- bin_ml_rec(tree_data)
+
+# smoothing
+s_ml_rec_table <- smooth_rec(ml_rec_table)
+
+
+# results
+knitr::kable(s_ml_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum likelihood reconstructions for their ancestors.")
+```
+
+<br>
+
+### Representations of results
+
+#### Ecological niches of our species in the phylogeny
+
+```{r tree_niches, include=TRUE, message=FALSE, warning=FALSE}
+plot.phylo(tree, label.offset = 0.04)
+niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.6)
+```
+
+#### Reconstructed ecological niches of ancestors
+
+```{r an_niches, include=TRUE, message=FALSE, warning=FALSE}
+plot.phylo(tree, label.offset = 0.04)
+niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.6)
+```
+
+#### Evolution of ecological niches in the group 
+
+```{r niche_evol, include=TRUE, message=FALSE, warning=FALSE}
+plot.phylo(tree, label.offset = 0.04)
+niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.6)
+nichevol_labels(tree, s_ml_rec_table, height = 0.6)
+```
+
+#### A final, more informative plot 
+
+```{r niche_evolfin, include=TRUE, message=FALSE, warning=FALSE, fig.width=10}
+par(mfrow = c(1, 2))
+plot.phylo(tree, label.offset = 0.04)
+niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.6, width = 1.3)
+niche_legend(position = "topleft", cex = 0.6)
+
+plot.phylo(tree, label.offset = 0.04)
+niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.6, width = 1.3)
+nichevol_labels(tree, s_ml_rec_table, height = 0.6, width = 1.3)
+nichevol_legend(position = "topleft", cex = 0.6)
+```
+
+<br>
+
+<hr>
+
+## References
+
+- Barve, N., V. Barve, A. Jimenez-Valverde, A. Lira-Noriega, S. P. Maher, A. T. Peterson, J. Soberón, and F. Villalobos. 2011. The crucial role of the accessible area in ecological niche modeling and species distribution modeling. Ecol Modell 222:1810-1819.
+- Owens, H. L., L. P. Campbell, L. L. Dornak, E. E. Saupe, N. Barve, J. Soberón, K. Ingenloff, A. Lira-Noriega, C. M. Hensz, C. E. Myers, and A. T. Peterson. 2013. Constraints on interpretation of ecological niche models by limited environmental ranges on calibration areas. Ecological Modelling 263:10-18.
