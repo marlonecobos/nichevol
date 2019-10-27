@@ -6,7 +6,7 @@
 #'
 #' @param M a Spatialpolygons* object representing the accessible area (M)
 #' for one species. See details.
-#' @param occurrences a data.frames of occurrence records for one species. See
+#' @param occurrences a data.frame of occurrence records for one species. See
 #' details.
 #' @param species (character) name of the column in \code{occurrences} that
 #' contains the name of the species.

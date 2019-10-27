@@ -11,7 +11,7 @@ hist_evalues(M, occurrences, species, longitude, latitude, variable,
 \item{M}{a Spatialpolygons* object representing the accessible area (M)
 for one species. See details.}
 
-\item{occurrences}{a data.frames of occurrence records for one species. See
+\item{occurrences}{a data.frame of occurrence records for one species. See
 details.}
 
 \item{species}{(character) name of the column in \code{occurrences} that
