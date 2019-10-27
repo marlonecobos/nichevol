@@ -43,7 +43,7 @@
 #' (bin table) is risky.
 #'
 #' @return
-#' A list containing tables with statistics of th evalues in \code{variable},
+#' A list containing tables with statistics of the values in \code{variable},
 #' for the species M and occurrences.
 #'
 #' @importFrom stats na.omit median
@@ -70,6 +70,7 @@ stats_eval <- function(stats = c("median", "range"), Ms, occurrences, species,
   # checking for potential errors
   if (missing(Ms)) {stop("Argument Ms is missing.")}
   if (missing(occurrences)) {stop("Argument occurrences is missing.")}
+  if (missing(species)) {stop("Argument species is missing.")}
   if (missing(longitude)) {stop("Argument longitude is missing.")}
   if (missing(latitude)) {stop("Argument latitude is missing.")}
   if (missing(variable)) {stop("Argument variable is missing.")}

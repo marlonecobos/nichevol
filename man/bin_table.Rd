@@ -52,10 +52,9 @@ species records are as extreme as the most extreme ones in M.
 }
 }
 \description{
-bin_table helps in creating bin tables of environmental
+bin_table helps in creating a bin table of environmental
 conditions in accessible areas (M) and species occurrence records
-(i.e., table of characters). This is done using data read directly from a
-local directory, and can be applied to various species and multiple variables.
+(i.e., table of characters).
 }
 \details{
 Coordinates in \code{occurrences}, SpatialPolygons* objects in \code{Ms}, and

@@ -1,9 +1,8 @@
 #' Bin table of environemntal conditions in M and occurrences
 #'
-#' @description bin_table helps in creating bin tables of environmental
+#' @description bin_table helps in creating a bin table of environmental
 #' conditions in accessible areas (M) and species occurrence records
-#' (i.e., table of characters). This is done using data read directly from a
-#' local directory, and can be applied to various species and multiple variables.
+#' (i.e., table of characters).
 #'
 #' @param Ms a list of Spatialpolygons* objects representing the accessible area
 #' (M) for all species to be analyzed. The order of species represented by each
@@ -88,6 +87,7 @@ bin_table <- function(Ms, occurrences, species, longitude, latitude, variable,
   # checking for potential errors
   if (missing(Ms)) {stop("Argument Ms is missing.")}
   if (missing(occurrences)) {stop("Argument occurrences is missing.")}
+  if (missing(species)) {stop("Argument species is missing.")}
   if (missing(longitude)) {stop("Argument longitude is missing.")}
   if (missing(latitude)) {stop("Argument latitude is missing.")}
   if (missing(variable)) {stop("Argument variable is missing.")}

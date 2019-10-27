@@ -35,7 +35,7 @@ See details.}
 to be excluded in bin creation for further analyses. See details. Default = 0.}
 }
 \value{
-A list containing tables with statistics of th evalues in \code{variable},
+A list containing tables with statistics of the values in \code{variable},
 for the species M and occurrences.
 }
 \description{
