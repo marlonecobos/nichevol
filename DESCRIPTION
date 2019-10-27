@@ -1,7 +1,7 @@
 Package: nichevol
 Type: Package
 Title: An R package for assessment of evolution of ecological niches considering uncertainty in niche reconstructions
-Version: 0.1.10
+Version: 0.1.11
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
     person("Hannah L.", "Owens", email = "hannah.owens@gmail.com", role = "aut"),
