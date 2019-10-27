@@ -46,14 +46,11 @@
 #' TRUE.
 #'
 #' Potential values for characters are:
-#'
-#' "1" = the species is present in those environmental conditions.
-#'
-#' "0" = the species is not present in those environmental conditions. This is,
+#' - "1" = the species is present in those environmental conditions.
+#' - "0" = the species is not present in those environmental conditions. This is,
 #' those environmental conditions inside the accessible area (M) are more extreme
 #' than the ones used for the species.
-#'
-#' "?" = there is no certainty about the species presence in those environmental
+#' - "?" = there is no certainty about the species presence in those environmental
 #' conditions. This happens in environmental combinations more extreme than the
 #' ones found in the accessible area (M), when environmental conditions in
 #' species records are as extreme as the most extreme ones in M.

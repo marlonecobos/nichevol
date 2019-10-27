@@ -2,7 +2,7 @@
 % Please edit documentation in R/stats_evalues.R
 \name{stats_evalues}
 \alias{stats_evalues}
-\title{Statistics of environemntal conditions in M and occurrences}
+\title{Statistics of environmental conditions in M and occurrences (multiple variables)}
 \usage{
 stats_evalues(stats = c("median", "range"), M_folder, M_format,
   occ_folder, longitude, latitude, var_folder, var_format, round = FALSE,
@@ -74,6 +74,11 @@ records. This is done using data read directly from a local directory, and
 can be applied to various species and multiple variables.
 }
 \details{
+Coordinates in csv files in \code{occ_folder}, SpatialPolygons*-like files in
+\code{M_folder}, and raster layers in \code{var_folder} must coincide in the
+geographic projection in which they are represented. WGS84 with no planar
+projection is recommended.
+
 Accessible area (M) is understood as the geographic area that has been
 accessible for a species for relevant periods of time. Defining M is usually
 a hard task, but also a very important one because it allows identifying

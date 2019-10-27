@@ -68,17 +68,16 @@ all resultant csv files with the tables of characters will be created if
 \code{save} is set as TRUE.
 
 Potential values for characters are:
-
-"1" = the species is present in those environmental conditions.
-
-"0" = the species is not present in those environmental conditions. This is,
+\itemize{
+\item "1" = the species is present in those environmental conditions.
+\item "0" = the species is not present in those environmental conditions. This is,
 those environmental conditions inside the accessible area (M) are more extreme
 than the ones used for the species.
-
-"?" = there is no certainty about the species presence in those environmental
+\item "?" = there is no certainty about the species presence in those environmental
 conditions. This happens in environmental combinations more extreme than the
 ones found in the accessible area (M), when environmental conditions in
 species records are as extreme as the most extreme ones in M.
+}
 }
 \description{
 bin_tables0 helps in creating bin tables of environmental
@@ -87,6 +86,11 @@ conditions in accessible areas (M) and species occurrence records
 local directory, and can be applied to various species and multiple variables.
 }
 \details{
+Coordinates in csv files in \code{occ_folder}, SpatialPolygons*-like files in
+\code{M_folder}, and raster layers in \code{var_folder} must coincide in the
+geographic projection in which they are represented. WGS84 with no planar
+projection is recommended.
+
 Accessible area (M) is understood as the geographic area that has been
 accessible for a species for relevant periods of time. Defining M is usually
 a hard task, but also a very important one because it allows identifying

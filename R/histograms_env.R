@@ -43,6 +43,11 @@
 #' written. Default = "Histogram_ranges".
 #'
 #' @details
+#' Coordinates in csv files in \code{occ_folder}, SpatialPolygons*-like files in
+#' \code{M_folder}, and raster layers in \code{var_folder} must coincide in the
+#' geographic projection in which they are represented. WGS84 with no planar
+#' projection is recommended.
+#'
 #' Accessible area (M) is understood as the geographic area that has been
 #' accessible for a species for relevant periods of time. Defining M is usually
 #' a hard task, but also a very important one because it allows identifying
