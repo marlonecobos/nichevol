@@ -2,6 +2,8 @@
 #'
 #' @param tree_data a list of two elements (phy and data) resulting from using the
 #' function \code{\link[geiger]{treedata}}.
+#' @param ... other arguments from \code{\link[ape]{ace}} other than \code{x},
+#' \code{phy}, \code{type}, and \code{method}.
 #'
 #' @return A table with columns representing bins, rows representing first tip
 #' states and then reconstructed nodes.
@@ -34,7 +36,7 @@
 #'
 #' @export
 
-bin_ml_rec <- function(tree_data){
+bin_ml_rec <- function(tree_data, ...){
   if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
 
   # Data from geiger::treedata
@@ -57,7 +59,7 @@ bin_ml_rec <- function(tree_data){
     } else{
       # Reconstruction
       temp <- ape::ace(x = tdata[, i], phy = tphy, type = "discrete",
-                       method = "ML")
+                       method = "ML", ...)
 
       # Round each node to 0, 1, or ?
       alh <- temp$lik.anc

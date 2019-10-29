@@ -4,11 +4,14 @@
 \alias{bin_par_rec}
 \title{Maximum parsimony reconstruction of characters}
 \usage{
-bin_par_rec(tree_data)
+bin_par_rec(tree_data, ...)
 }
 \arguments{
-\item{tree_data}{a list of two elements (phy and data) resulting from using the
-function \code{\link[geiger]{treedata}}.}
+\item{tree_data}{a list of two elements (phy and data) resulting from using
+the function \code{\link[geiger]{treedata}}.}
+
+\item{...}{other arguments from \code{\link[castor]{asr_max_parsimony}} other
+than \code{tree} and \code{tip_states}.}
 }
 \value{
 A table with columns representing bins, rows representing first tip

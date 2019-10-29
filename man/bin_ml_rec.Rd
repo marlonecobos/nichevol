@@ -4,11 +4,14 @@
 \alias{bin_ml_rec}
 \title{Maximum likelihood reconstruction of characters}
 \usage{
-bin_ml_rec(tree_data)
+bin_ml_rec(tree_data, ...)
 }
 \arguments{
 \item{tree_data}{a list of two elements (phy and data) resulting from using the
 function \code{\link[geiger]{treedata}}.}
+
+\item{...}{other arguments from \code{\link[ape]{ace}} other than \code{x},
+\code{phy}, \code{type}, and \code{method}.}
 }
 \value{
 A table with columns representing bins, rows representing first tip

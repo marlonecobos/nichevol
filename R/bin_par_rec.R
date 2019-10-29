@@ -1,7 +1,9 @@
 #' Maximum parsimony reconstruction of characters
 #'
-#' @param tree_data a list of two elements (phy and data) resulting from using the
-#' function \code{\link[geiger]{treedata}}.
+#' @param tree_data a list of two elements (phy and data) resulting from using
+#' the function \code{\link[geiger]{treedata}}.
+#' @param ... other arguments from \code{\link[castor]{asr_max_parsimony}} other
+#' than \code{tree} and \code{tip_states}.
 #'
 #' @return A table with columns representing bins, rows representing first tip
 #' states and then reconstructed nodes.
@@ -34,7 +36,7 @@
 #'
 #' @export
 
-bin_par_rec <- function(tree_data) {
+bin_par_rec <- function(tree_data, ...) {
   if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
 
   # Data fro analyses
@@ -56,7 +58,7 @@ bin_par_rec <- function(tree_data) {
     } else{
       # Reconstruction
       cdat <- as.integer(as.factor(tdata[, i]))
-      temp <- castor::asr_max_parsimony(tree = tphy, tip_states = cdat)
+      temp <- castor::asr_max_parsimony(tree = tphy, tip_states = cdat, ...)
       colnames(temp$ancestral_likelihoods) <- as.character(unique(tdata[, i]))
 
       # Round each node to 0, 1, or ? based on likelihood
