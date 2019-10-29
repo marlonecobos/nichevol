@@ -182,6 +182,10 @@ stat <- stats_eval(stats = c("mean", "sd", "median", "range", "quantile"),
                    Ms = m_list, occurrences = occ_list, species = "species",
                    longitude = "x", latitude = "y", variable = temp, 
                    percentage_out = 0)
+
+knitr::kable(stat[[1]], caption = "Table of descriptive statistics of temperature (x 10) in accessible areas for the species of interest.")
+
+knitr::kable(stat[[2]], caption = "Table of descriptive statistics of temperature (x 10) in occurrences of the species of interest.")
 ```
 
 <br>

@@ -294,7 +294,38 @@ stat <- stats_eval(stats = c("mean", "sd", "median", "range", "quantile"),
 #>   4 of 6 species finished
 #>   5 of 6 species finished
 #>   6 of 6 species finished
+
+knitr::kable(stat[[1]], caption = "Table of descriptive statistics of temperature (x 10) in accessible areas for the species of interest.")
 ```
+
+| Species |     mean |       sd | median | range1 | range2 | quantile.0. | quantile.25. | quantile.50. | quantile.75. | quantile.100. |
+| :------ | -------: | -------: | -----: | -----: | -----: | ----------: | -----------: | -----------: | -----------: | ------------: |
+| RD 9830 | 218.4736 | 55.10421 |    240 |     14 |    263 |          14 |       223.00 |          240 |          249 |           263 |
+| RD 3351 | 244.6283 | 14.77594 |    249 |    175 |    272 |         175 |       237.00 |          249 |          254 |           272 |
+| RD 6933 | 152.9771 | 76.81137 |    168 |    \-1 |    269 |         \-1 |        80.75 |          168 |          215 |           269 |
+| RD 761  | 222.2735 | 52.64984 |    238 |   \-27 |    263 |        \-27 |       227.00 |          238 |          249 |           263 |
+| RD 6773 | 245.2930 | 10.68543 |    248 |    160 |    269 |         160 |       240.00 |          248 |          252 |           269 |
+| RD 7516 | 211.0188 | 78.19016 |    256 |   \-31 |    288 |        \-31 |       165.75 |          256 |          261 |           288 |
+
+Table of descriptive statistics of temperature (x 10) in accessible
+areas for the species of interest.
+
+``` r
+
+knitr::kable(stat[[2]], caption = "Table of descriptive statistics of temperature (x 10) in occurrences of the species of interest.")
+```
+
+| Species |     mean |       sd | median | range1 | range2 | quantile.0. | quantile.25. | quantile.50. | quantile.75. | quantile.100. |
+| :------ | -------: | -------: | -----: | -----: | -----: | ----------: | -----------: | -----------: | -----------: | ------------: |
+| RD 9830 | 255.5667 | 4.279523 |    255 |    245 |    263 |         245 |          252 |          255 |          259 |           263 |
+| RD 3351 | 254.9320 | 4.120879 |    254 |    244 |    266 |         244 |          252 |          254 |          258 |           266 |
+| RD 6933 | 259.9392 | 5.271185 |    260 |    243 |    269 |         243 |          256 |          260 |          264 |           269 |
+| RD 761  | 255.4200 | 4.279293 |    255 |    246 |    263 |         246 |          251 |          255 |          259 |           263 |
+| RD 6773 | 250.1370 | 5.173714 |    250 |    240 |    268 |         240 |          247 |          250 |          253 |           268 |
+| RD 7516 | 259.0946 | 6.296893 |    260 |    241 |    278 |         241 |          256 |          260 |          263 |           278 |
+
+Table of descriptive statistics of temperature (x 10) in occurrences of
+the species of interest.
 
 <br>
 
