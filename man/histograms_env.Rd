@@ -71,8 +71,8 @@ the analyses will be also written in \code{output_directory} if
 \code{save_ranges} is set as TRUE.
 }
 \description{
-histograms_env helps in creating PDF files with histogram plots
-of environmental conditions in M, lines for the confidence limits of values in
+histograms_env creates PDF files with histogram plots of
+environmental conditions in M, lines for the confidence limits of values in
 M, and the location of values in occurrence records. This is done using data
 read directly from a local directory, and can be applied to various species
 and multiple variables.
