@@ -1,11 +1,13 @@
 #' Helper function to find raster extension
 #' @param format (character) any of the format types allowed for raster objects.
-#' See \code{\link[raster]{writeFormats}}
-#' @export
+#' See \code{\link[raster]{writeFormats}} (e.g., "GTiff").
 #' @return Raster extension according to format type.
+#' @export
+#' @examples
+#' rformat <- rformat_type("GTiff")
 
 rformat_type <- function(format) {
-  if (missing(format)) {stop("Argument format needs to be defined.")}
+  if (missing(format)) {stop("Argument 'format needs to be defined.")}
   if (format == "raster") {format1 <- ".grd"}
   if (format == "GTiff") {format1 <- ".tif"}
   if (format == "EHdr") {format1 <- ".bil"}
@@ -33,14 +35,28 @@ rformat_type <- function(format) {
 #' @param col color for lines representing the confidence limits of M.
 #' @param output_directory (character) name of the folder in which results will be
 #' written. Default = "Histogram_ranges_check".
-#'
-#' @importFrom grDevices pdf
+#' @importFrom grDevices dev.off pdf
 #' @importFrom graphics abline layout hist plot.new points title
-#'
-#' @export
-#'
 #' @return
 #' A PDF file written in the output directory containing all resultant figures.
+#' @export
+#' @examples
+#' # example data
+#' e_data <- list(rnorm(1000, 15, 7), rnorm(800, 20, 6), rnorm(1000, 12, 3))
+#' o_data <- list(sample(seq(5, 29, 0.1), 45), sample(seq(10, 33, 0.1), 40),
+#'                sample(seq(1, 16, 0.1), 50))
+#' y_val <- list(rep(3, length(o_data)), rep(4, length(o_data)),
+#'               rep(2, length(o_data)))
+#' s_names <- c("sp1", "sp2", "sp3")
+#' lims <- rbind(c(3.5, 26.47), c(10.83, 29.66), c(6.92, 16.91))
+#'
+#' # the running (before running, create output_directory in current directory)
+#' \dontrun{
+#' bins <- pdf_histograms(env_data = e_data, occ_data = o_data, y_values = y_val,
+#'                        sp_names = s_names, variable_name = "Temperature",
+#'                        CL_lines = 95, limits = lims, col = "geen",
+#'                        output_directory = "Histogram_ranges_check")
+#' }
 
 pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
                            variable_name, CL_lines, limits, col,
@@ -191,21 +207,36 @@ pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
 #' @param sp_range matrix of ranges of environmental values in occurrences
 #' for all species. Columns must be minimum and maximum, and rows correspond to
 #' species.
-#' @param bin_size (numeric) size of bins. Interval of values to be considered
-#' when creating bin tables. Default = 10.
-#' @export
+#' @param bin_size (numeric) size of bins. Range of environmental values to
+#' be considered when creating each character in bin tables. See details.
+#' Default = 10.
+#' @details
+#' The argument \code{bin_size} helps to create characters that represent not
+#' only one value of an environmental variable, but a range of environmental
+#' conditions. For instance, if a variable of precipitation in mm is used, a
+#' value of 10 for \code{bin_size} indicates that each character will represent
+#' a class that correspond to 10 continuous values of precipitation (e.g., from
+#' 100 to 110 mm).
 #' @return
-#' A character matrix containing bins that identify accessibility of environments
-#' (environmental values inside M; "0"), used environments (presence of species
-#' records; "1"), and unknown (uncertainty about the ability of the species to be
-#' in such conditions given accessibility; "?").
+#' A character matrix (table of characters) containing bins for a given variable
+#' and for all species considered. See more details in \code{\link{bin_tables}}.
+#' @export
+#' @examples
+#' # example
+#' o_range <- c(1, 25)
+#' m_range <- rbind(c(5, 15), c(10, 23), c(4, 20))
+#' s_range <- rbind(c(7, 15), c(12, 21), c(3, 18))
+#'
+#' # bin preparation
+#' bins <- bin_env(overall_range = o_range, M_range = m_range,
+#'                 sp_range = s_range, bin_size = 1)
 
 bin_env <- function(overall_range, M_range, sp_range, bin_size) {
   # checking for errors
-  if (missing(overall_range)) {stop("Argument overall_range is missing.")}
-  if (missing(M_range)) {stop("Argument M_range is missing.")}
-  if (missing(sp_range)) {stop("Argument sp_range is missing.")}
-  if (missing(bin_size)) {stop("Argument bin_size is missing.")}
+  if (missing(overall_range)) {stop("Argument 'overall_range' is missing.")}
+  if (missing(M_range)) {stop("Argument 'M_range' is missing.")}
+  if (missing(sp_range)) {stop("Argument 'sp_range' is missing.")}
+  if (missing(bin_size)) {stop("Argument 'bin_size' is missing.")}
 
   # sequences
   sequence_vals <- seq(overall_range[1], overall_range[2], bin_size)
@@ -324,8 +355,16 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
 #' Ms to be analyzed.
 #' @param M_range matrix of environmental values ranges in M for all species.
 #' Columns must be minimum and maximum, and rows correspond to species.
-#' @param bin_size (numeric) size of bins. Interval of values to be considered
-#' when creating bin tables. Default = 10.
+#' @param bin_size (numeric) size of bins. Range of environmental values to
+#' be considered when creating each character in bin tables. See details.
+#' Default = 10.
+#' @details
+#' The argument \code{bin_size} helps to create characters that represent not
+#' only one value of an environmental variable, but a range of environmental
+#' conditions. For instance, if a variable of precipitation in mm is used, a
+#' value of 10 for \code{bin_size} indicates that each character will represent
+#' a class that correspond to 10 continuous values of precipitation (e.g., from
+#' 100 to 110 mm).
 #' @export
 #' @return
 #' A character matrix containing bins that identify accessibility of environments
@@ -334,6 +373,7 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
 #' in such conditions given accessibility; "?").
 
 bin_env_null <- function(overall_range, M_range, bin_size) {
+  .Deprecated("bin_env")
   # checking for errors
   if (missing(overall_range)) {stop("Argument 'overall_range' is missing.")}
   if (missing(M_range)) {stop("Argument 'M_range' is missing.")}
@@ -401,16 +441,15 @@ bin_env_null <- function(overall_range, M_range, bin_size) {
 #' @param tree an object of class "phylo".
 #' @param names (character) vector of new names. Length must be equal to number
 #' of tips. They will be assigned in the order given.
-#'
 #' @return Tree of class "phylo" with specified names
-#'
-#' @examples
-#'
-#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-#'                          nsim = 1, type = "continuous", set.seed(5));
-#' renamedTree <- rename_tips(tree, c("a", "b", "c", "d", "e"));
-#'
 #' @export
+#' @examples
+#' # a simple tree
+#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+#'                          nsim = 1, type = "continuous", set.seed(5))
+#' # renaming tips
+#' renamedTree <- rename_tips(tree, c("a", "b", "c", "d", "e"))
+
 rename_tips <- function(tree, names) {
   if (missing(tree)) {stop("Argument 'tree' needs to be defined.")}
   if (missing(names)) {stop("Argument 'names' needs to be defined.")}
@@ -420,33 +459,34 @@ rename_tips <- function(tree, names) {
 
 
 #' Helper function to get sigma squared values for a given dataset
-#'
 #' @description Sigma squared values for a single niche summary statistic
 #' are calculated using \code{\link[geiger]{fitContinuous}}.
-#'
-#' @param tree_data a list of two elements (phy and data) resulted from using the
-#' function \code{\link[geiger]{treedata}}. NOTE: data must be a single vector (i.e. a single column).
+#' @param tree_data a list of two elements (phy and data) resulted from using
+#' the function \code{\link[geiger]{treedata}}. NOTE: data must be a single
+#' vector (i.e., a single column).
 #' @param model model to fit to comparative data; see
 #' \code{\link[geiger]{fitContinuous}}. Default = "BM".
-#'
-#' @return the sigma squared values (evolutionary rate) for the data, given the tree
-#'
+#' @return the sigma squared value (evolutionary rate) for the data, given the
+#' tree.
+#' @importFrom geiger fitContinuous
+#' @export
 #' @examples
-#'
-#' # Simulate data
+#' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-#'                          nsim = 1, type = "continuous", set.seed(5));
-#' data <- rnorm(n = length(tree$tip.label));
-#' names(data) <- tree$tip.label;
-#' treeWdata <- geiger::treedata(tree, data);
+#'                          nsim = 1, type = "continuous", set.seed(5))
+#' # simple data
+#' data <- rnorm(n = length(tree$tip.label))
+#' names(data) <- tree$tip.label
+#' # tree with data
+#' treeWdata <- geiger::treedata(tree, data)
 #'
 #' # Estimating sigma squared for the dataset
-#' sig_sq(treeWdata);
-#'
-#' @export
+#' sig_sq(treeWdata)
+
 sig_sq <- function(tree_data, model = "BM") {
-  if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
-  tmp <- geiger::fitContinuous(tree_data$phy, tree_data$dat, model = model, ncores = 1)
+  if (missing(tree_data)) {stop("Argument 'tree_data' needs to be defined.")}
+  tmp <- geiger::fitContinuous(tree_data$phy, tree_data$dat, model = model,
+                               ncores = 1)
   sigmaSquared <- tmp$opt$sigsq
   return(sigmaSquared)
 }
@@ -456,38 +496,37 @@ sig_sq <- function(tree_data, model = "BM") {
 #' @param character_table data.frame containing bin scores for all species.
 #' NOTE: row names must be species' names.
 #' @param species_name (character) name of the species to be analyzed.
-#' @param include_unknown (logical) whether or not unknown bin status should be included.
-#'
-#' @return median bin value for a given species (for inferring sigma squared or other comparative phylogenetic analyses requiring a single continuous variable).
-#'
+#' @param include_unknown (logical) whether or not unknown bin status should be
+#' included.
+#' @return Median bin value for a given species (for inferring sigma squared or
+#' other comparative phylogenetic analyses requiring a single continuous variable).
+#' @export
 #' @examples
-#'
 #' # Simulate data for single number bin labels
 #' dataTable <- cbind("241" = rep("1", 5),
 #'                    "242" = rep("1", 5),
 #'                    "243" = c("1", "1", "0", "0", "0"),
 #'                    "244" = c("1", "1", "0", "0", "0"),
-#'                    "245" = c("1", "?", "0", "0", "0"));
+#'                    "245" = c("1", "?", "0", "0", "0"))
 #'  rownames(dataTable) <- c("GadusMorhua", "GadusMacrocephalus",
 #'                           "GadusChalcogrammus", "ArctogadusGlacials",
-#'                           "BoreogadusSaida");
+#'                           "BoreogadusSaida")
 #' # Simulate data for bin labels as strings
 #' dataTableStringLabel <- cbind("241 to 244" = rep("1", 5),
-#'                    "244 to 246" = c("1", "1", "0", "0", "0"),
-#'                    "246 to 248" = c("1", "?", "0", "0", "0"));
-#'  rownames(dataTableStringLabel) <- c("GadusMorhua", "GadusMacrocephalus",
-#'                           "GadusChalcogrammus", "ArctogadusGlacials",
-#'                           "BoreogadusSaida");#'
-#'  # Use function
-#'  score_tip(character_table = dataTable, species_name = "GadusMorhua",
-#'            include_unknown = TRUE);
-#'  score_tip(character_table = dataTableStringLabel, species_name = "GadusMorhua",
-#'            include_unknown = FALSE);
-#'
-#' @export
+#'                               "244 to 246" = c("1", "1", "0", "0", "0"),
+#'                               "246 to 248" = c("1", "?", "0", "0", "0"))
+#' rownames(dataTableStringLabel) <- c("GadusMorhua", "GadusMacrocephalus",
+#'                                     "GadusChalcogrammus", "ArctogadusGlacials",
+#'                                     "BoreogadusSaida")
+#' # Use function
+#' score_tip(character_table = dataTable, species_name = "GadusMorhua",
+#'           include_unknown = TRUE)
+#' score_tip(character_table = dataTableStringLabel, species_name = "GadusMorhua",
+#'           include_unknown = FALSE)
+
 score_tip <- function(character_table, species_name, include_unknown = FALSE) {
-  if (missing(character_table)) {stop("Argument character_table needs to be defined.")}
-  if (missing(species_name)) {stop("Argument species_name needs to be defined.")}
+  if (missing(character_table)) {stop("Argument 'character_table' needs to be defined.")}
+  if (missing(species_name)) {stop("Argument 'species_name' needs to be defined.")}
   binVals <- as.data.frame(character_table[rownames(character_table) == species_name,])
   if(include_unknown == TRUE) {
     binsWunknown <- rownames(binVals)[binVals == 1 | binVals == "?"]
@@ -514,39 +553,39 @@ score_tip <- function(character_table, species_name, include_unknown = FALSE) {
 
 
 #' Helper function to assign bin scores to every tip in a given tree
-#' @param tree_data a list of two elements (phy and data) resulting from using the
-#' function \code{\link[geiger]{treedata}}.
+#' @param tree_data a list of two elements (phy and data) resulting from using
+#' the function \code{\link[geiger]{treedata}}.
 #' @param include_unknown (logical) whether or not there are unknown tips.
-#'
-#' @return a list of two elements (phy and data). Data is the median bin scored as present or present + unknown
-#'
+#' @return a list of two elements (phy and data). Data is the median bin scored
+#' as present or present + unknown.
+#' @importFrom geiger treedata
+#' @export
 #' @examples
-#' #Simulate data table
+#' # Simulate data table
 #' dataTable <- cbind("241" = rep("1", 5),
 #'                    "242" = rep("1", 5),
 #'                    "243" = c("1", "1", "0", "0", "0"),
 #'                    "244" = c("1", "1", "0", "0", "0"),
-#'                    "245" = c("1", "?", "0", "0", "0"));
+#'                    "245" = c("1", "?", "0", "0", "0"))
 #' rownames(dataTable) <- c("GadusMorhua", "GadusMacrocephalus",
 #'                          "GadusChalcogrammus", "ArctogadusGlacials",
-#'                          "BoreogadusSaida");
+#'                          "BoreogadusSaida")
 #'
-#' #Simulate phylogeny
+#' # Simulate phylogeny
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-#'                          nsim = 1, type = "continuous", set.seed(5));
+#'                          nsim = 1, type = "continuous", set.seed(5))
 #' tree$tip.label <- c("GadusMorhua", "GadusMacrocephalus",
 #'                     "GadusChalcogrammus", "ArctogadusGlacials",
-#'                     "BoreogadusSaida");
+#'                     "BoreogadusSaida")
 #'
 #' # Unite data
-#' treeWithData <- geiger::treedata(tree, dataTable);
+#' treeWithData <- geiger::treedata(tree, dataTable)
 #'
 #' # Get a new tree with tips scored from median bin scores
-#'  score_tree(treeWithData, include_unknown = TRUE);
-#'
-#' @export
+#' score_tree(treeWithData, include_unknown = TRUE)
+
 score_tree <- function(tree_data, include_unknown = FALSE) {
-  if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
+  if (missing(tree_data)) {stop("Argument 'tree_data' needs to be defined.")}
   tCode <- unlist(lapply(tree_data$phy$tip.label, function(x) {
     score_tip(character_table = tree_data$data,
              species_name = x, include_unknown = include_unknown)
@@ -561,6 +600,11 @@ score_tree <- function(tree_data, include_unknown = FALSE) {
 #' Helper function to split geographic points in 9 blocks of equal size
 #' @param data matrix with longitude and latitude columns, in that order.
 #' @export
+#' @examples
+#' # random data
+#' rdata <- cbind(x = rnorm(1000, -80, 12), y = rnorm(1000, -3, 15))
+#' blocks <- make_9blocks(rdata)
+
 make_9blocks <- function(data) {
   if (missing(data)) {stop("Argument 'data' needs to be defined.")}
   ndata <- nrow(data)

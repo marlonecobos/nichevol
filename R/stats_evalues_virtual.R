@@ -40,6 +40,7 @@ stats_evalues_virtual <- function(stats = c("median", "range"), virtualsp_folder
                                   round = FALSE, round_names,
                                   multiplication_factor = 1, percentage_out = 0,
                                   output_directory = "Virtual__species_E_stats") {
+  .Deprecated("stats_evalues")
   # checking for potential errors
   if (missing(virtualsp_folder)) {stop("Argument 'virtualsp_folder' is missing.")}
   if (missing(virtualsp_format)) {stop("Argument 'virtualsp_format' is missing.")}

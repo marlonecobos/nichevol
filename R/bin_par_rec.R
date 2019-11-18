@@ -1,32 +1,42 @@
-#' Parsimony reconstruction of characters
-#' @param tree_data a list of two elements (phy and data) resulting from using the
-#' function \code{\link[geiger]{treedata}}.
+#' Maximum parsimony reconstruction of characters
+#'
+#' @param tree_data a list of two elements (phy and data) resulting from using
+#' the function \code{\link[geiger]{treedata}}.
+#' @param ... other arguments from \code{\link[castor]{asr_max_parsimony}} other
+#' than \code{tree} and \code{tip_states}.
 #'
 #' @return A table with columns representing bins, rows representing first tip
 #' states and then reconstructed nodes.
 #'
-#' @examples
+#' @details
+#' Reconstructions are done using the \code{\link[castor]{asr_max_parsimony}}
+#' function from the \code{castor} package.
 #'
-#' #Simulate data
+#' @examples
+#' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-#'                          nsim = 1, type = "continuous", set.seed(5));
+#'                          nsim = 1, type = "continuous", set.seed(5))
+#'
+#' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
 #' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
 #'                    "242" = rep("1", length(tree$tip.label)),
 #'                    "243" = c("1", "1", "0", "0", "0"),
 #'                    "244" = c("1", "1", "0", "0", "0"),
-#'                    "245" = c("1", "?", "0", "0", "0"));
-#' rownames(dataTable) <- tree$tip.label;
+#'                    "245" = c("1", "?", "0", "0", "0"))
+#' rownames(dataTable) <- tree$tip.label
 #'
-#' treeWdata <- geiger::treedata(tree, dataTable);
+#' # list with two objects (tree and character table)
+#' treeWdata <- geiger::treedata(tree, dataTable)
 #'
-#' #Do the acutal reconstruction
-#' bin_par_rec(treeWdata);
+#' # Maximum parsimony reconstruction
+#' bin_par_rec(treeWdata)
 #'
 #' @importFrom ape reorder.phylo
+#' @importFrom castor asr_max_parsimony
 #'
 #' @export
 
-bin_par_rec <- function(tree_data) {
+bin_par_rec <- function(tree_data, ...) {
   if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
 
   # Data fro analyses
@@ -47,9 +57,9 @@ bin_par_rec <- function(tree_data) {
       reconMatrix[1:nnode, i] <- rep(tdata[1, i], nnode)
     } else{
       # Reconstruction
-      cdat <- as.integer(as.factor(tdata[,i]))
-      temp <- castor::asr_max_parsimony(tree = tphy, tip_states = cdat);
-      colnames(temp$ancestral_likelihoods) <- as.character(unique(tdata[,i]));
+      cdat <- as.integer(as.factor(tdata[, i]))
+      temp <- castor::asr_max_parsimony(tree = tphy, tip_states = cdat, ...)
+      colnames(temp$ancestral_likelihoods) <- as.character(unique(tdata[, i]))
 
       # Round each node to 0, 1, or ? based on likelihood
       alh <- temp$ancestral_likelihoods

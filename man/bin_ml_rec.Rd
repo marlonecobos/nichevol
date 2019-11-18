@@ -4,11 +4,14 @@
 \alias{bin_ml_rec}
 \title{Maximum likelihood reconstruction of characters}
 \usage{
-bin_ml_rec(tree_data)
+bin_ml_rec(tree_data, ...)
 }
 \arguments{
 \item{tree_data}{a list of two elements (phy and data) resulting from using the
 function \code{\link[geiger]{treedata}}.}
+
+\item{...}{other arguments from \code{\link[ape]{ace}} other than \code{x},
+\code{phy}, \code{type}, and \code{method}.}
 }
 \value{
 A table with columns representing bins, rows representing first tip
@@ -17,17 +20,28 @@ states and then reconstructed nodes.
 \description{
 Maximum likelihood reconstruction of characters
 }
+\details{
+Reconstructions are done using the function \code{\link[ape]{ace}} from the
+\code{ape} package. The argument method is set as "ML" and the type
+of variable is "discrete".
+}
 \examples{
-
+# a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-                         nsim = 1, type = "continuous", set.seed(5));
+                         nsim = 1, type = "continuous", set.seed(5))
+
+# a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
 dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
                    "242" = rep("1", length(tree$tip.label)),
                    "243" = c("1", "1", "0", "0", "0"),
                    "244" = c("1", "1", "0", "0", "0"),
-                   "245" = c("1", "?", "0", "0", "0"));
-rownames(dataTable) <- tree$tip.label;
-treeWdata <- geiger::treedata(tree, dataTable);
-bin_ml_rec(treeWdata);
+                   "245" = c("1", "?", "0", "0", "0"))
+rownames(dataTable) <- tree$tip.label
+
+# list with two objects (tree and character table)
+treeWdata <- geiger::treedata(tree, dataTable)
+
+# Maximum likelihood reconstruction
+ml_rec <- bin_ml_rec(treeWdata)
 
 }

@@ -17,8 +17,11 @@
 #' @param length_threshold (numeric) approximate distance in km for producing
 #' concavity in polygons. Default = 5.
 #' @param buffer_distance (numeric) approximate distance in km to buffer
-#' resultant polygons. Default = 0.
-#' @param overwrite (logical) whether or not to overwrite previous results.
+#' restultant polygons. Default = 0.
+#' @param save (logical) whether or not to save the results in working directory.
+#' Default = FALSE.
+#' @param overwrite (logical) whether or not to overwrite exitent results in
+#' \code{output_directory}. Default = FALSE.
 #' @param output_directory (character) name of the folder in which results will
 #' be written. Default = "Random_polygons".
 #'
@@ -29,24 +32,49 @@
 #' Style for random polygons "BR" may help to get smaller and more uniformly
 #' distributed across the area.
 #'
+#' @return
+#' A list of all random polygons created names will be "r_polygon" plus numbers
+#' from 1 to the number defined in \code{n_polygons}. A folder named as in
+#' \code{output_directory} containing all resultant shapefiles of the polygons
+#' will be created if \code{save} is set as TRUE.
+#'
 #' @importFrom grDevices chull
+#' @importFrom sf as_Spatial st_multipoint st_sf st_sfc st_zm
+#' @importFrom sp Polygon Polygons rbind.SpatialPolygonsDataFrame
+#' @importFrom sp SpatialPointsDataFrame SpatialPolygons SpatialPolygonsDataFrame
+#' @importFrom concaveman concaveman
+#' @importFrom raster extent
+#' @importFrom rgeos gBuffer gIntersection
+#' @importFrom rgdal writeOGR
 #'
 #' @export
 #'
-#' @return
-#' A folder named as in \code{output_directory} containing all resultant
-#' shapefiles of random polygons. Results will also be returned as a list of
-#' spatial objects.
+#' @examples
+#' # crreating a simple polygon
+#' rdata <- cbind(x = rnorm(100, -80, 12), y = rnorm(100, -3, 15))
+#' WGS84 <- sp::CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+#' sp_data <- sp::SpatialPoints(rdata, proj4string = WGS84)
+#' pol <- suppressWarnings(rgeos::gBuffer(sp_data, width = 10))
+#' pol <- sp::SpatialPolygonsDataFrame(pol, data = data.frame(ID = 1),
+#'                                     match.ID = FALSE)
+#'
+#' # creating 50 random polygons in the whole area using the "BR" style
+#' r_pols <- random_polygons(pol, style = "BR", n_polygons = 50)
 
 random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices = 25,
                             minimum_distance = 10, length_threshold = 5,
-                            buffer_distance = 0, overwrite = FALSE,
+                            buffer_distance = 0, save = FALSE, overwrite = FALSE,
                             output_directory = "Random_polygons") {
   if (missing(polygon)) {
     stop("Argument 'polygon' is necessary to perform the analysis.")
   }
-  if (overwrite == FALSE & dir.exists(output_directory)) {
-    stop("'output_directory' already exists. To replace it use overwrite = TRUE.")
+  if (save == TRUE) {
+    if (overwrite == FALSE & dir.exists(output_directory)) {
+      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
+    }
+    if (overwrite == TRUE & dir.exists(output_directory)) {
+      unlink(x = output_directory, recursive = TRUE, force = TRUE)
+    }
   }
 
   cat("\nPreparing data...\n")
@@ -105,6 +133,7 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
 
     pfin <- sp::SpatialPolygonsDataFrame(hulls, data = data.frame(RD = x),
                                          match.ID = FALSE)
+    pfin@proj4string <- crsxy
 
     cat("\t", x, "of", n_polygons, "polygons\n")
     return(pfin)
@@ -118,18 +147,21 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
                                              match.ID = FALSE)
 
   # writing results
-  cat("\nwritting results:\n")
-  if (overwrite == TRUE & dir.exists(output_directory)) {
-    unlink(output_directory, recursive = TRUE)
+  if (save == TRUE) {
+    cat("\nwritting results:\n")
+    dir.create(output_directory)
   }
-  dir.create(output_directory)
   f_polygons <- lapply(1:nrow(rp_data), function(x) { ### change
-    n_nam <- paste0("r_polygon", x)
-    rgdal::writeOGR(obj = r_polygons[x, ], dsn = output_directory,
-                    layer = n_nam, driver = "ESRI Shapefile")
-    cat("\t", x, "of", nrow(rp_data), "polygons\n")
+    if (save == TRUE) {
+      n_nam <- paste0("r_polygon", x)
+      rgdal::writeOGR(obj = r_polygons[x, ], dsn = output_directory,
+                      layer = n_nam, driver = "ESRI Shapefile")
+      cat("\t", x, "of", nrow(rp_data), "polygons\n")
+    }
     return(r_polygons[x, ])
   })
+
+  names(f_polygons) <- paste0("r_polygon", 1:nrow(rp_data))
 
   # returning results
   return(f_polygons)

@@ -19,9 +19,9 @@ Tree of class "phylo" with specified names
 Helper function to rename tips of trees for simulations
 }
 \examples{
-
+# a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-                         nsim = 1, type = "continuous", set.seed(5));
-renamedTree <- rename_tips(tree, c("a", "b", "c", "d", "e"));
-
+                         nsim = 1, type = "continuous", set.seed(5))
+# renaming tips
+renamedTree <- rename_tips(tree, c("a", "b", "c", "d", "e"))
 }

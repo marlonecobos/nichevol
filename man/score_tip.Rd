@@ -12,36 +12,36 @@ NOTE: row names must be species' names.}
 
 \item{species_name}{(character) name of the species to be analyzed.}
 
-\item{include_unknown}{(logical) whether or not unknown bin status should be included.}
+\item{include_unknown}{(logical) whether or not unknown bin status should be
+included.}
 }
 \value{
-median bin value for a given species (for inferring sigma squared or other comparative phylogenetic analyses requiring a single continuous variable).
+Median bin value for a given species (for inferring sigma squared or
+other comparative phylogenetic analyses requiring a single continuous variable).
 }
 \description{
 Helper function to calculate the median bin score for a given species
 }
 \examples{
-
 # Simulate data for single number bin labels
 dataTable <- cbind("241" = rep("1", 5),
                    "242" = rep("1", 5),
                    "243" = c("1", "1", "0", "0", "0"),
                    "244" = c("1", "1", "0", "0", "0"),
-                   "245" = c("1", "?", "0", "0", "0"));
+                   "245" = c("1", "?", "0", "0", "0"))
  rownames(dataTable) <- c("GadusMorhua", "GadusMacrocephalus",
                           "GadusChalcogrammus", "ArctogadusGlacials",
-                          "BoreogadusSaida");
+                          "BoreogadusSaida")
 # Simulate data for bin labels as strings
 dataTableStringLabel <- cbind("241 to 244" = rep("1", 5),
-                   "244 to 246" = c("1", "1", "0", "0", "0"),
-                   "246 to 248" = c("1", "?", "0", "0", "0"));
- rownames(dataTableStringLabel) <- c("GadusMorhua", "GadusMacrocephalus",
-                          "GadusChalcogrammus", "ArctogadusGlacials",
-                          "BoreogadusSaida");#'
- # Use function
- score_tip(character_table = dataTable, species_name = "GadusMorhua",
-           include_unknown = TRUE);
- score_tip(character_table = dataTableStringLabel, species_name = "GadusMorhua",
-           include_unknown = FALSE);
-
+                              "244 to 246" = c("1", "1", "0", "0", "0"),
+                              "246 to 248" = c("1", "?", "0", "0", "0"))
+rownames(dataTableStringLabel) <- c("GadusMorhua", "GadusMacrocephalus",
+                                    "GadusChalcogrammus", "ArctogadusGlacials",
+                                    "BoreogadusSaida")
+# Use function
+score_tip(character_table = dataTable, species_name = "GadusMorhua",
+          include_unknown = TRUE)
+score_tip(character_table = dataTableStringLabel, species_name = "GadusMorhua",
+          include_unknown = FALSE)
 }

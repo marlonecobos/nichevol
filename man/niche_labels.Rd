@@ -40,6 +40,40 @@ no change has been detected. Default = "#377eb8".}
 \item{height}{value defining the height of niche bars; default = 1.}
 }
 \description{
-niche_labels helps in adding bar-type labels that represent how
-species niches are compared to others.
+niche_labels helps in adding bar-type labels that represent
+species ecological niches in one environmental variable.
+}
+\details{
+For the moment, only plots of type "phylogram" with "rightwards" or "leftwards"
+directions, created with the function \code{\link[ape]{plot.phylo}} from the
+package \code{ape} are suported.
+
+Ecological niches are represented in one environmental dimension with vertical
+bars that indicate if the species is present, absent, or if its presence is
+uncertain in the range of environmental conditions. Lower values of
+environmental variables are represted in the lower part of the bar, and the
+oposite part of the bar represents higher values.
+}
+\examples{
+# a simple tree
+tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+                         nsim = 1, type = "continuous", set.seed(5))
+
+# a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
+dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+                   "242" = rep("1", length(tree$tip.label)),
+                   "243" = c("1", "1", "0", "0", "0"),
+                   "244" = c("1", "1", "0", "0", "0"),
+                   "245" = c("1", "?", "0", "0", "0"))
+rownames(dataTable) <- tree$tip.label
+
+# list with two objects (tree and character table)
+treeWdata <- geiger::treedata(tree, dataTable)
+
+# Maximum parsimony reconstruction
+rec_tab <- smooth_rec(bin_par_rec(treeWdata))
+
+# plotting and adding labels
+ape::plot.phylo(tree, label.offset = 0.04)
+niche_labels(tree, rec_tab, height = 0.6)
 }

@@ -32,10 +32,11 @@
 #' files for all variables, with bins for all species. Results will also be
 #' returned as a list.
 
-bin_tables_virtual <- function(virtualsp_folder, virtualsp_format, var_folder, var_format,
-                            round = FALSE, round_names = NULL,
-                            multiplication_factor = 1, bin_size = 10,
-                            output_directory = "Virtual_species_E_bins"){
+bin_tables_virtual <- function(virtualsp_folder, virtualsp_format, var_folder,
+                               var_format, round = FALSE, round_names = NULL,
+                               multiplication_factor = 1, bin_size = 10,
+                               output_directory = "Virtual_species_E_bins"){
+  .Deprecated("bin_tables0")
   # checking for potential errors
   if (missing(virtualsp_folder)) {stop("Argument 'virtualsp_folder' is missing.")}
   if (missing(virtualsp_format)) {stop("Argument 'virtualsp_format' is missing.")}

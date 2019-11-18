@@ -2,7 +2,7 @@
 % Please edit documentation in R/smooth_rec.R
 \name{smooth_rec}
 \alias{smooth_rec}
-\title{Parsimony reconstruction of characters}
+\title{Smooth character table values resulted from ancestral reconstructions}
 \usage{
 smooth_rec(whole_rec_table)
 }
@@ -11,21 +11,29 @@ smooth_rec(whole_rec_table)
 tips and nodes. It results from using the functions \code{\link{bin_par_rec}}
 or \code{\link{bin_ml_rec}}.}
 }
+\value{
+The matrix of reconstructed characters with smoothed values.
+}
 \description{
-Parsimony reconstruction of characters
+Smooth character table values resulted from ancestral reconstructions
 }
 \examples{
-
+# a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-                         nsim = 1, type = "continuous", set.seed(5));
+                         nsim = 1, type = "continuous", set.seed(5))
+
+# simple matrix of data
 dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
                    "242" = rep("1", length(tree$tip.label)),
                    "243" = c("1", "1", "0", "0", "0"),
                    "244" = c("1", "1", "0", "0", "0"),
-                   "245" = c("1", "?", "0", "0", "0"));
-rownames(dataTable) <- tree$tip.label;
-treeWdata <- geiger::treedata(tree, dataTable);
-parsimonyReconstruction <- bin_par_rec(treeWdata);
-smooth_rec(parsimonyReconstruction);
+                   "245" = c("1", "?", "0", "0", "0"))
+rownames(dataTable) <- tree$tip.label
+treeWdata <- geiger::treedata(tree, dataTable)
 
+# ancestral reconstruction
+parsimonyReconstruction <- bin_par_rec(treeWdata)
+
+# smoothing reconstructions
+smooth_rec(parsimonyReconstruction)
 }

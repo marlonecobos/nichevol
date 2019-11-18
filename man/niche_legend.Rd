@@ -34,3 +34,27 @@ than the ones described above.}
 \description{
 Legends for niche labels in phylogenetic trees
 }
+\examples{
+# a simple tree
+tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+                         nsim = 1, type = "continuous", set.seed(5))
+
+# a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
+dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+                   "242" = rep("1", length(tree$tip.label)),
+                   "243" = c("1", "1", "0", "0", "0"),
+                   "244" = c("1", "1", "0", "0", "0"),
+                   "245" = c("1", "?", "0", "0", "0"))
+rownames(dataTable) <- tree$tip.label
+
+# list with two objects (tree and character table)
+treeWdata <- geiger::treedata(tree, dataTable)
+
+# Maximum parsimony reconstruction
+rec_tab <- smooth_rec(bin_par_rec(treeWdata))
+
+# plotting and adding labels and legends
+ape::plot.phylo(tree, label.offset = 0.04)
+niche_labels(tree, rec_tab, height = 0.6)
+niche_legend(position = "topleft", cex = 0.7)
+}

@@ -2,21 +2,23 @@
 % Please edit documentation in R/niche_diffbars.R
 \name{nichevol_bars}
 \alias{nichevol_bars}
-\title{Bars for niche shifts among distinct taxa}
+\title{PNG bar figures for representing niche evolution}
 \usage{
-nichevol_bars(reconstructed_bins, species_rows, present = "1",
-  absent = "0", unknown = "0 1", present_col = "grey10",
-  unknown_col = "white", no_change_col = "grey90",
-  retraction_col = "dodgerblue3", expansion_col = "green1",
-  width = 50, height = 5, res = 300,
-  output_directory = "Difference_bars")
+nichevol_bars(tree, whole_rec_table, ancestor_line = FALSE,
+  present = "1", absent = "0", unknown = "?",
+  present_col = "#252525", unknown_col = "#d9d9d9",
+  no_change_col = "#b2df8a", retraction_col = "#984ea3",
+  expansion_col = "#4daf4a", width = 50, height = 5, res = 300,
+  overwrite = FALSE, output_directory = "Nichevol_bars")
 }
 \arguments{
-\item{reconstructed_bins}{matrix of reconstructed bins for nodes and species
+\item{tree}{an object of class "phylo".}
+
+\item{whole_rec_table}{matrix of reconstructed bins for nodes and species
 derived from a process of maximum parsimony reconstruction.}
 
-\item{species_rows}{(numeric) vector indicating the rows of the matrix in
-which species bins are.}
+\item{ancestor_line}{controls whether ancestor line is plotted.
+Default = FALSE.}
 
 \item{present}{(character) code indicating environmental bins in which the
 species is present. Default = "1".}
@@ -25,22 +27,22 @@ species is present. Default = "1".}
 species is absent. Default = "0".}
 
 \item{unknown}{(character) code indicating environmental bins in which the
-species presence is unknown (uncertain). Default = "0 1".}
+species presence is unknown (uncertain). Default = "?".}
 
 \item{present_col}{color for line representing environments where the species
-is present. Default = "grey10".}
+is present. Default = "#252525".}
 
 \item{unknown_col}{color for line representing environments where the species
-presence is unknown (uncertain). Default = "white".}
+presence is unknown (uncertain). Default = "#d9d9d9".}
 
 \item{no_change_col}{color for area of the bar representing environments where
-no change has been detected. Default = "grey90".}
+no change has been detected. Default = "#b2df8a".}
 
 \item{retraction_col}{color for area of the bar representing environments where
-niche retraction has been detected. Default = "dodgerblue3".}
+niche retraction has been detected. Default = "#984ea3".}
 
 \item{expansion_col}{color for area of the bar representing environments where
-niche expansion has been detected. Default = "green1".}
+niche expansion has been detected. Default = "#4daf4a".}
 
 \item{width}{(numeric) width of the device in mm to be passed to the
 \code{\link[grDevices]{png}} function. Default = 50.}
@@ -51,15 +53,69 @@ niche expansion has been detected. Default = "green1".}
 \item{res}{(numeric) nominal resolution in ppi to be passed to the
 \code{\link[grDevices]{png}} function. Default = 300.}
 
+\item{overwrite}{(logical) whether or not to overwrite exitent results in
+\code{output_directory}. Default = FALSE.}
+
 \item{output_directory}{(character) name of the folder in which results will
 be written. The directory will be created as part of the process.
-Default = "Difference_bars"}
+Default = "Nichevol_bars".}
 }
 \value{
 A folder named as in \code{output_directory} containing all bar figures
-produced.
+produced, as well as a legend to describe what is plotted.
 }
 \description{
-nichevol_bars produces bar figures that represent how species'
-niches have changed compared to others.
+nichevol_bars helps in producing bar plots that represent how
+species' niches (considering one environmental variable) have changed from
+ancestors to decendants. Bars are exported as png figures to an output directory
+for posterior use.
+}
+\details{
+Evolution of ecological niches is represented in one environmental dimension
+with horizontal bars indicating if the niche of the descendant has expanded,
+retracted, or has not changed compared to its ancestor's. Lower values of
+environmental variables are represted in the left part of the bar, and the
+oposite part of the bar represents higher values.
+
+Changes in niches (evolution) are defined as follows:
+\itemize{
+\item if (ancestor == present & descendant == absent) {change <- "retraction"}
+\item if (ancestor == present & descendant == present) {change <- "no_change"}
+\item if (ancestor == present & descendant == unknown) {change <- "no_change"}
+\item if (ancestor == absent & descendant == present) {change <- "expansion"}
+\item if (ancestor == absent & descendant == absent) {change <- "no_change"}
+\item if (ancestor == absent & descendant == unknown) {change <- "no_change"}
+\item if (ancestor == unknown & descendant == absent) {change <- "no_change"}
+\item if (ancestor == unknown & descendant == present) {change <- "no_change"}
+\item if (ancestor == unknown & descendant == unknown) {change <- "no_change"}
+}
+
+If \code{ancestor_line} is TRUE, the ancestor line will be plotted on the bar
+representing niche evolution. The line will represent where, in the range of
+environmental conditions, the ancestor was present, and where its presence is
+uncertain (unknown).
+}
+\examples{
+# a simple tree
+tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
+                         nsim = 1, type = "continuous", set.seed(5))
+
+# a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
+dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
+                   "242" = rep("1", length(tree$tip.label)),
+                   "243" = c("1", "1", "0", "0", "0"),
+                   "244" = c("1", "1", "0", "0", "0"),
+                   "245" = c("1", "?", "0", "0", "0"))
+rownames(dataTable) <- tree$tip.label
+
+# list with two objects (tree and character table)
+treeWdata <- geiger::treedata(tree, dataTable)
+
+# Maximum parsimony reconstruction
+rec_tab <- smooth_rec(bin_par_rec(treeWdata))
+
+# the running (before running, define a working directory)
+\dontrun{
+nichevol_bars(tree, rec_tab)
+}
 }

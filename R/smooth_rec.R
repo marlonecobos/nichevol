@@ -1,25 +1,35 @@
-#' Parsimony reconstruction of characters
-#' @param whole_rec_table matrix containing all reconstructed characters for all
+#' Smooth character table values resulted from ancestral reconstructions
+#'
+#' @param whole_rec_table matrix containing all reconstructed charaters for all
 #' tips and nodes. It results from using the functions \code{\link{bin_par_rec}}
 #' or \code{\link{bin_ml_rec}}.
 #'
+#' @return
+#' The matrix of reconstructed characters with smoothed values.
+#'
 #' @importFrom stats smooth
+#' @importFrom stringr str_extract str_replace
+#' @export
 #'
 #' @examples
-#'
+#' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-#'                          nsim = 1, type = "continuous", set.seed(5));
+#'                          nsim = 1, type = "continuous", set.seed(5))
+#'
+#' # simple matrix of data
 #' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
 #'                    "242" = rep("1", length(tree$tip.label)),
 #'                    "243" = c("1", "1", "0", "0", "0"),
 #'                    "244" = c("1", "1", "0", "0", "0"),
-#'                    "245" = c("1", "?", "0", "0", "0"));
-#' rownames(dataTable) <- tree$tip.label;
-#' treeWdata <- geiger::treedata(tree, dataTable);
-#' parsimonyReconstruction <- bin_par_rec(treeWdata);
-#' smooth_rec(parsimonyReconstruction);
+#'                    "245" = c("1", "?", "0", "0", "0"))
+#' rownames(dataTable) <- tree$tip.label
+#' treeWdata <- geiger::treedata(tree, dataTable)
 #'
-#' @export
+#' # ancestral reconstruction
+#' parsimonyReconstruction <- bin_par_rec(treeWdata)
+#'
+#' # smoothing reconstructions
+#' smooth_rec(parsimonyReconstruction)
 
 smooth_rec <- function(whole_rec_table) {
   if (missing(whole_rec_table)) {stop("Argument 'whole_rec_table' needs to be defined.")}
@@ -35,70 +45,74 @@ smooth_rec <- function(whole_rec_table) {
 
   for (k in 1:nrows){
     test <- paste(whole_rec_table[k, ], collapse = "")
-    test <- gsub("?", replacement = "u", x = test, fixed = T)
+    test <- gsub("?", replacement = "u", x = test, fixed = TRUE)
 
     # First, get rid of 0s at flanks of a row that are bordered by unknowns
-    while (grepl(pattern = "^0+u", x = test)) {test <- gsub(pattern = "0u", replacement = "uu", x = test)} # At the start
-    while (grepl(pattern = "u0+$", x = test)) {test <- gsub(pattern = "u0", replacement = "uu", x = test)} # At the end
+    while (grepl(pattern = "^0+u", x = test)) { # At the start
+      test <- gsub(pattern = "0u", replacement = "uu", x = test)
+    }
+    while (grepl(pattern = "u0+$", x = test)) { # At the end
+      test <- gsub(pattern = "u0", replacement = "uu", x = test)
+    }
 
     # 0s between unknowns
     if (grepl(x = test, pattern = "u0+u")) {
       while (grepl(x = test, pattern = "u0+u")) {
-        pull <- stringr::str_extract(string = test, pattern = "u0+u")[1];
-        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = "u");
-        test <- stringr::str_replace(test, "u0+u", paste(pull, collapse= ""));
+        pull <- stringr::str_extract(string = test, pattern = "u0+u")[1]
+        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = "u")
+        test <- stringr::str_replace(test, "u0+u", paste(pull, collapse= ""))
       }
     }
 
     # Unknowns between 1s
     if (grepl(x = test, pattern = "1u+1")) {#fills in unknowns sandwiched between 1s
       while (grepl(x = test, pattern = "1u+1")) {
-        pull <- stringr::str_extract(string = test, pattern = "1u+1")[1];
-        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "u", replacement = 1);
-        test <- stringr::str_replace(test, "1u+1", paste(pull, collapse= ""));
+        pull <- stringr::str_extract(string = test, pattern = "1u+1")[1]
+        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "u", replacement = 1)
+        test <- stringr::str_replace(test, "1u+1", paste(pull, collapse= ""))
       }
     }
 
     # Algorithmically smooth if there are 0s and 1s alternating, in order to yeild unimodal response
-    midString <- stringr::str_extract(test, "1[01]+");
+    midString <- stringr::str_extract(test, "1[01]+")
     if(!is.na(midString)){
       if(nchar(midString) > 3){
         if (grepl(pattern = "10+1", x = test)){
-          midString <- as.numeric(unlist(strsplit(midString, split = "")));
-          midString <- paste(smooth(midString),collapse = "");
+          midString <- as.numeric(unlist(strsplit(midString, split = "")))
+          midString <- paste(smooth(midString),collapse = "")
         }
-        test <- stringr::str_replace(test, "1[01]+",midString);
+        test <- stringr::str_replace(test, "1[01]+",midString)
       }
     }
 
     # Last check to clear any 0 or unknowns flanked by 1s
     if (grepl(x = test, pattern = "1[0u]+1")) {#fills in unknowns sandwiched between 1s
       while (grepl(x = test, pattern = "1[0u]+1")) {
-        pull <- stringr::str_extract(string = test, pattern = "1[0u]+1")[1];
-        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "[0u]", replacement = 1);
-        test <- stringr::str_replace(test, "1[0u]+1", paste(pull, collapse= ""));
+        pull <- stringr::str_extract(string = test, pattern = "1[0u]+1")[1]
+        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "[0u]", replacement = 1)
+        test <- stringr::str_replace(test, "1[0u]+1", paste(pull, collapse= ""))
       }
     }
 
     # Check for 0s flanked by a 1 and an unknown
     if (grepl(x = test, pattern = "u0+1")) {
       while (grepl(x = test, pattern = "u0+1")) {
-        pull <- stringr::str_extract(string = test, pattern = "u0+1")[1];
-        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = "u");
-        test <- stringr::str_replace(test, "u0+1", paste(pull, collapse= ""));
+        pull <- stringr::str_extract(string = test, pattern = "u0+1")[1]
+        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = "u")
+        test <- stringr::str_replace(test, "u0+1", paste(pull, collapse= ""))
       }
     }
 
     if (grepl(x = test, pattern = "10+u")) {
       while (grepl(x = test, pattern = "10+u")) {
-        pull <- stringr::str_extract(string = test, pattern = "10+u")[1];
-        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = "u");
-        test <- stringr::str_replace(test, "10+u", paste(pull, collapse= ""));
+        pull <- stringr::str_extract(string = test, pattern = "10+u")[1]
+        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = "u")
+        test <- stringr::str_replace(test, "10+u", paste(pull, collapse= ""))
       }
     }
 
-    test <- gsub("u", replacement = "?", x = test, fixed = T);
-    whole_rec_table[k, ] <- unlist(strsplit(test, split = ""));
+    test <- gsub("u", replacement = "?", x = test, fixed = TRUE)
+    whole_rec_table[k, ] <- unlist(strsplit(test, split = ""))
   }
   if (!is.null(statRows)){
     whole_rec_table <- rbind(whole_rec_table, statRows)
