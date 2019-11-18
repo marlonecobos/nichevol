@@ -1,4 +1,4 @@
-#' Bin tables of environemntal conditions in M and occurrences
+#' Bin tables of environmental conditions in M and occurrences
 #'
 #' @description bin_tables0 helps in creating csv files with bin tables
 #' of environmental conditions in M and species occurrence records. All of this
@@ -16,7 +16,7 @@
 #' of occurrences.
 #' @param latitude (character) name of the column containing values of latitude
 #' of occurrences.
-#' @param var_folder (character) name of the folder conatining layers to
+#' @param var_folder (character) name of the folder containing layers to
 #' represent environmental variables.
 #' @param var_format format of layers to represent environmental variables. See
 #' options in \code{\link[raster]{writeFormats}}.
@@ -50,13 +50,13 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
                         percentage_out = 5, bin_size = 10,
                         output_directory = "Species_E_bins"){
   # checking for potential errors
-  if (missing(M_folder)) {stop("Argument M_folder is missing.")}
-  if (missing(M_format)) {stop("Argument M_format is missing.")}
-  if (missing(occ_folder)) {stop("Argument occ_folder is missing.")}
-  if (missing(longitude)) {stop("Argument longitude is missing.")}
-  if (missing(latitude)) {stop("Argument latitude is missing.")}
-  if (missing(var_folder)) {stop("Argument var_folder is missing.")}
-  if (missing(var_format)) {stop("Argument var_format is missing.")}
+  if (missing(M_folder)) {stop("Argument 'M_folder' is missing.")}
+  if (missing(M_format)) {stop("Argument 'M_format' is missing.")}
+  if (missing(occ_folder)) {stop("Argument 'occ_folder' is missing.")}
+  if (missing(longitude)) {stop("Argument 'longitude' is missing.")}
+  if (missing(latitude)) {stop("Argument 'latitude' is missing.")}
+  if (missing(var_folder)) {stop("Argument 'var_folder' is missing.")}
+  if (missing(var_format)) {stop("Argument 'var_format' is missing.")}
 
   # formats and data to start
   cat("\nPreparing data, please wait...\n\n")

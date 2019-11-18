@@ -24,11 +24,11 @@ from dividing the area in equal number of random points. Default = "TR".}
 \item{minimum_distance}{(numeric) approximate minimum distance in km for
 separation among vertices. Default = 10.}
 
-\item{length_threshold}{(numeric) approximated distance in km for producing
+\item{length_threshold}{(numeric) approximate distance in km for producing
 concavity in polygons. Default = 5.}
 
 \item{buffer_distance}{(numeric) approximate distance in km to buffer
-restultant polygons. Default = 0.}
+resultant polygons. Default = 0.}
 
 \item{overwrite}{(logical) whether or not to overwrite previous results.}
 
@@ -41,14 +41,15 @@ shapefiles of random polygons. Results will also be returned as a list of
 spatial objects.
 }
 \description{
-random_polygons creates polygons of random size and complexity in
-a given area, trying to fill the area with the resultant polygons in at least
-nine quandrants.
+random_polygons creates polygons of random size and complexity within
+a given SpatialPolygonsDataFrame, trying to fill the area with the resultant polygons
+in at least nine quadrants. This is designed to simulate virtual species' Ms (aka
+"training" or "background" regions).
 }
 \details{
 Distances are approximate because 1 decimal degree is assumed to equal 111.32
 km.
 
-Style for random polygons "BR" may help to get smaller and more uniformely
+Style for random polygons "BR" may help to get smaller and more uniformly
 distributed across the area.
 }

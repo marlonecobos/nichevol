@@ -1,5 +1,5 @@
 #' Parsimony reconstruction of characters
-#' @param whole_rec_table matrix containing all reconstructed charaters for all
+#' @param whole_rec_table matrix containing all reconstructed characters for all
 #' tips and nodes. It results from using the functions \code{\link{bin_par_rec}}
 #' or \code{\link{bin_ml_rec}}.
 #'
@@ -22,7 +22,7 @@
 #' @export
 
 smooth_rec <- function(whole_rec_table) {
-  if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
+  if (missing(whole_rec_table)) {stop("Argument 'whole_rec_table' needs to be defined.")}
 
   statRows <- NULL
   nrows <- nrow(whole_rec_table)

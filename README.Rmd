@@ -17,15 +17,15 @@ opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 
 ## Package description
 
-The **nichevol** R package helps to perform critical steps of the process of assessment of evolution of species ecological niches. The main analyses include: intial exploration of environmental data in species records and accessible areas, preparation of data for phylogenetic analyses, phylogenetical analyses, and plotting for interpretations.
+The **nichevol** R package helps perform critical steps in the assessment of species' ecological niche evolution. The main analyses include: initial exploration of environmental data in species records and accessible areas, preparation of data for phylogenetic analyses, comparative phylogenetic analyses, and plotting for interpretations.
 
 <br>
 
 ## Installing the package
 
-**nichevol** is in a GitHub repository and can be installed and/or loaded using the code below (make sure to have Internet connection). 
+The most recent version of **nichevol** is available as a GitHub repository and can be installed and/or loaded using the code below. 
 
-Note: Try the code below first... If you have any problem during the installation, restart your R session, close other sessions you may have open, and try again. If during the installation you are asked to update packages, please do it (select the option that says All). If any of the packages gives an error, please install it alone using install.packages(), then try re-installing **nichevol** again. Also, it may be a good idea to update R and RStudio (if you are using it).
+Note: Try the code below first... If you have any problem during the installation, restart your R session, close other sessions you may have open, and try again. If during the installation you are asked to update packages, please do it. If any of the packages gives an error, please install it alone using install.packages(), then try re-installing **nichevol** again. Also, it may be a good idea to update R and RStudio (if you are using it).
 
 ```{r, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
 # Installing and loading packages
@@ -44,7 +44,7 @@ library(nichevol)
 
 ### Setting a directory
 
-The main functions of the **nichevol** package produce results that need to be written in a directory in your computer. Writing the results outside the R environment helps to avoid problems related to RAM limitations. That is why, setting a working directory is recommended before starting. You ca do that using the code below:
+The main functions of **nichevol** produce results that need to be written in a directory in your computer. Writing the results outside the R environment helps to avoid problems related to RAM limitations. That is why setting a working directory is recommended before starting, as follows:
 
 ```{r, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
 setwd("Drive:/Your/Directory") # change the characters accordingly

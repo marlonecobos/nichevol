@@ -1,6 +1,6 @@
 #' Bars for niche shifts among distinct taxa
 #'
-#' @description niche_bars helps in producing bar figures that represent how
+#' @description niche_bars produces bar figures that represent how
 #' species niches have changed compared to others.
 #'
 #' @param bin_table matrix of environmental bins for all species derived from
@@ -41,7 +41,7 @@ niche_bars <- function(bin_table, present = "1", unknown = "?",
 
   # testing for potential errors
   if (missing(bin_table)) {
-    stop("Argument bin_table is needed to perform the analyses.")
+    stop("Argument 'bin_table' is needed to perform the analyses.")
   }
 
   # organizing data

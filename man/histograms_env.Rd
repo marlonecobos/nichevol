@@ -2,7 +2,7 @@
 % Please edit documentation in R/histograms_env.R
 \name{histograms_env}
 \alias{histograms_env}
-\title{Histograms of environemntal conditions in M and occurrences}
+\title{Histograms of environmental conditions at occurrences and in M}
 \usage{
 histograms_env(M_folder, M_format, occ_folder, longitude, latitude,
   var_folder, var_format, CL_lines = c(95, 99), col = NULL,
@@ -27,7 +27,7 @@ of occurrences.}
 \item{latitude}{(character) name of the column containing values of latitude
 of occurrences.}
 
-\item{var_folder}{(character) name of the folder conatining layers to
+\item{var_folder}{(character) name of the folder containing layers to
 represent environmental variables.}
 
 \item{var_format}{format of layers to represent environmental variables. See
@@ -37,7 +37,7 @@ options in \code{\link[raster]{writeFormats}}.}
 Default = c(95, 99).}
 
 \item{col}{colors for lines representing confidence limits. If NULL, colors
-are selected from a grey palette. Default = NULL.}
+are selected from a gray palette. Default = NULL.}
 
 \item{round}{(logical) whether or not to round the values of one or more
 variables after multiplying them times \code{multiplication_factor}.
@@ -62,8 +62,8 @@ files for all variables, with histograms for all species. Results will also be
 returned as a list.
 }
 \description{
-histograms_env helps in creating PDF files with histogram plots
-of environmental conditions in M, lines for the confidence limits of values in
-M, and the location of values in occurrence records. All of this for various
-species and multiple variables.
+histograms_env creates PDF files with histogram plots of
+environmental conditions in M, lines for the confidence limits of values in
+M, and the location of values in occurrence records for multiple species and
+multiple variables.
 }

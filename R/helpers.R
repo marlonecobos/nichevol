@@ -1,4 +1,4 @@
-#' Helper function to find raster extention
+#' Helper function to find raster extension
 #' @param format (character) any of the format types allowed for raster objects.
 #' See \code{\link[raster]{writeFormats}}
 #' @export
@@ -46,14 +46,14 @@ pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
                            variable_name, CL_lines, limits, col,
                            output_directory = "Histogram_ranges_check") {
   # checking for errors
-  if (missing(env_data)) {stop("Argument env_data is missing.")}
-  if (missing(occ_data)) {stop("Argument occ_data is missing.")}
-  if (missing(y_values)) {stop("Argument y_values is missing.")}
-  if (missing(sp_names)) {stop("Argument sp_names is missing.")}
-  if (missing(variable_name)) {stop("Argument variable_name is missing.")}
-  if (missing(CL_lines)) {stop("Argument CL_lines is missing.")}
-  if (missing(limits)) {stop("Argument limits is missing.")}
-  if (missing(col)) {stop("Argument col is missing.")}
+  if (missing(env_data)) {stop("Argument 'env_data' is missing.")}
+  if (missing(occ_data)) {stop("Argument 'occ_data' is missing.")}
+  if (missing(y_values)) {stop("Argument 'y_values' is missing.")}
+  if (missing(sp_names)) {stop("Argument 'sp_names' is missing.")}
+  if (missing(variable_name)) {stop("Argument 'variable_name' is missing.")}
+  if (missing(CL_lines)) {stop("Argument 'CL_lines' is missing.")}
+  if (missing(limits)) {stop("Argument 'limits' is missing.")}
+  if (missing(col)) {stop("Argument 'col' is missing.")}
 
   # colors for limits in actual values
   col1 <- rep(col, each = 2)
@@ -82,9 +82,9 @@ pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
         title(main = paste0("Values and median deviations for variable ",
                             variable_name))
         legend("topleft", legend = "Description", cex = 1.1, bty = "n")
-        legend("topleft", legend = c("", "", "  The information presented below helps to visualize the",
-                                     "  distribution of values of the variable in the accessible",
-                                     "  area as well as the species occurrences to facilitate the ",
+        legend("topleft", legend = c("", "", "  The information presented below visualizes the",
+                                     "  distribution of variable values in the accessible area,",
+                                     "  as well as the species occurrences, to facilitate the ",
                                      "  delimitation of conditions to be used in further analyses."),
                cex = 0.9, bty = "n")
 
@@ -148,9 +148,9 @@ pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
         title(main = paste0("Values and median deviations for variable ",
                             variable_name))
         legend("topleft", legend = "Description", cex = 1.1, bty = "n")
-        legend("topleft", legend = c("", "", "  The information presented below helps to visualize the",
-                                     "  distribution of values of the variable in the accessible",
-                                     "  area as well as the species occurrences to facilitate the ",
+        legend("topleft", legend = c("", "", "  The information presented below visualizes the",
+                                     "  distribution of variable values in the accessible area,",
+                                     "  as well as the species occurrences, to facilitate the ",
                                      "  delimitation of conditions to be used in further analyses."),
                cex = 0.9, bty = "n")
 
@@ -196,7 +196,7 @@ pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
 #' @export
 #' @return
 #' A character matrix containing bins that identify accessibility of environments
-#' (environemntal values inside M; "0"), used environments (presence of species
+#' (environmental values inside M; "0"), used environments (presence of species
 #' records; "1"), and unknown (uncertainty about the ability of the species to be
 #' in such conditions given accessibility; "?").
 
@@ -322,22 +322,22 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
 #' Helper function to prepare bin tables of null species
 #' @param overall_range (numeric) minimum and maximum values of all species and
 #' Ms to be analyzed.
-#' @param M_range matrix of ranges of  environmental values in M for all species.
+#' @param M_range matrix of environmental values ranges in M for all species.
 #' Columns must be minimum and maximum, and rows correspond to species.
 #' @param bin_size (numeric) size of bins. Interval of values to be considered
 #' when creating bin tables. Default = 10.
 #' @export
 #' @return
 #' A character matrix containing bins that identify accessibility of environments
-#' (environemntal values inside M; "0"), used environments (presence of species
+#' (environmental values inside M; "0"), used environments (presence of species
 #' records; "1"), and unknown (uncertainty about the ability of the species to be
 #' in such conditions given accessibility; "?").
 
 bin_env_null <- function(overall_range, M_range, bin_size) {
   # checking for errors
-  if (missing(overall_range)) {stop("Argument overall_range is missing.")}
-  if (missing(M_range)) {stop("Argument M_range is missing.")}
-  if (missing(bin_size)) {stop("Argument bin_size is missing.")}
+  if (missing(overall_range)) {stop("Argument 'overall_range' is missing.")}
+  if (missing(M_range)) {stop("Argument 'M_range' is missing.")}
+  if (missing(bin_size)) {stop("Argument 'bin_size' is missing.")}
 
   # sequences
   sequence_vals <- seq(overall_range[1], overall_range[2], bin_size)
@@ -412,20 +412,24 @@ bin_env_null <- function(overall_range, M_range, bin_size) {
 #'
 #' @export
 rename_tips <- function(tree, names) {
-  if (missing(tree)) {stop("Argument tree needs to be defined.")}
-  if (missing(names)) {stop("Argument names needs to be defined.")}
+  if (missing(tree)) {stop("Argument 'tree' needs to be defined.")}
+  if (missing(names)) {stop("Argument 'names' needs to be defined.")}
   tree$tip.label <- names
   return(tree)
 }
 
 
 #' Helper function to get sigma squared values for a given dataset
+#'
+#' @description Sigma squared values for a single niche summary statistic
+#' are calculated using \code{\link[geiger]{fitContinuous}}.
+#'
 #' @param tree_data a list of two elements (phy and data) resulted from using the
 #' function \code{\link[geiger]{treedata}}. NOTE: data must be a single vector (i.e. a single column).
 #' @param model model to fit to comparative data; see
 #' \code{\link[geiger]{fitContinuous}}. Default = "BM".
 #'
-#' @return the sigma squared value (evolutionary rate) for the data, given the tree
+#' @return the sigma squared values (evolutionary rate) for the data, given the tree
 #'
 #' @examples
 #'
@@ -449,7 +453,8 @@ sig_sq <- function(tree_data, model = "BM") {
 
 
 #' Helper function to calculate the median bin score for a given species
-#' @param character_table data.frame containing bin scores for all species. NOTE: row names must be species' names.
+#' @param character_table data.frame containing bin scores for all species.
+#' NOTE: row names must be species' names.
 #' @param species_name (character) name of the species to be analyzed.
 #' @param include_unknown (logical) whether or not unknown bin status should be included.
 #'
@@ -557,7 +562,7 @@ score_tree <- function(tree_data, include_unknown = FALSE) {
 #' @param data matrix with longitude and latitude columns, in that order.
 #' @export
 make_9blocks <- function(data) {
-  if (missing(data)) {stop("Argument data needs to be defined.")}
+  if (missing(data)) {stop("Argument 'data' needs to be defined.")}
   ndata <- nrow(data)
   n1 <- ceiling(ndata / 3); n2 <- n1 * 2; n3 <- ndata - n2
   xylor <- data[order(data[, 2]), ]

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bin_tables.R
 \name{bin_tables}
 \alias{bin_tables}
-\title{Bin tables of environemntal conditions in M and occurrences}
+\title{Bin tables of environmental conditions in M and occurrences}
 \usage{
 bin_tables(ranges, percentage_out = 5, bin_size = 10,
   output_directory = "Species_E_bins")

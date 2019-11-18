@@ -14,10 +14,11 @@ function \code{\link[geiger]{treedata}}. NOTE: data must be a single vector (i.e
 \code{\link[geiger]{fitContinuous}}. Default = "BM".}
 }
 \value{
-the sigma squared value (evolutionary rate) for the data, given the tree
+the sigma squared values (evolutionary rate) for the data, given the tree
 }
 \description{
-Helper function to get sigma squared values for a given dataset
+Sigma squared values for a single niche summary statistic
+are calculated using \code{\link[geiger]{fitContinuous}}.
 }
 \examples{
 

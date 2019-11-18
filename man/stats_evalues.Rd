@@ -2,7 +2,7 @@
 % Please edit documentation in R/stats_evalues.R
 \name{stats_evalues}
 \alias{stats_evalues}
-\title{Statistics of environemntal conditions in M and occurrences}
+\title{Statistics of environmental conditions in M and occurrences}
 \usage{
 stats_evalues(stats = c("median", "range"), M_folder, M_format,
   occ_folder, longitude, latitude, var_folder, var_format, round = FALSE,
@@ -30,7 +30,7 @@ of occurrences.}
 \item{latitude}{(character) name of the column containing values of latitude
 of occurrences.}
 
-\item{var_folder}{(character) name of the folder conatining layers to
+\item{var_folder}{(character) name of the folder containing layers to
 represent environmental variables.}
 
 \item{var_format}{format of layers to represent environmental variables. See
@@ -59,6 +59,6 @@ returned as a list.
 }
 \description{
 stats_evalues helps in creating csv files with statistics
-of environmental conditions in M and species occurrence records. All of this
-starting from raw data, for various species, and using multiple variables.
+of environmental conditions in M and species occurrence records, starting
+from raw data for multiple species and using multiple variables.
 }

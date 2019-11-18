@@ -1,4 +1,4 @@
-#' Bin tables of environemntal conditions in M and occurrences
+#' Bin tables of environmental conditions in M and occurrences
 #'
 #' @description bin_tables0 helps in creating csv files with bin tables
 #' of environmental conditions in M and species occurrence records. All of this
@@ -26,7 +26,7 @@
 bin_tables <- function(ranges, percentage_out = 5, bin_size = 10,
                        output_directory = "Species_E_bins") {
   # checking for potential errors
-  if (missing(ranges)) {stop("Argument ranges is missing.")}
+  if (missing(ranges)) {stop("Argument 'ranges' is missing.")}
 
   cat("\nPreparing bin tables using ranges:\n")
 

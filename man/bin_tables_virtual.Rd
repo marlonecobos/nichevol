@@ -2,7 +2,7 @@
 % Please edit documentation in R/bin_tables_virtual.R
 \name{bin_tables_virtual}
 \alias{bin_tables_virtual}
-\title{Bin tables of environemntal conditions for virtual species}
+\title{Bin tables of environmental conditions for virtual species}
 \usage{
 bin_tables_virtual(virtualsp_folder, virtualsp_format, var_folder,
   var_format, round = FALSE, round_names = NULL,
@@ -17,7 +17,7 @@ representing the virtually occupied area of all species to be analyzed.}
 area of all species. Options are: "shp", "gpkg", or any of the options in
 \code{\link[raster]{writeFormats}}.}
 
-\item{var_folder}{(character) name of the folder conatining layers to
+\item{var_folder}{(character) name of the folder containing layers to
 represent environmental variables.}
 
 \item{var_format}{format of layers to represent environmental variables. See
@@ -45,7 +45,7 @@ files for all variables, with bins for all species. Results will also be
 returned as a list.
 }
 \description{
-bin_tables_virtual helps in creating csv files with bin tables
-of environmental conditions for virtual species. All of this for various
+bin_tables_virtual helps create csv files of environmental
+condition bin tables for virtual species. It can do this for multiple
 species and multiple variables.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{rformat_type}
 \alias{rformat_type}
-\title{Helper function to find raster extention}
+\title{Helper function to find raster extension}
 \usage{
 rformat_type(format)
 }
@@ -14,5 +14,5 @@ See \code{\link[raster]{writeFormats}}}
 Raster extension according to format type.
 }
 \description{
-Helper function to find raster extention
+Helper function to find raster extension
 }

@@ -7,7 +7,8 @@
 score_tip(character_table, species_name, include_unknown = FALSE)
 }
 \arguments{
-\item{character_table}{data.frame containing bin scores for all species. NOTE: row names must be species' names.}
+\item{character_table}{data.frame containing bin scores for all species.
+NOTE: row names must be species' names.}
 
 \item{species_name}{(character) name of the species to be analyzed.}
 

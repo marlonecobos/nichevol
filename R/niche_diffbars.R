@@ -1,7 +1,7 @@
 #' Bars for niche shifts among distinct taxa
 #'
-#' @description nichevol_bars helps in producing bar figures that represent how
-#' species niches have changed compared to others.
+#' @description nichevol_bars produces bar figures that represent how species'
+#' niches have changed compared to others.
 #'
 #' @param reconstructed_bins matrix of reconstructed bins for nodes and species
 #' derived from a process of maximum parsimony reconstruction.
@@ -51,7 +51,7 @@ nichevol_bars <- function(reconstructed_bins, species_rows, present = "1",
 
   # testing for potential errors
   if (missing(reconstructed_bins)) {
-    stop("Argument reconstructed_bins is needed to perform the analyses.")
+    stop("Argument 'reconstructed_bins' is needed to perform the analyses.")
   }
 
   # organizing data

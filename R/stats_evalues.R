@@ -1,8 +1,8 @@
-#' Statistics of environemntal conditions in M and occurrences
+#' Statistics of environmental conditions in M and occurrences
 #'
 #' @description stats_evalues helps in creating csv files with statistics
-#' of environmental conditions in M and species occurrence records. All of this
-#' starting from raw data, for various species, and using multiple variables.
+#' of environmental conditions in M and species occurrence records, starting
+#' from raw data for multiple species and using multiple variables.
 #'
 #' @param stats (character) name or vector of names of functions to be applied
 #' to get basic statistics of environmental values.
@@ -18,7 +18,7 @@
 #' of occurrences.
 #' @param latitude (character) name of the column containing values of latitude
 #' of occurrences.
-#' @param var_folder (character) name of the folder conatining layers to
+#' @param var_folder (character) name of the folder containing layers to
 #' represent environmental variables.
 #' @param var_format format of layers to represent environmental variables. See
 #' options in \code{\link[raster]{writeFormats}}.
@@ -47,13 +47,13 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
                           multiplication_factor = 1, percentage_out = 0,
                           output_directory = "Species_E_stats") {
   # checking for potential errors
-  if (missing(M_folder)) {stop("Argument M_folder is missing.")}
-  if (missing(M_format)) {stop("Argument M_format is missing.")}
-  if (missing(occ_folder)) {stop("Argument occ_folder is missing.")}
-  if (missing(longitude)) {stop("Argument longitude is missing.")}
-  if (missing(latitude)) {stop("Argument latitude is missing.")}
-  if (missing(var_folder)) {stop("Argument var_folder is missing.")}
-  if (missing(var_format)) {stop("Argument var_format is missing.")}
+  if (missing(M_folder)) {stop("Argument 'M_folder' is missing.")}
+  if (missing(M_format)) {stop("Argument 'M_format' is missing.")}
+  if (missing(occ_folder)) {stop("Argument 'occ_folder' is missing.")}
+  if (missing(longitude)) {stop("Argument 'longitude' is missing.")}
+  if (missing(latitude)) {stop("Argument 'latitude' is missing.")}
+  if (missing(var_folder)) {stop("Argument 'var_folder' is missing.")}
+  if (missing(var_format)) {stop("Argument 'var_format' is missing.")}
 
   # formats and data to start
   cat("\nPreparing data, please wait...\n\n")

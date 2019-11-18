@@ -11,7 +11,7 @@ niche_legend(position, legend = c("Uncertain", "Present", "Not present"),
 \arguments{
 \item{position}{(character or numeric) position of legend. If character,
 part of the plot (e.g., "topleft"), see \code{\link[graphics]{legend}}. If
-numeric, vector of two values indicating x and y postion (e.g., c(0.1, 6)).}
+numeric, vector of two values indicating x and y position (e.g., c(0.1, 6)).}
 
 \item{legend}{(character) vector of length = three indicating the text to
 identify environments with uncertain presence, presence, and absence of the

@@ -9,7 +9,7 @@ Authors@R: c(
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
 Date: 2019-09-25
 Description: This package helps to perform critical steps of the process of assessment of
-    evolution of species ecological niches. The main analyses include: intial exploration
+    evolution of species ecological niches. The main analyses include: initial exploration
     of environmental data in species records and accessible areas, preparation of data for
     phylogenetic analyses, phylogenetic analyses, and plotting for interpretation.
 Imports:

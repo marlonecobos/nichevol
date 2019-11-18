@@ -1,9 +1,9 @@
-#' Histograms of environemntal conditions in M and occurrences
+#' Histograms of environmental conditions at occurrences and in M
 #'
-#' @description histograms_env helps in creating PDF files with histogram plots
-#' of environmental conditions in M, lines for the confidence limits of values in
-#' M, and the location of values in occurrence records. All of this for various
-#' species and multiple variables.
+#' @description histograms_env creates PDF files with histogram plots of
+#' environmental conditions in M, lines for the confidence limits of values in
+#' M, and the location of values in occurrence records for multiple species and
+#' multiple variables.
 #'
 #' @param M_folder (character) name of the folder containing files representing
 #' the accessible area (M) for all species to be analyzed.
@@ -17,14 +17,14 @@
 #' of occurrences.
 #' @param latitude (character) name of the column containing values of latitude
 #' of occurrences.
-#' @param var_folder (character) name of the folder conatining layers to
+#' @param var_folder (character) name of the folder containing layers to
 #' represent environmental variables.
 #' @param var_format format of layers to represent environmental variables. See
 #' options in \code{\link[raster]{writeFormats}}.
 #' @param CL_lines (numeric) confidence limits to be plotted in the histograms.
 #' Default = c(95, 99).
 #' @param col colors for lines representing confidence limits. If NULL, colors
-#' are selected from a grey palette. Default = NULL.
+#' are selected from a gray palette. Default = NULL.
 #' @param round (logical) whether or not to round the values of one or more
 #' variables after multiplying them times \code{multiplication_factor}.
 #' Default = FALSE.
@@ -54,20 +54,20 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
                            round_names = NULL, multiplication_factor = 1,
                            save_ranges = TRUE, output_directory = "Histogram_ranges"){
   # checking for potential errors
-  if (missing(M_folder)) {stop("Argument M_folder is missing.")}
-  if (missing(M_format)) {stop("Argument M_format is missing.")}
-  if (missing(occ_folder)) {stop("Argument occ_folder is missing.")}
-  if (missing(longitude)) {stop("Argument longitude is missing.")}
-  if (missing(latitude)) {stop("Argument latitude is missing.")}
-  if (missing(var_folder)) {stop("Argument var_folder is missing.")}
-  if (missing(var_format)) {stop("Argument var_format is missing.")}
+  if (missing(M_folder)) {stop("Argument 'M_folder' is missing.")}
+  if (missing(M_format)) {stop("Argument 'M_format' is missing.")}
+  if (missing(occ_folder)) {stop("Argument 'occ_folder' is missing.")}
+  if (missing(longitude)) {stop("Argument 'longitude' is missing.")}
+  if (missing(latitude)) {stop("Argument 'latitude' is missing.")}
+  if (missing(var_folder)) {stop("Argument 'var_folder' is missing.")}
+  if (missing(var_format)) {stop("Argument 'var_format' is missing.")}
 
   lcll <- length(CL_lines)
   if (is.null(col)) {
     col <- sort(gray.colors(lcll + 1), decreasing = TRUE)[1:lcll]
   }
   if (round == TRUE & is.null(round_names)) {
-    stop("Argument round_names cannot be NULL if round = TRUE.")
+    stop("Argument 'round_names' cannot be NULL if round = TRUE.")
   }
 
   # formats and data to start

@@ -15,9 +15,9 @@ Marlon E. Cobos, Hannah Owens, and A. Townsend Peterson
 
 The **nichevol** R package helps to perform critical steps of the
 process of assessment of evolution of species ecological niches. The
-main analyses include: intial exploration of environmental data in
+main analyses include: initial exploration of environmental data in
 species records and accessible areas, preparation of data for
-phylogenetic analyses, phylogenetical analyses, and plotting for
+phylogenetic analyses, phylogenetic analyses, and plotting for
 interpretations.
 
 <br>

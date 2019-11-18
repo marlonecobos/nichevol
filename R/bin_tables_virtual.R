@@ -1,7 +1,7 @@
-#' Bin tables of environemntal conditions for virtual species
+#' Bin tables of environmental conditions for virtual species
 #'
-#' @description bin_tables_virtual helps in creating csv files with bin tables
-#' of environmental conditions for virtual species. All of this for various
+#' @description bin_tables_virtual helps create csv files of environmental
+#' condition bin tables for virtual species. It can do this for multiple
 #' species and multiple variables.
 #'
 #' @param virtualsp_folder (character) name of the folder containing files
@@ -9,7 +9,7 @@
 #' @param virtualsp_format format of files representing the virtually occupied
 #' area of all species. Options are: "shp", "gpkg", or any of the options in
 #' \code{\link[raster]{writeFormats}}.
-#' @param var_folder (character) name of the folder conatining layers to
+#' @param var_folder (character) name of the folder containing layers to
 #' represent environmental variables.
 #' @param var_format format of layers to represent environmental variables. See
 #' options in \code{\link[raster]{writeFormats}}.
@@ -37,12 +37,12 @@ bin_tables_virtual <- function(virtualsp_folder, virtualsp_format, var_folder, v
                             multiplication_factor = 1, bin_size = 10,
                             output_directory = "Virtual_species_E_bins"){
   # checking for potential errors
-  if (missing(virtualsp_folder)) {stop("Argument virtualsp_folder is missing.")}
-  if (missing(virtualsp_format)) {stop("Argument virtualsp_format is missing.")}
-  if (missing(var_folder)) {stop("Argument var_folder is missing.")}
-  if (missing(var_format)) {stop("Argument var_format is missing.")}
+  if (missing(virtualsp_folder)) {stop("Argument 'virtualsp_folder' is missing.")}
+  if (missing(virtualsp_format)) {stop("Argument 'virtualsp_format' is missing.")}
+  if (missing(var_folder)) {stop("Argument 'var_folder' is missing.")}
+  if (missing(var_format)) {stop("Argument 'var_format' is missing.")}
   if (round == TRUE & is.null(round_names)) {
-    stop("Argument round_names cannot be NULL if round = TRUE.")
+    stop("Argument 'round_names' cannot be NULL if round = TRUE.")
   }
 
   # formats and data to start

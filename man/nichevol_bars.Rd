@@ -60,6 +60,6 @@ A folder named as in \code{output_directory} containing all bar figures
 produced.
 }
 \description{
-nichevol_bars helps in producing bar figures that represent how
-species niches have changed compared to others.
+nichevol_bars produces bar figures that represent how species'
+niches have changed compared to others.
 }

@@ -22,7 +22,7 @@ when creating bin tables. Default = 10.}
 }
 \value{
 A character matrix containing bins that identify accessibility of environments
-(environemntal values inside M; "0"), used environments (presence of species
+(environmental values inside M; "0"), used environments (presence of species
 records; "1"), and unknown (uncertainty about the ability of the species to be
 in such conditions given accessibility; "?").
 }
