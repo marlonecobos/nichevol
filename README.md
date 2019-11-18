@@ -5,6 +5,8 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
   - [Package description](#package-description)
   - [Installing the package](#installing-the-package)
+      - [Stable version](#stable-version)
+      - [Latest version](#latest-version)
   - [Exploring the nichevol package](#exploring-the-nichevol-package)
       - [Setting a directory](#setting-a-directory)
       - [Loading the package](#loading-the-package)
@@ -51,11 +53,11 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
 ## Package description
 
-The **nichevol** R package helps to perform critical steps in the 
-process of assessment of  species' ecological niche evolution, with 
-uncertainty incorporated in reconstructions. The main analyses include: 
-initial exploration of environmental data in species records and 
-accessible areas, preparation of data for phylogenetic analyses, 
+The **nichevol** R package helps to perform critical steps in the
+process of assessment of species’ ecological niche evolution, with
+uncertainty incorporated in reconstructions. The main analyses include:
+initial exploration of environmental data in species records and
+accessible areas, preparation of data for phylogenetic analyses,
 comparative phylogenetic analyses, and plotting for interpretations.
 
 <br>
@@ -64,16 +66,30 @@ comparative phylogenetic analyses, and plotting for interpretations.
 
 ## Installing the package
 
-**nichevol** is in a GitHub repository and can be installed and/or
-loaded using the code below (make sure to have Internet connection).
+### Stable version
+
+The stable version of **nichevol** is in **CRAN** and it can be
+installed and loaded using the code below (we are working on this):
+
+``` r
+if(!require(devtools)){
+  install.packages("nichevol")
+}
+```
+
+### Latest version
+
+The most recent version of **nichevol** is available as a GitHub
+repository and can be installed using the code below. Please, have in
+mind that updates will be done on this version continuously.
 
 Note: Try the code below first… If you have any problem during the
 installation, restart your R session, close other sessions you may have
 open, and try again. If during the installation you are asked to update
-packages, please do it (select the option that says All). If any of the
-packages gives an error, please install it alone using
-install.packages(), then try re-installing **nichevol** again. Also, it
-may be a good idea to update R and RStudio (if you are using it).
+packages, please do it. If any of the packages gives an error, please
+install it alone using install.packages(), then try re-installing
+**nichevol** again. Also, it may be a good idea to update R and RStudio
+(if you are using it).
 
 ``` r
 # Installing and loading packages
@@ -93,13 +109,12 @@ if(!require(nichevol)){
 
 ### Setting a directory
 
-Some of the main functions of the **nichevol** package use data that
-need to be loaded from a local directory and some of them produce
-results that need to be written in a local directory as well. Loading
-data and writing the results outside the R environment helps to avoid
-problems related to RAM limitations. That is why, setting a working
-directory is recommended before starting. You ca do that using the code
-below:
+Some of the main functions of **nichevol** use data that need to be
+loaded from a local directory and others produce results that need to be
+written in a local directory. Loading data from a local directory and
+writing the results outside the R environment helps to avoid problems
+related to RAM limitations. That is why, setting a working directory is
+recommended before starting, as follows:
 
 ``` r
 directory <- "DRIVE:/YOUR/DIRECTORY" # change the characters accordingly
