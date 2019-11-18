@@ -51,7 +51,7 @@ A folder named as in \code{output_directory} containing all bar figures
 produced, as well as a legend to describe what is plotted.
 }
 \description{
-niche_bars helps in producing bar plots that represent species
+niche_bars produces bar plots that represent species
 ecological niches in one environmental variable. Bars are exported as png
 figures to an output directory for posterior use.
 }

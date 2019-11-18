@@ -32,7 +32,7 @@ values of longitude.}
 \item{latitude}{(character) name of the column in occurrence files containing
 values of latitude.}
 
-\item{var_folder}{(character) name of the folder conatining layers to
+\item{var_folder}{(character) name of the folder containing layers to
 represent environmental variables.}
 
 \item{var_format}{format of layers to represent environmental variables. See

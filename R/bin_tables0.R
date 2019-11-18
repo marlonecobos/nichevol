@@ -1,4 +1,4 @@
-#' Bin tables of environemntal conditions in M and occurrences from data
+#' Bin tables of environmental conditions in M and occurrences from data
 #'
 #' @description bin_tables0 helps in creating bin tables of environmental
 #' conditions in accessible areas (M) and species occurrence records
@@ -18,7 +18,7 @@
 #' values of longitude.
 #' @param latitude (character) name of the column in occurrence files containing
 #' values of latitude.
-#' @param var_folder (character) name of the folder conatining layers to
+#' @param var_folder (character) name of the folder containing layers to
 #' represent environmental variables.
 #' @param var_format format of layers to represent environmental variables. See
 #' options in \code{\link[raster]{writeFormats}} (e.g., "GTiff").
@@ -111,16 +111,16 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
                         percentage_out = 5, bin_size = 10, save = FALSE,
                         overwrite = FALSE, output_directory = "Species_E_bins") {
   # checking for potential errors
-  if (missing(M_folder)) {stop("Argument M_folder is missing.")}
-  if (missing(M_format)) {stop("Argument M_format is missing.")}
-  if (missing(occ_folder)) {stop("Argument occ_folder is missing.")}
-  if (missing(longitude)) {stop("Argument longitude is missing.")}
-  if (missing(latitude)) {stop("Argument latitude is missing.")}
-  if (missing(var_folder)) {stop("Argument var_folder is missing.")}
-  if (missing(var_format)) {stop("Argument var_format is missing.")}
+  if (missing(M_folder)) {stop("Argument 'M_folder' is missing.")}
+  if (missing(M_format)) {stop("Argument 'M_format' is missing.")}
+  if (missing(occ_folder)) {stop("Argument 'occ_folder' is missing.")}
+  if (missing(longitude)) {stop("Argument 'longitude' is missing.")}
+  if (missing(latitude)) {stop("Argument 'latitude' is missing.")}
+  if (missing(var_folder)) {stop("Argument 'var_folder' is missing.")}
+  if (missing(var_format)) {stop("Argument 'var_format' is missing.")}
   if (save == TRUE) {
     if (overwrite == FALSE & dir.exists(output_directory)) {
-      stop("output_directory already exists, to replace it use overwrite = TRUE.")
+      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
     }
     if (overwrite == TRUE & dir.exists(output_directory)) {
       unlink(x = output_directory, recursive = TRUE, force = TRUE)

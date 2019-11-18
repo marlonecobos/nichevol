@@ -19,7 +19,8 @@ the sigma squared value (evolutionary rate) for the data, given the
 tree.
 }
 \description{
-Helper function to get sigma squared values for a given dataset
+Sigma squared values for a single niche summary statistic
+are calculated using \code{\link[geiger]{fitContinuous}}.
 }
 \examples{
 # a simple tree

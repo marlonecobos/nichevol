@@ -8,12 +8,12 @@ Authors@R: c(
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"))
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
 Date: 2019-09-25
-Description: This package helps in performing critical steps of the process of 
-    assessment of evolution of species ecological niches with uncertainty 
-    incorporated in reconstructions. The main functionalities of the package 
-    include: intial exploration of environmental data in species records and 
-    accessible areas, preparation of data for phylogenetic analyses, phylogenetic 
-    analyses of ecological niches, and plotting for interpretations.
+Description: This package helps to perform critical steps in the process of 
+    assessment of evolution of species ecological niches, with uncertainty 
+    incorporated in reconstructions. The main analyses include: initial exploration 
+    of environmental data in species records and accessible areas, preparation of 
+    data for phylogenetic analyses, phylogenetic analyses of ecological niches, and 
+    plotting for interpretations.
 Imports:
     ape (>= 5.3),
     castor (>= 1.4),

@@ -51,13 +51,12 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
 ## Package description
 
-The **nichevol** R package helps in performing critical steps of the
-process of assessment of evolution of species ecological niches with
-uncertainty incorporated in reconstructions. The main functionalities of
-the package include: initial exploration of environmental data in
-species records and accessible areas, preparation of data for
-phylogenetic analyses, phylogenetic analyses of ecological niches, and
-plotting for interpretations.
+The **nichevol** R package helps to perform critical steps in the 
+process of assessment of  species' ecological niche evolution, with 
+uncertainty incorporated in reconstructions. The main analyses include: 
+initial exploration of environmental data in species records and 
+accessible areas, preparation of data for phylogenetic analyses, 
+comparative phylogenetic analyses, and plotting for interpretations.
 
 <br>
 

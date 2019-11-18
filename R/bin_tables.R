@@ -1,4 +1,4 @@
-#' Bin tables of environemntal conditions in M and occurrences from objects
+#' Bin tables of environmental conditions in M and occurrences from objects
 #'
 #' @description bin_tables helps in creating bin tables of environmental
 #' conditions in accessible areas (M) and species occurrence records
@@ -82,10 +82,10 @@
 bin_tables <- function(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
                        overwrite = FALSE, output_directory = "Species_E_bins") {
   # checking for potential errors
-  if (missing(ranges)) {stop("Argument ranges is missing.")}
+  if (missing(ranges)) {stop("Argument 'ranges' is missing.")}
   if (save == TRUE) {
     if (overwrite == FALSE & dir.exists(output_directory)) {
-      stop("output_directory already exists, to replace it use overwrite = TRUE.")
+      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
     }
     if (overwrite == TRUE & dir.exists(output_directory)) {
       unlink(x = output_directory, recursive = TRUE, force = TRUE)

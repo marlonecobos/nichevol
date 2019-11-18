@@ -7,12 +7,12 @@
 \title{nichevol: An R package for assessment of evolution of ecological niches
 considering uncertainty in niche reconstructions}
 \description{
-nichevol implements multiple tools to help in performing critical steps of
-the process of assessment of evolution of species ecological niches with
-uncertainty incorporated in reconstructions. The main functionalities of the
-package include: intial exploration of environmental data in species records
-and accessible areas, preparation of data for phylogenetic analyses,
-phylogenetic analyses of ecological niches, and plotting for interpretations.
+nichevol is a collection of tools to perform critical steps in the process
+of assessing species' ecological niche evolution, with uncertainty incorporated 
+in reconstructions. The main analyses include: intial exploration of environmental
+data in species records and accessible areas, preparation of data for phylogenetic 
+analyses, executing comparative phylogenetic analyses of ecological niches, and 
+plotting for interpretations.
 }
 \section{Main functions in nichevol}{
 

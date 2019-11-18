@@ -2,7 +2,7 @@
 % Please edit documentation in R/bin_tables0.R
 \name{bin_tables0}
 \alias{bin_tables0}
-\title{Bin tables of environemntal conditions in M and occurrences from data}
+\title{Bin tables of environmental conditions in M and occurrences from data}
 \usage{
 bin_tables0(M_folder, M_format, occ_folder, longitude, latitude,
   var_folder, var_format, round = FALSE, round_names,
@@ -29,7 +29,7 @@ values of longitude.}
 \item{latitude}{(character) name of the column in occurrence files containing
 values of latitude.}
 
-\item{var_folder}{(character) name of the folder conatining layers to
+\item{var_folder}{(character) name of the folder containing layers to
 represent environmental variables.}
 
 \item{var_format}{format of layers to represent environmental variables. See

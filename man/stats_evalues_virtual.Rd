@@ -2,7 +2,7 @@
 % Please edit documentation in R/stats_evalues_virtual.R
 \name{stats_evalues_virtual}
 \alias{stats_evalues_virtual}
-\title{Statistics of environemntal conditions for virtual species}
+\title{Statistics of environmental conditions for virtual species}
 \usage{
 stats_evalues_virtual(stats = c("median", "range"), virtualsp_folder,
   virtualsp_format, var_folder, var_format, round = FALSE, round_names,
@@ -21,7 +21,7 @@ representing the virtually occupied area of all species to be analyzed.}
 area of all species. Options are: "shp", "gpkg", or any of the options in
 \code{\link[raster]{writeFormats}}.}
 
-\item{var_folder}{(character) name of the folder conatining layers to
+\item{var_folder}{(character) name of the folder containing layers to
 represent environmental variables.}
 
 \item{var_format}{format of layers to represent environmental variables. See
@@ -49,7 +49,7 @@ files for all variables, with statistics for all species. Results will also be
 returned as a list.
 }
 \description{
-stats_evalues_virtual helps in creating csv files with statistics
-of environmental conditions for virtual species. All of this for various
-species and multiple variables.
+stats_evalues_virtual creates csv files with statistics
+of environmental conditions for multiple virtual species and multiple
+variables.
 }

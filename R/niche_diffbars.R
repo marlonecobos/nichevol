@@ -1,7 +1,7 @@
 #' PNG bar figures for representing niche evolution
 #'
-#' @description nichevol_bars helps in producing bar plots that represent how
-#' species niches (considering one environmental variable) have changed from
+#' @description nichevol_bars produces bar plots that represent how
+#' species' niches (considering one environmental variable) have changed from
 #' ancestors to decendants. Bars are exported as png figures to an output directory
 #' for posterior use.
 #'
@@ -104,13 +104,13 @@ nichevol_bars <- function(tree, whole_rec_table, ancestor_line = FALSE,
                           output_directory = "Nichevol_bars") {
 
   # testing for potential errors
-  if (missing(tree)) {stop("Argument tree is needed to perform the analyses.")}
-  if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
+  if (missing(tree)) {stop("Argument 'tree' is needed to perform the analyses.")}
+  if (missing(whole_rec_table)) {stop("Argument 'whole_rec_table' needs to be defined.")}
   if ("LogLik" %in% rownames(whole_rec_table)) {
     whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
   }
   if (overwrite == FALSE & dir.exists(output_directory)) {
-    stop("output_directory already exists, to replace it use overwrite = TRUE.")
+    stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
   }
   if (overwrite == TRUE & dir.exists(output_directory)) {
     unlink(x = output_directory, recursive = TRUE, force = TRUE)

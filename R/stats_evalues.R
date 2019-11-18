@@ -20,7 +20,7 @@
 #' values of longitude.
 #' @param latitude (character) name of the column in occurrence files containing
 #' values of latitude.
-#' @param var_folder (character) name of the folder conatining layers to
+#' @param var_folder (character) name of the folder containing layers to
 #' represent environmental variables.
 #' @param var_format format of layers to represent environmental variables. See
 #' options in \code{\link[raster]{writeFormats}} (e.g., "GTiff").
@@ -105,7 +105,7 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
   if (missing(var_format)) {stop("Argument var_format is missing.")}
   if (save == TRUE) {
     if (overwrite == FALSE & dir.exists(output_directory)) {
-      stop("output_directory already exists, to replace it use overwrite = TRUE.")
+      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
     }
     if (overwrite == TRUE & dir.exists(output_directory)) {
       unlink(x = output_directory, recursive = TRUE, force = TRUE)

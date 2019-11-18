@@ -155,7 +155,7 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
     }
 
   } else {
-    stop("Argument label_type is not correct, see function's help.")
+    stop("Argument 'label_type' is not correct, see help(niche_labels).")
   }
 }
 
@@ -350,7 +350,7 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 #'
 #' @param position (character or numeric) position of legend. If character,
 #' part of the plot (e.g., "topleft"), see \code{\link[graphics]{legend}}. If
-#' numeric, vector of two values indicating x and y postion (e.g., c(0.1, 6)).
+#' numeric, vector of two values indicating x and y position (e.g., c(0.1, 6)).
 #' @param legend (character) vector of length = three indicating the text to
 #' identify environments with uncertain presence, presence, and absence of the
 #' species. Default = c("Uncertain", "Present", "Not present").
@@ -415,7 +415,7 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #'
 #' @param position (character or numeric) position of legend. If character,
 #' part of the plot (e.g., "topleft"), see \code{\link[graphics]{legend}}. If
-#' numeric, vector of two values indicating x and y postion (e.g., c(0.1, 6)).
+#' numeric, vector of two values indicating x and y position (e.g., c(0.1, 6)).
 #' @param ancestor_line whether or not ancestor line was plotted.
 #' Default = FALSE.
 #' @param ancestor_legend (character) vector of length = two indicating the text
@@ -433,7 +433,7 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #' @param lty line type see \code{\link[graphics]{par}}. Default = 1.
 #' @param lwd line width see \code{\link[graphics]{par}}. Default = 1.
 #' @param cex size of all elements in legend see \code{\link[graphics]{par}}.
-#' Deafult = 1.
+#' Default = 1.
 #' @param bty legend border type. Default = "n".
 #' @param ... Other arguments from function \code{\link[graphics]{legend}} other
 #' than the ones described above.
@@ -473,10 +473,10 @@ nichevol_legend <- function(position, ancestor_line = FALSE,
                             evol_col = c("#b2df8a", "#984ea3", "#4daf4a"),
                             pch = 22, pt.cex = 2.2, lty = 1, lwd = 1,
                             cex = 1, bty = "n", ...) {
-  if (missing(position)) {stop("Argument position needs to be defined")}
+  if (missing(position)) {stop("Argument 'position' needs to be defined")}
   cp <- class(position)[1]
   if (!cp %in% c("character", "numeric")) {
-    stop("Argument position needs to be of class character or numeric.")
+    stop("Argument 'position' needs to be of class 'character' or 'numeric'.")
   }
 
   # legend

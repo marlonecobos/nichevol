@@ -1,8 +1,9 @@
 #' Generation of random polygons in a given area
 #'
-#' @description random_polygons creates polygons of random size and complexity in
-#' a given area, trying to fill the area with the resultant polygons in at least
-#' nine quandrants.
+#' @description random_polygons creates polygons of random size and complexity within
+#' a given SpatialPolygonsDataFrame, trying to fill the area with the resultant polygons
+#' in at least nine quadrants. This is designed to simulate virtual species' Ms (aka
+#' "training" or "background" regions).
 #'
 #' @param polygon SpatialPolygonsDataFrame object. CRS WGS84 is required.
 #' @param style (character) algorithm to be used when creating polygons. Options
@@ -13,7 +14,7 @@
 #' @param n_vertices (numeric) maximum number of vertices for polygons.
 #' @param minimum_distance (numeric) approximate minimum distance in km for
 #' separation among vertices. Default = 10.
-#' @param length_threshold (numeric) approximated distance in km for producing
+#' @param length_threshold (numeric) approximate distance in km for producing
 #' concavity in polygons. Default = 5.
 #' @param buffer_distance (numeric) approximate distance in km to buffer
 #' restultant polygons. Default = 0.
@@ -28,7 +29,7 @@
 #' Distances are approximate because 1 decimal degree is assumed to equal 111.32
 #' km.
 #'
-#' Style for random polygons "BR" may help to get smaller and more uniformely
+#' Style for random polygons "BR" may help to get smaller and more uniformly
 #' distributed across the area.
 #'
 #' @return
@@ -65,11 +66,11 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
                             buffer_distance = 0, save = FALSE, overwrite = FALSE,
                             output_directory = "Random_polygons") {
   if (missing(polygon)) {
-    stop("Argument polygon is necessary to perform the analysis.")
+    stop("Argument 'polygon' is necessary to perform the analysis.")
   }
   if (save == TRUE) {
     if (overwrite == FALSE & dir.exists(output_directory)) {
-      stop("output_directory already exists, to replace it use overwrite = TRUE.")
+      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
     }
     if (overwrite == TRUE & dir.exists(output_directory)) {
       unlink(x = output_directory, recursive = TRUE, force = TRUE)

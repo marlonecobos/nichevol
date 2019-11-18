@@ -2,7 +2,7 @@
 % Please edit documentation in R/histograms_env.R
 \name{histograms_env}
 \alias{histograms_env}
-\title{Histograms of environemntal conditions in M and occurrences}
+\title{Histograms of environmental conditions at occurrences and in M}
 \usage{
 histograms_env(M_folder, M_format, occ_folder, longitude, latitude,
   var_folder, var_format, CL_lines = c(95, 99), col = NULL,
@@ -29,7 +29,7 @@ values of longitude.}
 \item{latitude}{(character) name of the column in occurrence files containing
 values of latitude.}
 
-\item{var_folder}{(character) name of the folder conatining layers to
+\item{var_folder}{(character) name of the folder containing layers to
 represent environmental variables.}
 
 \item{var_format}{format of layers to represent environmental variables. See
@@ -39,7 +39,7 @@ options in \code{\link[raster]{writeFormats}} (e.g., "GTiff").}
 be plotted as lines in the histograms. See details. Default = c(95, 99).}
 
 \item{col}{colors for lines representing confidence limits. If NULL, colors
-are selected from a grey palette. Default = NULL.}
+are selected from a gray palette. Default = NULL.}
 
 \item{round}{(logical) whether or not to round the values of one or more
 variables after multiplying them times the value in \code{multiplication_factor}.

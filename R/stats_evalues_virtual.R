@@ -1,8 +1,8 @@
-#' Statistics of environemntal conditions for virtual species
+#' Statistics of environmental conditions for virtual species
 #'
-#' @description stats_evalues_virtual helps in creating csv files with statistics
-#' of environmental conditions for virtual species. All of this for various
-#' species and multiple variables.
+#' @description stats_evalues_virtual creates csv files with statistics
+#' of environmental conditions for multiple virtual species and multiple
+#' variables.
 #'
 #' @param stats (character) name or vector of names of functions to be applied
 #' to get basic statistics of environmental values. Options include: "mean", "sd",
@@ -12,7 +12,7 @@
 #' @param virtualsp_format format of files representing the virtually occupied
 #' area of all species. Options are: "shp", "gpkg", or any of the options in
 #' \code{\link[raster]{writeFormats}}.
-#' @param var_folder (character) name of the folder conatining layers to
+#' @param var_folder (character) name of the folder containing layers to
 #' represent environmental variables.
 #' @param var_format format of layers to represent environmental variables. See
 #' options in \code{\link[raster]{writeFormats}}.
@@ -42,10 +42,10 @@ stats_evalues_virtual <- function(stats = c("median", "range"), virtualsp_folder
                                   output_directory = "Virtual__species_E_stats") {
   .Deprecated("stats_evalues")
   # checking for potential errors
-  if (missing(virtualsp_folder)) {stop("Argument virtualsp_folder is missing.")}
-  if (missing(virtualsp_format)) {stop("Argument virtualsp_format is missing.")}
-  if (missing(var_folder)) {stop("Argument var_folder is missing.")}
-  if (missing(var_format)) {stop("Argument var_format is missing.")}
+  if (missing(virtualsp_folder)) {stop("Argument 'virtualsp_folder' is missing.")}
+  if (missing(virtualsp_format)) {stop("Argument 'virtualsp_format' is missing.")}
+  if (missing(var_folder)) {stop("Argument 'var_folder' is missing.")}
+  if (missing(var_format)) {stop("Argument 'var_format' is missing.")}
 
   # formats and data to start
   cat("\nPreparing data, please wait...\n\n")

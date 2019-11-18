@@ -10,7 +10,7 @@ bin_env_null(overall_range, M_range, bin_size)
 \item{overall_range}{(numeric) minimum and maximum values of all species and
 Ms to be analyzed.}
 
-\item{M_range}{matrix of ranges of  environmental values in M for all species.
+\item{M_range}{matrix of environmental values ranges in M for all species.
 Columns must be minimum and maximum, and rows correspond to species.}
 
 \item{bin_size}{(numeric) size of bins. Range of environmental values to
@@ -19,7 +19,7 @@ Default = 10.}
 }
 \value{
 A character matrix containing bins that identify accessibility of environments
-(environemntal values inside M; "0"), used environments (presence of species
+(environmental values inside M; "0"), used environments (presence of species
 records; "1"), and unknown (uncertainty about the ability of the species to be
 in such conditions given accessibility; "?").
 }

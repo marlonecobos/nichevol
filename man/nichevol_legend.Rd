@@ -14,7 +14,7 @@ nichevol_legend(position, ancestor_line = FALSE,
 \arguments{
 \item{position}{(character or numeric) position of legend. If character,
 part of the plot (e.g., "topleft"), see \code{\link[graphics]{legend}}. If
-numeric, vector of two values indicating x and y postion (e.g., c(0.1, 6)).}
+numeric, vector of two values indicating x and y position (e.g., c(0.1, 6)).}
 
 \item{ancestor_line}{whether or not ancestor line was plotted.
 Default = FALSE.}
@@ -42,7 +42,7 @@ expanded. Default = c("No change", "Retraction", "Expansion").}
 \item{lwd}{line width see \code{\link[graphics]{par}}. Default = 1.}
 
 \item{cex}{size of all elements in legend see \code{\link[graphics]{par}}.
-Deafult = 1.}
+Default = 1.}
 
 \item{bty}{legend border type. Default = "n".}
 

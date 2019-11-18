@@ -32,7 +32,7 @@
 #' smooth_rec(parsimonyReconstruction)
 
 smooth_rec <- function(whole_rec_table) {
-  if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
+  if (missing(whole_rec_table)) {stop("Argument 'whole_rec_table' needs to be defined.")}
 
   statRows <- NULL
   nrows <- nrow(whole_rec_table)
