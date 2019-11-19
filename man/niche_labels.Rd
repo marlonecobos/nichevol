@@ -74,6 +74,8 @@ treeWdata <- geiger::treedata(tree, dataTable)
 rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 
 # plotting and adding labels
+\dontrun{
 ape::plot.phylo(tree, label.offset = 0.04)
 niche_labels(tree, rec_tab, height = 0.6)
+}
 }

@@ -64,7 +64,8 @@ including them in the process of preparation of the table of characters
 }
 \examples{
 # getting a variable at coarse resolution
-temp <- getData("worldclim", var = "bio", res = 10)[[1]]
+\dontrun{
+temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
 
 # example data
 data("m_list", package = "nichevol")
@@ -75,4 +76,5 @@ stat <- stats_eval(stats = c("mean", "sd", "median", "range", "quantile"),
                    Ms = m_list, occurrences = occ_list, species = "species",
                    longitude = "x", latitude = "y", variable = temp,
                    percentage_out = 0)
+}
 }

@@ -53,7 +53,8 @@
 #'
 #' @examples
 #' # getting a variable at coarse resolution
-#' temp <- getData("worldclim", var = "bio", res = 10)[[1]]
+#' \dontrun{
+#' temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
 #'
 #' # example data
 #' data("m_list", package = "nichevol")
@@ -64,6 +65,7 @@
 #'                    Ms = m_list, occurrences = occ_list, species = "species",
 #'                    longitude = "x", latitude = "y", variable = temp,
 #'                    percentage_out = 0)
+#' }
 
 stats_eval <- function(stats = c("median", "range"), Ms, occurrences, species,
                        longitude, latitude, variable, percentage_out = 0) {

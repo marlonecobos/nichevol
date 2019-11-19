@@ -51,6 +51,7 @@
 #'
 #' @examples
 #' # crreating a simple polygon
+#' \dontrun{
 #' rdata <- cbind(x = rnorm(100, -80, 12), y = rnorm(100, -3, 15))
 #' WGS84 <- sp::CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 #' sp_data <- sp::SpatialPoints(rdata, proj4string = WGS84)
@@ -60,6 +61,7 @@
 #'
 #' # creating 50 random polygons in the whole area using the "BR" style
 #' r_pols <- random_polygons(pol, style = "BR", n_polygons = 50)
+#' }
 
 random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices = 25,
                             minimum_distance = 10, length_threshold = 5,

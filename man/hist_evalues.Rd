@@ -51,6 +51,7 @@ Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
 }
 \examples{
 # getting a variable at coarse resolution
+\dontrun{
 temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
 
 # example data
@@ -61,4 +62,5 @@ data("occ_list", package = "nichevol")
 hist_evalues(M = m_list[[1]], occurrences = occ_list[[1]], species = "species",
              longitude = "x", latitude = "y", variable = temp,
              CL_lines = c(95, 99), col = c("blue", "red"))
+}
 }

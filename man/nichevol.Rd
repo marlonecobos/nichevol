@@ -4,15 +4,19 @@
 \name{nichevol}
 \alias{nichevol}
 \alias{nichevol-package}
-\title{nichevol: An R package for assessment of evolution of ecological niches
-considering uncertainty in niche reconstructions}
+\title{nichevol: Assessment of Species’ Ecological Niche Evolution Considering
+Uncertainty in Reconstructions}
 \description{
 nichevol is a collection of tools to perform critical steps in the process
 of assessing species' ecological niche evolution, with uncertainty incorporated
-in reconstructions. The main analyses include: initial exploration of environmental
-data in species records and accessible areas, preparation of data for phylogenetic
-analyses, executing comparative phylogenetic analyses of ecological niches, and
-plotting for interpretations.
+in reconstructions. The method proposed here for ancestral reconstruction of
+ecological niches characterizes species' niches using a bin-based approach
+that incorporates uncertainty in estimations. Compared to other existent
+methods the approaches presented here reduce risks of overestimation of
+ecological niche evolutionThe main analyses include: initial exploration of
+environmental data in species records and accessible areas, preparation of
+data for phylogenetic analyses, executing comparative phylogenetic analyses
+of ecological niches, and plotting for interpretations.
 }
 \section{Main functions in nichevol}{
 

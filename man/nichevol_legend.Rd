@@ -71,8 +71,10 @@ treeWdata <- geiger::treedata(tree, dataTable)
 # Maximum parsimony reconstruction
 rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 
-# plotting and adding labels and legends
+# plotting and adding labels and legend
+\dontrun{
 ape::plot.phylo(tree, label.offset = 0.04)
 nichevol_labels(tree, rec_tab, height = 0.6)
 nichevol_legend(position = "bottomleft", cex = 0.7)
+}
 }
