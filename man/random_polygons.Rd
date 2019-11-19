@@ -28,7 +28,7 @@ separation among vertices. Default = 10.}
 concavity in polygons. Default = 5.}
 
 \item{buffer_distance}{(numeric) approximate distance in km to buffer
-resultant polygons. Default = 0.}
+restultant polygons. Default = 0.}
 
 \item{save}{(logical) whether or not to save the results in working directory.
 Default = FALSE.}

@@ -65,7 +65,7 @@ A folder named as in \code{output_directory} containing all bar figures
 produced, as well as a legend to describe what is plotted.
 }
 \description{
-nichevol_bars helps in producing bar plots that represent how
+nichevol_bars produces bar plots that represent how
 species' niches (considering one environmental variable) have changed from
 ancestors to decendants. Bars are exported as png figures to an output directory
 for posterior use.
