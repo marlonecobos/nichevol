@@ -182,7 +182,7 @@ inputs the results of the ones from the previous module (tables of
 characters) and phylogenetic trees as in objects of class “phylo” (see
 the package **ape**). There are two types of reconstructions available
 to date (Maximum Likelihood and Maximum Parsimony), but at least other
-type will be included. All these functions use imputs and produce
+type will be included. All these functions use inputs and produce
 outputs in the R environment.
 
 #### Functions for post-reconstruction processes
@@ -199,7 +199,7 @@ have evolved across the phylogeny.
 
 #### Functions for simulation of virtual species
 
-These module is still under development but it is inteded to help in
+These module is still under development but it is intended to help in
 creating a suit of virtual species niches and their phylogenetic
 relationships to explore hypothesis of niche evolution.
 
@@ -228,8 +228,8 @@ library(geiger) # for merging a phylogenetic tree with a table of niche characte
 The following lines of code will help to get example data prepared for
 demonstrating the usage of **nichevol**. These data were used in an
 article in which the methods implemented in **nichevol** were proposed,
-ilustrated, and explained (see Owens et al. in review). These data are
-included in the package, so its use if straitforward.
+illustrated, and explained (see Owens et al. in review). These data are
+included in the package, so its use if straightforward.
 
 ``` r
 # variable at coarse resolution to be used as example only
@@ -257,7 +257,7 @@ data("tree_data", package = "nichevol")
 
 Before starting playing with the functions consider that **nichevol**
 allows distinct ways to prepare data depending on the user needs. The
-example data downloaded before can be used with the functions desiged to
+example data downloaded before can be used with the functions designed to
 work with multiple variables and all taxa at the time
 (*histograms\_env*, *stats\_evalues*, *bin\_tables*, *bin\_tables0*). We
 will see examples with these options first, but examples with the
@@ -268,7 +268,7 @@ variable at the time are also shown.
 
 **Multiple variables**
 
-First check the healp:
+First check the help:
 
 ``` r
 help(stats_evalues)
@@ -287,7 +287,7 @@ stats <- stats_evalues(stats = c("mean", "sd", "median", "range", "quantile"),
 
 **One variable**
 
-First check the healp:
+First check the help:
 
 ``` r
 help(stats_eval)
@@ -347,7 +347,7 @@ the species of interest.
 
 **Multiple variables**
 
-First check the healp:
+First check the help:
 
 ``` r
 help(histograms_env)
@@ -364,7 +364,7 @@ hists <- histograms_env(M_folder = "Folder_with_Ms", M_format = "shp",
 
 **One variable**
 
-First check the healp:
+First check the help:
 
 ``` r
 help(hist_evalues)
@@ -387,7 +387,7 @@ hist_evalues(M = m_list[[1]], occurrences = occ_list[[1]], species = "species",
 
 **Multiple variables: When using ranges obtained in histograms**
 
-First check the healp:
+First check the help:
 
 ``` r
 help(bin_tables)
@@ -401,7 +401,7 @@ bins <- bin_tables(ranges, percentage_out = 5, bin_size = 10)
 
 **Multiple variables: When using data from local directory**
 
-First check the healp:
+First check the help:
 
 ``` r
 help(bin_tables0)
@@ -418,7 +418,7 @@ bins <- bin_tables0(M_folder = "Folder_with_Ms", M_format = "shp",
 
 **One variables: When using data from the R environment**
 
-First check the healp:
+First check the help:
 
 ``` r
 help(bin_table)
@@ -460,7 +460,7 @@ nodelabels()
 
 #### Maximum parsimony reconstruction
 
-First check the healp:
+First check the help:
 
 ``` r
 help(bin_par_rec)
@@ -501,7 +501,7 @@ maximum parsimony reconstructions for their ancestors.
 
 #### Maximum likelihood reconstruction
 
-First check the healp:
+First check the help:
 
 ``` r
 help(bin_ml_rec)
@@ -598,7 +598,7 @@ nichevol_legend(position = "topleft", cex = 0.6)
   - Barve, N., V. Barve, A. Jimenez-Valverde, A. Lira-Noriega, S. P.
     Maher, A. T. Peterson, J. Soberón, and F. Villalobos. 2011. The
     crucial role of the accessible area in ecological niche modeling and
-    species distribution modeling. Ecol Modell 222:1810-1819.
+    species distribution modeling. Ecological Modelling 222:1810-1819.
   - Owens, H. L., L. P. Campbell, L. L. Dornak, E. E. Saupe, N. Barve,
     J. Soberón, K. Ingenloff, A. Lira-Noriega, C. M. Hensz, C. E. Myers,
     and A. T. Peterson. 2013. Constraints on interpretation of

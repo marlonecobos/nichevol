@@ -23,7 +23,7 @@
 #' \code{\link[grDevices]{png}} function. Default = 5.
 #' @param res (numeric) nominal resolution in ppi to be passed to the
 #' \code{\link[grDevices]{png}} function. Default = 300.
-#' @param overwrite (logical) whether or not to overwrite exitent results in
+#' @param overwrite (logical) whether or not to overwrite existing results in
 #' \code{output_directory}. Default = FALSE.
 #' @param output_directory (character) name of the folder in which results will
 #' be written. The directory will be created as part of the process.
@@ -33,8 +33,8 @@
 #' Ecological niches are represented in one environmental dimension with vertical
 #' bars that indicate if the species is present, absent, or if its presence is
 #' uncertain in the range of environmental conditions. Lower values of
-#' environmental variables are represted in the left part of the bar, and the
-#' oposite part of the bar represents higher values.
+#' environmental variables are represented in the left part of the bar, and the
+#' opposite part of the bar represents higher values.
 #'
 #' @return
 #' A folder named as in \code{output_directory} containing all bar figures

@@ -53,7 +53,7 @@ niche expansion has been detected. Default = "#4daf4a".}
 \item{res}{(numeric) nominal resolution in ppi to be passed to the
 \code{\link[grDevices]{png}} function. Default = 300.}
 
-\item{overwrite}{(logical) whether or not to overwrite exitent results in
+\item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
 
 \item{output_directory}{(character) name of the folder in which results will
@@ -66,16 +66,15 @@ produced, as well as a legend to describe what is plotted.
 }
 \description{
 nichevol_bars produces bar plots that represent how
-species' niches (considering one environmental variable) have changed from
-ancestors to decendants. Bars are exported as png figures to an output directory
-for posterior use.
+species' niches (considering one environmental variable at a time) have evolved.
+Bars are exported as png figures to an output directory for posterior use.
 }
 \details{
 Evolution of ecological niches is represented in one environmental dimension
 with horizontal bars indicating if the niche of the descendant has expanded,
-retracted, or has not changed compared to its ancestor's. Lower values of
-environmental variables are represted in the left part of the bar, and the
-oposite part of the bar represents higher values.
+retracted, or has not changed compared to its ancestor. Lower values of
+environmental variables are represented in the left part of the bar, higher
+values at the right.
 
 Changes in niches (evolution) are defined as follows:
 \itemize{

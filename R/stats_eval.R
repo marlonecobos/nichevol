@@ -6,7 +6,7 @@
 #'
 #' @param stats (character) name or vector of names of functions to be applied
 #' to get basic statistics of environmental values.
-#' @param Ms a list of Spatialpolygons* objects representing the accessible area
+#' @param Ms a list of SpatialPolygons* objects representing the accessible area
 #' (M) for all species to be analyzed. The order of species represented by each
 #' object here must coincide with the one in \code{occurrences}. See details.
 #' @param occurrences a list of data.frames of occurrence records for all species.
@@ -18,7 +18,7 @@
 #' values of longitude.
 #' @param latitude (character) name of the column in occurrence files containing
 #' values of latitude.
-#' @param variable a RasterLayer of an environmental variable of insterest.
+#' @param variable a RasterLayer of an environmental variable of interest.
 #' See details.
 #' @param percentage_out (numeric) percentage of extreme environmental data in M
 #' to be excluded in bin creation for further analyses. See details. Default = 0.

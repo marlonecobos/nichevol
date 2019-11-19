@@ -11,7 +11,7 @@ stats_eval(stats = c("median", "range"), Ms, occurrences, species,
 \item{stats}{(character) name or vector of names of functions to be applied
 to get basic statistics of environmental values.}
 
-\item{Ms}{a list of Spatialpolygons* objects representing the accessible area
+\item{Ms}{a list of SpatialPolygons* objects representing the accessible area
 (M) for all species to be analyzed. The order of species represented by each
 object here must coincide with the one in \code{occurrences}. See details.}
 
@@ -28,7 +28,7 @@ values of longitude.}
 \item{latitude}{(character) name of the column in occurrence files containing
 values of latitude.}
 
-\item{variable}{a RasterLayer of an environmental variable of insterest.
+\item{variable}{a RasterLayer of an environmental variable of interest.
 See details.}
 
 \item{percentage_out}{(numeric) percentage of extreme environmental data in M

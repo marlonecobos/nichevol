@@ -55,7 +55,7 @@ variables defined in \code{round_names}. Default = 1.}
 ranges considering the whole set of values and confidence limits defined in
 \code{CL_lines}. Default = FALSE.}
 
-\item{overwrite}{(logical) whether or not to overwrite exitent results in
+\item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
 
 \item{output_directory}{(character) name of the folder in which results will be

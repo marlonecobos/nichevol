@@ -39,7 +39,7 @@ no change has been detected. Default = "#377eb8".}
 \item{res}{(numeric) nominal resolution in ppi to be passed to the
 \code{\link[grDevices]{png}} function. Default = 300.}
 
-\item{overwrite}{(logical) whether or not to overwrite exitent results in
+\item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
 
 \item{output_directory}{(character) name of the folder in which results will
@@ -59,8 +59,8 @@ figures to an output directory for posterior use.
 Ecological niches are represented in one environmental dimension with vertical
 bars that indicate if the species is present, absent, or if its presence is
 uncertain in the range of environmental conditions. Lower values of
-environmental variables are represted in the left part of the bar, and the
-oposite part of the bar represents higher values.
+environmental variables are represented in the left part of the bar, and the
+opposite part of the bar represents higher values.
 }
 \examples{
 # a simple tree

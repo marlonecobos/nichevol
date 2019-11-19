@@ -1,10 +1,10 @@
-#' Histograms of environemntal conditions in M and occurrences (one species)
+#' Histograms of environmental conditions in M and occurrences (one species)
 #'
 #' @description hist_evalues helps in creating histograms to explore environmental
 #' conditions in M, lines for the confidence limits of values in M, and the
 #' location of values in occurrence records, for one species at the time.
 #'
-#' @param M a Spatialpolygons* object representing the accessible area (M)
+#' @param M a SpatialPolygons* object representing the accessible area (M)
 #' for one species. See details.
 #' @param occurrences a data.frame of occurrence records for one species. See
 #' details.
@@ -14,7 +14,7 @@
 #' values of longitude.
 #' @param latitude (character) name of the column in \code{occurrences} containing
 #' values of latitude.
-#' @param variable a RasterLayer of an environmental variable of insterest.
+#' @param variable a RasterLayer of an environmental variable of interest.
 #' See details.
 #' @param CL_lines (numeric) confidence limits of environmental values in M to
 #' be plotted as lines in the histograms. See details. Default = c(95, 99).
@@ -42,7 +42,7 @@
 #'
 #' @examples
 #' # getting a variable at coarse resolution
-#' temp <- getData("worldclim", var = "bio", res = 10)[[1]]
+#' temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
 #'
 #' # example data
 #' data("m_list", package = "nichevol")

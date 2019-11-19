@@ -1,10 +1,10 @@
-#' Bin table of environemntal conditions in M and occurrences
+#' Bin table of environmental conditions in M and occurrences
 #'
 #' @description bin_table helps in creating a bin table of environmental
 #' conditions in accessible areas (M) and species occurrence records
 #' (i.e., table of characters).
 #'
-#' @param Ms a list of Spatialpolygons* objects representing the accessible area
+#' @param Ms a list of SpatialPolygons* objects representing the accessible area
 #' (M) for all species to be analyzed. The order of species represented by each
 #' object here must coincide with the one in \code{occurrences}. See details.
 #' @param occurrences a list of data.frames of occurrence records for all species.
@@ -16,7 +16,7 @@
 #' values of longitude.
 #' @param latitude (character) name of the column in occurrence files containing
 #' values of latitude.
-#' @param variable a RasterLayer of an environmental variable of insterest.
+#' @param variable a RasterLayer of an environmental variable of interest.
 #' See details.
 #' @param percentage_out (numeric) percentage of extreme environmental data in M
 #' to be excluded in bin creation for further analyses. See details. Default = 5.
@@ -71,7 +71,7 @@
 #'
 #' @examples
 #' # getting a variable at coarse resolution
-#' temp <- getData("worldclim", var = "bio", res = 10)[[1]]
+#' temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
 #'
 #' # example data
 #' data("m_list", package = "nichevol")
