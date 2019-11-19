@@ -4,8 +4,14 @@
 \alias{bin_tables}
 \title{Bin tables of environmental conditions in M and occurrences from objects}
 \usage{
-bin_tables(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
-  overwrite = FALSE, output_directory = "Species_E_bins")
+bin_tables(
+  ranges,
+  percentage_out = 5,
+  bin_size = 10,
+  save = FALSE,
+  overwrite = FALSE,
+  output_directory = "Species_E_bins"
+)
 }
 \arguments{
 \item{ranges}{list of ranges of environmental values in M and in species
