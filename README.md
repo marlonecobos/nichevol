@@ -1,5 +1,5 @@
-nichevol: An R package for assessment of evolution of ecological niches
-considering uncertainty in niche reconstructions
+nichevol: Assessment of Species’ Ecological Niche Evolution Considering
+Uncertainty in Reconstructions
 ================
 Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
@@ -55,10 +55,15 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
 The **nichevol** R package helps to perform critical steps in the
 process of assessment of species’ ecological niche evolution, with
-uncertainty incorporated in reconstructions. The main analyses include:
-initial exploration of environmental data in species records and
-accessible areas, preparation of data for phylogenetic analyses,
-comparative phylogenetic analyses, and plotting for interpretations.
+uncertainty incorporated in reconstructions. The method proposed here
+for ancestral reconstruction of ecological niches characterizes species’
+niches using a bin-based approach that incorporates uncertainty in
+estimations. Compared to other existent methods the approaches presented
+here reduce risks of overestimation of ecological niche evolution.The
+main analyses include: initial exploration of environmental data in
+species records and accessible areas, preparation of data for
+phylogenetic analyses, comparative phylogenetic analyses, and plotting
+for interpretations.
 
 <br>
 
