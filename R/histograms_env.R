@@ -1,6 +1,6 @@
 #' Histograms of environmental conditions at occurrences and in M
 #'
-#' @description histograms_env creates PDF files with histogram plots of 
+#' @description histograms_env creates PDF files with histogram plots of
 #' environmental conditions in M, lines for the confidence limits of values in
 #' M, and the location of values in occurrence records. This is done using data
 #' read directly from a local directory, and can be applied to various species
@@ -37,7 +37,7 @@
 #' @param save_ranges (logical) whether or not to save the values identified as
 #' ranges considering the whole set of values and confidence limits defined in
 #' \code{CL_lines}. Default = FALSE.
-#' @param overwrite (logical) whether or not to overwrite exitent results in
+#' @param overwrite (logical) whether or not to overwrite existing results in
 #' \code{output_directory}. Default = FALSE.
 #' @param output_directory (character) name of the folder in which results will be
 #' written. Default = "Histogram_ranges".

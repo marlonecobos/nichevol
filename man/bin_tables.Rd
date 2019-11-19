@@ -21,14 +21,14 @@ Default = 10.}
 \item{save}{(logical) whether or not to save the results in working directory.
 Default = FALSE.}
 
-\item{overwrite}{(logical) whether or not to overwrite exitent results in
+\item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
 
 \item{output_directory}{(character) name of the folder in which results will be
 written. Default = "Species_E_bins".}
 }
 \value{
-A list named as in \code{ranges} containg the table(s) of characters.
+A list named as in \code{ranges} containing the table(s) of characters.
 A folder named as in \code{output_directory} containing all resultant csv
 files with the tables of characters will be created if \code{save} is set as
 TRUE.
@@ -56,7 +56,7 @@ The percentage to be defined in \code{percentage_out} must correspond with
 one of the confidence limits defined in \code{\link{histograms_env}}
 (argument \code{CL_lines}). For instance, if \code{CL_lines} = 95, then
 \code{percentage_out} can only be either 5 (keeping data inside the 95 CL) or
-0 (to avoid exclussion of extreme values in M).
+0 (to avoid exclusion of extreme values in M).
 
 Excluding a certain percentage of extreme environmental values prevents from
 considering extremely rare environmental values in the accessible area for

@@ -17,10 +17,10 @@
 #' @param length_threshold (numeric) approximate distance in km for producing
 #' concavity in polygons. Default = 5.
 #' @param buffer_distance (numeric) approximate distance in km to buffer
-#' restultant polygons. Default = 0.
+#' resulting polygons. Default = 0.
 #' @param save (logical) whether or not to save the results in working directory.
 #' Default = FALSE.
-#' @param overwrite (logical) whether or not to overwrite exitent results in
+#' @param overwrite (logical) whether or not to overwrite existing results in
 #' \code{output_directory}. Default = FALSE.
 #' @param output_directory (character) name of the folder in which results will
 #' be written. Default = "Random_polygons".

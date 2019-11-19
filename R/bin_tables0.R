@@ -36,7 +36,7 @@
 #' Default = 10.
 #' @param save (logical) whether or not to save the results in working directory.
 #' Default = FALSE.
-#' @param overwrite (logical) whether or not to overwrite exitent results in
+#' @param overwrite (logical) whether or not to overwrite existing results in
 #' \code{output_directory}. Default = FALSE.
 #' @param output_directory (character) name of the folder in which results will be
 #' written. Default = "Species_E_bins".

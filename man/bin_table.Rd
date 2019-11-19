@@ -2,13 +2,13 @@
 % Please edit documentation in R/bin_table.R
 \name{bin_table}
 \alias{bin_table}
-\title{Bin table of environemntal conditions in M and occurrences}
+\title{Bin table of environmental conditions in M and occurrences}
 \usage{
 bin_table(Ms, occurrences, species, longitude, latitude, variable,
   percentage_out = 5, bin_size = 10)
 }
 \arguments{
-\item{Ms}{a list of Spatialpolygons* objects representing the accessible area
+\item{Ms}{a list of SpatialPolygons* objects representing the accessible area
 (M) for all species to be analyzed. The order of species represented by each
 object here must coincide with the one in \code{occurrences}. See details.}
 
@@ -25,7 +25,7 @@ values of longitude.}
 \item{latitude}{(character) name of the column in occurrence files containing
 values of latitude.}
 
-\item{variable}{a RasterLayer of an environmental variable of insterest.
+\item{variable}{a RasterLayer of an environmental variable of interest.
 See details.}
 
 \item{percentage_out}{(numeric) percentage of extreme environmental data in M
@@ -84,7 +84,7 @@ a class that correspond to 10 continuous values of precipitation (e.g., from
 }
 \examples{
 # getting a variable at coarse resolution
-temp <- getData("worldclim", var = "bio", res = 10)[[1]]
+temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
 
 # example data
 data("m_list", package = "nichevol")

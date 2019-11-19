@@ -28,12 +28,12 @@ separation among vertices. Default = 10.}
 concavity in polygons. Default = 5.}
 
 \item{buffer_distance}{(numeric) approximate distance in km to buffer
-restultant polygons. Default = 0.}
+resulting polygons. Default = 0.}
 
 \item{save}{(logical) whether or not to save the results in working directory.
 Default = FALSE.}
 
-\item{overwrite}{(logical) whether or not to overwrite exitent results in
+\item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
 
 \item{output_directory}{(character) name of the folder in which results will

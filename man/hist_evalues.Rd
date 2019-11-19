@@ -2,13 +2,13 @@
 % Please edit documentation in R/hist_evalues.R
 \name{hist_evalues}
 \alias{hist_evalues}
-\title{Histograms of environemntal conditions in M and occurrences (one species)}
+\title{Histograms of environmental conditions in M and occurrences (one species)}
 \usage{
 hist_evalues(M, occurrences, species, longitude, latitude, variable,
   CL_lines = c(95, 99), col = NULL)
 }
 \arguments{
-\item{M}{a Spatialpolygons* object representing the accessible area (M)
+\item{M}{a SpatialPolygons* object representing the accessible area (M)
 for one species. See details.}
 
 \item{occurrences}{a data.frame of occurrence records for one species. See
@@ -23,7 +23,7 @@ values of longitude.}
 \item{latitude}{(character) name of the column in \code{occurrences} containing
 values of latitude.}
 
-\item{variable}{a RasterLayer of an environmental variable of insterest.
+\item{variable}{a RasterLayer of an environmental variable of interest.
 See details.}
 
 \item{CL_lines}{(numeric) confidence limits of environmental values in M to
@@ -51,7 +51,7 @@ Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
 }
 \examples{
 # getting a variable at coarse resolution
-temp <- getData("worldclim", var = "bio", res = 10)[[1]]
+temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
 
 # example data
 data("m_list", package = "nichevol")

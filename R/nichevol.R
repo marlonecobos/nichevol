@@ -3,7 +3,7 @@
 #'
 #' nichevol is a collection of tools to perform critical steps in the process
 #' of assessing species' ecological niche evolution, with uncertainty incorporated
-#' in reconstructions. The main analyses include: intial exploration of environmental
+#' in reconstructions. The main analyses include: initial exploration of environmental
 #' data in species records and accessible areas, preparation of data for phylogenetic
 #' analyses, executing comparative phylogenetic analyses of ecological niches, and
 #' plotting for interpretations.

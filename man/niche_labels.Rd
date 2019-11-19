@@ -46,13 +46,13 @@ species ecological niches in one environmental variable.
 \details{
 For the moment, only plots of type "phylogram" with "rightwards" or "leftwards"
 directions, created with the function \code{\link[ape]{plot.phylo}} from the
-package \code{ape} are suported.
+package \code{ape} are supported.
 
 Ecological niches are represented in one environmental dimension with vertical
 bars that indicate if the species is present, absent, or if its presence is
 uncertain in the range of environmental conditions. Lower values of
-environmental variables are represted in the lower part of the bar, and the
-oposite part of the bar represents higher values.
+environmental variables are represented in the lower part of the bar, and the
+opposite part of the bar represents higher values.
 }
 \examples{
 # a simple tree

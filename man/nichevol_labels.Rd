@@ -56,13 +56,13 @@ species niches changed from ancestors to descendants.
 \details{
 For the moment, only plots of type "phylogram" with "rightwards" or "leftwards"
 directions, created with the function \code{\link[ape]{plot.phylo}} from the
-package \code{ape} are suported.
+package \code{ape} are supported.
 
 Evolution of ecological niches is represented in one environmental dimension
 with vertical bars indicating if the niche of the descendant has expanded,
 retracted, or has not changed compared to its ancestor's. Lower values of
-environmental variables are represted in the lower part of the bar, and the
-oposite part of the bar represents higher values.
+environmental variables are represented in the lower part of the bar, and the
+opposite part of the bar represents higher values.
 
 Changes in niches (evolution) are defined as follows:
 \itemize{

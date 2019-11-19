@@ -55,7 +55,7 @@ Default = 10.}
 \item{save}{(logical) whether or not to save the results in working directory.
 Default = FALSE.}
 
-\item{overwrite}{(logical) whether or not to overwrite exitent results in
+\item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
 
 \item{output_directory}{(character) name of the folder in which results will be
