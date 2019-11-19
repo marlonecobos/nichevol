@@ -37,13 +37,11 @@ Imports:
     utils (>= 3.6)
 Suggests:
 	knitr(>= 1.25),
-	phytools (>= 0.6),
-	readxl (>= 1.3)
+	phytools (>= 0.6)
 Depends:
     R (>= 3.5.0)
-VignetteBuilder: knitr
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
