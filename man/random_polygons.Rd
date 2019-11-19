@@ -4,10 +4,18 @@
 \alias{random_polygons}
 \title{Generation of random polygons in a given area}
 \usage{
-random_polygons(polygon, style = "TR", n_polygons = 100,
-  n_vertices = 25, minimum_distance = 10, length_threshold = 5,
-  buffer_distance = 0, save = FALSE, overwrite = FALSE,
-  output_directory = "Random_polygons")
+random_polygons(
+  polygon,
+  style = "TR",
+  n_polygons = 100,
+  n_vertices = 25,
+  minimum_distance = 10,
+  length_threshold = 5,
+  buffer_distance = 0,
+  save = FALSE,
+  overwrite = FALSE,
+  output_directory = "Random_polygons"
+)
 }
 \arguments{
 \item{polygon}{SpatialPolygonsDataFrame object. CRS WGS84 is required.}

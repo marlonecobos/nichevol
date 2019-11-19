@@ -4,8 +4,16 @@
 \alias{bin_table}
 \title{Bin table of environmental conditions in M and occurrences}
 \usage{
-bin_table(Ms, occurrences, species, longitude, latitude, variable,
-  percentage_out = 5, bin_size = 10)
+bin_table(
+  Ms,
+  occurrences,
+  species,
+  longitude,
+  latitude,
+  variable,
+  percentage_out = 5,
+  bin_size = 10
+)
 }
 \arguments{
 \item{Ms}{a list of SpatialPolygons* objects representing the accessible area

@@ -4,8 +4,16 @@
 \alias{hist_evalues}
 \title{Histograms of environmental conditions in M and occurrences (one species)}
 \usage{
-hist_evalues(M, occurrences, species, longitude, latitude, variable,
-  CL_lines = c(95, 99), col = NULL)
+hist_evalues(
+  M,
+  occurrences,
+  species,
+  longitude,
+  latitude,
+  variable,
+  CL_lines = c(95, 99),
+  col = NULL
+)
 }
 \arguments{
 \item{M}{a SpatialPolygons* object representing the accessible area (M)

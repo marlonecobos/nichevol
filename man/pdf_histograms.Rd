@@ -4,8 +4,17 @@
 \alias{pdf_histograms}
 \title{Helper function to create PDF files with histograms}
 \usage{
-pdf_histograms(env_data, occ_data, y_values, sp_names, variable_name,
-  CL_lines, limits, col, output_directory = "Histogram_ranges_check")
+pdf_histograms(
+  env_data,
+  occ_data,
+  y_values,
+  sp_names,
+  variable_name,
+  CL_lines,
+  limits,
+  col,
+  output_directory = "Histogram_ranges_check"
+)
 }
 \arguments{
 \item{env_data}{list of environmental values in M for all species.}

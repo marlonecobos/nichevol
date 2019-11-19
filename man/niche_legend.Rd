@@ -4,9 +4,16 @@
 \alias{niche_legend}
 \title{Legends for niche labels in phylogenetic trees}
 \usage{
-niche_legend(position, legend = c("Uncertain", "Present", "Not present"),
-  pch = 22, pt.bg = c("#969696", "#e41a1c", "#377eb8"),
-  col = "transparent", pt.cex = 2.2, bty = "n", ...)
+niche_legend(
+  position,
+  legend = c("Uncertain", "Present", "Not present"),
+  pch = 22,
+  pt.bg = c("#969696", "#e41a1c", "#377eb8"),
+  col = "transparent",
+  pt.cex = 2.2,
+  bty = "n",
+  ...
+)
 }
 \arguments{
 \item{position}{(character or numeric) position of legend. If character,
