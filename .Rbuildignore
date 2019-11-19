@@ -1,3 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^README.Rmd
+^README_files
+^cran-comments.md$
