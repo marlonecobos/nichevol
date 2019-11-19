@@ -5,10 +5,12 @@ output:
   github_document:
     toc: yes
     toc_depth: 4
+always_allow_html: true
 ---
 
 ```{r knitr_init, echo=FALSE, cache=FALSE, message=FALSE}
 library(knitr)
+library(kableExtra)
 opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 opts_knit$set(root.dir = "C:/Marlon/test/nichevol")
 ```
@@ -130,7 +132,7 @@ library(geiger) # for merging a phylogenetic tree with a table of niche characte
 
 ### Initial data (example data)
 
-The following lines of code will help to get example data prepared for demonstrating the usage of **nichevol**. These data were used in an article in which the methods implemented in **nichevol** were proposed, illustrated, and explained (see Owens et al. in review). These data are included in the package, so its use if straightforward. 
+The following lines of code will help to get example data prepared for demonstrating the usage of **nichevol**. These data were used in an article in which the methods implemented in **nichevol** were proposed, illustrated, and explained (see Owens et al. in review). These data are included in the package, so its use is straightforward. 
 
 ```{r example_data, include=TRUE, message=FALSE, warning=FALSE}
 # variable at coarse resolution to be used as example only
@@ -195,9 +197,9 @@ stat <- stats_eval(stats = c("mean", "sd", "median", "range", "quantile"),
                    longitude = "x", latitude = "y", variable = temp, 
                    percentage_out = 0)
 
-knitr::kable(stat[[1]], caption = "Table of descriptive statistics of temperature (x 10) in accessible areas for the species of interest.")
+knitr::kable(stat[[1]], caption = "Table of descriptive statistics of temperature (x 10) in accessible areas for the species of interest.", digits = 2) %>% kable_styling(font_size = 12)
 
-knitr::kable(stat[[2]], caption = "Table of descriptive statistics of temperature (x 10) in occurrences of the species of interest.")
+knitr::kable(stat[[2]], caption = "Table of descriptive statistics of temperature (x 10) in occurrences of the species of interest.", digits = 2) %>% kable_styling(font_size = 12)
 ```
 
 <br>
@@ -282,12 +284,13 @@ help(bin_table)
 
 Now the running:
 
-```{r bin_table, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+```{r bin_table, include=TRUE, message=FALSE, warning=FALSE}
 bin_tabl <- bin_table(Ms = m_list, occurrences = occ_list, species = "species",
                       longitude = "x", latitude = "y", variable = temp, 
                       percentage_out = 5, bin_size = 10)
 
-knitr::kable(bin_tabl, caption = "Table characters for ecological niches of the species of interest.")
+knitr::kable(bin_tabl, caption = "Table characters for ecological niches of the species of interest.") %>% 
+  kable_styling(font_size = 12)
 ```
 
 <br>
@@ -327,7 +330,7 @@ par_rec_table <- bin_par_rec(tree_data)
 s_par_rec_table <- smooth_rec(par_rec_table)
 
 # results
-knitr::kable(s_par_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum parsimony reconstructions for their ancestors.")
+knitr::kable(s_par_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum parsimony reconstructions for their ancestors.") %>% kable_styling(font_size = 12)
 ```
 
 <br>
@@ -351,7 +354,7 @@ s_ml_rec_table <- smooth_rec(ml_rec_table)
 
 
 # results
-knitr::kable(s_ml_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum likelihood reconstructions for their ancestors.")
+knitr::kable(s_ml_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum likelihood reconstructions for their ancestors.", digits = 2) %>% kable_styling(font_size = 12)
 ```
 
 <br>
