@@ -3,6 +3,7 @@
 \docType{package}
 \name{nichevol}
 \alias{nichevol}
+\alias{nichevol-package}
 \title{nichevol: Assessment of Species’ Ecological Niche Evolution Considering
 Uncertainty in Reconstructions}
 \description{

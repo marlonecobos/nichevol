@@ -4,21 +4,12 @@
 \alias{nichevol_legend}
 \title{Legends for niche evolution labels in phylogenetic trees}
 \usage{
-nichevol_legend(
-  position,
-  ancestor_line = FALSE,
+nichevol_legend(position, ancestor_line = FALSE,
   ancestor_legend = c("Uncertain", "Present"),
   evol_legend = c("No change", "Retraction", "Expansion"),
-  ancestor_col = c("#d9d9d9", "#252525"),
-  evol_col = c("#b2df8a", "#984ea3", "#4daf4a"),
-  pch = 22,
-  pt.cex = 2.2,
-  lty = 1,
-  lwd = 1,
-  cex = 1,
-  bty = "n",
-  ...
-)
+  ancestor_col = c("#d9d9d9", "#252525"), evol_col = c("#b2df8a",
+  "#984ea3", "#4daf4a"), pch = 22, pt.cex = 2.2, lty = 1, lwd = 1,
+  cex = 1, bty = "n", ...)
 }
 \arguments{
 \item{position}{(character or numeric) position of legend. If character,

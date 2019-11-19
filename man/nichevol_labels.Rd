@@ -4,21 +4,11 @@
 \alias{nichevol_labels}
 \title{Labels to represent changes of between ancestors and descendants}
 \usage{
-nichevol_labels(
-  tree,
-  whole_rec_table,
-  ancestor_line = FALSE,
-  present = "1",
-  absent = "0",
-  unknown = "?",
-  present_col = "#252525",
-  unknown_col = "#d9d9d9",
-  no_change_col = "#b2df8a",
-  retraction_col = "#984ea3",
-  expansion_col = "#4daf4a",
-  width = 1,
-  height = 1
-)
+nichevol_labels(tree, whole_rec_table, ancestor_line = FALSE,
+  present = "1", absent = "0", unknown = "?",
+  present_col = "#252525", unknown_col = "#d9d9d9",
+  no_change_col = "#b2df8a", retraction_col = "#984ea3",
+  expansion_col = "#4daf4a", width = 1, height = 1)
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
