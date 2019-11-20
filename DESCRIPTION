@@ -1,19 +1,25 @@
 Package: nichevol
 Type: Package
-Title: An R package for assessment of evolution of ecological niches considering uncertainty in niche reconstructions
-Version: 0.1.15
+Title: Assessment of Species’ Ecological Niche Evolution Considering Uncertainty in Reconstructions
+Version: 0.1.16
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
     person("Hannah L.", "Owens", email = "hannah.owens@gmail.com", role = "aut"),
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"))
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
-Date: 2019-09-25
-Description: This package helps to perform critical steps in the process of 
-    assessment of evolution of species ecological niches, with uncertainty 
-    incorporated in reconstructions. The main analyses include: initial exploration 
-    of environmental data in species records and accessible areas, preparation of 
-    data for phylogenetic analyses, phylogenetic analyses of ecological niches, and 
+Date: 2019-11-19
+Description: nichevol helps to perform critical steps in the process of 
+    assessment of species' ecological niche evolution considering uncertainty 
+    in reconstructions. The method proposed here for ancestral reconstruction of
+    ecological niches characterizes species' niches using a bin-based approach 
+    that incorporates uncertainty in estimations. Compared to other existent 
+    methods the approaches presented here reduce risks of overestimation of 
+    ecological niche evolution. The main analyses include: initial exploration of 
+    environmental data in species records and accessible areas, preparation of 
+    data for phylogenetic analyses, comparative phylogenetic analyses, and
     plotting for interpretations.
+URL: https://github.com/marlonecobos/nichevol
+BugReports: https://github.com/marlonecobos/nichevol/issues
 Imports:
     ape (>= 5.3),
     castor (>= 1.4),
@@ -31,13 +37,11 @@ Imports:
     utils (>= 3.6)
 Suggests:
 	knitr(>= 1.25),
-	phytools (>= 0.6),
-	readxl (>= 1.3)
+	phytools (>= 0.6)
 Depends:
     R (>= 3.5.0)
-VignetteBuilder: knitr
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0

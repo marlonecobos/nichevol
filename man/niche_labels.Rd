@@ -4,10 +4,19 @@
 \alias{niche_labels}
 \title{Labels to represent niches of tips and ancestors}
 \usage{
-niche_labels(tree, whole_rec_table, label_type = "tip_node",
-  tip_offset = 0.015, present = "1", unknown = "?",
-  present_col = "#e41a1c", unknown_col = "#969696",
-  absent_col = "#377eb8", width = 1, height = 1)
+niche_labels(
+  tree,
+  whole_rec_table,
+  label_type = "tip_node",
+  tip_offset = 0.015,
+  present = "1",
+  unknown = "?",
+  present_col = "#e41a1c",
+  unknown_col = "#969696",
+  absent_col = "#377eb8",
+  width = 1,
+  height = 1
+)
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
@@ -74,6 +83,8 @@ treeWdata <- geiger::treedata(tree, dataTable)
 rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 
 # plotting and adding labels
+\dontrun{
 ape::plot.phylo(tree, label.offset = 0.04)
 niche_labels(tree, rec_tab, height = 0.6)
+}
 }

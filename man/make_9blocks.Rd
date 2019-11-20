@@ -14,6 +14,6 @@ Helper function to split geographic points in 9 blocks of equal size
 }
 \examples{
 # random data
-rdata <- cbind(x = rnorm(1000, -80, 12), y = rnorm(1000, -3, 15))
+rdata <- cbind(x = rnorm(100, -80, 12), y = rnorm(100, -3, 15))
 blocks <- make_9blocks(rdata)
 }

@@ -71,6 +71,7 @@
 #'
 #' @examples
 #' # getting a variable at coarse resolution
+#' \dontrun{
 #' temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
 #'
 #' # example data
@@ -81,6 +82,7 @@
 #' char_table <- bin_table(Ms = m_list, occurrences = occ_list, species = "species",
 #'                         longitude = "x", latitude = "y", variable = temp,
 #'                         percentage_out = 5, bin_size = 10)
+#' }
 
 bin_table <- function(Ms, occurrences, species, longitude, latitude, variable,
                       percentage_out = 5, bin_size = 10) {

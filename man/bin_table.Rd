@@ -4,8 +4,16 @@
 \alias{bin_table}
 \title{Bin table of environmental conditions in M and occurrences}
 \usage{
-bin_table(Ms, occurrences, species, longitude, latitude, variable,
-  percentage_out = 5, bin_size = 10)
+bin_table(
+  Ms,
+  occurrences,
+  species,
+  longitude,
+  latitude,
+  variable,
+  percentage_out = 5,
+  bin_size = 10
+)
 }
 \arguments{
 \item{Ms}{a list of SpatialPolygons* objects representing the accessible area
@@ -84,6 +92,7 @@ a class that correspond to 10 continuous values of precipitation (e.g., from
 }
 \examples{
 # getting a variable at coarse resolution
+\dontrun{
 temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
 
 # example data
@@ -94,4 +103,5 @@ data("occ_list", package = "nichevol")
 char_table <- bin_table(Ms = m_list, occurrences = occ_list, species = "species",
                         longitude = "x", latitude = "y", variable = temp,
                         percentage_out = 5, bin_size = 10)
+}
 }

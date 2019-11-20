@@ -1,5 +1,5 @@
-nichevol: An R package for assessment of evolution of ecological niches
-considering uncertainty in niche reconstructions
+nichevol: Assessment of Species’ Ecological Niche Evolution Considering
+Uncertainty in Reconstructions
 ================
 Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
@@ -55,10 +55,15 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
 The **nichevol** R package helps to perform critical steps in the
 process of assessment of species’ ecological niche evolution, with
-uncertainty incorporated in reconstructions. The main analyses include:
-initial exploration of environmental data in species records and
-accessible areas, preparation of data for phylogenetic analyses,
-comparative phylogenetic analyses, and plotting for interpretations.
+uncertainty incorporated in reconstructions. The method proposed here
+for ancestral reconstruction of ecological niches characterizes species’
+niches using a bin-based approach that incorporates uncertainty in
+estimations. Compared to other existent methods the approaches presented
+here reduce risks of overestimation of ecological niche evolution.The
+main analyses include: initial exploration of environmental data in
+species records and accessible areas, preparation of data for
+phylogenetic analyses, comparative phylogenetic analyses, and plotting
+for interpretations.
 
 <br>
 
@@ -229,7 +234,7 @@ The following lines of code will help to get example data prepared for
 demonstrating the usage of **nichevol**. These data were used in an
 article in which the methods implemented in **nichevol** were proposed,
 illustrated, and explained (see Owens et al. in review). These data are
-included in the package, so its use if straightforward.
+included in the package, so its use is straightforward.
 
 ``` r
 # variable at coarse resolution to be used as example only
@@ -257,8 +262,8 @@ data("tree_data", package = "nichevol")
 
 Before starting playing with the functions consider that **nichevol**
 allows distinct ways to prepare data depending on the user needs. The
-example data downloaded before can be used with the functions designed to
-work with multiple variables and all taxa at the time
+example data downloaded before can be used with the functions designed
+to work with multiple variables and all taxa at the time
 (*histograms\_env*, *stats\_evalues*, *bin\_tables*, *bin\_tables0*). We
 will see examples with these options first, but examples with the
 functions that work with data in the R environment and only for one
@@ -309,37 +314,1031 @@ stat <- stats_eval(stats = c("mean", "sd", "median", "range", "quantile"),
 #>   5 of 6 species finished
 #>   6 of 6 species finished
 
-knitr::kable(stat[[1]], caption = "Table of descriptive statistics of temperature (x 10) in accessible areas for the species of interest.")
+knitr::kable(stat[[1]], caption = "Table of descriptive statistics of temperature (x 10) in accessible areas for the species of interest.", digits = 2) %>% kable_styling(font_size = 12)
 ```
 
-| Species |     mean |       sd | median | range1 | range2 | quantile.0. | quantile.25. | quantile.50. | quantile.75. | quantile.100. |
-| :------ | -------: | -------: | -----: | -----: | -----: | ----------: | -----------: | -----------: | -----------: | ------------: |
-| RD 9830 | 218.4736 | 55.10421 |    240 |     14 |    263 |          14 |       223.00 |          240 |          249 |           263 |
-| RD 3351 | 244.6283 | 14.77594 |    249 |    175 |    272 |         175 |       237.00 |          249 |          254 |           272 |
-| RD 6933 | 152.9771 | 76.81137 |    168 |    \-1 |    269 |         \-1 |        80.75 |          168 |          215 |           269 |
-| RD 761  | 222.2735 | 52.64984 |    238 |   \-27 |    263 |        \-27 |       227.00 |          238 |          249 |           263 |
-| RD 6773 | 245.2930 | 10.68543 |    248 |    160 |    269 |         160 |       240.00 |          248 |          252 |           269 |
-| RD 7516 | 211.0188 | 78.19016 |    256 |   \-31 |    288 |        \-31 |       165.75 |          256 |          261 |           288 |
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+
+<caption style="font-size: initial !important;">
 
 Table of descriptive statistics of temperature (x 10) in accessible
 areas for the species of interest.
 
+</caption>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+Species
+
+</th>
+
+<th style="text-align:right;">
+
+mean
+
+</th>
+
+<th style="text-align:right;">
+
+sd
+
+</th>
+
+<th style="text-align:right;">
+
+median
+
+</th>
+
+<th style="text-align:right;">
+
+range1
+
+</th>
+
+<th style="text-align:right;">
+
+range2
+
+</th>
+
+<th style="text-align:right;">
+
+quantile.0.
+
+</th>
+
+<th style="text-align:right;">
+
+quantile.25.
+
+</th>
+
+<th style="text-align:right;">
+
+quantile.50.
+
+</th>
+
+<th style="text-align:right;">
+
+quantile.75.
+
+</th>
+
+<th style="text-align:right;">
+
+quantile.100.
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 9830
+
+</td>
+
+<td style="text-align:right;">
+
+218.47
+
+</td>
+
+<td style="text-align:right;">
+
+55.10
+
+</td>
+
+<td style="text-align:right;">
+
+240
+
+</td>
+
+<td style="text-align:right;">
+
+14
+
+</td>
+
+<td style="text-align:right;">
+
+263
+
+</td>
+
+<td style="text-align:right;">
+
+14
+
+</td>
+
+<td style="text-align:right;">
+
+223.00
+
+</td>
+
+<td style="text-align:right;">
+
+240
+
+</td>
+
+<td style="text-align:right;">
+
+249
+
+</td>
+
+<td style="text-align:right;">
+
+263
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 3351
+
+</td>
+
+<td style="text-align:right;">
+
+244.63
+
+</td>
+
+<td style="text-align:right;">
+
+14.78
+
+</td>
+
+<td style="text-align:right;">
+
+249
+
+</td>
+
+<td style="text-align:right;">
+
+175
+
+</td>
+
+<td style="text-align:right;">
+
+272
+
+</td>
+
+<td style="text-align:right;">
+
+175
+
+</td>
+
+<td style="text-align:right;">
+
+237.00
+
+</td>
+
+<td style="text-align:right;">
+
+249
+
+</td>
+
+<td style="text-align:right;">
+
+254
+
+</td>
+
+<td style="text-align:right;">
+
+272
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 6933
+
+</td>
+
+<td style="text-align:right;">
+
+152.98
+
+</td>
+
+<td style="text-align:right;">
+
+76.81
+
+</td>
+
+<td style="text-align:right;">
+
+168
+
+</td>
+
+<td style="text-align:right;">
+
+\-1
+
+</td>
+
+<td style="text-align:right;">
+
+269
+
+</td>
+
+<td style="text-align:right;">
+
+\-1
+
+</td>
+
+<td style="text-align:right;">
+
+80.75
+
+</td>
+
+<td style="text-align:right;">
+
+168
+
+</td>
+
+<td style="text-align:right;">
+
+215
+
+</td>
+
+<td style="text-align:right;">
+
+269
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 761
+
+</td>
+
+<td style="text-align:right;">
+
+222.27
+
+</td>
+
+<td style="text-align:right;">
+
+52.65
+
+</td>
+
+<td style="text-align:right;">
+
+238
+
+</td>
+
+<td style="text-align:right;">
+
+\-27
+
+</td>
+
+<td style="text-align:right;">
+
+263
+
+</td>
+
+<td style="text-align:right;">
+
+\-27
+
+</td>
+
+<td style="text-align:right;">
+
+227.00
+
+</td>
+
+<td style="text-align:right;">
+
+238
+
+</td>
+
+<td style="text-align:right;">
+
+249
+
+</td>
+
+<td style="text-align:right;">
+
+263
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 6773
+
+</td>
+
+<td style="text-align:right;">
+
+245.29
+
+</td>
+
+<td style="text-align:right;">
+
+10.69
+
+</td>
+
+<td style="text-align:right;">
+
+248
+
+</td>
+
+<td style="text-align:right;">
+
+160
+
+</td>
+
+<td style="text-align:right;">
+
+269
+
+</td>
+
+<td style="text-align:right;">
+
+160
+
+</td>
+
+<td style="text-align:right;">
+
+240.00
+
+</td>
+
+<td style="text-align:right;">
+
+248
+
+</td>
+
+<td style="text-align:right;">
+
+252
+
+</td>
+
+<td style="text-align:right;">
+
+269
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 7516
+
+</td>
+
+<td style="text-align:right;">
+
+211.02
+
+</td>
+
+<td style="text-align:right;">
+
+78.19
+
+</td>
+
+<td style="text-align:right;">
+
+256
+
+</td>
+
+<td style="text-align:right;">
+
+\-31
+
+</td>
+
+<td style="text-align:right;">
+
+288
+
+</td>
+
+<td style="text-align:right;">
+
+\-31
+
+</td>
+
+<td style="text-align:right;">
+
+165.75
+
+</td>
+
+<td style="text-align:right;">
+
+256
+
+</td>
+
+<td style="text-align:right;">
+
+261
+
+</td>
+
+<td style="text-align:right;">
+
+288
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
 ``` r
 
-knitr::kable(stat[[2]], caption = "Table of descriptive statistics of temperature (x 10) in occurrences of the species of interest.")
+knitr::kable(stat[[2]], caption = "Table of descriptive statistics of temperature (x 10) in occurrences of the species of interest.", digits = 2) %>% kable_styling(font_size = 12)
 ```
 
-| Species |     mean |       sd | median | range1 | range2 | quantile.0. | quantile.25. | quantile.50. | quantile.75. | quantile.100. |
-| :------ | -------: | -------: | -----: | -----: | -----: | ----------: | -----------: | -----------: | -----------: | ------------: |
-| RD 9830 | 255.5667 | 4.279523 |    255 |    245 |    263 |         245 |          252 |          255 |          259 |           263 |
-| RD 3351 | 254.9320 | 4.120879 |    254 |    244 |    266 |         244 |          252 |          254 |          258 |           266 |
-| RD 6933 | 259.9392 | 5.271185 |    260 |    243 |    269 |         243 |          256 |          260 |          264 |           269 |
-| RD 761  | 255.4200 | 4.279293 |    255 |    246 |    263 |         246 |          251 |          255 |          259 |           263 |
-| RD 6773 | 250.1370 | 5.173714 |    250 |    240 |    268 |         240 |          247 |          250 |          253 |           268 |
-| RD 7516 | 259.0946 | 6.296893 |    260 |    241 |    278 |         241 |          256 |          260 |          263 |           278 |
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+
+<caption style="font-size: initial !important;">
 
 Table of descriptive statistics of temperature (x 10) in occurrences of
 the species of interest.
+
+</caption>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+Species
+
+</th>
+
+<th style="text-align:right;">
+
+mean
+
+</th>
+
+<th style="text-align:right;">
+
+sd
+
+</th>
+
+<th style="text-align:right;">
+
+median
+
+</th>
+
+<th style="text-align:right;">
+
+range1
+
+</th>
+
+<th style="text-align:right;">
+
+range2
+
+</th>
+
+<th style="text-align:right;">
+
+quantile.0.
+
+</th>
+
+<th style="text-align:right;">
+
+quantile.25.
+
+</th>
+
+<th style="text-align:right;">
+
+quantile.50.
+
+</th>
+
+<th style="text-align:right;">
+
+quantile.75.
+
+</th>
+
+<th style="text-align:right;">
+
+quantile.100.
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 9830
+
+</td>
+
+<td style="text-align:right;">
+
+255.57
+
+</td>
+
+<td style="text-align:right;">
+
+4.28
+
+</td>
+
+<td style="text-align:right;">
+
+255
+
+</td>
+
+<td style="text-align:right;">
+
+245
+
+</td>
+
+<td style="text-align:right;">
+
+263
+
+</td>
+
+<td style="text-align:right;">
+
+245
+
+</td>
+
+<td style="text-align:right;">
+
+252
+
+</td>
+
+<td style="text-align:right;">
+
+255
+
+</td>
+
+<td style="text-align:right;">
+
+259
+
+</td>
+
+<td style="text-align:right;">
+
+263
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 3351
+
+</td>
+
+<td style="text-align:right;">
+
+254.93
+
+</td>
+
+<td style="text-align:right;">
+
+4.12
+
+</td>
+
+<td style="text-align:right;">
+
+254
+
+</td>
+
+<td style="text-align:right;">
+
+244
+
+</td>
+
+<td style="text-align:right;">
+
+266
+
+</td>
+
+<td style="text-align:right;">
+
+244
+
+</td>
+
+<td style="text-align:right;">
+
+252
+
+</td>
+
+<td style="text-align:right;">
+
+254
+
+</td>
+
+<td style="text-align:right;">
+
+258
+
+</td>
+
+<td style="text-align:right;">
+
+266
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 6933
+
+</td>
+
+<td style="text-align:right;">
+
+259.94
+
+</td>
+
+<td style="text-align:right;">
+
+5.27
+
+</td>
+
+<td style="text-align:right;">
+
+260
+
+</td>
+
+<td style="text-align:right;">
+
+243
+
+</td>
+
+<td style="text-align:right;">
+
+269
+
+</td>
+
+<td style="text-align:right;">
+
+243
+
+</td>
+
+<td style="text-align:right;">
+
+256
+
+</td>
+
+<td style="text-align:right;">
+
+260
+
+</td>
+
+<td style="text-align:right;">
+
+264
+
+</td>
+
+<td style="text-align:right;">
+
+269
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 761
+
+</td>
+
+<td style="text-align:right;">
+
+255.42
+
+</td>
+
+<td style="text-align:right;">
+
+4.28
+
+</td>
+
+<td style="text-align:right;">
+
+255
+
+</td>
+
+<td style="text-align:right;">
+
+246
+
+</td>
+
+<td style="text-align:right;">
+
+263
+
+</td>
+
+<td style="text-align:right;">
+
+246
+
+</td>
+
+<td style="text-align:right;">
+
+251
+
+</td>
+
+<td style="text-align:right;">
+
+255
+
+</td>
+
+<td style="text-align:right;">
+
+259
+
+</td>
+
+<td style="text-align:right;">
+
+263
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 6773
+
+</td>
+
+<td style="text-align:right;">
+
+250.14
+
+</td>
+
+<td style="text-align:right;">
+
+5.17
+
+</td>
+
+<td style="text-align:right;">
+
+250
+
+</td>
+
+<td style="text-align:right;">
+
+240
+
+</td>
+
+<td style="text-align:right;">
+
+268
+
+</td>
+
+<td style="text-align:right;">
+
+240
+
+</td>
+
+<td style="text-align:right;">
+
+247
+
+</td>
+
+<td style="text-align:right;">
+
+250
+
+</td>
+
+<td style="text-align:right;">
+
+253
+
+</td>
+
+<td style="text-align:right;">
+
+268
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 7516
+
+</td>
+
+<td style="text-align:right;">
+
+259.09
+
+</td>
+
+<td style="text-align:right;">
+
+6.30
+
+</td>
+
+<td style="text-align:right;">
+
+260
+
+</td>
+
+<td style="text-align:right;">
+
+241
+
+</td>
+
+<td style="text-align:right;">
+
+278
+
+</td>
+
+<td style="text-align:right;">
+
+241
+
+</td>
+
+<td style="text-align:right;">
+
+256
+
+</td>
+
+<td style="text-align:right;">
+
+260
+
+</td>
+
+<td style="text-align:right;">
+
+263
+
+</td>
+
+<td style="text-align:right;">
+
+278
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 <br>
 
@@ -431,9 +1430,1287 @@ running:
 bin_tabl <- bin_table(Ms = m_list, occurrences = occ_list, species = "species",
                       longitude = "x", latitude = "y", variable = temp, 
                       percentage_out = 5, bin_size = 10)
+#> 
+#>    Preparing range values:
+#>   1 of 6 species finished
+#>   2 of 6 species finished
+#>   3 of 6 species finished
+#>   4 of 6 species finished
+#>   5 of 6 species finished
+#>   6 of 6 species finished
+#>    Preparing bin tables using ranges:
+#>   1 of 6 species finished
+#>   2 of 6 species finished
+#>   3 of 6 species finished
+#>   4 of 6 species finished
+#>   5 of 6 species finished
+#>   6 of 6 species finished
 
-knitr::kable(bin_tabl, caption = "Table characters for ecological niches of the species of interest.")
+knitr::kable(bin_tabl, caption = "Table characters for ecological niches of the species of interest.") %>% 
+  kable_styling(font_size = 12)
 ```
+
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+
+<caption style="font-size: initial !important;">
+
+Table characters for ecological niches of the species of interest.
+
+</caption>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+</th>
+
+<th style="text-align:left;">
+
+20 to 30
+
+</th>
+
+<th style="text-align:left;">
+
+31 to 40
+
+</th>
+
+<th style="text-align:left;">
+
+41 to 50
+
+</th>
+
+<th style="text-align:left;">
+
+51 to 60
+
+</th>
+
+<th style="text-align:left;">
+
+61 to 70
+
+</th>
+
+<th style="text-align:left;">
+
+71 to 80
+
+</th>
+
+<th style="text-align:left;">
+
+81 to 90
+
+</th>
+
+<th style="text-align:left;">
+
+91 to 100
+
+</th>
+
+<th style="text-align:left;">
+
+101 to 110
+
+</th>
+
+<th style="text-align:left;">
+
+111 to 120
+
+</th>
+
+<th style="text-align:left;">
+
+121 to 130
+
+</th>
+
+<th style="text-align:left;">
+
+131 to 140
+
+</th>
+
+<th style="text-align:left;">
+
+141 to 150
+
+</th>
+
+<th style="text-align:left;">
+
+151 to 160
+
+</th>
+
+<th style="text-align:left;">
+
+161 to 170
+
+</th>
+
+<th style="text-align:left;">
+
+171 to 180
+
+</th>
+
+<th style="text-align:left;">
+
+181 to 190
+
+</th>
+
+<th style="text-align:left;">
+
+191 to 200
+
+</th>
+
+<th style="text-align:left;">
+
+201 to 210
+
+</th>
+
+<th style="text-align:left;">
+
+211 to 220
+
+</th>
+
+<th style="text-align:left;">
+
+221 to 230
+
+</th>
+
+<th style="text-align:left;">
+
+231 to 240
+
+</th>
+
+<th style="text-align:left;">
+
+241 to 250
+
+</th>
+
+<th style="text-align:left;">
+
+251 to 260
+
+</th>
+
+<th style="text-align:left;">
+
+261 to 270
+
+</th>
+
+<th style="text-align:left;">
+
+271 to 280
+
+</th>
+
+<th style="text-align:left;">
+
+281 to 290
+
+</th>
+
+<th style="text-align:left;">
+
+291 to 300
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 9830
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 3351
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 6933
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 761
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 6773
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+RD 7516
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 <br>
 
@@ -477,25 +2754,2161 @@ par_rec_table <- bin_par_rec(tree_data)
 s_par_rec_table <- smooth_rec(par_rec_table)
 
 # results
-knitr::kable(s_par_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum parsimony reconstructions for their ancestors.")
+knitr::kable(s_par_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum parsimony reconstructions for their ancestors.") %>% kable_styling(font_size = 12)
 ```
 
-|    | 21 to 30 | 31 to 40 | 41 to 50 | 51 to 60 | 61 to 70 | 71 to 80 | 81 to 90 | 91 to 100 | 101 to 110 | 111 to 120 | 121 to 130 | 131 to 140 | 141 to 150 | 151 to 160 | 161 to 170 | 171 to 180 | 181 to 190 | 191 to 200 | 201 to 210 | 211 to 220 | 221 to 230 | 231 to 240 | 241 to 250 | 251 to 260 | 261 to 270 | 271 to 280 | 281 to 290 | 291 to 300 |
-| -- | :------- | :------- | :------- | :------- | :------- | :------- | :------- | :-------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- |
-| t1 | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1          | 1          | 1          | ?          | ?          | ?          |
-| t2 | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1          | 1          | 1          | 1          | ?          | ?          |
-| t5 | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1          | 1          | 1          | ?          | ?          | ?          |
-| t6 | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1          | 1          | 1          | ?          | ?          | ?          |
-| t3 | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1          | 1          | 1          | 1          | ?          | ?          | ?          |
-| t4 | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1          | 1          | 1          | 1          | 1          | 0          | 0          |
-| 7  | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1          | 1          | 1          | ?          | ?          | ?          |
-| 8  | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1          | 1          | 1          | ?          | ?          | ?          |
-| 9  | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1          | 1          | 1          | ?          | ?          | ?          |
-| 10 | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1          | 1          | 1          | ?          | ?          | ?          |
-| 11 | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1          | 1          | 1          | 1          | ?          | ?          | ?          |
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+
+<caption style="font-size: initial !important;">
 
 Table characters for ecological niches of the species of interest and
 maximum parsimony reconstructions for their ancestors.
+
+</caption>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+</th>
+
+<th style="text-align:left;">
+
+21 to 30
+
+</th>
+
+<th style="text-align:left;">
+
+31 to 40
+
+</th>
+
+<th style="text-align:left;">
+
+41 to 50
+
+</th>
+
+<th style="text-align:left;">
+
+51 to 60
+
+</th>
+
+<th style="text-align:left;">
+
+61 to 70
+
+</th>
+
+<th style="text-align:left;">
+
+71 to 80
+
+</th>
+
+<th style="text-align:left;">
+
+81 to 90
+
+</th>
+
+<th style="text-align:left;">
+
+91 to 100
+
+</th>
+
+<th style="text-align:left;">
+
+101 to 110
+
+</th>
+
+<th style="text-align:left;">
+
+111 to 120
+
+</th>
+
+<th style="text-align:left;">
+
+121 to 130
+
+</th>
+
+<th style="text-align:left;">
+
+131 to 140
+
+</th>
+
+<th style="text-align:left;">
+
+141 to 150
+
+</th>
+
+<th style="text-align:left;">
+
+151 to 160
+
+</th>
+
+<th style="text-align:left;">
+
+161 to 170
+
+</th>
+
+<th style="text-align:left;">
+
+171 to 180
+
+</th>
+
+<th style="text-align:left;">
+
+181 to 190
+
+</th>
+
+<th style="text-align:left;">
+
+191 to 200
+
+</th>
+
+<th style="text-align:left;">
+
+201 to 210
+
+</th>
+
+<th style="text-align:left;">
+
+211 to 220
+
+</th>
+
+<th style="text-align:left;">
+
+221 to 230
+
+</th>
+
+<th style="text-align:left;">
+
+231 to 240
+
+</th>
+
+<th style="text-align:left;">
+
+241 to 250
+
+</th>
+
+<th style="text-align:left;">
+
+251 to 260
+
+</th>
+
+<th style="text-align:left;">
+
+261 to 270
+
+</th>
+
+<th style="text-align:left;">
+
+271 to 280
+
+</th>
+
+<th style="text-align:left;">
+
+281 to 290
+
+</th>
+
+<th style="text-align:left;">
+
+291 to 300
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+t1
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+t2
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+t5
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+t6
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+t3
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+t4
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+7
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+8
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+9
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+10
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+11
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 <br>
 
@@ -518,28 +4931,2695 @@ s_ml_rec_table <- smooth_rec(ml_rec_table)
 
 
 # results
-knitr::kable(s_ml_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum likelihood reconstructions for their ancestors.")
+knitr::kable(s_ml_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum likelihood reconstructions for their ancestors.", digits = 2) %>% kable_styling(font_size = 12)
 ```
 
-|        | 21 to 30 | 31 to 40 | 41 to 50 | 51 to 60 | 61 to 70 | 71 to 80 | 81 to 90 | 91 to 100 | 101 to 110 | 111 to 120 | 121 to 130 | 131 to 140 | 141 to 150 | 151 to 160 | 161 to 170 | 171 to 180 | 181 to 190 | 191 to 200 | 201 to 210 | 211 to 220 | 221 to 230 | 231 to 240         | 241 to 250 | 251 to 260 | 261 to 270 | 271 to 280         | 281 to 290         | 291 to 300         |
-| ------ | :------- | :------- | :------- | :------- | :------- | :------- | :------- | :-------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :----------------- | :--------- | :--------- | :--------- | :----------------- | :----------------- | :----------------- |
-| t1     | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0                  | 1          | 1          | 1          | ?                  | ?                  | ?                  |
-| t2     | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0                  | 1          | 1          | 1          | 1                  | ?                  | ?                  |
-| t5     | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0                  | 1          | 1          | 1          | ?                  | ?                  | ?                  |
-| t6     | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0                  | 1          | 1          | 1          | ?                  | ?                  | ?                  |
-| t3     | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1                  | 1          | 1          | 1          | ?                  | ?                  | ?                  |
-| t4     | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1                  | 1          | 1          | 1          | 1                  | 0                  | 0                  |
-| 7      | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0                  | 1          | 1          | 1          | ?                  | ?                  | ?                  |
-| 8      | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0                  | 1          | 1          | 1          | ?                  | ?                  | ?                  |
-| 9      | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 1                  | 1          | 1          | 1          | ?                  | ?                  | ?                  |
-| 10     | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0                  | 1          | 1          | 1          | ?                  | ?                  | ?                  |
-| 11     | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0         | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0          | 0                  | 1          | 1          | 1          | ?                  | ?                  | ?                  |
-| LogLik | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | \-1.94239804997617 | NA         | NA         | NA         | \-3.05129755942324 | \-3.05129755182966 | \-3.05129755182966 |
-| Rates  | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | 0.837890723752584  | NA         | NA         | NA         | 19.086193925592    | 19.0861886797572   | 19.0861886797572   |
-| SE     | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | NA         | 0.772282720496786  | NA         | NA         | NA         | 19.2536025237534   | 19.2536494379157   | 19.2536494379157   |
+<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+
+<caption style="font-size: initial !important;">
 
 Table characters for ecological niches of the species of interest and
 maximum likelihood reconstructions for their ancestors.
+
+</caption>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+</th>
+
+<th style="text-align:left;">
+
+21 to 30
+
+</th>
+
+<th style="text-align:left;">
+
+31 to 40
+
+</th>
+
+<th style="text-align:left;">
+
+41 to 50
+
+</th>
+
+<th style="text-align:left;">
+
+51 to 60
+
+</th>
+
+<th style="text-align:left;">
+
+61 to 70
+
+</th>
+
+<th style="text-align:left;">
+
+71 to 80
+
+</th>
+
+<th style="text-align:left;">
+
+81 to 90
+
+</th>
+
+<th style="text-align:left;">
+
+91 to 100
+
+</th>
+
+<th style="text-align:left;">
+
+101 to 110
+
+</th>
+
+<th style="text-align:left;">
+
+111 to 120
+
+</th>
+
+<th style="text-align:left;">
+
+121 to 130
+
+</th>
+
+<th style="text-align:left;">
+
+131 to 140
+
+</th>
+
+<th style="text-align:left;">
+
+141 to 150
+
+</th>
+
+<th style="text-align:left;">
+
+151 to 160
+
+</th>
+
+<th style="text-align:left;">
+
+161 to 170
+
+</th>
+
+<th style="text-align:left;">
+
+171 to 180
+
+</th>
+
+<th style="text-align:left;">
+
+181 to 190
+
+</th>
+
+<th style="text-align:left;">
+
+191 to 200
+
+</th>
+
+<th style="text-align:left;">
+
+201 to 210
+
+</th>
+
+<th style="text-align:left;">
+
+211 to 220
+
+</th>
+
+<th style="text-align:left;">
+
+221 to 230
+
+</th>
+
+<th style="text-align:left;">
+
+231 to 240
+
+</th>
+
+<th style="text-align:left;">
+
+241 to 250
+
+</th>
+
+<th style="text-align:left;">
+
+251 to 260
+
+</th>
+
+<th style="text-align:left;">
+
+261 to 270
+
+</th>
+
+<th style="text-align:left;">
+
+271 to 280
+
+</th>
+
+<th style="text-align:left;">
+
+281 to 290
+
+</th>
+
+<th style="text-align:left;">
+
+291 to 300
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+t1
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+t2
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+t5
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+t6
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+t3
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+t4
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+7
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+8
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+9
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+10
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+11
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+0
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+1
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+<td style="text-align:left;">
+
+?
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+LogLik
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+\-1.94239804997617
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+\-3.05129755942324
+
+</td>
+
+<td style="text-align:left;">
+
+\-3.05129755182966
+
+</td>
+
+<td style="text-align:left;">
+
+\-3.05129755182966
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Rates
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+0.837890723752584
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+19.086193925592
+
+</td>
+
+<td style="text-align:left;">
+
+19.0861886797572
+
+</td>
+
+<td style="text-align:left;">
+
+19.0861886797572
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+SE
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+0.772282720496786
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+19.2536025237534
+
+</td>
+
+<td style="text-align:left;">
+
+19.2536494379157
+
+</td>
+
+<td style="text-align:left;">
+
+19.2536494379157
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 <br>
 

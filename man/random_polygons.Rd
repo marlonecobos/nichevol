@@ -4,10 +4,18 @@
 \alias{random_polygons}
 \title{Generation of random polygons in a given area}
 \usage{
-random_polygons(polygon, style = "TR", n_polygons = 100,
-  n_vertices = 25, minimum_distance = 10, length_threshold = 5,
-  buffer_distance = 0, save = FALSE, overwrite = FALSE,
-  output_directory = "Random_polygons")
+random_polygons(
+  polygon,
+  style = "TR",
+  n_polygons = 100,
+  n_vertices = 25,
+  minimum_distance = 10,
+  length_threshold = 5,
+  buffer_distance = 0,
+  save = FALSE,
+  overwrite = FALSE,
+  output_directory = "Random_polygons"
+)
 }
 \arguments{
 \item{polygon}{SpatialPolygonsDataFrame object. CRS WGS84 is required.}
@@ -60,6 +68,7 @@ distributed across the area.
 }
 \examples{
 # crreating a simple polygon
+\dontrun{
 rdata <- cbind(x = rnorm(100, -80, 12), y = rnorm(100, -3, 15))
 WGS84 <- sp::CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 sp_data <- sp::SpatialPoints(rdata, proj4string = WGS84)
@@ -69,4 +78,5 @@ pol <- sp::SpatialPolygonsDataFrame(pol, data = data.frame(ID = 1),
 
 # creating 50 random polygons in the whole area using the "BR" style
 r_pols <- random_polygons(pol, style = "BR", n_polygons = 50)
+}
 }

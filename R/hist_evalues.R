@@ -42,6 +42,7 @@
 #'
 #' @examples
 #' # getting a variable at coarse resolution
+#' \dontrun{
 #' temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
 #'
 #' # example data
@@ -52,6 +53,7 @@
 #' hist_evalues(M = m_list[[1]], occurrences = occ_list[[1]], species = "species",
 #'              longitude = "x", latitude = "y", variable = temp,
 #'              CL_lines = c(95, 99), col = c("blue", "red"))
+#' }
 
 hist_evalues <- function(M, occurrences, species, longitude, latitude, variable,
                          CL_lines = c(95, 99), col = NULL) {

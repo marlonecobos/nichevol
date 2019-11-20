@@ -12,6 +12,9 @@
 #' Reconstructions are done using the \code{\link[castor]{asr_max_parsimony}}
 #' function from the \code{castor} package.
 #'
+#' @importFrom ape reorder.phylo
+#' @importFrom castor asr_max_parsimony
+#'
 #' @examples
 #' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
@@ -30,9 +33,6 @@
 #'
 #' # Maximum parsimony reconstruction
 #' bin_par_rec(treeWdata)
-#'
-#' @importFrom ape reorder.phylo
-#' @importFrom castor asr_max_parsimony
 #'
 #' @export
 
