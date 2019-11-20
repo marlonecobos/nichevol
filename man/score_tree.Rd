@@ -21,6 +21,7 @@ Helper function to assign bin scores to every tip in a given tree
 }
 \examples{
 # Simulate data table
+\dontrun{
 dataTable <- cbind("241" = rep("1", 5),
                    "242" = rep("1", 5),
                    "243" = c("1", "1", "0", "0", "0"),
@@ -42,4 +43,5 @@ treeWithData <- geiger::treedata(tree, dataTable)
 
 # Get a new tree with tips scored from median bin scores
 score_tree(treeWithData, include_unknown = TRUE)
+}
 }

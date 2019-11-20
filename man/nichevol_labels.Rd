@@ -94,6 +94,7 @@ uncertain (unknown).
 }
 \examples{
 # a simple tree
+\dontrun{
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
 
@@ -112,7 +113,6 @@ treeWdata <- geiger::treedata(tree, dataTable)
 rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 
 # plotting and adding labels
-\dontrun{
 ape::plot.phylo(tree, label.offset = 0.04)
 nichevol_labels(tree, rec_tab, height = 0.6)
 }

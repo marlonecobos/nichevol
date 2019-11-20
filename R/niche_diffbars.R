@@ -72,6 +72,7 @@
 #'
 #' @examples
 #' # a simple tree
+#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #'
@@ -90,7 +91,6 @@
 #' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 #'
 #' # the running (before running, define a working directory)
-#' \dontrun{
 #' nichevol_bars(tree, rec_tab)
 #' }
 

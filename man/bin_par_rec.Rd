@@ -26,6 +26,7 @@ function from the \code{castor} package.
 }
 \examples{
 # a simple tree
+\dontrun{
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
 
@@ -42,5 +43,5 @@ treeWdata <- geiger::treedata(tree, dataTable)
 
 # Maximum parsimony reconstruction
 bin_par_rec(treeWdata)
-
+}
 }

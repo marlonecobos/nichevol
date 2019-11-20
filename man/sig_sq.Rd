@@ -24,6 +24,7 @@ are calculated using \code{\link[geiger]{fitContinuous}}.
 }
 \examples{
 # a simple tree
+\dontrun{
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
 # simple data
@@ -34,4 +35,5 @@ treeWdata <- geiger::treedata(tree, data)
 
 # Estimating sigma squared for the dataset
 sig_sq(treeWdata)
+}
 }

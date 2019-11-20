@@ -15,8 +15,11 @@
 #' @importFrom ape reorder.phylo
 #' @importFrom castor asr_max_parsimony
 #'
+#' @export
+#'
 #' @examples
 #' # a simple tree
+#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #'
@@ -33,8 +36,8 @@
 #'
 #' # Maximum parsimony reconstruction
 #' bin_par_rec(treeWdata)
-#'
-#' @export
+#' }
+
 
 bin_par_rec <- function(tree_data, ...) {
   if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}

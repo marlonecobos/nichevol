@@ -357,10 +357,12 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
 #' @export
 #' @examples
 #' # a simple tree
+#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #' # renaming tips
 #' renamedTree <- rename_tips(tree, c("a", "b", "c", "d", "e"))
+#' }
 
 rename_tips <- function(tree, names) {
   if (missing(tree)) {stop("Argument 'tree' needs to be defined.")}
@@ -384,6 +386,7 @@ rename_tips <- function(tree, names) {
 #' @export
 #' @examples
 #' # a simple tree
+#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #' # simple data
@@ -394,6 +397,7 @@ rename_tips <- function(tree, names) {
 #'
 #' # Estimating sigma squared for the dataset
 #' sig_sq(treeWdata)
+#' }
 
 sig_sq <- function(tree_data, model = "BM") {
   if (missing(tree_data)) {stop("Argument 'tree_data' needs to be defined.")}
@@ -474,6 +478,7 @@ score_tip <- function(character_table, species_name, include_unknown = FALSE) {
 #' @export
 #' @examples
 #' # Simulate data table
+#' \dontrun{
 #' dataTable <- cbind("241" = rep("1", 5),
 #'                    "242" = rep("1", 5),
 #'                    "243" = c("1", "1", "0", "0", "0"),
@@ -495,6 +500,7 @@ score_tip <- function(character_table, species_name, include_unknown = FALSE) {
 #'
 #' # Get a new tree with tips scored from median bin scores
 #' score_tree(treeWithData, include_unknown = TRUE)
+#' }
 
 score_tree <- function(tree_data, include_unknown = FALSE) {
   if (missing(tree_data)) {stop("Argument 'tree_data' needs to be defined.")}

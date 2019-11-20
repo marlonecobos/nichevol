@@ -13,6 +13,7 @@
 #'
 #' @examples
 #' # a simple tree
+#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #'
@@ -30,6 +31,7 @@
 #'
 #' # smoothing reconstructions
 #' smooth_rec(parsimonyReconstruction)
+#' }
 
 smooth_rec <- function(whole_rec_table) {
   if (missing(whole_rec_table)) {stop("Argument 'whole_rec_table' needs to be defined.")}
