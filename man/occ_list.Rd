@@ -14,7 +14,7 @@
 occ_list
 }
 \description{
-A list of 6 data.frames containing name and geographic corrdinates for
+A list of 6 data.frames containing name and geographic coordinates for
 6 species.
 }
 \examples{
