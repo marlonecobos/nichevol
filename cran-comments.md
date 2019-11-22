@@ -12,6 +12,8 @@ There were no ERRORs.
 There were no WARNINGs:
 
 There were four NOTEs:
+
+* on Windows Server 2008 R2 SP1 32/64 bit (on rhub), R-devel
 Maintainer: 'Marlon E. Cobos <manubio13@gmail.com>'
 
 License components with restrictions and base license permitting such:
