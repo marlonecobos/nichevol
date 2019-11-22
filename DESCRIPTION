@@ -6,9 +6,12 @@ Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
     person("Hannah L.", "Owens", email = "hannah.owens@gmail.com", role = "aut"),
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"))
-Maintainer: Marlon E. Cobos <manubio13@gmail.com>
+Author: Marlon E. Cobos [aut, cre],
+    Hannah L. Owens [aut],
+    A. Townsend Peterson [aut]
+Maintainer: "Marlon E. Cobos" <manubio13@gmail.com>
 Date: 2019-11-19
-Description: nichevol helps to perform critical steps in the process of 
+Description: A set of tools to perform critical steps in the process of 
     assessment of species' ecological niche evolution considering uncertainty 
     in reconstructions. The method proposed here for ancestral reconstruction of
     ecological niches characterizes species' niches using a bin-based approach 
@@ -40,7 +43,7 @@ Suggests:
 	phytools (>= 0.6)
 Depends:
     R (>= 3.5.0)
-License: GPL-3 + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
