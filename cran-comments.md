@@ -24,6 +24,12 @@ Possibly mis-spelled words in DESCRIPTION:
 
 The Description field should not start with the package name,
   'This package' or similar.
+  
+
+Actions taken:
+* file LICENSE excluded as it was redundat
+* all words were checked in DESCRIPTION
+* Description field does not start or mention the package name
 
 
 ## Downstream dependencies
