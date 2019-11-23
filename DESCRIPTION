@@ -23,6 +23,7 @@ Description: A set of tools to perform critical steps in the process of
     plotting for interpretations.
 URL: https://github.com/marlonecobos/nichevol
 BugReports: https://github.com/marlonecobos/nichevol/issues
+SystemRequirements: GDAL (>= 2.0.1)
 Imports:
     ape (>= 5.3),
     castor (>= 1.4),
