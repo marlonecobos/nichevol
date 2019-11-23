@@ -11,8 +11,7 @@
 There was one ERROR:
 * on Ubuntu 16.04.6 LTS (on travis)
 When installing package dependencies
-  configure: error: gdal-config not found or not executable.
-  ERROR: configuration failed for package ‘rgdal’
+  ERROR: configuration failed for package ‘magick’ (libmagick++-dev required)
 
 There were no WARNINGs:
 
