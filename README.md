@@ -49,6 +49,12 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
 <br>
 
+<!-- badges: start -->
+
+[![Travis build
+status](https://travis-ci.org/marlonecobos/nichevol.svg?branch=master)](https://travis-ci.org/marlonecobos/nichevol)
+<!-- badges: end -->
+
 <hr>
 
 ## Package description

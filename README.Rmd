@@ -12,10 +12,13 @@ always_allow_html: true
 library(knitr)
 library(kableExtra)
 opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
-opts_knit$set(root.dir = "C:/Marlon/test/nichevol")
 ```
 
 <br>
+
+<!-- badges: start -->
+  [![Travis build status](https://travis-ci.org/marlonecobos/nichevol.svg?branch=master)](https://travis-ci.org/marlonecobos/nichevol)
+  <!-- badges: end -->
 
 <hr>
 
