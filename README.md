@@ -65,7 +65,7 @@ uncertainty incorporated in reconstructions. The method proposed here
 for ancestral reconstruction of ecological niches characterizes species’
 niches using a bin-based approach that incorporates uncertainty in
 estimations. Compared to other existent methods the approaches presented
-here reduce risks of overestimation of ecological niche evolution.The
+here reduce risks of overestimation of ecological niche evolution. The
 main analyses include: initial exploration of environmental data in
 species records and accessible areas, preparation of data for
 phylogenetic analyses, comparative phylogenetic analyses, and plotting
@@ -90,7 +90,7 @@ if(!require(devtools)){
 
 ### Latest version
 
-The most recent version of **nichevol** is available as a GitHub
+The most recent version of **nichevol** is available at a GitHub
 repository and can be installed using the code below. Please, have in
 mind that updates will be done on this version continuously.
 
@@ -98,7 +98,7 @@ Note: Try the code below first… If you have any problem during the
 installation, restart your R session, close other sessions you may have
 open, and try again. If during the installation you are asked to update
 packages, please do it. If any of the packages gives an error, please
-install it alone using install.packages(), then try re-installing
+install it alone using *install.packages()*, then try re-installing
 **nichevol** again. Also, it may be a good idea to update R and RStudio
 (if you are using it).
 
@@ -155,7 +155,7 @@ complementary functions that help in performing post-reconstruction
 steps (reconstruction smoothing, and niche and niche evolution
 representations); and (4) the ones that help in producing virtual
 species for exploring hypothesis. Of course, other helper functions are
-used in the package but they won’t be used as commonly.
+used in the package, but they won’t be used as commonly.
 
 A complete list of the main functions in the **nichevol** package can be
 found in the package documentation. Use the following code to see the
@@ -176,13 +176,13 @@ that represent species ecological niches considering used and non-used
 conditions, as well as conditions where the use is uncertain. Most of
 the functions in this module can be used to consider all species of
 interest and multiple environmental variables at the time. For that
-reason they read data from a local directory and have the option to
+reason, they read data from a local directory and have the option to
 write results in such directories as well. The functions that work with
 data from the R environment are the ones specifically designed to work
 with multiple species but only one variable. These last functions do not
 write results in local directories. We have intentionally designed some
 of our functions to work interacting with local directories to avoid
-RAM-related limitations (specially when working with multiple
+RAM-related limitations (especially when working with multiple
 environmental raster layers at high resolution).
 
 #### Functions for ancestral reconstruction
@@ -210,8 +210,8 @@ have evolved across the phylogeny.
 
 #### Functions for simulation of virtual species
 
-These module is still under development but it is intended to help in
-creating a suit of virtual species niches and their phylogenetic
+This module is still under development, but it is intended to help in
+creating a suit of virtual species’ niches and their phylogenetic
 relationships to explore hypothesis of niche evolution.
 
 <br>
@@ -223,7 +223,7 @@ relationships to explore hypothesis of niche evolution.
 ### Packages needed for data management
 
 The following packages are needed for specific tasks. They are used
-internally by **nichevol** but parts of these code will require them.
+internally by **nichevol**, but parts of these code will require them.
 Notice that **nichevol** is already loaded but these other packages need
 to be loaded separately.
 
@@ -266,7 +266,7 @@ data("tree_data", package = "nichevol")
 
 ### Preparing data for analyses
 
-Before starting playing with the functions consider that **nichevol**
+Before starting to play with the functions consider that **nichevol**
 allows distinct ways to prepare data depending on the user needs. The
 example data downloaded before can be used with the functions designed
 to work with multiple variables and all taxa at the time
@@ -1421,7 +1421,7 @@ bins <- bin_tables0(M_folder = "Folder_with_Ms", M_format = "shp",
                     var_format = "GTiff", percentage_out = 5, bin_size = 10)
 ```
 
-**One variables: When using data from the R environment**
+**One variable: When using data from the R environment**
 
 First check the help:
 
@@ -2728,7 +2728,7 @@ here is temperature.
 
 #### Phylogenetic tree and data
 
-With the following code, the phylogenetic tree will be plotted and its
+With the following code, the phylogenetic tree will be plotted, and its
 nodes will be added.
 
 ``` r
@@ -4934,7 +4934,6 @@ ml_rec_table <- bin_ml_rec(tree_data)
 
 # smoothing
 s_ml_rec_table <- smooth_rec(ml_rec_table)
-
 
 # results
 knitr::kable(s_ml_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum likelihood reconstructions for their ancestors.", digits = 2) %>% kable_styling(font_size = 12)
