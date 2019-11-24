@@ -19,8 +19,8 @@ of ecological niches, and plotting for interpretations.
 }
 \section{Main functions in nichevol}{
 
-\code{\link{bin_ml_rec}}, \code{\link{bin_par_rec}},
-\code{\link{bin_tables}}, \code{\link{bin_tables0}},
+\code{\link{bin_ml_rec}}, \code{\link{bin_par_rec}}, \code{\link{bin_table}},
+\code{\link{bin_tables}}, \code{\link{bin_tables0}}, \code{\link{hist_evalues}},
 \code{\link{histograms_env}}, \code{\link{niche_bars}},
 \code{\link{nichevol_bars}}, \code{\link{niche_labels}},
 \code{\link{nichevol_labels}}, \code{\link{niche_legend}},
