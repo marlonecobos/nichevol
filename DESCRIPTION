@@ -43,6 +43,7 @@ Suggests:
 	phytools (>= 0.6)
 Depends:
     R (>= 3.5.0)
+VignetteBuilder: knitr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
