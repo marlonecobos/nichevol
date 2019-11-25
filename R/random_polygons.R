@@ -50,7 +50,7 @@
 #' @export
 #'
 #' @usage
-#' random_polygons <- function(polygon, style = "TR", n_polygons = 100,
+#' random_polygons(polygon, style = "TR", n_polygons = 100,
 #'   n_vertices = 25, minimum_distance = 10, length_threshold = 5,
 #'   buffer_distance = 0, save = FALSE, overwrite = FALSE,
 #'   output_directory = "Random_polygons")
