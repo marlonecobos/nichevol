@@ -25,7 +25,7 @@ of ecological niches, and plotting for interpretations.
 \code{\link{nichevol_bars}}, \code{\link{niche_labels}},
 \code{\link{nichevol_labels}}, \code{\link{niche_legend}},
 \code{\link{nichevol_legend}}, \code{\link{random_polygons}},
-\code{\link{smooth_rec}}, \code{\link{stats_evalues}}
+\code{\link{smooth_rec}}, \code{\link{stats_eval}}, \code{\link{stats_evalues}}
 
 Other functions (important helpers)
 
