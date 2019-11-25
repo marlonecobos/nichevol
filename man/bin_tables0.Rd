@@ -4,23 +4,11 @@
 \alias{bin_tables0}
 \title{Bin tables of environmental conditions in M and occurrences from data}
 \usage{
-bin_tables0(
-  M_folder,
-  M_format,
-  occ_folder,
-  longitude,
-  latitude,
-  var_folder,
-  var_format,
-  round = FALSE,
-  round_names,
-  multiplication_factor = 1,
-  percentage_out = 5,
-  bin_size = 10,
-  save = FALSE,
-  overwrite = FALSE,
-  output_directory = "Species_E_bins"
-)
+bin_tables0(M_folder, M_format, occ_folder, longitude,
+  latitude, var_folder, var_format, round = FALSE,
+  round_names, multiplication_factor = 1,
+  percentage_out = 5, bin_size = 10, save = FALSE,
+  overwrite = FALSE, output_directory = "Species_E_bins")
 }
 \arguments{
 \item{M_folder}{(character) name of the folder containing files representing

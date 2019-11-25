@@ -4,16 +4,8 @@
 \alias{stats_eval}
 \title{Statistics of environmental conditions in M and occurrences (one variable)}
 \usage{
-stats_eval(
-  stats = c("median", "range"),
-  Ms,
-  occurrences,
-  species,
-  longitude,
-  latitude,
-  variable,
-  percentage_out = 0
-)
+stats_eval(stats = c("median", "range"), Ms, occurrences, species,
+  longitude, latitude, variable, percentage_out = 0)
 }
 \arguments{
 \item{stats}{(character) name or vector of names of functions to be applied

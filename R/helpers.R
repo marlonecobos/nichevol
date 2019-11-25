@@ -40,6 +40,9 @@ rformat_type <- function(format) {
 #' @return
 #' A PDF file written in the output directory containing all resultant figures.
 #' @export
+#' @usage
+#' pdf_histograms(env_data, occ_data, y_values, sp_names, variable_name,
+#'   CL_lines, limits, col, output_directory = "Histogram_ranges_check")
 #' @examples
 #' # example data
 #' e_data <- list(rnorm(1000, 15, 7), rnorm(800, 20, 6), rnorm(1000, 12, 3))

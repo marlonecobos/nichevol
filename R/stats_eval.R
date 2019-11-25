@@ -51,6 +51,10 @@
 #'
 #' @export
 #'
+#' @usage
+#' stats_eval(stats = c("median", "range"), Ms, occurrences, species,
+#'   longitude, latitude, variable, percentage_out = 0)
+#'
 #' @examples
 #' # getting a variable at coarse resolution
 #' \dontrun{

@@ -69,6 +69,10 @@
 #'
 #' @export
 #'
+#' @usage
+#' bin_table(Ms, occurrences, species, longitude, latitude, variable,
+#'   percentage_out = 5, bin_size = 10)
+#'
 #' @examples
 #' # getting a variable at coarse resolution
 #' \dontrun{

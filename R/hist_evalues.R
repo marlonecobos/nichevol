@@ -40,6 +40,10 @@
 #'
 #' @export
 #'
+#' @usage
+#' hist_evalues(M, occurrences, species, longitude, latitude, variable,
+#'   CL_lines = c(95, 99), col = NULL)
+#'
 #' @examples
 #' # getting a variable at coarse resolution
 #' \dontrun{

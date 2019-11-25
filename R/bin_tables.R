@@ -59,6 +59,10 @@
 #'
 #' @export
 #'
+#' @usage
+#' bin_tables(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
+#'   overwrite = FALSE, output_directory = "Species_E_bins")
+#'
 #' @examples
 #' # simple list of ranges
 #' ranges <- list(temp = data.frame(Species = c("sp1", "sp2", "sp3"),

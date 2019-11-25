@@ -77,6 +77,13 @@
 #'
 #' @export
 #'
+#' @usage
+#' histograms_env(M_folder, M_format, occ_folder, longitude, latitude,
+#'   var_folder, var_format, CL_lines = c(95, 99), col = NULL,
+#'   round = FALSE, round_names = NULL, multiplication_factor = 1,
+#'   save_ranges = FALSE, overwrite = FALSE,
+#'   output_directory = "Histogram_ranges")
+#'
 #' @examples
 #' # example of how to define arguments, check argument descriptions above
 #' \dontrun{

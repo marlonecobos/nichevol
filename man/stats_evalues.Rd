@@ -4,23 +4,10 @@
 \alias{stats_evalues}
 \title{Statistics of environmental conditions in M and occurrences (multiple variables)}
 \usage{
-stats_evalues(
-  stats = c("median", "range"),
-  M_folder,
-  M_format,
-  occ_folder,
-  longitude,
-  latitude,
-  var_folder,
-  var_format,
-  round = FALSE,
-  round_names,
-  multiplication_factor = 1,
-  percentage_out = 0,
-  save = FALSE,
-  overwrite = FALSE,
-  output_directory = "Species_E_stats"
-)
+stats_evalues(stats = c("median", "range"), M_folder, M_format, occ_folder,
+  longitude, latitude, var_folder, var_format, round = FALSE, round_names,
+  multiplication_factor = 1, percentage_out = 0, save = FALSE,
+  overwrite = FALSE, output_directory = "Species_E_stats")
 }
 \arguments{
 \item{stats}{(character) name or vector of names of functions to be applied

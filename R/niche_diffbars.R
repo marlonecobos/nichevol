@@ -70,6 +70,14 @@
 #'
 #' @export
 #'
+#' @usage
+#' nichevol_bars(tree, whole_rec_table, ancestor_line = FALSE,
+#'   present = "1", absent = "0", unknown = "?",
+#'   present_col = "#252525", unknown_col = "#d9d9d9",
+#'   no_change_col = "#b2df8a", retraction_col = "#984ea3",
+#'   expansion_col = "#4daf4a", width = 50, height = 5,
+#'   res = 300, overwrite = FALSE, output_directory = "Nichevol_bars")
+#'
 #' @examples
 #' # a simple tree
 #' \dontrun{

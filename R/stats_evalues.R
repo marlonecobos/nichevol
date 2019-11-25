@@ -79,6 +79,12 @@
 #'
 #' @export
 #'
+#' @usage
+#' stats_evalues(stats = c("median", "range"), M_folder, M_format, occ_folder,
+#'   longitude, latitude, var_folder, var_format, round = FALSE, round_names,
+#'   multiplication_factor = 1, percentage_out = 0, save = FALSE,
+#'   overwrite = FALSE, output_directory = "Species_E_stats")
+#'
 #' @examples
 #' # example of how to define arguments, check argument descriptions above
 #' \dontrun{

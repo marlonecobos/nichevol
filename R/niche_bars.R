@@ -45,6 +45,12 @@
 #'
 #' @export
 #'
+#' @usage
+#' niche_bars(tree, whole_rec_table, present = "1", unknown = "?",
+#'   present_col = "#e41a1c", unknown_col = "#969696",
+#'   absent_col = "#377eb8", width = 50, height = 5, res = 300,
+#'   overwrite = FALSE, output_directory = "Niche_bars")
+#'
 #' @examples
 #' # a simple tree
 #' \dontrun{

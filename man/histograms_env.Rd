@@ -4,23 +4,11 @@
 \alias{histograms_env}
 \title{Histograms of environmental conditions at occurrences and in M}
 \usage{
-histograms_env(
-  M_folder,
-  M_format,
-  occ_folder,
-  longitude,
-  latitude,
-  var_folder,
-  var_format,
-  CL_lines = c(95, 99),
-  col = NULL,
-  round = FALSE,
-  round_names = NULL,
-  multiplication_factor = 1,
-  save_ranges = FALSE,
-  overwrite = FALSE,
-  output_directory = "Histogram_ranges"
-)
+histograms_env(M_folder, M_format, occ_folder, longitude, latitude,
+  var_folder, var_format, CL_lines = c(95, 99), col = NULL,
+  round = FALSE, round_names = NULL, multiplication_factor = 1,
+  save_ranges = FALSE, overwrite = FALSE,
+  output_directory = "Histogram_ranges")
 }
 \arguments{
 \item{M_folder}{(character) name of the folder containing files representing

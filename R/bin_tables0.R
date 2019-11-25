@@ -96,6 +96,13 @@
 #'
 #' @export
 #'
+#' @usage
+#' bin_tables0(M_folder, M_format, occ_folder, longitude,
+#'   latitude, var_folder, var_format, round = FALSE,
+#'   round_names, multiplication_factor = 1,
+#'   percentage_out = 5, bin_size = 10, save = FALSE,
+#'   overwrite = FALSE, output_directory = "Species_E_bins")
+#'
 #' @examples
 #' # example of how to define arguments, check argument descriptions above
 #' \dontrun{
