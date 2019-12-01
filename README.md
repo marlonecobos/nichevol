@@ -83,9 +83,7 @@ The stable version of **nichevol** is in **CRAN** and it can be
 installed and loaded using the code below (we are working on this):
 
 ``` r
-if(!require(devtools)){
-  install.packages("nichevol")
-}
+install.packages("nichevol")
 ```
 
 ### Latest version
