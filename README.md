@@ -11,40 +11,15 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
       - [Setting a directory](#setting-a-directory)
       - [Loading the package](#loading-the-package)
       - [Functions in nichevol](#functions-in-nichevol)
-          - [Functions for data
-            preparation](#functions-for-data-preparation)
-          - [Functions for ancestral
-            reconstruction](#functions-for-ancestral-reconstruction)
-          - [Functions for post-reconstruction
-            processes](#functions-for-post-reconstruction-processes)
-          - [Functions for simulation of virtual
-            species](#functions-for-simulation-of-virtual-species)
   - [Using nichevol with simple
     examples](#using-nichevol-with-simple-examples)
       - [Packages needed for data
         management](#packages-needed-for-data-management)
       - [Initial data (example data)](#initial-data-example-data)
       - [Preparing data for analyses](#preparing-data-for-analyses)
-          - [Exploring data numerically](#exploring-data-numerically)
-          - [Exploring data graphically](#exploring-data-graphically)
-          - [Preparing tables of ecological niche
-            characters](#preparing-tables-of-ecological-niche-characters)
       - [Ancestral reconstructions and smoothing of
         results](#ancestral-reconstructions-and-smoothing-of-results)
-          - [Phylogenetic tree and data](#phylogenetic-tree-and-data)
-          - [Maximum parsimony
-            reconstruction](#maximum-parsimony-reconstruction)
-          - [Maximum likelihood
-            reconstruction](#maximum-likelihood-reconstruction)
       - [Representations of results](#representations-of-results)
-          - [Ecological niches of our species in the
-            phylogeny](#ecological-niches-of-our-species-in-the-phylogeny)
-          - [Reconstructed ecological niches of
-            ancestors](#reconstructed-ecological-niches-of-ancestors)
-          - [Evolution of ecological niches in the
-            group](#evolution-of-ecological-niches-in-the-group)
-          - [A final, more informative
-            plot](#a-final-more-informative-plot)
   - [References](#references)
 
 <br>
@@ -80,7 +55,7 @@ for interpretations.
 ### Stable version
 
 The stable version of **nichevol** is in **CRAN** and it can be
-installed and loaded using the code below (we are working on this):
+installed using the code below (we are working on this):
 
 ``` r
 install.packages("nichevol")
