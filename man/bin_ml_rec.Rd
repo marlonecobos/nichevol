@@ -2,7 +2,7 @@
 % Please edit documentation in R/bin_ml_rec.R
 \name{bin_ml_rec}
 \alias{bin_ml_rec}
-\title{Maximum likelihood reconstruction of characters}
+\title{Maximum likelihood reconstruction of ancestral character states}
 \usage{
 bin_ml_rec(tree_data, ...)
 }
@@ -18,7 +18,7 @@ A table with columns representing bins, rows representing first tip
 states and then reconstructed nodes.
 }
 \description{
-Maximum likelihood reconstruction of characters
+Maximum likelihood reconstruction of ancestral character states
 }
 \details{
 Reconstructions are done using the function \code{\link[ape]{ace}} from the

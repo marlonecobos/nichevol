@@ -1,4 +1,4 @@
-#' Smooth character table values resulted from ancestral reconstructions
+#' Smooth character table values resulted from ancestral character state reconstructions
 #'
 #' @param whole_rec_table matrix containing all reconstructed characters for all
 #' tips and nodes. It results from using the functions \code{\link{bin_par_rec}}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bin_par_rec.R
 \name{bin_par_rec}
 \alias{bin_par_rec}
-\title{Maximum parsimony reconstruction of characters}
+\title{Maximum parsimony reconstruction of ancestral character states}
 \usage{
 bin_par_rec(tree_data, ...)
 }
@@ -18,7 +18,7 @@ A table with columns representing bins, rows representing first tip
 states and then reconstructed nodes.
 }
 \description{
-Maximum parsimony reconstruction of characters
+Maximum parsimony reconstruction of ancestral character states
 }
 \details{
 Reconstructions are done using the \code{\link[castor]{asr_max_parsimony}}

@@ -38,7 +38,7 @@ rformat_type <- function(format) {
 #' @importFrom grDevices dev.off pdf
 #' @importFrom graphics abline layout hist plot.new points title
 #' @return
-#' A PDF file written in the output directory containing all resultant figures.
+#' A PDF file written in the output directory containing all resulting figures.
 #' @export
 #' @usage
 #' pdf_histograms(env_data, occ_data, y_values, sp_names, variable_name,

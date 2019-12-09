@@ -2,7 +2,7 @@
 % Please edit documentation in R/stats_eval.R
 \name{stats_eval}
 \alias{stats_eval}
-\title{Statistics of environmental conditions in M and occurrences (one variable)}
+\title{Statistics of environmental conditions in M and for occurrences (one variable)}
 \usage{
 stats_eval(stats = c("median", "range"), Ms, occurrences, species,
   longitude, latitude, variable, percentage_out = 0)
@@ -12,7 +12,7 @@ stats_eval(stats = c("median", "range"), Ms, occurrences, species,
 to get basic statistics of environmental values.}
 
 \item{Ms}{a list of SpatialPolygons* objects representing the accessible area
-(M) for all species to be analyzed. The order of species represented by each
+(M) for each species to be analyzed. The order of species represented by each
 object here must coincide with the one in \code{occurrences}. See details.}
 
 \item{occurrences}{a list of data.frames of occurrence records for all species.
@@ -40,8 +40,8 @@ for the species M and occurrences.
 }
 \description{
 stats_eval helps in creating tables of descriptive statistics
-of environmental conditions in accessible areas (M) and species occurrence
-records for one environmental variable at the time.
+of environmental conditions in accessible areas (M) and occurrence
+records for one environmental variable at a time.
 }
 \details{
 Coordinates in \code{occurrences}, SpatialPolygons* objects in \code{Ms}, and
@@ -50,7 +50,7 @@ which they are represented. WGS84 with no planar projection is recommended.
 
 Accessible area (M) is understood as the geographic area that has been
 accessible for a species for relevant periods of time. Defining M is usually
-a hard task, but also a very important one because it allows identifying
+a hard task, but also a very important one, because it allows identifying
 uncertainties about the ability of a species to maintain populations in
 certain environmental conditions. For further details on this topic, see
 Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.

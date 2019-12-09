@@ -31,7 +31,7 @@ limits of M.}
 written. Default = "Histogram_ranges_check".}
 }
 \value{
-A PDF file written in the output directory containing all resultant figures.
+A PDF file written in the output directory containing all resulting figures.
 }
 \description{
 Helper function to create PDF files with histograms

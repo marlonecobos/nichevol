@@ -1,4 +1,4 @@
-#' Maximum parsimony reconstruction of characters
+#' Maximum parsimony reconstruction of ancestral character states
 #'
 #' @param tree_data a list of two elements (phy and data) resulting from using
 #' the function \code{\link[geiger]{treedata}}.

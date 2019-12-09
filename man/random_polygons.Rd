@@ -49,7 +49,9 @@ will be created if \code{save} is set as TRUE.
 random_polygons creates polygons of random size and complexity within
 a given SpatialPolygonsDataFrame, trying to fill the area with the resultant polygons
 in at least nine quadrants. This is designed to simulate virtual species' Ms (aka
-"training" or "background" regions).
+"training" or "background" regions). Note that this function is experimental
+but may be useful in generating accessible areas for virtual species to be
+used in anlaysis and exploration.
 }
 \details{
 Distances are approximate because 1 decimal degree is assumed to equal 111.32

@@ -168,14 +168,15 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 }
 
 
-#' Labels to represent changes of between ancestors and descendants
+#' Labels to represent changes of niche characteristics between ancestors and descendants
 #'
 #' @description nichevol_labels helps in adding bar-type labels that represent how
-#' species niches changed from ancestors to descendants.
+#' species' niches changed from ancestors to descendants.
 #'
 #' @param tree an object of class "phylo".
 #' @param whole_rec_table matrix of reconstructed bins for nodes and species
-#' derived from a process of maximum parsimony reconstruction.
+#' derived from a process of maximum parsimony or maximum likelihood reconstruction.
+#' See functions \code{\link{bin_par_rec}} or \code{\link{bin_ml_rec}}.
 #' @param ancestor_line controls whether ancestor line is plotted.
 #' Default = FALSE.
 #' @param present (character) code indicating environmental bins in which the
@@ -204,9 +205,9 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 #' directions, created with the function \code{\link[ape]{plot.phylo}} from the
 #' package \code{ape} are supported.
 #'
-#' Evolution of ecological niches is represented in one environmental dimension
+#' Evolution of ecological niches is represented in one environmental dimension,
 #' with vertical bars indicating if the niche of the descendant has expanded,
-#' retracted, or has not changed compared to its ancestor's. Lower values of
+#' retracted, or has not changed compared to its ancestor's niche. Lower values of
 #' environmental variables are represented in the lower part of the bar, and the
 #' opposite part of the bar represents higher values.
 #'

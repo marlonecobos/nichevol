@@ -1,4 +1,4 @@
-#' Histograms of environmental conditions in M and occurrences (one species)
+#' Histograms of environmental conditions in M and for occurrences (one species)
 #'
 #' @description hist_evalues helps in creating histograms to explore environmental
 #' conditions in M, lines for the confidence limits of values in M, and the
@@ -19,17 +19,17 @@
 #' @param CL_lines (numeric) confidence limits of environmental values in M to
 #' be plotted as lines in the histograms. See details. Default = c(95, 99).
 #' @param col colors for lines representing confidence limits. If NULL, colors
-#' are selected from a grey palette. Default = NULL.
+#' are selected from a gray palette. Default = NULL.
 #'
 #' @details
 #' Coordinates in \code{occurrences}, SpatialPolygons* object in \code{M}, and
 #' RasterLayer in \code{variable} must coincide in the geographic projection in
 #' which they are represented. WGS84 with no planar projection is recommended.
 #'
-#' Accessible area (M) is understood as the geographic area that has been
-#' accessible for a species for relevant periods of time. Defining M is usually
+#' The accessible area (M) is understood as the geographic area that has been
+#' accessible to a species over relevant periods of time. Defining M is usually
 #' a hard task, but also a very important one because it allows identifying
-#' uncertainties about the ability of a species to maintain populations in
+#' uncertainties about the ability of a species to maintain populations under
 #' certain environmental conditions. For further details on this topic, see
 #' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
 #'
