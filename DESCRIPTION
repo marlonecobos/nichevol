@@ -9,7 +9,7 @@ Authors@R: c(
 Author: Marlon E. Cobos [aut, cre],
     Hannah L. Owens [aut],
     A. Townsend Peterson [aut]
-Maintainer: "Marlon E. Cobos" <manubio13@gmail.com>
+Maintainer: Marlon E. Cobos <manubio13@gmail.com>
 Date: 2019-11-19
 Description: A collection of tools that allow users to perform critical steps 
     in the process of assessing ecological niche evolution over phylogenies, with
@@ -44,7 +44,6 @@ Suggests:
 	phytools (>= 0.6)
 Depends:
     R (>= 3.5.0)
-VignetteBuilder: knitr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
