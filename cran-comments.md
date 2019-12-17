@@ -1,4 +1,44 @@
 ## Resubmission
+This is a resubmission. In this version I have made the following changes 
+suggested by a CRAN team member:
+
+* References to scientific publications related to the theoretical background 
+and methods used in this package have been added to DESCRIPTION.
+* All examples that take < 5 are running now. 
+* Only examples that necessarily take > 5 sec will not run.
+* Examples that necessarily write information will do so in a temporal directory.
+* All messages printed by our function are now done using `message()`.
+* Changed user's par() settings are now reset with an immediate call of `on.exit()`.
+
+**Aditional comments**
+
+* Writing information in the user's home filespace is not allowed for most of 
+the functions that can do so by setting the argument save to its default FALSE.
+* The main scientific publication describing the theoretical background of
+phylogenetic analyses and methods used in this package is in the second round 
+of reviews in the journal Evolution. Once the manuscript is published we will 
+add this reference to the package description.
+
+## Test environments
+* local windows 10, R 3.6.1
+
+
+## R CMD check results
+There were no ERRORs:
+
+There were no WARNINGs:
+
+There were no NOTEs:
+
+## Downstream dependencies
+There are currently no downstream dependencies for this package. 
+
+<br>
+<hr>
+
+## Previous cran-comments
+
+## Resubmission
 This is a resubmission. In this version I have made changes to correct notes 
 derived from CRAN check:
 
