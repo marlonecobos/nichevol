@@ -37,7 +37,16 @@
 #'
 #' @export
 #'
+#' @usage
+#' niche_labels(tree, whole_rec_table, label_type = "tip_node",
+#'   tip_offset = 0.015, present = "1", unknown = "?",
+#'   present_col = "#e41a1c", unknown_col = "#969696",
+#'   absent_col = "#377eb8", width = 1, height = 1)
+#'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
@@ -57,10 +66,8 @@
 #' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 #'
 #' # plotting and adding labels
-#' \dontrun{
 #' ape::plot.phylo(tree, label.offset = 0.04)
 #' niche_labels(tree, rec_tab, height = 0.6)
-#' }
 
 niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
                          tip_offset = 0.015, present = "1", unknown = "?",
@@ -162,14 +169,15 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 }
 
 
-#' Labels to represent changes of between ancestors and descendants
+#' Labels to represent changes of niche characteristics between ancestors and descendants
 #'
 #' @description nichevol_labels helps in adding bar-type labels that represent how
-#' species niches changed from ancestors to descendants.
+#' species' niches changed from ancestors to descendants.
 #'
 #' @param tree an object of class "phylo".
 #' @param whole_rec_table matrix of reconstructed bins for nodes and species
-#' derived from a process of maximum parsimony reconstruction.
+#' derived from a process of maximum parsimony or maximum likelihood reconstruction.
+#' See functions \code{\link{bin_par_rec}} or \code{\link{bin_ml_rec}}.
 #' @param ancestor_line controls whether ancestor line is plotted.
 #' Default = FALSE.
 #' @param present (character) code indicating environmental bins in which the
@@ -198,9 +206,9 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 #' directions, created with the function \code{\link[ape]{plot.phylo}} from the
 #' package \code{ape} are supported.
 #'
-#' Evolution of ecological niches is represented in one environmental dimension
+#' Evolution of ecological niches is represented in one environmental dimension,
 #' with vertical bars indicating if the niche of the descendant has expanded,
-#' retracted, or has not changed compared to its ancestor's. Lower values of
+#' retracted, or has not changed compared to its ancestor's niche. Lower values of
 #' environmental variables are represented in the lower part of the bar, and the
 #' opposite part of the bar represents higher values.
 #'
@@ -224,7 +232,17 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 #'
 #' @export
 #'
+#' @usage
+#' nichevol_labels(tree, whole_rec_table, ancestor_line = FALSE,
+#'   present = "1", absent = "0", unknown = "?",
+#'   present_col = "#252525", unknown_col = "#d9d9d9",
+#'   no_change_col = "#b2df8a", retraction_col = "#984ea3",
+#'   expansion_col = "#4daf4a", width = 1, height = 1)
+#'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
@@ -244,10 +262,8 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 #' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 #'
 #' # plotting and adding labels
-#' \dontrun{
 #' ape::plot.phylo(tree, label.offset = 0.04)
 #' nichevol_labels(tree, rec_tab, height = 0.6)
-#' }
 
 nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
                             present = "1", absent = "0", unknown = "?",
@@ -371,7 +387,15 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 #'
 #' @export
 #'
+#' @usage
+#' niche_legend(position, legend = c("Uncertain", "Present", "Not present"),
+#'   pch = 22, pt.bg = c("#969696", "#e41a1c", "#377eb8"),
+#'   col = "transparent", pt.cex = 2.2, bty = "n", ...)
+#'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
@@ -391,11 +415,9 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 #' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 #'
 #' # plotting and adding labels and legend
-#' \dontrun{
 #' ape::plot.phylo(tree, label.offset = 0.04)
 #' niche_labels(tree, rec_tab, height = 0.6)
 #' niche_legend(position = "topleft", cex = 0.7)
-#' }
 
 niche_legend <- function(position, legend = c("Uncertain", "Present", "Not present"),
                          pch = 22, pt.bg = c("#969696", "#e41a1c", "#377eb8"),
@@ -448,7 +470,18 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #'
 #' @export
 #'
+#' @usage
+#' nichevol_legend(position, ancestor_line = FALSE,
+#'   ancestor_legend = c("Uncertain", "Present"),
+#'   evol_legend = c("No change", "Retraction", "Expansion"),
+#'   ancestor_col = c("#d9d9d9", "#252525"),
+#'   evol_col = c("#b2df8a", "#984ea3", "#4daf4a"),
+#'   pch = 22, pt.cex = 2.2, lty = 1, lwd = 1, cex = 1, bty = "n", ...)
+#'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
@@ -468,11 +501,9 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 #'
 #' # plotting and adding labels and legend
-#' \dontrun{
 #' ape::plot.phylo(tree, label.offset = 0.04)
 #' nichevol_labels(tree, rec_tab, height = 0.6)
 #' nichevol_legend(position = "bottomleft", cex = 0.7)
-#' }
 
 nichevol_legend <- function(position, ancestor_line = FALSE,
                             ancestor_legend = c("Uncertain", "Present"),

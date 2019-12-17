@@ -70,7 +70,18 @@
 #'
 #' @export
 #'
+#' @usage
+#' nichevol_bars(tree, whole_rec_table, ancestor_line = FALSE,
+#'   present = "1", absent = "0", unknown = "?",
+#'   present_col = "#252525", unknown_col = "#d9d9d9",
+#'   no_change_col = "#b2df8a", retraction_col = "#984ea3",
+#'   expansion_col = "#4daf4a", width = 50, height = 5,
+#'   res = 300, overwrite = FALSE, output_directory = "Nichevol_bars")
+#'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
@@ -90,9 +101,7 @@
 #' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 #'
 #' # the running (before running, define a working directory)
-#' \dontrun{
-#' nichevol_bars(tree, rec_tab)
-#' }
+#' nichevol_bars(tree, rec_tab, output_directory = file.path(tempdir(), "evolbars"))
 
 nichevol_bars <- function(tree, whole_rec_table, ancestor_line = FALSE,
                           present = "1", absent = "0", unknown = "?",
@@ -114,6 +123,10 @@ nichevol_bars <- function(tree, whole_rec_table, ancestor_line = FALSE,
   if (overwrite == TRUE & dir.exists(output_directory)) {
     unlink(x = output_directory, recursive = TRUE, force = TRUE)
   }
+
+  # par settings
+  opar <- par(no.readonly = TRUE)
+  on.exit(par(opar))
 
   # reorganizing character table
   tlab <- tree$tip.label

@@ -20,6 +20,9 @@ as present or present + unknown.
 Helper function to assign bin scores to every tip in a given tree
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # Simulate data table
 dataTable <- cbind("241" = rep("1", 5),
                    "242" = rep("1", 5),

@@ -1,7 +1,7 @@
-#' Bin table of environmental conditions in M and occurrences
+#' Bin table of environmental conditions in M and for occurrences
 #'
 #' @description bin_table helps in creating a bin table of environmental
-#' conditions in accessible areas (M) and species occurrence records
+#' conditions in accessible areas (M) and for species occurrence records
 #' (i.e., table of characters).
 #'
 #' @param Ms a list of SpatialPolygons* objects representing the accessible area
@@ -31,7 +31,7 @@
 #'
 #' Accessible area (M) is understood as the geographic area that has been
 #' accessible for a species for relevant periods of time. Defining M is usually
-#' a hard task, but also a very important one because it allows identifying
+#' a hard task, but also a very important one, because it allows identifying
 #' uncertainties about the ability of a species to maintain populations in
 #' certain environmental conditions. For further details on this topic, see
 #' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
@@ -69,6 +69,10 @@
 #'
 #' @export
 #'
+#' @usage
+#' bin_table(Ms, occurrences, species, longitude, latitude, variable,
+#'   percentage_out = 5, bin_size = 10)
+#'
 #' @examples
 #' # getting a variable at coarse resolution
 #' \dontrun{
@@ -103,7 +107,7 @@ bin_table <- function(Ms, occurrences, species, longitude, latitude, variable,
   sp_range <- list()
   spnames <- vector()
 
-  cat("\n   Preparing range values:\n")
+  message("\n   Preparing range values:\n")
 
   for (j in 1:length(occurrences)) {
     # processing
@@ -128,7 +132,7 @@ bin_table <- function(Ms, occurrences, species, longitude, latitude, variable,
     sp_range[[j]] <- range(occval)
     spnames[j] <- as.character(occurrences[[j]][1, species])
 
-    cat("\t", j, "of", length(occurrences), "species finished\n")
+    message("\t", j, " of ", length(occurrences), " species finished\n")
   }
 
   # overall range
@@ -159,7 +163,7 @@ bin_table <- function(Ms, occurrences, species, longitude, latitude, variable,
   overall_range <- c(o_minimumc, o_maximumc)
 
   # bin tables
-  cat("   Preparing bin tables using ranges:\n")
+  message("   Preparing bin tables using ranges:\n")
 
   bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
   rownames(bin_table) <- gsub("_", " ", spnames)

@@ -23,6 +23,9 @@ Sigma squared values for a single niche summary statistic
 are calculated using \code{\link[geiger]{fitContinuous}}.
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))

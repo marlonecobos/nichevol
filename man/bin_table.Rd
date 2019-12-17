@@ -2,18 +2,10 @@
 % Please edit documentation in R/bin_table.R
 \name{bin_table}
 \alias{bin_table}
-\title{Bin table of environmental conditions in M and occurrences}
+\title{Bin table of environmental conditions in M and for occurrences}
 \usage{
-bin_table(
-  Ms,
-  occurrences,
-  species,
-  longitude,
-  latitude,
-  variable,
-  percentage_out = 5,
-  bin_size = 10
-)
+bin_table(Ms, occurrences, species, longitude, latitude, variable,
+  percentage_out = 5, bin_size = 10)
 }
 \arguments{
 \item{Ms}{a list of SpatialPolygons* objects representing the accessible area
@@ -61,7 +53,7 @@ species records are as extreme as the most extreme ones in M.
 }
 \description{
 bin_table helps in creating a bin table of environmental
-conditions in accessible areas (M) and species occurrence records
+conditions in accessible areas (M) and for species occurrence records
 (i.e., table of characters).
 }
 \details{
@@ -71,7 +63,7 @@ which they are represented. WGS84 with no planar projection is recommended.
 
 Accessible area (M) is understood as the geographic area that has been
 accessible for a species for relevant periods of time. Defining M is usually
-a hard task, but also a very important one because it allows identifying
+a hard task, but also a very important one, because it allows identifying
 uncertainties about the ability of a species to maintain populations in
 certain environmental conditions. For further details on this topic, see
 Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.

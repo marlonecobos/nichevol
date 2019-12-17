@@ -2,29 +2,20 @@
 % Please edit documentation in R/plotting_helpers.R
 \name{nichevol_labels}
 \alias{nichevol_labels}
-\title{Labels to represent changes of between ancestors and descendants}
+\title{Labels to represent changes of niche characteristics between ancestors and descendants}
 \usage{
-nichevol_labels(
-  tree,
-  whole_rec_table,
-  ancestor_line = FALSE,
-  present = "1",
-  absent = "0",
-  unknown = "?",
-  present_col = "#252525",
-  unknown_col = "#d9d9d9",
-  no_change_col = "#b2df8a",
-  retraction_col = "#984ea3",
-  expansion_col = "#4daf4a",
-  width = 1,
-  height = 1
-)
+nichevol_labels(tree, whole_rec_table, ancestor_line = FALSE,
+  present = "1", absent = "0", unknown = "?",
+  present_col = "#252525", unknown_col = "#d9d9d9",
+  no_change_col = "#b2df8a", retraction_col = "#984ea3",
+  expansion_col = "#4daf4a", width = 1, height = 1)
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
 
 \item{whole_rec_table}{matrix of reconstructed bins for nodes and species
-derived from a process of maximum parsimony reconstruction.}
+derived from a process of maximum parsimony or maximum likelihood reconstruction.
+See functions \code{\link{bin_par_rec}} or \code{\link{bin_ml_rec}}.}
 
 \item{ancestor_line}{controls whether ancestor line is plotted.
 Default = FALSE.}
@@ -61,16 +52,16 @@ default = 1.}
 }
 \description{
 nichevol_labels helps in adding bar-type labels that represent how
-species niches changed from ancestors to descendants.
+species' niches changed from ancestors to descendants.
 }
 \details{
 For the moment, only plots of type "phylogram" with "rightwards" or "leftwards"
 directions, created with the function \code{\link[ape]{plot.phylo}} from the
 package \code{ape} are supported.
 
-Evolution of ecological niches is represented in one environmental dimension
+Evolution of ecological niches is represented in one environmental dimension,
 with vertical bars indicating if the niche of the descendant has expanded,
-retracted, or has not changed compared to its ancestor's. Lower values of
+retracted, or has not changed compared to its ancestor's niche. Lower values of
 environmental variables are represented in the lower part of the bar, and the
 opposite part of the bar represents higher values.
 
@@ -93,6 +84,9 @@ environmental conditions, the ancestor was present, and where its presence is
 uncertain (unknown).
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
@@ -112,8 +106,6 @@ treeWdata <- geiger::treedata(tree, dataTable)
 rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 
 # plotting and adding labels
-\dontrun{
 ape::plot.phylo(tree, label.offset = 0.04)
 nichevol_labels(tree, rec_tab, height = 0.6)
-}
 }

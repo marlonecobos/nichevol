@@ -9,7 +9,7 @@
 character_table
 }
 \description{
-A table of charaters representing species ecological niches derived from
+A character table representing species ecological niches derived from
 previous preparation processes. Each row represents a species and each column
 a binary character in which one or more values of the environmental variable
 are categorized as used "1", non used "0", or uncertain "?".

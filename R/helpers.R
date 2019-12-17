@@ -38,8 +38,11 @@ rformat_type <- function(format) {
 #' @importFrom grDevices dev.off pdf
 #' @importFrom graphics abline layout hist plot.new points title
 #' @return
-#' A PDF file written in the output directory containing all resultant figures.
+#' A PDF file written in the output directory containing all resulting figures.
 #' @export
+#' @usage
+#' pdf_histograms(env_data, occ_data, y_values, sp_names, variable_name,
+#'   CL_lines, limits, col, output_directory = "Histogram_ranges_check")
 #' @examples
 #' # example data
 #' e_data <- list(rnorm(1000, 15, 7), rnorm(800, 20, 6), rnorm(1000, 12, 3))
@@ -55,7 +58,7 @@ rformat_type <- function(format) {
 #' bins <- pdf_histograms(env_data = e_data, occ_data = o_data, y_values = y_val,
 #'                        sp_names = s_names, variable_name = "Temperature",
 #'                        CL_lines = 95, limits = lims, col = "geen",
-#'                        output_directory = "Histogram_ranges_check")
+#'                        output_directory = file.path(tempdir(), "Hist_to_check"))
 #' }
 
 pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
@@ -70,6 +73,10 @@ pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
   if (missing(CL_lines)) {stop("Argument 'CL_lines' is missing.")}
   if (missing(limits)) {stop("Argument 'limits' is missing.")}
   if (missing(col)) {stop("Argument 'col' is missing.")}
+
+  # par settings
+  opar <- par(no.readonly = TRUE)
+  on.exit(par(opar))
 
   # colors for limits in actual values
   col1 <- rep(col, each = 2)
@@ -334,7 +341,7 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
       if(invar_sum[j] >= 100) bin_tab[j] <- "1"
     }
 
-    cat("\t", i, "of", dim(M_range)[1], "species finished\n")
+    message("\t", i, " of ", dim(M_range)[1], " species finished\n")
     return(bin_tab)
   })
 
@@ -356,6 +363,9 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
 #' @return Tree of class "phylo" with specified names
 #' @export
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
@@ -383,6 +393,9 @@ rename_tips <- function(tree, names) {
 #' @importFrom geiger fitContinuous
 #' @export
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
@@ -473,6 +486,9 @@ score_tip <- function(character_table, species_name, include_unknown = FALSE) {
 #' @importFrom geiger treedata
 #' @export
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # Simulate data table
 #' dataTable <- cbind("241" = rep("1", 5),
 #'                    "242" = rep("1", 5),

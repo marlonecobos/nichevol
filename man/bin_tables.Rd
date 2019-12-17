@@ -2,16 +2,10 @@
 % Please edit documentation in R/bin_tables.R
 \name{bin_tables}
 \alias{bin_tables}
-\title{Bin tables of environmental conditions in M and occurrences from objects}
+\title{Bin tables of environmental conditions in M and for occurrences from objects}
 \usage{
-bin_tables(
-  ranges,
-  percentage_out = 5,
-  bin_size = 10,
-  save = FALSE,
-  overwrite = FALSE,
-  output_directory = "Species_E_bins"
-)
+bin_tables(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
+  overwrite = FALSE, output_directory = "Species_E_bins")
 }
 \arguments{
 \item{ranges}{list of ranges of environmental values in M and in species
@@ -27,15 +21,15 @@ Default = 10.}
 \item{save}{(logical) whether or not to save the results in working directory.
 Default = FALSE.}
 
-\item{overwrite}{(logical) whether or not to overwrite existing results in
-\code{output_directory}. Default = FALSE.}
+\item{overwrite}{(logical) whether or not to overwrite existing results
+in \code{output_directory}. Default = FALSE.}
 
 \item{output_directory}{(character) name of the folder in which results will be
 written. Default = "Species_E_bins".}
 }
 \value{
 A list named as in \code{ranges} containing the table(s) of characters.
-A folder named as in \code{output_directory} containing all resultant csv
+A folder named as in \code{output_directory} containing all resulting csv
 files with the tables of characters will be created if \code{save} is set as
 TRUE.
 
@@ -46,8 +40,8 @@ Potential values for characters are:
 those environmental conditions inside the accessible area (M) are more extreme
 than the ones used for the species.
 \item "?" = there is no certainty about the species presence in those environmental
-conditions. This happens in environmental combinations more extreme than the
-ones found in the accessible area (M), when environmental conditions in
+conditions. This happens if environmental combinations are more extreme than
+the ones found in the accessible area (M), when environmental conditions in
 species records are as extreme as the most extreme ones in M.
 }
 }
@@ -64,11 +58,11 @@ one of the confidence limits defined in \code{\link{histograms_env}}
 \code{percentage_out} can only be either 5 (keeping data inside the 95 CL) or
 0 (to avoid exclusion of extreme values in M).
 
-Excluding a certain percentage of extreme environmental values prevents from
-considering extremely rare environmental values in the accessible area for
-the species (M). Being too rare, these values may have never been explored by
-the species; therefore, including them in the process of preparation of the
-table of characters (bin table) is risky.
+Excluding a certain percentage of extreme environmental values prevents the
+algorithm from considering extremely rare environmental values in the
+accessible area for the species (M). Being too rare, these values may have
+never been explored by the species; therefore, including them in the process
+of preparation of the table of characters (bin table) is risky.
 
 The argument \code{bin_size} helps to create characters that represent not
 only one value of an environmental variable, but a range of environmental

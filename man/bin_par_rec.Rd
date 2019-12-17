@@ -2,7 +2,7 @@
 % Please edit documentation in R/bin_par_rec.R
 \name{bin_par_rec}
 \alias{bin_par_rec}
-\title{Maximum parsimony reconstruction of characters}
+\title{Maximum parsimony reconstruction of ancestral character states}
 \usage{
 bin_par_rec(tree_data, ...)
 }
@@ -18,13 +18,16 @@ A table with columns representing bins, rows representing first tip
 states and then reconstructed nodes.
 }
 \description{
-Maximum parsimony reconstruction of characters
+Maximum parsimony reconstruction of ancestral character states
 }
 \details{
 Reconstructions are done using the \code{\link[castor]{asr_max_parsimony}}
 function from the \code{castor} package.
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
@@ -42,5 +45,4 @@ treeWdata <- geiger::treedata(tree, dataTable)
 
 # Maximum parsimony reconstruction
 bin_par_rec(treeWdata)
-
 }

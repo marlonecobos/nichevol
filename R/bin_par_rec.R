@@ -1,4 +1,4 @@
-#' Maximum parsimony reconstruction of characters
+#' Maximum parsimony reconstruction of ancestral character states
 #'
 #' @param tree_data a list of two elements (phy and data) resulting from using
 #' the function \code{\link[geiger]{treedata}}.
@@ -15,7 +15,12 @@
 #' @importFrom ape reorder.phylo
 #' @importFrom castor asr_max_parsimony
 #'
+#' @export
+#'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
@@ -33,8 +38,7 @@
 #'
 #' # Maximum parsimony reconstruction
 #' bin_par_rec(treeWdata)
-#'
-#' @export
+
 
 bin_par_rec <- function(tree_data, ...) {
   if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}

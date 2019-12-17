@@ -1,4 +1,4 @@
-#' Histograms of environmental conditions at occurrences and in M
+#' Histograms of environmental conditions in M and for occurrences
 #'
 #' @description histograms_env creates PDF files with histogram plots of
 #' environmental conditions in M, lines for the confidence limits of values in
@@ -27,7 +27,7 @@
 #' be plotted as lines in the histograms. See details. Default = c(95, 99).
 #' @param col colors for lines representing confidence limits. If NULL, colors
 #' are selected from a gray palette. Default = NULL.
-#' @param round (logical) whether or not to round the values of one or more
+#' @param round (logical) whether or not to round values of one or more
 #' variables after multiplying them times the value in \code{multiplication_factor}.
 #' Default = FALSE. See details.
 #' @param round_names (character) names of the variables to be rounded.
@@ -50,8 +50,8 @@
 #'
 #' Accessible area (M) is understood as the geographic area that has been
 #' accessible for a species for relevant periods of time. Defining M is usually
-#' a hard task, but also a very important one because it allows identifying
-#' uncertainties about the ability of a species to maintain populations in
+#' a hard task, but also a very important one, because it allows identifying
+#' uncertainties about the ability of a species to maintain populations under
 #' certain environmental conditions. For further details on this topic, see
 #' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
 #'
@@ -61,10 +61,10 @@
 #' \code{round_names}, and \code{multiplication_factor}, must be used accordingly.
 #'
 #' @return
-#' A list of data.frames containing interval of environmental values in species
+#' A list of data.frames containing intervals of environmental values in species
 #' occurrences and accessible areas (M), as well as values corresponding to the
-#' confidence limits defined in \code{CL_lines}. A folder named as in
-#' \code{output_directory} containing all resultant PDF files (one per each
+#' confidence limits defined in \code{CL_lines}. A folder named as
+#' in \code{output_directory} containing all resulting PDF files (one per
 #' variable) with histograms for all species. Files (csv) of ranges found during
 #' the analyses will be also written in \code{output_directory} if
 #' \code{save_ranges} is set as TRUE.
@@ -76,6 +76,13 @@
 #' @importFrom rgdal readOGR
 #'
 #' @export
+#'
+#' @usage
+#' histograms_env(M_folder, M_format, occ_folder, longitude, latitude,
+#'   var_folder, var_format, CL_lines = c(95, 99), col = NULL,
+#'   round = FALSE, round_names = NULL, multiplication_factor = 1,
+#'   save_ranges = FALSE, overwrite = FALSE,
+#'   output_directory = "Histogram_ranges")
 #'
 #' @examples
 #' # example of how to define arguments, check argument descriptions above
@@ -116,7 +123,7 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
   }
 
   # formats and data to start
-  cat("\nPreparing data, please wait...\n\n")
+  message("\nPreparing data, please wait...\n\n")
   if (M_format %in% c("shp", "gpkg")) {
     if (M_format == "shp") {
       M_patt <- ".shp$"
@@ -207,7 +214,7 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
       M_limits[[j]] <- do.call(c, M_limit)
       sp_ranges[[j]] <- range(occval)
 
-      cat("\t", j, "of", length(occlist), "species finished\n")
+      message("\t", j, " of ", length(occlist), " species finished\n")
     }
 
     ## ranges final values for variables
@@ -231,12 +238,12 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
                    CL_lines = CL_lines, limits = limits, col = col,
                    output_directory = output_directory)
 
-    cat(i, "of", nvars, "variables processed\n")
+    message(i, " of ", nvars, " variables processed\n")
     return(ranges)
   })
 
   if (save_ranges == TRUE) {
-    cat("\ncsv files with the environmental ranges were saved in",
+    message("\ncsv files with the environmental ranges were saved in ",
         output_directory, "\n")
   }
 

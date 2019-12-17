@@ -2,7 +2,7 @@
 % Please edit documentation in R/bin_ml_rec.R
 \name{bin_ml_rec}
 \alias{bin_ml_rec}
-\title{Maximum likelihood reconstruction of characters}
+\title{Maximum likelihood reconstruction of ancestral character states}
 \usage{
 bin_ml_rec(tree_data, ...)
 }
@@ -18,7 +18,7 @@ A table with columns representing bins, rows representing first tip
 states and then reconstructed nodes.
 }
 \description{
-Maximum likelihood reconstruction of characters
+Maximum likelihood reconstruction of ancestral character states
 }
 \details{
 Reconstructions are done using the function \code{\link[ape]{ace}} from the
@@ -26,6 +26,9 @@ Reconstructions are done using the function \code{\link[ape]{ace}} from the
 of variable is "discrete".
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
@@ -43,5 +46,4 @@ treeWdata <- geiger::treedata(tree, dataTable)
 
 # Maximum likelihood reconstruction
 ml_rec <- bin_ml_rec(treeWdata)
-
 }

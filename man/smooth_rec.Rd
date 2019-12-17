@@ -2,7 +2,7 @@
 % Please edit documentation in R/smooth_rec.R
 \name{smooth_rec}
 \alias{smooth_rec}
-\title{Smooth character table values resulted from ancestral reconstructions}
+\title{Smooth character table values resulted from ancestral character state reconstructions}
 \usage{
 smooth_rec(whole_rec_table)
 }
@@ -15,9 +15,12 @@ or \code{\link{bin_ml_rec}}.}
 The matrix of reconstructed characters with smoothed values.
 }
 \description{
-Smooth character table values resulted from ancestral reconstructions
+Smooth character table values resulted from ancestral character state reconstructions
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))

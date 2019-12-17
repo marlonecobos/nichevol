@@ -11,59 +11,40 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
       - [Setting a directory](#setting-a-directory)
       - [Loading the package](#loading-the-package)
       - [Functions in nichevol](#functions-in-nichevol)
-          - [Functions for data
-            preparation](#functions-for-data-preparation)
-          - [Functions for ancestral
-            reconstruction](#functions-for-ancestral-reconstruction)
-          - [Functions for post-reconstruction
-            processes](#functions-for-post-reconstruction-processes)
-          - [Functions for simulation of virtual
-            species](#functions-for-simulation-of-virtual-species)
   - [Using nichevol with simple
     examples](#using-nichevol-with-simple-examples)
       - [Packages needed for data
         management](#packages-needed-for-data-management)
       - [Initial data (example data)](#initial-data-example-data)
       - [Preparing data for analyses](#preparing-data-for-analyses)
-          - [Exploring data numerically](#exploring-data-numerically)
-          - [Exploring data graphically](#exploring-data-graphically)
-          - [Preparing tables of ecological niche
-            characters](#preparing-tables-of-ecological-niche-characters)
       - [Ancestral reconstructions and smoothing of
         results](#ancestral-reconstructions-and-smoothing-of-results)
-          - [Phylogenetic tree and data](#phylogenetic-tree-and-data)
-          - [Maximum parsimony
-            reconstruction](#maximum-parsimony-reconstruction)
-          - [Maximum likelihood
-            reconstruction](#maximum-likelihood-reconstruction)
       - [Representations of results](#representations-of-results)
-          - [Ecological niches of our species in the
-            phylogeny](#ecological-niches-of-our-species-in-the-phylogeny)
-          - [Reconstructed ecological niches of
-            ancestors](#reconstructed-ecological-niches-of-ancestors)
-          - [Evolution of ecological niches in the
-            group](#evolution-of-ecological-niches-in-the-group)
-          - [A final, more informative
-            plot](#a-final-more-informative-plot)
   - [References](#references)
 
 <br>
+
+<!-- badges: start -->
+
+[![Travis build
+status](https://travis-ci.org/marlonecobos/nichevol.svg?branch=master)](https://travis-ci.org/marlonecobos/nichevol)
+<!-- badges: end -->
 
 <hr>
 
 ## Package description
 
-The **nichevol** R package helps to perform critical steps in the
+The **nichevol** R package helps users to perform critical steps in the
 process of assessment of species’ ecological niche evolution, with
-uncertainty incorporated in reconstructions. The method proposed here
-for ancestral reconstruction of ecological niches characterizes species’
-niches using a bin-based approach that incorporates uncertainty in
-estimations. Compared to other existent methods the approaches presented
-here reduce risks of overestimation of ecological niche evolution.The
-main analyses include: initial exploration of environmental data in
-species records and accessible areas, preparation of data for
-phylogenetic analyses, comparative phylogenetic analyses, and plotting
-for interpretations.
+uncertainty incorporated explicitly in reconstructions. The method
+proposed here for ancestral reconstruction of ecological niches
+characterizes niches using a bin-based approach that incorporates
+uncertainty in estimations. Compared to other existing methods, the
+approaches presented here reduce risks of overestimation of amounts or
+rates of ecological niche evolution. The main analyses include: initial
+exploration of environmental data in occurrence records and accessible
+areas, preparation of data for phylogenetic analyses, comparative
+phylogenetic analyses, and plotting for interpretation.
 
 <br>
 
@@ -73,18 +54,16 @@ for interpretations.
 
 ### Stable version
 
-The stable version of **nichevol** is in **CRAN** and it can be
-installed and loaded using the code below (we are working on this):
+The stable version of **nichevol** is in **CRAN**, and can be installed
+using the code below (we are working on this):
 
 ``` r
-if(!require(devtools)){
-  install.packages("nichevol")
-}
+install.packages("nichevol")
 ```
 
 ### Latest version
 
-The most recent version of **nichevol** is available as a GitHub
+The most recent version of **nichevol** is available from this GitHub
 repository and can be installed using the code below. Please, have in
 mind that updates will be done on this version continuously.
 
@@ -92,7 +71,7 @@ Note: Try the code below first… If you have any problem during the
 installation, restart your R session, close other sessions you may have
 open, and try again. If during the installation you are asked to update
 packages, please do it. If any of the packages gives an error, please
-install it alone using install.packages(), then try re-installing
+install it alone using *install.packages()*, then try re-installing
 **nichevol** again. Also, it may be a good idea to update R and RStudio
 (if you are using it).
 
@@ -116,9 +95,9 @@ if(!require(nichevol)){
 
 Some of the main functions of **nichevol** use data that need to be
 loaded from a local directory and others produce results that need to be
-written in a local directory. Loading data from a local directory and
+written to a local directory. Loading data from a local directory and
 writing the results outside the R environment helps to avoid problems
-related to RAM limitations. That is why, setting a working directory is
+related to RAM limitations. That is why setting a working directory is
 recommended before starting, as follows:
 
 ``` r
@@ -130,7 +109,7 @@ setwd(directory)
 
 ### Loading the package
 
-Once **nichevol** is installed you can load the package with the
+Once **nichevol** is installed, you can load the package with the
 following line.
 
 ``` r
@@ -141,17 +120,17 @@ library(nichevol)
 
 ### Functions in nichevol
 
-Four main types of functions are included in **nichevol**: (1) the ones
-that help in preparing data (exploration plots and tables of characters)
-for ancestral reconstruction; (2) the ones that perform the ancestral
-reconstructions (Maximum Parsimony and Maximum Likelihood); (3) some
+Four main types of functions are included in **nichevol**: (1) ones that
+help in preparing data (exploration plots and tables of characters) for
+ancestral reconstruction; (2) ones that perform the ancestral
+reconstructions (maximum parsimony and maximum likelihood); (3) some
 complementary functions that help in performing post-reconstruction
 steps (reconstruction smoothing, and niche and niche evolution
-representations); and (4) the ones that help in producing virtual
-species for exploring hypothesis. Of course, other helper functions are
-used in the package but they won’t be used as commonly.
+representations); and (4) ones that help in producing virtual species
+for exploring hypotheses. Of course, other helper functions are used in
+the package, but they won’t be used as commonly.
 
-A complete list of the main functions in the **nichevol** package can be
+A complete list of the functions in the **nichevol** package can be
 found in the package documentation. Use the following code to see the
 list.
 
@@ -163,31 +142,31 @@ help(nichevol)
 
 #### Functions for data preparation
 
-These functions are used to explore numerically and graphically how
-environments in the areas accessible to the species (M) and in their
-occurrences look like. They also help to prepare tables of characters
-that represent species ecological niches considering used and non-used
+These functions are used to explore numerically and graphically the
+environments of the areas accessible to the species (**M**) and their
+occurrences. They also help users to prepare tables of characters that
+represent species’ ecological niches considering used and non-used
 conditions, as well as conditions where the use is uncertain. Most of
-the functions in this module can be used to consider all species of
-interest and multiple environmental variables at the time. For that
-reason they read data from a local directory and have the option to
-write results in such directories as well. The functions that work with
-data from the R environment are the ones specifically designed to work
-with multiple species but only one variable. These last functions do not
-write results in local directories. We have intentionally designed some
-of our functions to work interacting with local directories to avoid
-RAM-related limitations (specially when working with multiple
+the functions in this module can consider all species of interest and
+multiple environmental variables at the time. For that reason, they read
+data from a local directory and have the option to write results to such
+directories as well. The functions that work with data from the R
+environment are the ones specifically designed to work with multiple
+species but only one variable. These last functions do not write results
+to local directories. We have intentionally designed some of our
+functions to work interacting with local directories to avoid
+RAM-related limitations (especially when working with multiple
 environmental raster layers at high resolution).
 
 #### Functions for ancestral reconstruction
 
 This module contains functions that help in performing ancestral
-reconstruction of species ecological niches. These functions use as
+reconstruction of species’ ecological niches. These functions use as
 inputs the results of the ones from the previous module (tables of
-characters) and phylogenetic trees as in objects of class “phylo” (see
+characters) and phylogenetic trees, as in objects of class “phylo” (see
 the package **ape**). There are two types of reconstructions available
-to date (Maximum Likelihood and Maximum Parsimony), but at least other
-type will be included. All these functions use inputs and produce
+to date (maximum parsimony and maximum likelihood), but at least one
+other type will be included. All these functions use inputs and produce
 outputs in the R environment.
 
 #### Functions for post-reconstruction processes
@@ -196,17 +175,16 @@ Functions in this module are intended to help with two main processes.
 First, one of these functions helps in smoothing results from ancestral
 reconstructions. This is necessary to prevent misinterpretations of
 results from comparing reconstructed niches of ancestors with niches of
-descendants (younger ancestors or taxa of interest). Second, other
-functions help in representing results of previous analyses. For
-instance, they help in producing bar-like labels that represent the
-niche of a species, or, they can also be used to represent how niches
-have evolved across the phylogeny.
+descendants. Other functions help in representing results of previous
+analyses. For instance, they help in producing bar-like labels that
+represent the niches of species, or they can be used to represent how
+niches have evolved across the phylogeny.
 
 #### Functions for simulation of virtual species
 
-These module is still under development but it is intended to help in
-creating a suit of virtual species niches and their phylogenetic
-relationships to explore hypothesis of niche evolution.
+This module is still under development, but it is intended to help in
+creating a suite of virtual species’ niches and their phylogenetic
+relationships, to explore hypotheses of niche evolution.
 
 <br>
 
@@ -217,9 +195,9 @@ relationships to explore hypothesis of niche evolution.
 ### Packages needed for data management
 
 The following packages are needed for specific tasks. They are used
-internally by **nichevol** but parts of these code will require them.
-Notice that **nichevol** is already loaded but these other packages need
-to be loaded separately.
+internally by **nichevol**, and parts of the code for the examples below
+will require them. Notice that **nichevol** is already loaded, but these
+other packages need to be loaded separately.
 
 ``` r
 library(raster) # for reading environmental layers
@@ -234,7 +212,7 @@ The following lines of code will help to get example data prepared for
 demonstrating the usage of **nichevol**. These data were used in an
 article in which the methods implemented in **nichevol** were proposed,
 illustrated, and explained (see Owens et al. in review). These data are
-included in the package, so its use is straightforward.
+included in the package, so their use is straightforward.
 
 ``` r
 # variable at coarse resolution to be used as example only
@@ -260,14 +238,14 @@ data("tree_data", package = "nichevol")
 
 ### Preparing data for analyses
 
-Before starting playing with the functions consider that **nichevol**
-allows distinct ways to prepare data depending on the user needs. The
+Before starting to play with the functions, consider that **nichevol**
+allows distinct ways to prepare data, depending on the user’s needs. The
 example data downloaded before can be used with the functions designed
 to work with multiple variables and all taxa at the time
 (*histograms\_env*, *stats\_evalues*, *bin\_tables*, *bin\_tables0*). We
 will see examples with these options first, but examples with the
 functions that work with data in the R environment and only for one
-variable at the time are also shown.
+variable at a time are also shown.
 
 #### Exploring data numerically
 
@@ -279,8 +257,8 @@ First check the help:
 help(stats_evalues)
 ```
 
-Now the
-running:
+Now, to run the
+code,
 
 ``` r
 stats <- stats_evalues(stats = c("mean", "sd", "median", "range", "quantile"), 
@@ -298,8 +276,8 @@ First check the help:
 help(stats_eval)
 ```
 
-Now the
-running:
+Now, to run the
+code,
 
 ``` r
 stat <- stats_eval(stats = c("mean", "sd", "median", "range", "quantile"), 
@@ -1352,7 +1330,7 @@ First check the help:
 help(histograms_env)
 ```
 
-Now the running:
+Now, to run the code,
 
 ``` r
 hists <- histograms_env(M_folder = "Folder_with_Ms", M_format = "shp",
@@ -1369,8 +1347,8 @@ First check the help:
 help(hist_evalues)
 ```
 
-Now the
-running:
+Now, to run the
+code,
 
 ``` r
 hist_evalues(M = m_list[[1]], occurrences = occ_list[[1]], species = "species", 
@@ -1392,7 +1370,7 @@ First check the help:
 help(bin_tables)
 ```
 
-Now the running:
+Now, to run the code,
 
 ``` r
 bins <- bin_tables(ranges, percentage_out = 5, bin_size = 10)
@@ -1406,7 +1384,7 @@ First check the help:
 help(bin_tables0)
 ```
 
-Now the running:
+Now, to run the code,
 
 ``` r
 bins <- bin_tables0(M_folder = "Folder_with_Ms", M_format = "shp",
@@ -1415,7 +1393,7 @@ bins <- bin_tables0(M_folder = "Folder_with_Ms", M_format = "shp",
                     var_format = "GTiff", percentage_out = 5, bin_size = 10)
 ```
 
-**One variables: When using data from the R environment**
+**One variable: When using data from the R environment**
 
 First check the help:
 
@@ -1423,8 +1401,8 @@ First check the help:
 help(bin_table)
 ```
 
-Now the
-running:
+Now, to run the
+code,
 
 ``` r
 bin_tabl <- bin_table(Ms = m_list, occurrences = occ_list, species = "species",
@@ -2717,12 +2695,12 @@ RD 7516
 ### Ancestral reconstructions and smoothing of results
 
 These functions work with one variable at the time, but users can
-perform several analyses in loop if needed. The variable to be explored
-here is temperature.
+perform several analyses in a loop if needed. The variable to be
+explored here is annual mean temperature.
 
 #### Phylogenetic tree and data
 
-With the following code, the phylogenetic tree will be plotted and its
+With the following code, the phylogenetic tree will be plotted, and its
 nodes will be added.
 
 ``` r
@@ -2744,7 +2722,7 @@ help(bin_par_rec)
 help(smooth_rec)
 ```
 
-Now the running:
+Now, to run the code,
 
 ``` r
 # reconstruction
@@ -4920,7 +4898,7 @@ First check the help:
 help(bin_ml_rec)
 ```
 
-Now the running:
+Now, to run the code,
 
 ``` r
 # reconstruction
@@ -4928,7 +4906,6 @@ ml_rec_table <- bin_ml_rec(tree_data)
 
 # smoothing
 s_ml_rec_table <- smooth_rec(ml_rec_table)
-
 
 # results
 knitr::kable(s_ml_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum likelihood reconstructions for their ancestors.", digits = 2) %>% kable_styling(font_size = 12)
@@ -7625,7 +7602,7 @@ NA
 
 ### Representations of results
 
-#### Ecological niches of our species in the phylogeny
+#### Ecological niches of species on the phylogeny
 
 ``` r
 plot.phylo(tree, label.offset = 0.04)

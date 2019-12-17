@@ -1,4 +1,4 @@
-#' Maximum likelihood reconstruction of characters
+#' Maximum likelihood reconstruction of ancestral character states
 #'
 #' @param tree_data a list of two elements (phy and data) resulting from using the
 #' function \code{\link[geiger]{treedata}}.
@@ -15,7 +15,12 @@
 #'
 #' @importFrom ape ace
 #'
+#' @export
+#'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
@@ -33,10 +38,9 @@
 #'
 #' # Maximum likelihood reconstruction
 #' ml_rec <- bin_ml_rec(treeWdata)
-#'
-#' @export
 
-bin_ml_rec <- function(tree_data, ...){
+
+bin_ml_rec <- function(tree_data, ...) {
   if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
 
   # Data from geiger::treedata

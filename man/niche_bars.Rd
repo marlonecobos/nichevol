@@ -4,20 +4,10 @@
 \alias{niche_bars}
 \title{PNG bar figures to represent ecological niches of distinct taxa}
 \usage{
-niche_bars(
-  tree,
-  whole_rec_table,
-  present = "1",
-  unknown = "?",
-  present_col = "#e41a1c",
-  unknown_col = "#969696",
-  absent_col = "#377eb8",
-  width = 50,
-  height = 5,
-  res = 300,
-  overwrite = FALSE,
-  output_directory = "Niche_bars"
-)
+niche_bars(tree, whole_rec_table, present = "1", unknown = "?",
+  present_col = "#e41a1c", unknown_col = "#969696",
+  absent_col = "#377eb8", width = 50, height = 5, res = 300,
+  overwrite = FALSE, output_directory = "Niche_bars")
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
@@ -73,6 +63,9 @@ environmental variables are represented in the left part of the bar, and the
 opposite part of the bar represents higher values.
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
@@ -92,7 +85,5 @@ treeWdata <- geiger::treedata(tree, dataTable)
 rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 
 # the running (before running, define a working directory)
-\dontrun{
-niche_bars(tree, rec_tab)
-}
+niche_bars(tree, rec_tab, output_directory = file.path(tempdir(), "nichebars"))
 }

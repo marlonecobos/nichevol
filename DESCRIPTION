@@ -1,23 +1,33 @@
 Package: nichevol
 Type: Package
 Title: Assessment of Species’ Ecological Niche Evolution Considering Uncertainty in Reconstructions
-Version: 0.1.16
+Version: 0.1.17
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
     person("Hannah L.", "Owens", email = "hannah.owens@gmail.com", role = "aut"),
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"))
+Author: Marlon E. Cobos [aut, cre],
+    Hannah L. Owens [aut],
+    A. Townsend Peterson [aut]
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
 Date: 2019-11-19
-Description: nichevol helps to perform critical steps in the process of 
-    assessment of species' ecological niche evolution considering uncertainty 
-    in reconstructions. The method proposed here for ancestral reconstruction of
-    ecological niches characterizes species' niches using a bin-based approach 
-    that incorporates uncertainty in estimations. Compared to other existent 
-    methods the approaches presented here reduce risks of overestimation of 
-    ecological niche evolution. The main analyses include: initial exploration of 
-    environmental data in species records and accessible areas, preparation of 
-    data for phylogenetic analyses, comparative phylogenetic analyses, and
-    plotting for interpretations.
+Description: A collection of tools that allow users to perform critical steps 
+    in the process of assessing ecological niche evolution over phylogenies, with
+    uncertainty incorporated explicitly in reconstructions. The method proposed
+    here for ancestral reconstruction of ecological niches characterizes species'
+    niches using a bin-based approach that incorporates uncertainty in estimations.
+    Compared to other existing methods, the approaches presented here reduce risk
+    of overestimation of amounts and rates of ecological niche evolution. The
+    main analyses include: initial exploration of environmental data in occurrence
+    records and accessible areas, preparation of data for phylogenetic analyses,
+    executing comparative phylogenetic analyses of ecological niches, and plotting
+    for interpretations. Details on the theoretical background and methods used 
+    can be found in: Peterson et al. (1999) <doi:10.1126/science.285.5431.1265>,
+    Soberón and Peterson (2005) <doi:10.17161/bi.v2i0.4>,
+    Peterson (2011) <doi:10.1111/j.1365-2699.2010.02456.x>,
+    Barve et al. (2011) <doi:10.1111/ecog.02671>, 
+    Owens et al. (2013) <doi:10.1016/j.ecolmodel.2013.04.011>, and
+    Saupe et al. (2018) <doi:10.1093/sysbio/syx084>.
 URL: https://github.com/marlonecobos/nichevol
 BugReports: https://github.com/marlonecobos/nichevol/issues
 Imports:
@@ -40,7 +50,7 @@ Suggests:
 	phytools (>= 0.6)
 Depends:
     R (>= 3.5.0)
-License: GPL-3 + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

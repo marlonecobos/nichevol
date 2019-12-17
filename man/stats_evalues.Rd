@@ -2,32 +2,19 @@
 % Please edit documentation in R/stats_evalues.R
 \name{stats_evalues}
 \alias{stats_evalues}
-\title{Statistics of environmental conditions in M and occurrences (multiple variables)}
+\title{Statistics of environmental conditions in M and for occurrences (multiple variables)}
 \usage{
-stats_evalues(
-  stats = c("median", "range"),
-  M_folder,
-  M_format,
-  occ_folder,
-  longitude,
-  latitude,
-  var_folder,
-  var_format,
-  round = FALSE,
-  round_names,
-  multiplication_factor = 1,
-  percentage_out = 0,
-  save = FALSE,
-  overwrite = FALSE,
-  output_directory = "Species_E_stats"
-)
+stats_evalues(stats = c("median", "range"), M_folder, M_format, occ_folder,
+  longitude, latitude, var_folder, var_format, round = FALSE, round_names,
+  multiplication_factor = 1, percentage_out = 0, save = FALSE,
+  overwrite = FALSE, output_directory = "Species_E_stats")
 }
 \arguments{
 \item{stats}{(character) name or vector of names of functions to be applied
 to get basic statistics of environmental values.}
 
 \item{M_folder}{(character) name of the folder containing files representing
-the accessible area (M) for all species to be analyzed. See details.}
+the accessible area (M) for each species to be analyzed. See details.}
 
 \item{M_format}{format of files representing the accessible area (M) for the
 species. Names of M files must match the ones for occurrence files in
@@ -93,7 +80,7 @@ projection is recommended.
 
 Accessible area (M) is understood as the geographic area that has been
 accessible for a species for relevant periods of time. Defining M is usually
-a hard task, but also a very important one because it allows identifying
+a hard task, but also a very important one, because it allows identifying
 uncertainties about the ability of a species to maintain populations in
 certain environmental conditions. For further details on this topic, see
 Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
@@ -104,11 +91,11 @@ components). To round specific variables arguments \code{round},
 \code{round_names}, and \code{multiplication_factor}, must be used accordingly.
 
 The percentage to be defined in \code{percentage_out} excludes a percentage
-of extreme environmental values to prevent from considering extremely rare
-environmental values in the accessible area for the species (M). Being too
-rare, these values may have never been explored by the species; therefore,
-including them in the process of preparation of the table of characters
-(bin table) is risky.
+of extreme environmental values to prevent the algorithm from considering
+extremely rare environmental values in the accessible area for the species (M).
+Being too rare, these values may have never been explored by the species;
+therefore, including them in the process of preparation of the table of
+characters (bin table) is risky.
 }
 \examples{
 # example of how to define arguments, check argument descriptions above

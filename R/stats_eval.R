@@ -1,13 +1,13 @@
-#' Statistics of environmental conditions in M and occurrences (one variable)
+#' Statistics of environmental conditions in M and for occurrences (one variable)
 #'
 #' @description stats_eval helps in creating tables of descriptive statistics
-#' of environmental conditions in accessible areas (M) and species occurrence
-#' records for one environmental variable at the time.
+#' of environmental conditions in accessible areas (M) and occurrence
+#' records for one environmental variable at a time.
 #'
 #' @param stats (character) name or vector of names of functions to be applied
 #' to get basic statistics of environmental values.
 #' @param Ms a list of SpatialPolygons* objects representing the accessible area
-#' (M) for all species to be analyzed. The order of species represented by each
+#' (M) for each species to be analyzed. The order of species represented by each
 #' object here must coincide with the one in \code{occurrences}. See details.
 #' @param occurrences a list of data.frames of occurrence records for all species.
 #' The order of species represented by each data.frame must coincide with the one
@@ -30,7 +30,7 @@
 #'
 #' Accessible area (M) is understood as the geographic area that has been
 #' accessible for a species for relevant periods of time. Defining M is usually
-#' a hard task, but also a very important one because it allows identifying
+#' a hard task, but also a very important one, because it allows identifying
 #' uncertainties about the ability of a species to maintain populations in
 #' certain environmental conditions. For further details on this topic, see
 #' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
@@ -50,6 +50,10 @@
 #' @importFrom raster extract crop mask
 #'
 #' @export
+#'
+#' @usage
+#' stats_eval(stats = c("median", "range"), Ms, occurrences, species,
+#'   longitude, latitude, variable, percentage_out = 0)
 #'
 #' @examples
 #' # getting a variable at coarse resolution
@@ -82,7 +86,7 @@ stats_eval <- function(stats = c("median", "range"), Ms, occurrences, species,
     stop("Ms and occurrences must have the same length and order of species listed must be the same.")
   }
 
-  cat("Preparing statistics from environmental layer and species data:\n")
+  message("Preparing statistics from environmental layer and species data:\n")
   sp_stats <- lapply(1:length(occurrences), function(j) {
     ## preparing e values
     mvar <- raster::mask(raster::crop(variable, Ms[[j]]), Ms[[j]])
@@ -117,7 +121,7 @@ stats_eval <- function(stats = c("median", "range"), Ms, occurrences, species,
 
     spn <- as.character(occurrences[[j]][1, species])
 
-    cat("\t", j, "of", length(occurrences), "species finished\n")
+    message("\t", j, " of ", length(occurrences), " species finished\n")
     return(list(sp = spn, M = unlist(m_stats), Occurrences = unlist(o_stats)))
   })
 

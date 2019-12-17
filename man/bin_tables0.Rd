@@ -2,25 +2,13 @@
 % Please edit documentation in R/bin_tables0.R
 \name{bin_tables0}
 \alias{bin_tables0}
-\title{Bin tables of environmental conditions in M and occurrences from data}
+\title{Bin tables of environmental conditions in M and for occurrences from data}
 \usage{
-bin_tables0(
-  M_folder,
-  M_format,
-  occ_folder,
-  longitude,
-  latitude,
-  var_folder,
-  var_format,
-  round = FALSE,
-  round_names,
-  multiplication_factor = 1,
-  percentage_out = 5,
-  bin_size = 10,
-  save = FALSE,
-  overwrite = FALSE,
-  output_directory = "Species_E_bins"
-)
+bin_tables0(M_folder, M_format, occ_folder, longitude,
+  latitude, var_folder, var_format, round = FALSE,
+  round_names, multiplication_factor = 1,
+  percentage_out = 5, bin_size = 10, save = FALSE,
+  overwrite = FALSE, output_directory = "Species_E_bins")
 }
 \arguments{
 \item{M_folder}{(character) name of the folder containing files representing
@@ -105,7 +93,7 @@ projection is recommended.
 
 Accessible area (M) is understood as the geographic area that has been
 accessible for a species for relevant periods of time. Defining M is usually
-a hard task, but also a very important one because it allows identifying
+a hard task, but also a very important one, because it allows identifying
 uncertainties about the ability of a species to maintain populations in
 certain environmental conditions. For further details on this topic, see
 Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.

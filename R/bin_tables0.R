@@ -1,4 +1,4 @@
-#' Bin tables of environmental conditions in M and occurrences from data
+#' Bin tables of environmental conditions in M and for occurrences from data
 #'
 #' @description bin_tables0 helps in creating bin tables of environmental
 #' conditions in accessible areas (M) and species occurrence records
@@ -49,7 +49,7 @@
 #'
 #' Accessible area (M) is understood as the geographic area that has been
 #' accessible for a species for relevant periods of time. Defining M is usually
-#' a hard task, but also a very important one because it allows identifying
+#' a hard task, but also a very important one, because it allows identifying
 #' uncertainties about the ability of a species to maintain populations in
 #' certain environmental conditions. For further details on this topic, see
 #' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
@@ -96,6 +96,13 @@
 #'
 #' @export
 #'
+#' @usage
+#' bin_tables0(M_folder, M_format, occ_folder, longitude,
+#'   latitude, var_folder, var_format, round = FALSE,
+#'   round_names, multiplication_factor = 1,
+#'   percentage_out = 5, bin_size = 10, save = FALSE,
+#'   overwrite = FALSE, output_directory = "Species_E_bins")
+#'
 #' @examples
 #' # example of how to define arguments, check argument descriptions above
 #' \dontrun{
@@ -128,7 +135,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
   }
 
   # formats and data to start
-  cat("\nPreparing data, please wait...\n\n")
+  message("\nPreparing data, please wait...\n\n")
   if (M_format %in% c("shp", "gpkg")) {
     if (M_format == "shp") {
       M_patt <- ".shp$"
@@ -162,7 +169,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
 
   # directory for results
   if (save == TRUE) {dir.create(output_directory)}
-  cat("Preparing range values and bin tables from environmental layers and species data:\n")
+  message("Preparing range values and bin tables from environmental layers and species data:\n")
   nvars <- raster::nlayers(variables)
 
   bin_tabs <- lapply(1:nvars, function(i) {
@@ -170,7 +177,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
     M_range <- list()
     sp_range <- list()
 
-    cat("\n   Preparing range values:\n")
+    message("\n   Preparing range values:\n")
 
     for (j in 1:length(occlist)) {
       ## M
@@ -209,7 +216,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
                                                       latitude)]))
       sp_range[[j]] <- range(occval)
 
-      cat("\t", j, "of", length(occlist), "species finished\n")
+      message("\t", j, " of ", length(occlist), " species finished\n")
     }
 
     # overall range
@@ -240,7 +247,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
     overall_range <- c(o_minimumc, o_maximumc)
 
     # bin tables
-    cat("   Preparing bin tables using ranges:\n")
+    message("   Preparing bin tables using ranges:\n")
 
     bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
     rownames(bin_table) <- gsub("_", " ", spnames)
@@ -252,7 +259,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
                 row.names = TRUE)
     }
 
-    cat(i, "of", nvars, "variables processed\n")
+    message(i, " of ", nvars, " variables processed\n")
     return(bin_table)
   })
 

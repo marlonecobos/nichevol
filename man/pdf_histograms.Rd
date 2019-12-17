@@ -4,17 +4,8 @@
 \alias{pdf_histograms}
 \title{Helper function to create PDF files with histograms}
 \usage{
-pdf_histograms(
-  env_data,
-  occ_data,
-  y_values,
-  sp_names,
-  variable_name,
-  CL_lines,
-  limits,
-  col,
-  output_directory = "Histogram_ranges_check"
-)
+pdf_histograms(env_data, occ_data, y_values, sp_names, variable_name,
+  CL_lines, limits, col, output_directory = "Histogram_ranges_check")
 }
 \arguments{
 \item{env_data}{list of environmental values in M for all species.}
@@ -40,7 +31,7 @@ limits of M.}
 written. Default = "Histogram_ranges_check".}
 }
 \value{
-A PDF file written in the output directory containing all resultant figures.
+A PDF file written in the output directory containing all resulting figures.
 }
 \description{
 Helper function to create PDF files with histograms
@@ -60,6 +51,6 @@ lims <- rbind(c(3.5, 26.47), c(10.83, 29.66), c(6.92, 16.91))
 bins <- pdf_histograms(env_data = e_data, occ_data = o_data, y_values = y_val,
                        sp_names = s_names, variable_name = "Temperature",
                        CL_lines = 95, limits = lims, col = "geen",
-                       output_directory = "Histogram_ranges_check")
+                       output_directory = file.path(tempdir(), "Hist_to_check"))
 }
 }

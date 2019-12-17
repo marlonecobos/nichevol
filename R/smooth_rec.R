@@ -1,4 +1,4 @@
-#' Smooth character table values resulted from ancestral reconstructions
+#' Smooth character table values resulted from ancestral character state reconstructions
 #'
 #' @param whole_rec_table matrix containing all reconstructed characters for all
 #' tips and nodes. It results from using the functions \code{\link{bin_par_rec}}
@@ -12,6 +12,9 @@
 #' @export
 #'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))

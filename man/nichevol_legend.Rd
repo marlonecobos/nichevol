@@ -4,21 +4,12 @@
 \alias{nichevol_legend}
 \title{Legends for niche evolution labels in phylogenetic trees}
 \usage{
-nichevol_legend(
-  position,
-  ancestor_line = FALSE,
+nichevol_legend(position, ancestor_line = FALSE,
   ancestor_legend = c("Uncertain", "Present"),
   evol_legend = c("No change", "Retraction", "Expansion"),
   ancestor_col = c("#d9d9d9", "#252525"),
   evol_col = c("#b2df8a", "#984ea3", "#4daf4a"),
-  pch = 22,
-  pt.cex = 2.2,
-  lty = 1,
-  lwd = 1,
-  cex = 1,
-  bty = "n",
-  ...
-)
+  pch = 22, pt.cex = 2.2, lty = 1, lwd = 1, cex = 1, bty = "n", ...)
 }
 \arguments{
 \item{position}{(character or numeric) position of legend. If character,
@@ -62,6 +53,9 @@ than the ones described above.}
 Legends for niche evolution labels in phylogenetic trees
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
@@ -81,9 +75,7 @@ treeWdata <- geiger::treedata(tree, dataTable)
 rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 
 # plotting and adding labels and legend
-\dontrun{
 ape::plot.phylo(tree, label.offset = 0.04)
 nichevol_labels(tree, rec_tab, height = 0.6)
 nichevol_legend(position = "bottomleft", cex = 0.7)
-}
 }

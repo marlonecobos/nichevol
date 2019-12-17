@@ -4,24 +4,12 @@
 \alias{nichevol_bars}
 \title{PNG bar figures for representing niche evolution}
 \usage{
-nichevol_bars(
-  tree,
-  whole_rec_table,
-  ancestor_line = FALSE,
-  present = "1",
-  absent = "0",
-  unknown = "?",
-  present_col = "#252525",
-  unknown_col = "#d9d9d9",
-  no_change_col = "#b2df8a",
-  retraction_col = "#984ea3",
-  expansion_col = "#4daf4a",
-  width = 50,
-  height = 5,
-  res = 300,
-  overwrite = FALSE,
-  output_directory = "Nichevol_bars"
-)
+nichevol_bars(tree, whole_rec_table, ancestor_line = FALSE,
+  present = "1", absent = "0", unknown = "?",
+  present_col = "#252525", unknown_col = "#d9d9d9",
+  no_change_col = "#b2df8a", retraction_col = "#984ea3",
+  expansion_col = "#4daf4a", width = 50, height = 5,
+  res = 300, overwrite = FALSE, output_directory = "Nichevol_bars")
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
@@ -107,6 +95,9 @@ environmental conditions, the ancestor was present, and where its presence is
 uncertain (unknown).
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
@@ -126,7 +117,5 @@ treeWdata <- geiger::treedata(tree, dataTable)
 rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 
 # the running (before running, define a working directory)
-\dontrun{
-nichevol_bars(tree, rec_tab)
-}
+nichevol_bars(tree, rec_tab, output_directory = file.path(tempdir(), "evolbars"))
 }
