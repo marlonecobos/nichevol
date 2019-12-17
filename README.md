@@ -40,7 +40,7 @@ uncertainty incorporated explicitly in reconstructions. The method
 proposed here for ancestral reconstruction of ecological niches
 characterizes niches using a bin-based approach that incorporates
 uncertainty in estimations. Compared to other existing methods, the
-approaches presented here reduce risks of overestimation of omounts or
+approaches presented here reduce risks of overestimation of amounts or
 rates of ecological niche evolution. The main analyses include: initial
 exploration of environmental data in occurrence records and accessible
 areas, preparation of data for phylogenetic analyses, comparative
