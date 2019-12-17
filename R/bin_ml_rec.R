@@ -63,7 +63,7 @@ bin_ml_rec <- function(tree_data, ...) {
     } else{
       # Reconstruction
       temp <- ape::ace(x = tdata[, i], phy = tphy, type = "discrete",
-                       method = "ML", ...)
+                       method = "ML")
 
       # Round each node to 0, 1, or ?
       alh <- temp$lik.anc
