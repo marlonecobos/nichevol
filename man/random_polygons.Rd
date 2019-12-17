@@ -51,7 +51,7 @@ a given SpatialPolygonsDataFrame, trying to fill the area with the resultant pol
 in at least nine quadrants. This is designed to simulate virtual species' Ms (aka
 "training" or "background" regions). Note that this function is experimental
 but may be useful in generating accessible areas for virtual species to be
-used in anlaysis and exploration.
+used in analysis and exploration.
 }
 \details{
 Distances are approximate because 1 decimal degree is assumed to equal 111.32
@@ -62,7 +62,6 @@ distributed across the area.
 }
 \examples{
 # crreating a simple polygon
-\dontrun{
 rdata <- cbind(x = rnorm(100, -80, 12), y = rnorm(100, -3, 15))
 WGS84 <- sp::CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 sp_data <- sp::SpatialPoints(rdata, proj4string = WGS84)
@@ -70,7 +69,6 @@ pol <- suppressWarnings(rgeos::gBuffer(sp_data, width = 10))
 pol <- sp::SpatialPolygonsDataFrame(pol, data = data.frame(ID = 1),
                                     match.ID = FALSE)
 
-# creating 50 random polygons in the whole area using the "BR" style
-r_pols <- random_polygons(pol, style = "BR", n_polygons = 50)
-}
+# creating 5 random polygons in the whole area using the "BR" style
+r_pols <- random_polygons(pol, style = "BR", n_polygons = 5)
 }

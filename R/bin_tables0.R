@@ -135,7 +135,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
   }
 
   # formats and data to start
-  cat("\nPreparing data, please wait...\n\n")
+  message("\nPreparing data, please wait...\n\n")
   if (M_format %in% c("shp", "gpkg")) {
     if (M_format == "shp") {
       M_patt <- ".shp$"
@@ -169,7 +169,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
 
   # directory for results
   if (save == TRUE) {dir.create(output_directory)}
-  cat("Preparing range values and bin tables from environmental layers and species data:\n")
+  message("Preparing range values and bin tables from environmental layers and species data:\n")
   nvars <- raster::nlayers(variables)
 
   bin_tabs <- lapply(1:nvars, function(i) {
@@ -177,7 +177,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
     M_range <- list()
     sp_range <- list()
 
-    cat("\n   Preparing range values:\n")
+    message("\n   Preparing range values:\n")
 
     for (j in 1:length(occlist)) {
       ## M
@@ -216,7 +216,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
                                                       latitude)]))
       sp_range[[j]] <- range(occval)
 
-      cat("\t", j, "of", length(occlist), "species finished\n")
+      message("\t", j, " of ", length(occlist), " species finished\n")
     }
 
     # overall range
@@ -247,7 +247,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
     overall_range <- c(o_minimumc, o_maximumc)
 
     # bin tables
-    cat("   Preparing bin tables using ranges:\n")
+    message("   Preparing bin tables using ranges:\n")
 
     bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
     rownames(bin_table) <- gsub("_", " ", spnames)
@@ -259,7 +259,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
                 row.names = TRUE)
     }
 
-    cat(i, "of", nvars, "variables processed\n")
+    message(i, " of ", nvars, " variables processed\n")
     return(bin_table)
   })
 

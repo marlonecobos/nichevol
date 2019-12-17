@@ -123,7 +123,7 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
   }
 
   # formats and data to start
-  cat("\nPreparing data, please wait...\n\n")
+  message("\nPreparing data, please wait...\n\n")
   if (M_format %in% c("shp", "gpkg")) {
     if (M_format == "shp") {
       M_patt <- ".shp$"
@@ -214,7 +214,7 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
       M_limits[[j]] <- do.call(c, M_limit)
       sp_ranges[[j]] <- range(occval)
 
-      cat("\t", j, "of", length(occlist), "species finished\n")
+      message("\t", j, " of ", length(occlist), " species finished\n")
     }
 
     ## ranges final values for variables
@@ -238,12 +238,12 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
                    CL_lines = CL_lines, limits = limits, col = col,
                    output_directory = output_directory)
 
-    cat(i, "of", nvars, "variables processed\n")
+    message(i, " of ", nvars, " variables processed\n")
     return(ranges)
   })
 
   if (save_ranges == TRUE) {
-    cat("\ncsv files with the environmental ranges were saved in",
+    message("\ncsv files with the environmental ranges were saved in ",
         output_directory, "\n")
   }
 

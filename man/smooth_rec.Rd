@@ -18,8 +18,10 @@ The matrix of reconstructed characters with smoothed values.
 Smooth character table values resulted from ancestral character state reconstructions
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
-\dontrun{
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
 
@@ -37,5 +39,4 @@ parsimonyReconstruction <- bin_par_rec(treeWdata)
 
 # smoothing reconstructions
 smooth_rec(parsimonyReconstruction)
-}
 }

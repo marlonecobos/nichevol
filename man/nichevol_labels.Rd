@@ -84,8 +84,10 @@ environmental conditions, the ancestor was present, and where its presence is
 uncertain (unknown).
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
-\dontrun{
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
 
@@ -106,5 +108,4 @@ rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 # plotting and adding labels
 ape::plot.phylo(tree, label.offset = 0.04)
 nichevol_labels(tree, rec_tab, height = 0.6)
-}
 }

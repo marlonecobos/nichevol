@@ -26,8 +26,10 @@ Reconstructions are done using the function \code{\link[ape]{ace}} from the
 of variable is "discrete".
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
-\dontrun{
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
 
@@ -44,5 +46,4 @@ treeWdata <- geiger::treedata(tree, dataTable)
 
 # Maximum likelihood reconstruction
 ml_rec <- bin_ml_rec(treeWdata)
-}
 }

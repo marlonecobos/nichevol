@@ -18,8 +18,10 @@
 #' @export
 #'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
-#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #'
@@ -36,10 +38,9 @@
 #'
 #' # Maximum likelihood reconstruction
 #' ml_rec <- bin_ml_rec(treeWdata)
-#' }
 
 
-bin_ml_rec <- function(tree_data, ...){
+bin_ml_rec <- function(tree_data, ...) {
   if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
 
   # Data from geiger::treedata

@@ -96,7 +96,7 @@ bin_tables <- function(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
     }
   }
 
-  cat("\nPreparing bin tables using ranges:\n")
+  message("\nPreparing bin tables using ranges:\n")
 
   # directory for results
   if (save == TRUE) {dir.create(output_directory)}
@@ -143,7 +143,7 @@ bin_tables <- function(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
                 row.names = TRUE)
     }
 
-    cat(i, "of", length(ranges), "variables processed\n")
+    message(i, " of ", length(ranges), " variables processed\n")
 
     return(bin_table)
   })

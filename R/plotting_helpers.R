@@ -44,8 +44,10 @@
 #'   absent_col = "#377eb8", width = 1, height = 1)
 #'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
-#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #'
@@ -66,7 +68,6 @@
 #' # plotting and adding labels
 #' ape::plot.phylo(tree, label.offset = 0.04)
 #' niche_labels(tree, rec_tab, height = 0.6)
-#' }
 
 niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
                          tip_offset = 0.015, present = "1", unknown = "?",
@@ -239,8 +240,10 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 #'   expansion_col = "#4daf4a", width = 1, height = 1)
 #'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
-#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #'
@@ -261,7 +264,6 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 #' # plotting and adding labels
 #' ape::plot.phylo(tree, label.offset = 0.04)
 #' nichevol_labels(tree, rec_tab, height = 0.6)
-#' }
 
 nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
                             present = "1", absent = "0", unknown = "?",
@@ -391,8 +393,10 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 #'   col = "transparent", pt.cex = 2.2, bty = "n", ...)
 #'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
-#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #'
@@ -414,7 +418,6 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 #' ape::plot.phylo(tree, label.offset = 0.04)
 #' niche_labels(tree, rec_tab, height = 0.6)
 #' niche_legend(position = "topleft", cex = 0.7)
-#' }
 
 niche_legend <- function(position, legend = c("Uncertain", "Present", "Not present"),
                          pch = 22, pt.bg = c("#969696", "#e41a1c", "#377eb8"),
@@ -476,8 +479,10 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #'   pch = 22, pt.cex = 2.2, lty = 1, lwd = 1, cex = 1, bty = "n", ...)
 #'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
-#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #'
@@ -499,7 +504,6 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #' ape::plot.phylo(tree, label.offset = 0.04)
 #' nichevol_labels(tree, rec_tab, height = 0.6)
 #' nichevol_legend(position = "bottomleft", cex = 0.7)
-#' }
 
 nichevol_legend <- function(position, ancestor_line = FALSE,
                             ancestor_legend = c("Uncertain", "Present"),

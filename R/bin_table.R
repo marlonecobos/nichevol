@@ -107,7 +107,7 @@ bin_table <- function(Ms, occurrences, species, longitude, latitude, variable,
   sp_range <- list()
   spnames <- vector()
 
-  cat("\n   Preparing range values:\n")
+  message("\n   Preparing range values:\n")
 
   for (j in 1:length(occurrences)) {
     # processing
@@ -132,7 +132,7 @@ bin_table <- function(Ms, occurrences, species, longitude, latitude, variable,
     sp_range[[j]] <- range(occval)
     spnames[j] <- as.character(occurrences[[j]][1, species])
 
-    cat("\t", j, "of", length(occurrences), "species finished\n")
+    message("\t", j, " of ", length(occurrences), " species finished\n")
   }
 
   # overall range
@@ -163,7 +163,7 @@ bin_table <- function(Ms, occurrences, species, longitude, latitude, variable,
   overall_range <- c(o_minimumc, o_maximumc)
 
   # bin tables
-  cat("   Preparing bin tables using ranges:\n")
+  message("   Preparing bin tables using ranges:\n")
 
   bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
   rownames(bin_table) <- gsub("_", " ", spnames)

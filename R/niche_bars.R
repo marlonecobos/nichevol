@@ -52,8 +52,10 @@
 #'   overwrite = FALSE, output_directory = "Niche_bars")
 #'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
-#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #'
@@ -72,8 +74,8 @@
 #' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 #'
 #' # the running (before running, define a working directory)
-#' niche_bars(tree, rec_tab)
-#' }
+#' niche_bars(tree, rec_tab, output_directory = file.path(tempdir(), "nichebars"))
+
 
 niche_bars <- function(tree, whole_rec_table, present = "1", unknown = "?",
                        present_col = "#e41a1c", unknown_col = "#969696",
@@ -92,6 +94,10 @@ niche_bars <- function(tree, whole_rec_table, present = "1", unknown = "?",
   if (overwrite == TRUE & dir.exists(output_directory)) {
     unlink(x = output_directory, recursive = TRUE, force = TRUE)
   }
+
+  # par settings
+  opar <- par(no.readonly = TRUE)
+  on.exit(par(opar))
 
   # reorganizing character table
   tlab <- tree$tip.label

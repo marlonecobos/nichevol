@@ -73,6 +73,10 @@ hist_evalues <- function(M, occurrences, species, longitude, latitude, variable,
   }
   col1 <- rep(col, each = 2)
 
+  # par settings
+  opar <- par(no.readonly = TRUE)
+  on.exit(par(opar))
+
   # preparing data for plotting
   ## species name
   spname <- as.character(occurrences[1, species])

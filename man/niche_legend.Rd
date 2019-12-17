@@ -35,8 +35,10 @@ than the ones described above.}
 Legends for niche labels in phylogenetic trees
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
-\dontrun{
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
 
@@ -58,5 +60,4 @@ rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 ape::plot.phylo(tree, label.offset = 0.04)
 niche_labels(tree, rec_tab, height = 0.6)
 niche_legend(position = "topleft", cex = 0.7)
-}
 }

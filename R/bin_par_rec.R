@@ -18,8 +18,10 @@
 #' @export
 #'
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
-#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #'
@@ -36,7 +38,6 @@
 #'
 #' # Maximum parsimony reconstruction
 #' bin_par_rec(treeWdata)
-#' }
 
 
 bin_par_rec <- function(tree_data, ...) {

@@ -5,7 +5,7 @@
 #' in at least nine quadrants. This is designed to simulate virtual species' Ms (aka
 #' "training" or "background" regions). Note that this function is experimental
 #' but may be useful in generating accessible areas for virtual species to be
-#' used in anlaysis and exploration.
+#' used in analysis and exploration.
 #'
 #' @param polygon SpatialPolygonsDataFrame object. CRS WGS84 is required.
 #' @param style (character) algorithm to be used when creating polygons. Options
@@ -59,7 +59,6 @@
 #'
 #' @examples
 #' # crreating a simple polygon
-#' \dontrun{
 #' rdata <- cbind(x = rnorm(100, -80, 12), y = rnorm(100, -3, 15))
 #' WGS84 <- sp::CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 #' sp_data <- sp::SpatialPoints(rdata, proj4string = WGS84)
@@ -67,9 +66,8 @@
 #' pol <- sp::SpatialPolygonsDataFrame(pol, data = data.frame(ID = 1),
 #'                                     match.ID = FALSE)
 #'
-#' # creating 50 random polygons in the whole area using the "BR" style
-#' r_pols <- random_polygons(pol, style = "BR", n_polygons = 50)
-#' }
+#' # creating 5 random polygons in the whole area using the "BR" style
+#' r_pols <- random_polygons(pol, style = "BR", n_polygons = 5)
 
 random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices = 25,
                             minimum_distance = 10, length_threshold = 5,
@@ -87,7 +85,7 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
     }
   }
 
-  cat("\nPreparing data...\n")
+  message("\nPreparing data...\n")
   m_dist <- minimum_distance / 111.32
   l_thres <- length_threshold / 111.32
   ext <- raster::extent(polygon)
@@ -106,7 +104,7 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
 
   seeds <- sample(1:1000000, size = n_polygons)
 
-  cat("\nCreating polygons:\n")
+  message("\nCreating polygons:\n")
   pols <- lapply(1:n_polygons, function (x) {
     id <- sample(1:10, 1)
     xyg <- make_9blocks(xyin)
@@ -145,7 +143,7 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
                                          match.ID = FALSE)
     pfin@proj4string <- crsxy
 
-    cat("\t", x, "of", n_polygons, "polygons\n")
+    message("\t", x, " of ", n_polygons, " polygons\n")
     return(pfin)
   })
 
@@ -158,7 +156,7 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
 
   # writing results
   if (save == TRUE) {
-    cat("\nwritting results:\n")
+    message("\nwritting results:\n")
     dir.create(output_directory)
   }
   f_polygons <- lapply(1:nrow(rp_data), function(x) { ### change
@@ -166,7 +164,7 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
       n_nam <- paste0("r_polygon", x)
       rgdal::writeOGR(obj = r_polygons[x, ], dsn = output_directory,
                       layer = n_nam, driver = "ESRI Shapefile")
-      cat("\t", x, "of", nrow(rp_data), "polygons\n")
+      message("\t", x, " of ", nrow(rp_data), " polygons\n")
     }
     return(r_polygons[x, ])
   })

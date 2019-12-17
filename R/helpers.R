@@ -58,7 +58,7 @@ rformat_type <- function(format) {
 #' bins <- pdf_histograms(env_data = e_data, occ_data = o_data, y_values = y_val,
 #'                        sp_names = s_names, variable_name = "Temperature",
 #'                        CL_lines = 95, limits = lims, col = "geen",
-#'                        output_directory = "Histogram_ranges_check")
+#'                        output_directory = file.path(tempdir(), "Hist_to_check"))
 #' }
 
 pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
@@ -73,6 +73,10 @@ pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
   if (missing(CL_lines)) {stop("Argument 'CL_lines' is missing.")}
   if (missing(limits)) {stop("Argument 'limits' is missing.")}
   if (missing(col)) {stop("Argument 'col' is missing.")}
+
+  # par settings
+  opar <- par(no.readonly = TRUE)
+  on.exit(par(opar))
 
   # colors for limits in actual values
   col1 <- rep(col, each = 2)
@@ -337,7 +341,7 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
       if(invar_sum[j] >= 100) bin_tab[j] <- "1"
     }
 
-    cat("\t", i, "of", dim(M_range)[1], "species finished\n")
+    message("\t", i, " of ", dim(M_range)[1], " species finished\n")
     return(bin_tab)
   })
 
@@ -359,13 +363,14 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
 #' @return Tree of class "phylo" with specified names
 #' @export
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
-#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #' # renaming tips
 #' renamedTree <- rename_tips(tree, c("a", "b", "c", "d", "e"))
-#' }
 
 rename_tips <- function(tree, names) {
   if (missing(tree)) {stop("Argument 'tree' needs to be defined.")}
@@ -388,8 +393,10 @@ rename_tips <- function(tree, names) {
 #' @importFrom geiger fitContinuous
 #' @export
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # a simple tree
-#' \dontrun{
 #' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
 #'                          nsim = 1, type = "continuous", set.seed(5))
 #' # simple data
@@ -400,7 +407,6 @@ rename_tips <- function(tree, names) {
 #'
 #' # Estimating sigma squared for the dataset
 #' sig_sq(treeWdata)
-#' }
 
 sig_sq <- function(tree_data, model = "BM") {
   if (missing(tree_data)) {stop("Argument 'tree_data' needs to be defined.")}
@@ -480,8 +486,10 @@ score_tip <- function(character_table, species_name, include_unknown = FALSE) {
 #' @importFrom geiger treedata
 #' @export
 #' @examples
+#' # installing phytools if needed
+#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+#'
 #' # Simulate data table
-#' \dontrun{
 #' dataTable <- cbind("241" = rep("1", 5),
 #'                    "242" = rep("1", 5),
 #'                    "243" = c("1", "1", "0", "0", "0"),
@@ -503,7 +511,6 @@ score_tip <- function(character_table, species_name, include_unknown = FALSE) {
 #'
 #' # Get a new tree with tips scored from median bin scores
 #' score_tree(treeWithData, include_unknown = TRUE)
-#' }
 
 score_tree <- function(tree_data, include_unknown = FALSE) {
   if (missing(tree_data)) {stop("Argument 'tree_data' needs to be defined.")}

@@ -63,8 +63,10 @@ environmental variables are represented in the left part of the bar, and the
 opposite part of the bar represents higher values.
 }
 \examples{
+# installing phytools if needed
+suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
+
 # a simple tree
-\dontrun{
 tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
                          nsim = 1, type = "continuous", set.seed(5))
 
@@ -83,6 +85,5 @@ treeWdata <- geiger::treedata(tree, dataTable)
 rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 
 # the running (before running, define a working directory)
-niche_bars(tree, rec_tab)
-}
+niche_bars(tree, rec_tab, output_directory = file.path(tempdir(), "nichebars"))
 }
