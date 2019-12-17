@@ -43,11 +43,16 @@
 bin_par_rec <- function(tree_data, ...) {
   if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
 
-  # Data fro analyses
+  # Data for analyses
   tphy <- ape::reorder.phylo(tree_data$phy, order = "cladewise")
   ntips <- length(tphy$tip.label)
   nnode <- tphy$Nnode
   tdata <- tree_data$data
+  tdata <- tdata[match(tphy$tip.label,row.names(tdata)),]
+  tdata[tdata == 1] <- "3"
+  tdata[tdata == "?"] <- "2"
+  tdata[tdata == 0] <- "1"
+  tdata <- apply(tdata,c(1,2),as.numeric)
 
   # Matrix to fill with reconstructions
   reconMatrix <- matrix(nrow = nnode, ncol = ncol(tdata))
@@ -61,9 +66,12 @@ bin_par_rec <- function(tree_data, ...) {
       reconMatrix[1:nnode, i] <- rep(tdata[1, i], nnode)
     } else{
       # Reconstruction
-      cdat <- as.integer(as.factor(tdata[, i]))
+      cdat <- tdata[, i]
       temp <- castor::asr_max_parsimony(tree = tphy, tip_states = cdat, ...)
-      colnames(temp$ancestral_likelihoods) <- as.character(unique(tdata[, i]))
+      if (length(unique(tdata[,i])) < ncol(temp$ancestral_likelihoods)){
+        colnames(temp$ancestral_likelihoods) <- as.character(c(1,2,3))
+      }
+      else {colnames(temp$ancestral_likelihoods) <- as.character(unique(tdata[, i]))}
 
       # Round each node to 0, 1, or ? based on likelihood
       alh <- temp$ancestral_likelihoods
@@ -72,13 +80,19 @@ bin_par_rec <- function(tree_data, ...) {
       # Codes reconstructions conservatively if there is equivocation
       ancRes <- sapply(1:nnode, function(j) {
         matches <- round(alh[j, ], digits = 10) == maxlik[j]
-        if (sum(matches) > 1) {return("?")} else {return(names(matches)[matches])}
+        if (sum(matches) > 1) {return(2)} else {return(names(matches)[matches])}
       })
       reconMatrix[1:nnode, i] <- ancRes
     }
   }
 
+  tdata <- tdata[match(tree_data$phy$tip.label,row.names(tdata)),] #Change order back to original
   whole_rec_table <- rbind(tdata, reconMatrix)
+
+  #Converting it back to original coding
+  whole_rec_table[whole_rec_table == "1"] <- "0"
+  whole_rec_table[whole_rec_table == "3"] <- "1"
+  whole_rec_table[whole_rec_table == "2"] <- "?"
 
   return(whole_rec_table)
 }
