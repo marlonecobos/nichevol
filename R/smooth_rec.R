@@ -50,13 +50,13 @@ smooth_rec <- function(whole_rec_table) {
     test <- paste(whole_rec_table[k, ], collapse = "")
     test <- gsub("?", replacement = "u", x = test, fixed = TRUE)
 
-    # First, get rid of 0s at flanks of a row that are bordered by unknowns
-    while (grepl(pattern = "^0+u", x = test)) { # At the start
-      test <- gsub(pattern = "0u", replacement = "uu", x = test)
-    }
-    while (grepl(pattern = "u0+$", x = test)) { # At the end
-      test <- gsub(pattern = "u0", replacement = "uu", x = test)
-    }
+    # # First, get rid of 0s at flanks of a row that are bordered by unknowns
+    # while (grepl(pattern = "^0+u", x = test)) { # At the start
+    #   test <- gsub(pattern = "0u", replacement = "uu", x = test)
+    # }
+    # while (grepl(pattern = "u0+$", x = test)) { # At the end
+    #   test <- gsub(pattern = "u0", replacement = "uu", x = test)
+    # }
 
     # 0s between unknowns
     if (grepl(x = test, pattern = "u0+u")) {
@@ -101,7 +101,7 @@ smooth_rec <- function(whole_rec_table) {
     if (grepl(x = test, pattern = "u0+1")) {
       while (grepl(x = test, pattern = "u0+1")) {
         pull <- stringr::str_extract(string = test, pattern = "u0+1")[1]
-        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = "u")
+        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "u", replacement = "0")
         test <- stringr::str_replace(test, "u0+1", paste(pull, collapse= ""))
       }
     }
@@ -109,7 +109,7 @@ smooth_rec <- function(whole_rec_table) {
     if (grepl(x = test, pattern = "10+u")) {
       while (grepl(x = test, pattern = "10+u")) {
         pull <- stringr::str_extract(string = test, pattern = "10+u")[1]
-        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "0", replacement = "u")
+        pull <- gsub(unlist(strsplit(pull,split = "")), pattern = "u", replacement = "0")
         test <- stringr::str_replace(test, "10+u", paste(pull, collapse= ""))
       }
     }
