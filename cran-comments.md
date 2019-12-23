@@ -12,15 +12,22 @@ by leaving the argument save as default (FALSE).
 * All messages printed by our functions are now done using `message()`.
 * Changed user's par() settings are now reset with an immediate call of `on.exit()`.
 
-**Aditional comments**
+**Important comment**
+
+* Package geiger, a dependency of nichevol, requires deSolve. Successful install 
+of deSolve requires an updated of xCode license agreement.
+
+**Additional comment**
 
 * The main scientific publication describing the theoretical background of
 phylogenetic analyses and methods used in this package is in the second round 
 of reviews in the journal Evolution. Once the manuscript is published we will 
 add this reference to the package description.
 
+
 ## Test environments
 * local windows 10, R 3.6.1
+* local macOS 10.14.6 Mojave, R 3.6.1
 * ubuntu 16.04.6 LTS (on travis), R 3.6.1
 * windows server 2008 R2 SP1 32/64 bit (on rhub), R-devel
 
