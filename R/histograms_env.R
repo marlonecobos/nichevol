@@ -123,7 +123,7 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
   }
 
   # formats and data to start
-  message("\nPreparing data, please wait...\n\n")
+  message("\nPreparing data, please wait...\n")
   if (M_format %in% c("shp", "gpkg")) {
     if (M_format == "shp") {
       M_patt <- ".shp$"
@@ -159,6 +159,7 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
   dir.create(output_directory)
 
   nvars <- raster::nlayers(variables)
+  message("Preparing environmental values and histograms from layers and species data:")
 
   ranges <- lapply(1:nvars, function(i) {
     # data
@@ -169,6 +170,8 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
     M_limits <- list()
     sp_ranges <- list()
     y_values <- list()
+
+    message("\n   Preparing environmental values:")
 
     for (j in 1:length(occlist)) {
       ## M
@@ -214,7 +217,7 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
       M_limits[[j]] <- do.call(c, M_limit)
       sp_ranges[[j]] <- range(occval)
 
-      message("\t", j, " of ", length(occlist), " species finished\n")
+      message("\t", j, " of ", length(occlist), " species finished")
     }
 
     ## ranges final values for variables
@@ -233,12 +236,13 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
     }
 
     ## frecuency of each value in M
+    message("\n   Preparing histogram plots using environmental values...")
     pdf_histograms(env_data = df_layer, occ_data = occ_dfs, y_values = y_values,
                    sp_names = spnames, variable_name = names(variables)[i],
                    CL_lines = CL_lines, limits = limits, col = col,
                    output_directory = output_directory)
 
-    message(i, " of ", nvars, " variables processed\n")
+    message(i, " of ", nvars, " variables processed")
     return(ranges)
   })
 

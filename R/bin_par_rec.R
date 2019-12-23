@@ -37,7 +37,7 @@
 #' treeWdata <- geiger::treedata(tree, dataTable)
 #'
 #' # Maximum parsimony reconstruction
-#' bin_par_rec(treeWdata)
+#' par_rec <- bin_par_rec(treeWdata)
 
 
 bin_par_rec <- function(tree_data, ...) {

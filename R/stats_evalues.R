@@ -119,7 +119,7 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
   }
 
   # formats and data to start
-  message("\nPreparing data, please wait...\n\n")
+  message("\nPreparing data, please wait...\n")
   if (M_format %in% c("shp", "gpkg")) {
     if (M_format == "shp") {
       M_patt <- ".shp$"
@@ -152,7 +152,7 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
 
   # directory for results
   if (save == TRUE) {dir.create(output_directory)}
-  message("Preparing statistics from environmental layers and species data:\n")
+  message("Preparing statistics from environmental layers and species data:")
   n_vars <- raster::nlayers(variables)
   var_stats <- lapply(1:n_vars, function(i) {
     sp_stats <- lapply(1:length(occlist), function(j) {
@@ -199,7 +199,7 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
       names(m_stats) <- stats
       names(o_stats) <- stats
 
-      message("\t", j, " of ", length(occlist), " species finished\n")
+      message("\t", j, " of ", length(occlist), " species finished")
       return(list(M = unlist(m_stats), Occurrences = unlist(o_stats)))
     })
 
@@ -219,7 +219,7 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
                 row.names = FALSE)
     }
 
-    message(i, " of ", n_vars, " variables processed\n")
+    message(i, " of ", n_vars, " variables processed")
 
     return(list(M_stats = m_table, Occurrence_stats = o_table))
   })

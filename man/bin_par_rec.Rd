@@ -44,5 +44,5 @@ rownames(dataTable) <- tree$tip.label
 treeWdata <- geiger::treedata(tree, dataTable)
 
 # Maximum parsimony reconstruction
-bin_par_rec(treeWdata)
+par_rec <- bin_par_rec(treeWdata)
 }

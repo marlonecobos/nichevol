@@ -341,7 +341,7 @@ bin_env <- function(overall_range, M_range, sp_range, bin_size) {
       if(invar_sum[j] >= 100) bin_tab[j] <- "1"
     }
 
-    message("\t", i, " of ", dim(M_range)[1], " species finished\n")
+    message("\t", i, " of ", dim(M_range)[1], " species finished")
     return(bin_tab)
   })
 

@@ -104,7 +104,7 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
 
   seeds <- sample(1:1000000, size = n_polygons)
 
-  message("\nCreating polygons:\n")
+  message("Creating polygons:")
   pols <- lapply(1:n_polygons, function (x) {
     id <- sample(1:10, 1)
     xyg <- make_9blocks(xyin)
@@ -143,7 +143,7 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
                                          match.ID = FALSE)
     pfin@proj4string <- crsxy
 
-    message("\t", x, " of ", n_polygons, " polygons\n")
+    message("\t", x, " of ", n_polygons, " polygons")
     return(pfin)
   })
 
@@ -156,7 +156,7 @@ random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices 
 
   # writing results
   if (save == TRUE) {
-    message("\nwritting results:\n")
+    message("\nwritting results...")
     dir.create(output_directory)
   }
   f_polygons <- lapply(1:nrow(rp_data), function(x) { ### change

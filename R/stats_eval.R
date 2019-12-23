@@ -86,7 +86,7 @@ stats_eval <- function(stats = c("median", "range"), Ms, occurrences, species,
     stop("Ms and occurrences must have the same length and order of species listed must be the same.")
   }
 
-  message("Preparing statistics from environmental layer and species data:\n")
+  message("\nPreparing statistics from environmental layer and species data:")
   sp_stats <- lapply(1:length(occurrences), function(j) {
     ## preparing e values
     mvar <- raster::mask(raster::crop(variable, Ms[[j]]), Ms[[j]])
@@ -121,7 +121,7 @@ stats_eval <- function(stats = c("median", "range"), Ms, occurrences, species,
 
     spn <- as.character(occurrences[[j]][1, species])
 
-    message("\t", j, " of ", length(occurrences), " species finished\n")
+    message("\t", j, " of ", length(occurrences), " species finished")
     return(list(sp = spn, M = unlist(m_stats), Occurrences = unlist(o_stats)))
   })
 
