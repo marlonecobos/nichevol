@@ -28,7 +28,7 @@ add this reference to the package description.
 * local windows 10, R 3.6.2
 * local macOS 10.14.6 Mojave, R 3.6.2
 * macOS 10.11 El Capitan (on rhub), R-release
-* ubuntu 16.04.6 LTS (on travis), R 3.6.1
+* ubuntu 16.04.6 LTS (on travis), R 3.6.2
 * windows server 2008 R2 SP1 32/64 bit (on rhub), R-devel
 
 
