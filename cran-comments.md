@@ -1,3 +1,30 @@
+## Resubmision
+This is a resubmission. In this version I have made the following changes:
+
+* Date and vesion number have been updated.
+
+## Test environments
+* local windows 10, R 3.6.2
+* local macOS 10.14.6 Mojave, R 3.6.2
+* macOS 10.11 El Capitan (on rhub), R-release
+* ubuntu 16.04.6 LTS (on travis), R 3.6.2
+* windows server 2008 R2 SP1 32/64 bit (on rhub), R-devel
+
+
+## R CMD check results
+There were no ERRORs:
+
+There were no WARNINGs:
+
+There were no NOTEs:
+
+
+## Downstream dependencies
+There are currently no downstream dependencies for this package. 
+
+<br>
+<hr>
+
 ## Resubmission
 This is a resubmission. In this version I have made the following changes:
 
