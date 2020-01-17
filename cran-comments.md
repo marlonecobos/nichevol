@@ -1,14 +1,13 @@
 ## Resubmission
-This is a resubmission. In this version I have made the following changes 
-suggested by a CRAN team member:
+This is a resubmission. In this version I have made the following changes:
 
 * References to scientific publications related to the theoretical background 
 and methods used in this package have been added to DESCRIPTION.
-* All examples that take < 5 sec are running now. 
+* All examples that take < 5 sec are running. 
 * Only examples that necessarily take > 5 sec will not run.
 * Examples that necessarily write information will do so in a temporal directory.
-* In other examples writing information in the user's home filespace is avoided 
-by leaving the argument save as default (FALSE).
+* In other examples, writing information in the user's home filespace is avoided 
+by leaving the function's argument save, as its default (FALSE).
 * All messages printed by our functions are now done using `message()`.
 * Changed user's par() settings are now reset with an immediate call of `on.exit()`.
 
@@ -20,14 +19,15 @@ of deSolve requires an updated of xCode license agreement.
 **Additional comment**
 
 * The main scientific publication describing the theoretical background of
-phylogenetic analyses and methods used in this package is in the second round 
-of reviews in the journal Evolution. Once the manuscript is published we will 
+phylogenetic analyses and methods used in this package is in reviews in the 
+journal Ecology and Evolution. Once the manuscript is published we will 
 add this reference to the package description.
 
 
 ## Test environments
-* local windows 10, R 3.6.1
-* local macOS 10.14.6 Mojave, R 3.6.1
+* local windows 10, R 3.6.2
+* local macOS 10.14.6 Mojave, R 3.6.2
+* macOS 10.11 El Capitan (on rhub), R-release
 * ubuntu 16.04.6 LTS (on travis), R 3.6.1
 * windows server 2008 R2 SP1 32/64 bit (on rhub), R-devel
 
