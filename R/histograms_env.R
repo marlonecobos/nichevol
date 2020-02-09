@@ -37,10 +37,10 @@
 #' @param save_ranges (logical) whether or not to save the values identified as
 #' ranges considering the whole set of values and confidence limits defined in
 #' \code{CL_lines}. Default = FALSE.
+#' @param output_directory (character) name of the folder in which results will be
+#' written.
 #' @param overwrite (logical) whether or not to overwrite existing results in
 #' \code{output_directory}. Default = FALSE.
-#' @param output_directory (character) name of the folder in which results will be
-#' written. Default = "Histogram_ranges".
 #'
 #' @details
 #' Coordinates in csv files in \code{occ_folder}, SpatialPolygons*-like files in
@@ -81,24 +81,24 @@
 #' histograms_env(M_folder, M_format, occ_folder, longitude, latitude,
 #'   var_folder, var_format, CL_lines = c(95, 99), col = NULL,
 #'   round = FALSE, round_names = NULL, multiplication_factor = 1,
-#'   save_ranges = FALSE, overwrite = FALSE,
-#'   output_directory = "Histogram_ranges")
+#'   save_ranges = FALSE, output_directory, overwrite = FALSE)
 #'
 #' @examples
 #' # example of how to define arguments, check argument descriptions above
-#' \dontrun{
+#' \donttest{
 #' hists <- histograms_env(M_folder = "Folder_with_Ms", M_format = "shp",
 #'                         occ_folder = "Folder_with_occs", longitude = "lon_column",
 #'                         latitude = "lat_column", var_folder = "Folder_with_vars",
-#'                         var_format = "GTiff")
+#'                         var_format = "GTiff",
+#'                         output_directory = file.path(tempdir(), "Hist_env"))
 #' }
 
 histograms_env <- function(M_folder, M_format, occ_folder, longitude,
                            latitude, var_folder, var_format,
                            CL_lines = c(95, 99), col = NULL, round = FALSE,
                            round_names = NULL, multiplication_factor = 1,
-                           save_ranges = FALSE, overwrite = FALSE,
-                           output_directory = "Histogram_ranges") {
+                           save_ranges = FALSE, output_directory,
+                           overwrite = FALSE) {
   # checking for potential errors
   if (missing(M_folder)) {stop("Argument 'M_folder' is missing.")}
   if (missing(M_format)) {stop("Argument 'M_format' is missing.")}
@@ -107,11 +107,15 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
   if (missing(latitude)) {stop("Argument 'latitude' is missing.")}
   if (missing(var_folder)) {stop("Argument 'var_folder' is missing.")}
   if (missing(var_format)) {stop("Argument 'var_format' is missing.")}
-  if (overwrite == FALSE & dir.exists(output_directory)) {
-    stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
-  }
-  if (overwrite == TRUE & dir.exists(output_directory)) {
-    unlink(x = output_directory, recursive = TRUE, force = TRUE)
+  if (missing(output_directory)) {
+    stop("Argument 'output_directory' is missing.")
+  } else {
+    if (overwrite == FALSE & dir.exists(output_directory)) {
+      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
+    }
+    if (overwrite == TRUE & dir.exists(output_directory)) {
+      unlink(x = output_directory, recursive = TRUE, force = TRUE)
+    }
   }
 
   lcll <- length(CL_lines)

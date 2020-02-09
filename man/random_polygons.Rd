@@ -6,8 +6,7 @@
 \usage{
 random_polygons(polygon, style = "TR", n_polygons = 100,
   n_vertices = 25, minimum_distance = 10, length_threshold = 5,
-  buffer_distance = 0, save = FALSE, overwrite = FALSE,
-  output_directory = "Random_polygons")
+  buffer_distance = 0, save = FALSE, output_directory, overwrite = FALSE)
 }
 \arguments{
 \item{polygon}{SpatialPolygonsDataFrame object. CRS WGS84 is required.}
@@ -33,11 +32,11 @@ resulting polygons. Default = 0.}
 \item{save}{(logical) whether or not to save the results in working directory.
 Default = FALSE.}
 
+\item{output_directory}{(character) name of the folder in which results will
+be written.}
+
 \item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
-
-\item{output_directory}{(character) name of the folder in which results will
-be written. Default = "Random_polygons".}
 }
 \value{
 A list of all random polygons created names will be "r_polygon" plus numbers

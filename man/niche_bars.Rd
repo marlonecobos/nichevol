@@ -7,7 +7,7 @@
 niche_bars(tree, whole_rec_table, present = "1", unknown = "?",
   present_col = "#e41a1c", unknown_col = "#969696",
   absent_col = "#377eb8", width = 50, height = 5, res = 300,
-  overwrite = FALSE, output_directory = "Niche_bars")
+  output_directory, overwrite = FALSE)
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
@@ -39,12 +39,11 @@ no change has been detected. Default = "#377eb8".}
 \item{res}{(numeric) nominal resolution in ppi to be passed to the
 \code{\link[grDevices]{png}} function. Default = 300.}
 
+\item{output_directory}{(character) name of the folder in which results will
+be written. The directory will be created as part of the process.}
+
 \item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
-
-\item{output_directory}{(character) name of the folder in which results will
-be written. The directory will be created as part of the process.
-Default = "Niche_bars".}
 }
 \value{
 A folder named as in \code{output_directory} containing all bar figures

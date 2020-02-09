@@ -22,10 +22,10 @@
 #' resulting polygons. Default = 0.
 #' @param save (logical) whether or not to save the results in working directory.
 #' Default = FALSE.
+#' @param output_directory (character) name of the folder in which results will
+#' be written.
 #' @param overwrite (logical) whether or not to overwrite existing results in
 #' \code{output_directory}. Default = FALSE.
-#' @param output_directory (character) name of the folder in which results will
-#' be written. Default = "Random_polygons".
 #'
 #' @details
 #' Distances are approximate because 1 decimal degree is assumed to equal 111.32
@@ -54,8 +54,7 @@
 #' @usage
 #' random_polygons(polygon, style = "TR", n_polygons = 100,
 #'   n_vertices = 25, minimum_distance = 10, length_threshold = 5,
-#'   buffer_distance = 0, save = FALSE, overwrite = FALSE,
-#'   output_directory = "Random_polygons")
+#'   buffer_distance = 0, save = FALSE, output_directory, overwrite = FALSE)
 #'
 #' @examples
 #' # crreating a simple polygon
@@ -71,17 +70,21 @@
 
 random_polygons <- function(polygon, style = "TR", n_polygons = 100, n_vertices = 25,
                             minimum_distance = 10, length_threshold = 5,
-                            buffer_distance = 0, save = FALSE, overwrite = FALSE,
-                            output_directory = "Random_polygons") {
+                            buffer_distance = 0, save = FALSE, output_directory,
+                            overwrite = FALSE) {
   if (missing(polygon)) {
     stop("Argument 'polygon' is necessary to perform the analysis.")
   }
   if (save == TRUE) {
-    if (overwrite == FALSE & dir.exists(output_directory)) {
-      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
-    }
-    if (overwrite == TRUE & dir.exists(output_directory)) {
-      unlink(x = output_directory, recursive = TRUE, force = TRUE)
+    if (missing(output_directory)) {
+      stop("Argument 'output_directory' is missing.")
+    } else {
+      if (overwrite == FALSE & dir.exists(output_directory)) {
+        stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
+      }
+      if (overwrite == TRUE & dir.exists(output_directory)) {
+        unlink(x = output_directory, recursive = TRUE, force = TRUE)
+      }
     }
   }
 

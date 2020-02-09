@@ -7,8 +7,7 @@
 histograms_env(M_folder, M_format, occ_folder, longitude, latitude,
   var_folder, var_format, CL_lines = c(95, 99), col = NULL,
   round = FALSE, round_names = NULL, multiplication_factor = 1,
-  save_ranges = FALSE, overwrite = FALSE,
-  output_directory = "Histogram_ranges")
+  save_ranges = FALSE, output_directory, overwrite = FALSE)
 }
 \arguments{
 \item{M_folder}{(character) name of the folder containing files representing
@@ -55,11 +54,11 @@ variables defined in \code{round_names}. Default = 1.}
 ranges considering the whole set of values and confidence limits defined in
 \code{CL_lines}. Default = FALSE.}
 
+\item{output_directory}{(character) name of the folder in which results will be
+written.}
+
 \item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
-
-\item{output_directory}{(character) name of the folder in which results will be
-written. Default = "Histogram_ranges".}
 }
 \value{
 A list of data.frames containing intervals of environmental values in species
@@ -97,10 +96,11 @@ components). To round specific variables arguments \code{round},
 }
 \examples{
 # example of how to define arguments, check argument descriptions above
-\dontrun{
+\donttest{
 hists <- histograms_env(M_folder = "Folder_with_Ms", M_format = "shp",
                         occ_folder = "Folder_with_occs", longitude = "lon_column",
                         latitude = "lat_column", var_folder = "Folder_with_vars",
-                        var_format = "GTiff")
+                        var_format = "GTiff",
+                        output_directory = file.path(tempdir(), "Hist_env"))
 }
 }

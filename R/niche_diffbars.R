@@ -31,11 +31,10 @@
 #' \code{\link[grDevices]{png}} function. Default = 5.
 #' @param res (numeric) nominal resolution in ppi to be passed to the
 #' \code{\link[grDevices]{png}} function. Default = 300.
-#' @param overwrite (logical) whether or not to overwrite existing results in
-#' \code{output_directory}. Default = FALSE.
 #' @param output_directory (character) name of the folder in which results will
 #' be written. The directory will be created as part of the process.
-#' Default = "Nichevol_bars".
+#' @param overwrite (logical) whether or not to overwrite existing results in
+#' \code{output_directory}. Default = FALSE.
 #'
 #' @details
 #' Evolution of ecological niches is represented in one environmental dimension
@@ -76,7 +75,7 @@
 #'   present_col = "#252525", unknown_col = "#d9d9d9",
 #'   no_change_col = "#b2df8a", retraction_col = "#984ea3",
 #'   expansion_col = "#4daf4a", width = 50, height = 5,
-#'   res = 300, overwrite = FALSE, output_directory = "Nichevol_bars")
+#'   res = 300, output_directory, overwrite = FALSE)
 #'
 #' @examples
 #' # installing phytools if needed
@@ -108,8 +107,7 @@ nichevol_bars <- function(tree, whole_rec_table, ancestor_line = FALSE,
                           present_col = "#252525", unknown_col = "#d9d9d9",
                           no_change_col = "#b2df8a", retraction_col = "#984ea3",
                           expansion_col = "#4daf4a", width = 50, height = 5,
-                          res = 300, overwrite = FALSE,
-                          output_directory = "Nichevol_bars") {
+                          res = 300, output_directory, overwrite = FALSE) {
 
   # testing for potential errors
   if (missing(tree)) {stop("Argument 'tree' is needed to perform the analyses.")}
@@ -117,11 +115,15 @@ nichevol_bars <- function(tree, whole_rec_table, ancestor_line = FALSE,
   if ("LogLik" %in% rownames(whole_rec_table)) {
     whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
   }
-  if (overwrite == FALSE & dir.exists(output_directory)) {
-    stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
-  }
-  if (overwrite == TRUE & dir.exists(output_directory)) {
-    unlink(x = output_directory, recursive = TRUE, force = TRUE)
+  if (missing(output_directory)) {
+    stop("Argument 'output_directory' is missing.")
+  } else {
+    if (overwrite == FALSE & dir.exists(output_directory)) {
+      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
+    }
+    if (overwrite == TRUE & dir.exists(output_directory)) {
+      unlink(x = output_directory, recursive = TRUE, force = TRUE)
+    }
   }
 
   # par settings

@@ -46,7 +46,7 @@
 #'
 #' @examples
 #' # getting a variable at coarse resolution
-#' \dontrun{
+#' \donttest{
 #' temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
 #'
 #' # example data

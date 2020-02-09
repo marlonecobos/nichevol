@@ -5,7 +5,7 @@
 \title{Bin tables of environmental conditions in M and for occurrences from objects}
 \usage{
 bin_tables(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
-  overwrite = FALSE, output_directory = "Species_E_bins")
+  output_directory, overwrite = FALSE)
 }
 \arguments{
 \item{ranges}{list of ranges of environmental values in M and in species
@@ -21,11 +21,11 @@ Default = 10.}
 \item{save}{(logical) whether or not to save the results in working directory.
 Default = FALSE.}
 
+\item{output_directory}{(character) name of the folder in which results will be
+written.}
+
 \item{overwrite}{(logical) whether or not to overwrite existing results
 in \code{output_directory}. Default = FALSE.}
-
-\item{output_directory}{(character) name of the folder in which results will be
-written. Default = "Species_E_bins".}
 }
 \value{
 A list named as in \code{ranges} containing the table(s) of characters.
@@ -90,4 +90,6 @@ ranges <- list(temp = data.frame(Species = c("sp1", "sp2", "sp3"),
 
 # bin preparation
 bins <- bin_tables(ranges, percentage_out = 5, bin_size = 10)
+
+# see arguments save and output_directory to write results in local directory
 }

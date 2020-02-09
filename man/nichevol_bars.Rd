@@ -9,7 +9,7 @@ nichevol_bars(tree, whole_rec_table, ancestor_line = FALSE,
   present_col = "#252525", unknown_col = "#d9d9d9",
   no_change_col = "#b2df8a", retraction_col = "#984ea3",
   expansion_col = "#4daf4a", width = 50, height = 5,
-  res = 300, overwrite = FALSE, output_directory = "Nichevol_bars")
+  res = 300, output_directory, overwrite = FALSE)
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
@@ -53,12 +53,11 @@ niche expansion has been detected. Default = "#4daf4a".}
 \item{res}{(numeric) nominal resolution in ppi to be passed to the
 \code{\link[grDevices]{png}} function. Default = 300.}
 
+\item{output_directory}{(character) name of the folder in which results will
+be written. The directory will be created as part of the process.}
+
 \item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
-
-\item{output_directory}{(character) name of the folder in which results will
-be written. The directory will be created as part of the process.
-Default = "Nichevol_bars".}
 }
 \value{
 A folder named as in \code{output_directory} containing all bar figures

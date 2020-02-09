@@ -14,10 +14,10 @@
 #' Default = 10.
 #' @param save (logical) whether or not to save the results in working directory.
 #' Default = FALSE.
+#' @param output_directory (character) name of the folder in which results will be
+#' written.
 #' @param overwrite (logical) whether or not to overwrite existing results
 #' in \code{output_directory}. Default = FALSE.
-#' @param output_directory (character) name of the folder in which results will be
-#' written. Default = "Species_E_bins".
 #'
 #' @details
 #' The percentage to be defined in \code{percentage_out} must correspond with
@@ -61,7 +61,7 @@
 #'
 #' @usage
 #' bin_tables(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
-#'   overwrite = FALSE, output_directory = "Species_E_bins")
+#'   output_directory, overwrite = FALSE)
 #'
 #' @examples
 #' # simple list of ranges
@@ -82,17 +82,23 @@
 #'
 #' # bin preparation
 #' bins <- bin_tables(ranges, percentage_out = 5, bin_size = 10)
+#'
+#' # see arguments save and output_directory to write results in local directory
 
 bin_tables <- function(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
-                       overwrite = FALSE, output_directory = "Species_E_bins") {
+                       output_directory, overwrite = FALSE) {
   # checking for potential errors
   if (missing(ranges)) {stop("Argument 'ranges' is missing.")}
   if (save == TRUE) {
-    if (overwrite == FALSE & dir.exists(output_directory)) {
-      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
-    }
-    if (overwrite == TRUE & dir.exists(output_directory)) {
-      unlink(x = output_directory, recursive = TRUE, force = TRUE)
+    if (missing(output_directory)) {
+      stop("Argument 'output_directory' is missing.")
+    } else {
+      if (overwrite == FALSE & dir.exists(output_directory)) {
+        stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
+      }
+      if (overwrite == TRUE & dir.exists(output_directory)) {
+        unlink(x = output_directory, recursive = TRUE, force = TRUE)
+      }
     }
   }
 

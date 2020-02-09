@@ -7,7 +7,7 @@
 stats_evalues(stats = c("median", "range"), M_folder, M_format, occ_folder,
   longitude, latitude, var_folder, var_format, round = FALSE, round_names,
   multiplication_factor = 1, percentage_out = 0, save = FALSE,
-  overwrite = FALSE, output_directory = "Species_E_stats")
+  output_directory, overwrite = FALSE)
 }
 \arguments{
 \item{stats}{(character) name or vector of names of functions to be applied
@@ -53,11 +53,11 @@ to be excluded in bin creation for further analyses. See details. Default = 0.}
 \item{save}{(logical) whether or not to save the results in working directory.
 Default = FALSE.}
 
+\item{output_directory}{(character) name of the folder in which results will
+be written.}
+
 \item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
-
-\item{output_directory}{(character) name of the folder in which results will
-be written. Default = "Species_E_stats".}
 }
 \value{
 A list named as the variables present in \code{var_folder}, containing all
@@ -99,7 +99,7 @@ characters (bin table) is risky.
 }
 \examples{
 # example of how to define arguments, check argument descriptions above
-\dontrun{
+\donttest{
 stats <- stats_evalues(stats = c("median", "range"), M_folder = "Folder_with_Ms",
                        M_format = "shp", occ_folder = "Folder_with_occs",
                        longitude = "lon_column", latitude = "lat_column",

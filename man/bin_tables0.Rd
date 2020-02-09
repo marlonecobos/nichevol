@@ -8,7 +8,7 @@ bin_tables0(M_folder, M_format, occ_folder, longitude,
   latitude, var_folder, var_format, round = FALSE,
   round_names, multiplication_factor = 1,
   percentage_out = 5, bin_size = 10, save = FALSE,
-  overwrite = FALSE, output_directory = "Species_E_bins")
+  output_directory, overwrite = FALSE)
 }
 \arguments{
 \item{M_folder}{(character) name of the folder containing files representing
@@ -55,11 +55,11 @@ Default = 10.}
 \item{save}{(logical) whether or not to save the results in working directory.
 Default = FALSE.}
 
+\item{output_directory}{(character) name of the folder in which results will be
+written.}
+
 \item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
-
-\item{output_directory}{(character) name of the folder in which results will be
-written. Default = "Species_E_bins".}
 }
 \value{
 A list named as the variables present in \code{var_folder}, containing all
@@ -119,10 +119,12 @@ a class that correspond to 10 continuous values of precipitation (e.g., from
 }
 \examples{
 # example of how to define arguments, check argument descriptions above
-\dontrun{
+\donttest{
 bins <- bin_tables0(M_folder = "Folder_with_Ms", M_format = "shp",
                     occ_folder = "Folder_with_occs", longitude = "lon_column",
                     latitude = "lat_column", var_folder = "Folder_with_vars",
                     var_format = "GTiff", percentage_out = 5, bin_size = 10)
 }
+
+# see arguments save and output_directory to write results in local directory
 }

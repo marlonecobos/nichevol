@@ -34,7 +34,7 @@ rformat_type <- function(format) {
 #' limits of M.
 #' @param col color for lines representing the confidence limits of M.
 #' @param output_directory (character) name of the folder in which results will be
-#' written. Default = "Histogram_ranges_check".
+#' written.
 #' @importFrom grDevices dev.off pdf
 #' @importFrom graphics abline layout hist plot.new points title
 #' @return
@@ -42,28 +42,33 @@ rformat_type <- function(format) {
 #' @export
 #' @usage
 #' pdf_histograms(env_data, occ_data, y_values, sp_names, variable_name,
-#'   CL_lines, limits, col, output_directory = "Histogram_ranges_check")
+#'   CL_lines, limits, col, output_directory)
 #' @examples
 #' # example data
 #' e_data <- list(rnorm(1000, 15, 7), rnorm(800, 20, 6), rnorm(1000, 12, 3))
 #' o_data <- list(sample(seq(5, 29, 0.1), 45), sample(seq(10, 33, 0.1), 40),
 #'                sample(seq(1, 16, 0.1), 50))
+#' for (i in 1:3) {
+#'   names(e_data[[i]]) <- e_data[[i]]
+#'   names(o_data[[i]]) <- o_data[[i]]
+#' }
 #' y_val <- list(rep(3, length(o_data)), rep(4, length(o_data)),
 #'               rep(2, length(o_data)))
 #' s_names <- c("sp1", "sp2", "sp3")
 #' lims <- rbind(c(3.5, 26.47), c(10.83, 29.66), c(6.92, 16.91))
 #'
+#' tmpd <- file.path(tempdir(), "Hist_to_check") # temporal directory
+#' dir.create(tmpd)
+#'
 #' # the running (before running, create output_directory in current directory)
-#' \dontrun{
 #' bins <- pdf_histograms(env_data = e_data, occ_data = o_data, y_values = y_val,
 #'                        sp_names = s_names, variable_name = "Temperature",
-#'                        CL_lines = 95, limits = lims, col = "geen",
-#'                        output_directory = file.path(tempdir(), "Hist_to_check"))
-#' }
+#'                        CL_lines = 95, limits = lims, col = "green",
+#'                        output_directory = tmpd)
 
 pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
                            variable_name, CL_lines, limits, col,
-                           output_directory = "Histogram_ranges_check") {
+                           output_directory) {
   # checking for errors
   if (missing(env_data)) {stop("Argument 'env_data' is missing.")}
   if (missing(occ_data)) {stop("Argument 'occ_data' is missing.")}
@@ -73,6 +78,7 @@ pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
   if (missing(CL_lines)) {stop("Argument 'CL_lines' is missing.")}
   if (missing(limits)) {stop("Argument 'limits' is missing.")}
   if (missing(col)) {stop("Argument 'col' is missing.")}
+  if (missing(output_directory)) {stop("Argument 'output_directory' is missing.")}
 
   # par settings
   opar <- par(no.readonly = TRUE)

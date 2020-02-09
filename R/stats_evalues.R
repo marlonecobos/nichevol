@@ -35,10 +35,10 @@
 #' to be excluded in bin creation for further analyses. See details. Default = 0.
 #' @param save (logical) whether or not to save the results in working directory.
 #' Default = FALSE.
+#' @param output_directory (character) name of the folder in which results will
+#' be written.
 #' @param overwrite (logical) whether or not to overwrite existing results in
 #' \code{output_directory}. Default = FALSE.
-#' @param output_directory (character) name of the folder in which results will
-#' be written. Default = "Species_E_stats".
 #'
 #' @details
 #' Coordinates in csv files in \code{occ_folder}, SpatialPolygons*-like files in
@@ -83,11 +83,11 @@
 #' stats_evalues(stats = c("median", "range"), M_folder, M_format, occ_folder,
 #'   longitude, latitude, var_folder, var_format, round = FALSE, round_names,
 #'   multiplication_factor = 1, percentage_out = 0, save = FALSE,
-#'   overwrite = FALSE, output_directory = "Species_E_stats")
+#'   output_directory, overwrite = FALSE)
 #'
 #' @examples
 #' # example of how to define arguments, check argument descriptions above
-#' \dontrun{
+#' \donttest{
 #' stats <- stats_evalues(stats = c("median", "range"), M_folder = "Folder_with_Ms",
 #'                        M_format = "shp", occ_folder = "Folder_with_occs",
 #'                        longitude = "lon_column", latitude = "lat_column",
@@ -99,8 +99,7 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
                           occ_folder, longitude, latitude, var_folder,
                           var_format, round = FALSE, round_names,
                           multiplication_factor = 1, percentage_out = 0,
-                          save = FALSE, overwrite = FALSE,
-                          output_directory = "Species_E_stats") {
+                          save = FALSE, output_directory, overwrite = FALSE) {
   # checking for potential errors
   if (missing(M_folder)) {stop("Argument M_folder is missing.")}
   if (missing(M_format)) {stop("Argument M_format is missing.")}
@@ -110,11 +109,15 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
   if (missing(var_folder)) {stop("Argument var_folder is missing.")}
   if (missing(var_format)) {stop("Argument var_format is missing.")}
   if (save == TRUE) {
-    if (overwrite == FALSE & dir.exists(output_directory)) {
-      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
-    }
-    if (overwrite == TRUE & dir.exists(output_directory)) {
-      unlink(x = output_directory, recursive = TRUE, force = TRUE)
+    if (missing(output_directory)) {
+      stop("Argument 'output_directory' is missing.")
+    } else {
+      if (overwrite == FALSE & dir.exists(output_directory)) {
+        stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
+      }
+      if (overwrite == TRUE & dir.exists(output_directory)) {
+        unlink(x = output_directory, recursive = TRUE, force = TRUE)
+      }
     }
   }
 
