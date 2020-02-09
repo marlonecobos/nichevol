@@ -1,6 +1,42 @@
 ## Resubmision
 This is a resubmission. In this version I have made the following changes:
 
+* Replaced \dontrun{} by \donttest{} according to CRAN recomendations.
+* Made changes to prevent testing only examples that take longer than 5 secs.   
+* Removed all default names in output directories, so users have to define them
+if they want to write in local directories. 
+* Made examples write information in temporal directories.
+
+**Comments**
+
+* NOTES may be produced because some names of researchers cited in the 
+Description file are considered misspelled words; however, the names are correct. 
+
+
+## Test environments
+* local windows 10, R 3.6.2
+* local macOS 10.14.6 Mojave, R 3.6.2
+* ubuntu 16.04.6 LTS (on travis), R 3.6.2
+* macOS 10.11 El Capitan (on rhub), R 3.6.2
+* windows server 2008 R2 SP1 32/64 bit (on rhub), R-devel
+
+## R CMD check results
+There were no ERRORs:
+
+There were no WARNINGs:
+
+There were no NOTEs:
+
+
+## Downstream dependencies
+There are currently no downstream dependencies for this package. 
+
+<br>
+<hr>
+
+## Resubmision
+This is a resubmission. In this version I have made the following changes:
+
 * Replaced special character in the name of a reshearched cited in  the 
 Description to avoid that NOTE.
 
