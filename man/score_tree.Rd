@@ -20,9 +20,6 @@ as present or present + unknown.
 Helper function to assign bin scores to every tip in a given tree
 }
 \examples{
-# installing phytools if needed
-suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
-
 # Simulate data table
 dataTable <- cbind("241" = rep("1", 5),
                    "242" = rep("1", 5),
@@ -33,15 +30,14 @@ rownames(dataTable) <- c("GadusMorhua", "GadusMacrocephalus",
                          "GadusChalcogrammus", "ArctogadusGlacials",
                          "BoreogadusSaida")
 
-# Simulate phylogeny
-tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-                         nsim = 1, type = "continuous", set.seed(5))
-tree$tip.label <- c("GadusMorhua", "GadusMacrocephalus",
-                    "GadusChalcogrammus", "ArctogadusGlacials",
-                    "BoreogadusSaida")
+# a simple tree
+data("tree5", package = "nichevol")
+tree5$tip.label <- c("GadusMorhua", "GadusMacrocephalus",
+                     "GadusChalcogrammus", "ArctogadusGlacials",
+                     "BoreogadusSaida")
 
 # Unite data
-treeWithData <- geiger::treedata(tree, dataTable)
+treeWithData <- geiger::treedata(tree5, dataTable)
 
 # Get a new tree with tips scored from median bin scores
 score_tree(treeWithData, include_unknown = TRUE)

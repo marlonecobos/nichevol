@@ -23,17 +23,14 @@ Sigma squared values for a single niche summary statistic
 are calculated using \code{\link[geiger]{fitContinuous}}.
 }
 \examples{
-# installing phytools if needed
-suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
-
 # a simple tree
-tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-                         nsim = 1, type = "continuous", set.seed(5))
+data("tree5", package = "nichevol")
+
 # simple data
-data <- rnorm(n = length(tree$tip.label))
-names(data) <- tree$tip.label
+data <- rnorm(n = length(tree5$tip.label))
+names(data) <- tree5$tip.label
 # tree with data
-treeWdata <- geiger::treedata(tree, data)
+treeWdata <- geiger::treedata(tree5, data)
 
 # Estimating sigma squared for the dataset
 sig_sq(treeWdata)

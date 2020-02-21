@@ -27,6 +27,19 @@
 "tree"
 
 
+#' Example of a phylogenetic tree for five species
+#'
+#' A phylogenetic tree with 5 species and their relationships.
+#'
+#' @format An object of class phylo for 5 species.
+#'
+#' @examples
+#' data("tree5", package = "nichevol")
+#'
+#' str(tree5)
+"tree5"
+
+
 #' Example of a list containing a tree and a table of characters for six species
 #'
 #' A list of 2 elements (phy and data) resulting from using the function

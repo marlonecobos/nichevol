@@ -18,21 +18,17 @@ The matrix of reconstructed characters with smoothed values.
 Smooth character table values resulted from ancestral character state reconstructions
 }
 \examples{
-# installing phytools if needed
-suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
-
 # a simple tree
-tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-                         nsim = 1, type = "continuous", set.seed(5))
+data("tree5", package = "nichevol")
 
 # simple matrix of data
-dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
-                   "242" = rep("1", length(tree$tip.label)),
+dataTable <- cbind("241" = rep("1", length(tree5$tip.label)),
+                   "242" = rep("1", length(tree5$tip.label)),
                    "243" = c("1", "1", "0", "0", "0"),
                    "244" = c("1", "1", "0", "0", "0"),
                    "245" = c("1", "?", "0", "0", "0"))
-rownames(dataTable) <- tree$tip.label
-treeWdata <- geiger::treedata(tree, dataTable)
+rownames(dataTable) <- tree5$tip.label
+treeWdata <- geiger::treedata(tree5, dataTable)
 
 # ancestral reconstruction
 parsimonyReconstruction <- bin_par_rec(treeWdata)

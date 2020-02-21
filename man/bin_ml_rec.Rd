@@ -10,8 +10,8 @@ bin_ml_rec(tree_data, ...)
 \item{tree_data}{a list of two elements (phy and data) resulting from using the
 function \code{\link[geiger]{treedata}}.}
 
-\item{...}{other arguments from \code{\link[ape]{ace}} other than \code{x},
-\code{phy}, \code{type}, and \code{method}.}
+\item{...}{other arguments from \code{\link[ape]{ace}}. Arguments \code{x},
+\code{phy}, \code{type}, and \code{method} are fixed.}
 }
 \value{
 A table with columns representing bins, rows representing first tip
@@ -26,23 +26,19 @@ Reconstructions are done using the function \code{\link[ape]{ace}} from the
 of variable is "discrete".
 }
 \examples{
-# installing phytools if needed
-suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
-
 # a simple tree
-tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-                         nsim = 1, type = "continuous", set.seed(5))
+data("tree5", package = "nichevol")
 
 # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
-dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
-                   "242" = rep("1", length(tree$tip.label)),
+dataTable <- cbind("241" = rep("1", length(tree5$tip.label)),
+                   "242" = rep("1", length(tree5$tip.label)),
                    "243" = c("1", "1", "0", "0", "0"),
                    "244" = c("1", "1", "0", "0", "0"),
                    "245" = c("1", "?", "0", "0", "0"))
-rownames(dataTable) <- tree$tip.label
+rownames(dataTable) <- tree5$tip.label
 
 # list with two objects (tree and character table)
-treeWdata <- geiger::treedata(tree, dataTable)
+treeWdata <- geiger::treedata(tree5, dataTable)
 
 # Maximum likelihood reconstruction
 ml_rec <- bin_ml_rec(treeWdata)

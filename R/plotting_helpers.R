@@ -44,30 +44,26 @@
 #'   absent_col = "#377eb8", width = 1, height = 1)
 #'
 #' @examples
-#' # installing phytools if needed
-#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
-#'
 #' # a simple tree
-#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-#'                          nsim = 1, type = "continuous", set.seed(5))
+#' data("tree5", package = "nichevol")
 #'
 #' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
-#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
-#'                    "242" = rep("1", length(tree$tip.label)),
+#' dataTable <- cbind("241" = rep("1", length(tree5$tip.label)),
+#'                    "242" = rep("1", length(tree5$tip.label)),
 #'                    "243" = c("1", "1", "0", "0", "0"),
 #'                    "244" = c("1", "1", "0", "0", "0"),
 #'                    "245" = c("1", "?", "0", "0", "0"))
-#' rownames(dataTable) <- tree$tip.label
+#' rownames(dataTable) <- tree5$tip.label
 #'
 #' # list with two objects (tree and character table)
-#' treeWdata <- geiger::treedata(tree, dataTable)
+#' treeWdata <- geiger::treedata(tree5, dataTable)
 #'
 #' # Maximum parsimony reconstruction
 #' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 #'
 #' # plotting and adding labels
-#' ape::plot.phylo(tree, label.offset = 0.04)
-#' niche_labels(tree, rec_tab, height = 0.6)
+#' ape::plot.phylo(tree5, label.offset = 0.04)
+#' niche_labels(tree5, rec_tab, height = 0.6)
 
 niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
                          tip_offset = 0.015, present = "1", unknown = "?",
@@ -240,30 +236,26 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 #'   expansion_col = "#4daf4a", width = 1, height = 1)
 #'
 #' @examples
-#' # installing phytools if needed
-#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
-#'
 #' # a simple tree
-#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-#'                          nsim = 1, type = "continuous", set.seed(5))
+#' data("tree5", package = "nichevol")
 #'
 #' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
-#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
-#'                    "242" = rep("1", length(tree$tip.label)),
+#' dataTable <- cbind("241" = rep("1", length(tree5$tip.label)),
+#'                    "242" = rep("1", length(tree5$tip.label)),
 #'                    "243" = c("1", "1", "0", "0", "0"),
 #'                    "244" = c("1", "1", "0", "0", "0"),
 #'                    "245" = c("1", "?", "0", "0", "0"))
-#' rownames(dataTable) <- tree$tip.label
+#' rownames(dataTable) <- tree5$tip.label
 #'
 #' # list with two objects (tree and character table)
-#' treeWdata <- geiger::treedata(tree, dataTable)
+#' treeWdata <- geiger::treedata(tree5, dataTable)
 #'
 #' # Maximum parsimony reconstruction
 #' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 #'
 #' # plotting and adding labels
-#' ape::plot.phylo(tree, label.offset = 0.04)
-#' nichevol_labels(tree, rec_tab, height = 0.6)
+#' ape::plot.phylo(tree5, label.offset = 0.04)
+#' nichevol_labels(tree5, rec_tab, height = 0.6)
 
 nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
                             present = "1", absent = "0", unknown = "?",
@@ -393,30 +385,26 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
 #'   col = "transparent", pt.cex = 2.2, bty = "n", ...)
 #'
 #' @examples
-#' # installing phytools if needed
-#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
-#'
 #' # a simple tree
-#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-#'                          nsim = 1, type = "continuous", set.seed(5))
+#' data("tree5", package = "nichevol")
 #'
 #' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
-#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
-#'                    "242" = rep("1", length(tree$tip.label)),
+#' dataTable <- cbind("241" = rep("1", length(tree5$tip.label)),
+#'                    "242" = rep("1", length(tree5$tip.label)),
 #'                    "243" = c("1", "1", "0", "0", "0"),
 #'                    "244" = c("1", "1", "0", "0", "0"),
 #'                    "245" = c("1", "?", "0", "0", "0"))
-#' rownames(dataTable) <- tree$tip.label
+#' rownames(dataTable) <- tree5$tip.label
 #'
 #' # list with two objects (tree and character table)
-#' treeWdata <- geiger::treedata(tree, dataTable)
+#' treeWdata <- geiger::treedata(tree5, dataTable)
 #'
 #' # Maximum parsimony reconstruction
 #' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 #'
 #' # plotting and adding labels and legend
-#' ape::plot.phylo(tree, label.offset = 0.04)
-#' niche_labels(tree, rec_tab, height = 0.6)
+#' ape::plot.phylo(tree5, label.offset = 0.04)
+#' niche_labels(tree5, rec_tab, height = 0.6)
 #' niche_legend(position = "topleft", cex = 0.7)
 
 niche_legend <- function(position, legend = c("Uncertain", "Present", "Not present"),
@@ -479,30 +467,26 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
 #'   pch = 22, pt.cex = 2.2, lty = 1, lwd = 1, cex = 1, bty = "n", ...)
 #'
 #' @examples
-#' # installing phytools if needed
-#' suppressWarnings(if(!require(phytools)) {install.packages("phytools")})
-#'
 #' # a simple tree
-#' tree <- phytools::pbtree(b = 1, d = 0, n = 5, scale = TRUE,
-#'                          nsim = 1, type = "continuous", set.seed(5))
+#' data("tree5", package = "nichevol")
 #'
 #' # a matrix of niche charactes (1 = present, 0 = absent, ? = unknown)
-#' dataTable <- cbind("241" = rep("1", length(tree$tip.label)),
-#'                    "242" = rep("1", length(tree$tip.label)),
+#' dataTable <- cbind("241" = rep("1", length(tree5$tip.label)),
+#'                    "242" = rep("1", length(tree5$tip.label)),
 #'                    "243" = c("1", "1", "0", "0", "0"),
 #'                    "244" = c("1", "1", "0", "0", "0"),
 #'                    "245" = c("1", "?", "0", "0", "0"))
-#' rownames(dataTable) <- tree$tip.label
+#' rownames(dataTable) <- tree5$tip.label
 #'
 #' # list with two objects (tree and character table)
-#' treeWdata <- geiger::treedata(tree, dataTable)
+#' treeWdata <- geiger::treedata(tree5, dataTable)
 #'
 #' # Maximum parsimony reconstruction
 #' rec_tab <- smooth_rec(bin_par_rec(treeWdata))
 #'
 #' # plotting and adding labels and legend
-#' ape::plot.phylo(tree, label.offset = 0.04)
-#' nichevol_labels(tree, rec_tab, height = 0.6)
+#' ape::plot.phylo(tree5, label.offset = 0.04)
+#' nichevol_labels(tree5, rec_tab, height = 0.6)
 #' nichevol_legend(position = "bottomleft", cex = 0.7)
 
 nichevol_legend <- function(position, ancestor_line = FALSE,

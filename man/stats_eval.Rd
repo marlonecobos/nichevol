@@ -65,7 +65,9 @@ including them in the process of preparation of the table of characters
 \examples{
 # getting a variable at coarse resolution
 \donttest{
-temp <- raster::getData("worldclim", var = "bio", res = 10)[[1]]
+tmpd <- file.path(tempdir(), "bios") # temporal directory
+dir.create(tmpd)
+temp <- raster::getData("worldclim", var = "bio", res = 10, path = tmpd)[[1]]
 
 # example data
 data("m_list", package = "nichevol")
