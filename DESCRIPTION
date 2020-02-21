@@ -1,7 +1,7 @@
 Package: nichevol
 Type: Package
-Title: Assessment of Species’ Ecological Niche Evolution Considering Uncertainty in Reconstructions
-Version: 0.1.18
+Title: Tools for Ecological Niche Evolution Assessment Considering Uncertainty
+Version: 0.1.19
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
     person("Hannah L.", "Owens", email = "hannah.owens@gmail.com", role = "aut"),
@@ -31,7 +31,6 @@ Description: A collection of tools that allow users to perform critical steps
 URL: https://github.com/marlonecobos/nichevol
 BugReports: https://github.com/marlonecobos/nichevol/issues
 Imports:
-    ape (>= 5.3),
     castor (>= 1.4),
     concaveman (>= 1.0),
     geiger (>= 2.0),
@@ -49,6 +48,7 @@ Suggests:
 	knitr(>= 1.25),
 	phytools (>= 0.6)
 Depends:
+    ape (>= 5.3),
     R (>= 3.5.0)
 License: GPL-3
 Encoding: UTF-8
