@@ -10,7 +10,7 @@ Author: Marlon E. Cobos [aut, cre],
     Hannah L. Owens [aut],
     A. Townsend Peterson [aut]
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
-Date: 2020-01-17
+Date: 2020-02-21
 Description: A collection of tools that allow users to perform critical steps 
     in the process of assessing ecological niche evolution over phylogenies, with
     uncertainty incorporated explicitly in reconstructions. The method proposed
