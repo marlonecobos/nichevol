@@ -10,7 +10,7 @@
 #' @param M_format format of files representing the accessible area (M) for the
 #' species. Names of M files must match the ones for occurrence files in
 #' \code{occ_folder}. Format options are: "shp", "gpkg", or any of the options
-#' in \code{\link[raster]{writeFormats}} (e.g., "GTiff").
+#' supported by \code{\link[terra]{rast}} (e.g., "tif" or "asc").
 #' @param occ_folder (character) name of the folder containing csv files of
 #' occurrence data for all species. Names of csv files must match the ones of M
 #' files in \code{M_folder}.
@@ -20,8 +20,9 @@
 #' values of latitude.
 #' @param var_folder (character) name of the folder containing layers to
 #' represent environmental variables.
-#' @param var_format format of layers to represent environmental variables. See
-#' options in \code{\link[raster]{writeFormats}} (e.g., "GTiff").
+#' @param var_format format of layers to represent environmental variables.
+#' Format options are all the ones supported by \code{\link[terra]{rast}}
+#' (e.g., "tif" or "asc").
 #' @param round (logical) whether or not to round the values of one or more
 #' variables after multiplying them times the value in \code{multiplication_factor}.
 #' Default = FALSE. See details.
@@ -31,15 +32,17 @@
 #' variables defined in \code{round_names}. Default = 1.
 #' @param percentage_out (numeric) percentage of extreme environmental data in M
 #' to be excluded in bin creation for further analyses. See details. Default = 5.
-#' @param bin_size (numeric) size of bins. Range of environmental values to
-#' be considered when creating each character in bin tables. See details.
-#' Default = 10.
+#' @param n_bins (numeric) number of bins to be created from the range of
+#' environmental values considered when creating each character in bin tables.
+#' Default = 20. See details.
+#' @param bin_size (numeric) argument deprecated, use n_bins instead.
 #' @param save (logical) whether or not to save the results in working directory.
 #' Default = FALSE.
 #' @param output_directory (character) name of the folder in which results will be
 #' written.
 #' @param overwrite (logical) whether or not to overwrite existing results in
 #' \code{output_directory}. Default = FALSE.
+#' @param verbose (logical) whether messages should be printed. Default = TRUE.
 #'
 #' @details
 #' Coordinates in csv files in \code{occ_folder}, SpatialPolygons*-like files in
@@ -66,12 +69,10 @@
 #' including them in the process of preparation of the table of characters
 #' (bin table) is risky.
 #'
-#' The argument \code{bin_size} helps to create characters that represent not
-#' only one value of an environmental variable, but a range of environmental
-#' conditions. For instance, if a variable of precipitation in mm is used, a
-#' value of 10 for \code{bin_size} indicates that each character will represent
-#' a class that correspond to 10 continuous values of precipitation (e.g., from
-#' 100 to 110 mm).
+#' The argument \code{n_bins} helps to define how many characters (bins) will be
+#' considered for the range of values in each variable. This is, a value of 20
+#' determines that a range of temperature (5-25) will be split approximately
+#' every 1 degree. The argument \code{bin_size} has been deprecated.
 #'
 #' @return
 #' A list named as the variables present in \code{var_folder}, containing all
@@ -91,17 +92,16 @@
 #'
 #' @importFrom utils write.csv read.csv
 #' @importFrom stats na.omit median
-#' @importFrom raster extract crop mask nlayers raster stack
-#' @importFrom rgdal readOGR
+#' @importFrom terra extract crop nlyr rast vect
 #'
 #' @export
 #'
 #' @usage
 #' bin_tables0(M_folder, M_format, occ_folder, longitude,
-#'   latitude, var_folder, var_format, round = FALSE,
-#'   round_names, multiplication_factor = 1,
-#'   percentage_out = 5, bin_size = 10, save = FALSE,
-#'   output_directory, overwrite = FALSE)
+#'             latitude, var_folder, var_format, round = FALSE,
+#'             round_names, multiplication_factor = 1,
+#'             percentage_out = 5, n_bins = 20, bin_size, save = FALSE,
+#'             output_directory, overwrite = FALSE, verbose = TRUE)
 #'
 #' @examples
 #' # example of how to define arguments, check argument descriptions above
@@ -109,7 +109,7 @@
 #' bins <- bin_tables0(M_folder = "Folder_with_Ms", M_format = "shp",
 #'                     occ_folder = "Folder_with_occs", longitude = "lon_column",
 #'                     latitude = "lat_column", var_folder = "Folder_with_vars",
-#'                     var_format = "GTiff", percentage_out = 5, bin_size = 10)
+#'                     var_format = "tif", percentage_out = 5, n_bins = 30)
 #' }
 #'
 #' # see arguments save and output_directory to write results in local directory
@@ -117,8 +117,8 @@
 bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
                         latitude, var_folder, var_format,
                         round = FALSE, round_names, multiplication_factor = 1,
-                        percentage_out = 5, bin_size = 10, save = FALSE,
-                        output_directory, overwrite = FALSE) {
+                        percentage_out = 5, n_bins = 20, bin_size, save = FALSE,
+                        output_directory, overwrite = FALSE, verbose = TRUE) {
   # checking for potential errors
   if (missing(M_folder)) {stop("Argument 'M_folder' is missing.")}
   if (missing(M_format)) {stop("Argument 'M_format' is missing.")}
@@ -127,6 +127,9 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
   if (missing(latitude)) {stop("Argument 'latitude' is missing.")}
   if (missing(var_folder)) {stop("Argument 'var_folder' is missing.")}
   if (missing(var_format)) {stop("Argument 'var_format' is missing.")}
+  if (!missing(bin_size)) {
+    warning("Argument 'bin_size' is deprecated, using 'n_bins'.")
+  }
   if (save == TRUE) {
     if (missing(output_directory)) {
       stop("Argument 'output_directory' is missing.")
@@ -141,61 +144,57 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
   }
 
   # formats and data to start
-  message("\nPreparing data, please wait...\n")
-  if (M_format %in% c("shp", "gpkg")) {
-    if (M_format == "shp") {
-      M_patt <- ".shp$"
-      subs <- ".shp"
-      mlist <- gsub(subs, "", list.files(path = M_folder, pattern = M_patt))
-      spnames <- mlist
-    } else {
-      M_patt <- ".gpkg$"
-      subs <- ".gpkg"
-      mlist <- list.files(path = M_folder, pattern = M_patt)
-      spnames <- gsub(subs, "", mlist)
-    }
-  } else {
-    M_patt <- paste0(rformat_type(var_format), "$")
-    subs <- rformat_type(var_format)
-    mlist <- list.files(path = M_folder, pattern = M_patt, full.names = TRUE)
-    spnames <- gsub(subs, "", list.files(path = M_folder, pattern = M_patt))
+  if (verbose == TRUE) {
+    message("\nPreparing data, please wait...\n")
   }
-  v_patt <- paste0(rformat_type(var_format), "$")
 
+  ## records
   occlist <- list.files(path = occ_folder, pattern = ".csv$", full.names = TRUE)
-  variables <- raster::stack(list.files(path = var_folder, pattern = v_patt,
+
+  ## M areas
+  M_patt <- paste0(M_format, "$")
+  mlist <- list.files(path = M_folder, pattern = M_patt, full.names = TRUE)
+
+  ## species names
+  subs <- paste0(".", M_format)
+  spnames <- gsub(subs, "", list.files(path = M_folder, pattern = M_patt))
+
+  ## variables
+  v_patt <- paste0(var_format, "$")
+  variables <- terra::rast(list.files(path = var_folder, pattern = v_patt,
                                         full.names = TRUE))
 
+  ### rounding variables
   if (round == TRUE) {
     rounds <- round(variables[[round_names]] * multiplication_factor)
     var_names <- names(variables)
     noround <- var_names[!var_names %in% round_names]
-    variables <- raster::stack(variables[[noround]], rounds)
+    variables <- c(variables[[noround]], rounds)
   }
 
   # directory for results
   if (save == TRUE) {dir.create(output_directory)}
-  message("Preparing range values and bin tables from environmental layers and species data:")
-  nvars <- raster::nlayers(variables)
+  if (verbose == TRUE) {
+    message("Preparing range values and bin tables from environmental layers and species data:")
+  }
+
+  nvars <- terra::nlyr(variables)
 
   bin_tabs <- lapply(1:nvars, function(i) {
     # data
     M_range <- list()
     sp_range <- list()
 
-    message("\n   Preparing range values:")
+    if (verbose == TRUE) {
+      message("\n   Preparing range values:")
+    }
 
     for (j in 1:length(occlist)) {
       ## M
       if (M_format %in% c("shp", "gpkg")) {
-        if (M_format == "shp") {
-          M <- rgdal::readOGR(dsn = M_folder, layer = mlist[j], verbose = FALSE)
-        } else {
-          M <- rgdal::readOGR(paste0(M_folder, "/", mlist[j]), spnames[j],
-                              verbose = FALSE)
-        }
+        M <- terra::vect(mlist[j])
       } else {
-        M <- raster::raster(mlist[j])
+        M <- terra::rast(mlist[j])
       }
 
       ## occurrences
@@ -203,7 +202,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
 
       # processing
       ## get values of variables in M
-      mvar <- raster::mask(raster::crop(variables[[i]], M), M)
+      mvar <- terra::crop(variables[[i]], M, mask = TRUE)
       mval <- na.omit(mvar[])
 
       ## distance of each absolute value to median value
@@ -218,42 +217,26 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
       M_range[[j]] <- range(as.numeric(names(df_layer)))
 
       ## occurrences
-      occval <- na.omit(raster::extract(mvar, occ[, c(longitude,
-                                                      latitude)]))
+      occval <- na.omit(terra::extract(mvar, as.matrix(occ[, c(longitude,
+                                                      latitude)])))
       sp_range[[j]] <- range(occval)
 
-      message("\t", j, " of ", length(occlist), " species finished")
+      if (verbose == TRUE) {
+        message("\t", j, " of ", length(occlist), " species finished")
+      }
     }
 
     # overall range
     M_range <- do.call(rbind, M_range)
     sp_range <- do.call(rbind, sp_range)
-    overall_range <- range(c(c(M_range), c(sp_range)))
-
-    if (overall_range[2] > 999) {
-      overall_range <- round(overall_range / 10)
-      M_range <- round(M_range / 10)
-      sp_range <- round(sp_range / 10)
-    }
-    if (overall_range[2] > 9999) {
-      overall_range <- round(overall_range / 100)
-      M_range <- round(M_range / 100)
-      sp_range <- round(sp_range / 100)
-    }
-
-    # modification of range
-    o_minimum <- overall_range[1]
-    o_minimumc <- ifelse(o_minimum == 0, 0,
-                         floor(o_minimum / bin_size) * bin_size) - bin_size
-
-    o_maximum <- overall_range[2]
-    o_maximumc <- ifelse(o_maximum == 0, 0,
-                         ceiling(o_maximum / bin_size) * bin_size) + bin_size
-
-    overall_range <- c(o_minimumc, o_maximumc)
+    overall_range <- range(c(rbind(M_range, sp_range)))
 
     # bin tables
-    message("\n   Preparing bin tables using ranges:")
+    if (verbose == TRUE) {
+      message("\n   Preparing character tables using ranges:")
+    }
+
+    bin_size <- overall_range / n_bins
 
     bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
     rownames(bin_table) <- gsub("_", " ", spnames)
@@ -265,7 +248,9 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
                 row.names = TRUE)
     }
 
-    message(i, " of ", nvars, " variables processed")
+    if (verbose == TRUE) {
+      message(i, " of ", nvars, " variables processed")
+    }
     return(bin_table)
   })
 
