@@ -1,26 +1,3 @@
-#' Helper function to find raster extension
-#' @param format (character) any of the format types allowed for raster objects.
-#' See \code{\link[raster]{writeFormats}} (e.g., "GTiff").
-#' @return Raster extension according to format type.
-#' @export
-#' @examples
-#' rformat <- rformat_type("GTiff")
-
-rformat_type <- function(format) {
-  if (missing(format)) {stop("Argument 'format needs to be defined.")}
-  if (format == "raster") {format1 <- ".grd"}
-  if (format == "GTiff") {format1 <- ".tif"}
-  if (format == "EHdr") {format1 <- ".bil"}
-  if (format == "ascii") {format1 <- ".asc"}
-  if (format == "SAGA") {format1 <- ".sdat"}
-  if (format == "IDRISI") {format1 <- ".rst"}
-  if (format == "CDF") {format1 <- ".nc"}
-  if (format == "ENVI") {format1 <- ".envi"}
-  if (format == "HFA") {format1 <- ".img"}
-  return(format1)
-}
-
-
 #' Helper function to create PDF files with histograms
 #' @param env_data list of environmental values in M for all species.
 #' @param occ_data list of environmental values in occurrences for all species.
@@ -212,6 +189,7 @@ pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
 }
 
 
+
 #' Helper function to prepare bin tables
 #' @param overall_range (numeric) minimum and maximum values of all species and
 #' Ms to be analyzed.
@@ -222,7 +200,6 @@ pdf_histograms <- function(env_data, occ_data, y_values, sp_names,
 #' species.
 #' @param bin_size (numeric) size of bins. Range of environmental values to
 #' be considered when creating each character in bin tables. See details.
-#' Default = 10.
 #' @details
 #' The argument \code{bin_size} helps to create characters that represent not
 #' only one value of an environmental variable, but a range of environmental
