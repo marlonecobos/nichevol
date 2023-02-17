@@ -1,4 +1,4 @@
-itHeader("To cite nichevol in publications use:")
+citHeader("To cite nichevol in publications use:")
 
 citEntry(
 entry = "Article",
@@ -28,7 +28,7 @@ textVersion  = paste(
         "Owens, H. L., V. Ribeiro, E. E. Saupe, M. E. Cobos, P. A. Hosner, J. C. Cooper,",
         "A. M. Samy, V. Barve, N. Barve, C. J. Muñoz-R, A. T. Peterson (2020)",
         "Acknowledging Uncertainty in Evolutionary Reconstructions of Ecological Niches.",
-        "Ecology and Evolution 10:14, 6967–6977. https://doi.org/10.1002/ece3.6359."
+        "Ecology and Evolution 10(14):6967–6977. https://doi.org/10.1002/ece3.6359."
 )
 )
 
