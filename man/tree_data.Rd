@@ -4,11 +4,13 @@
 \name{tree_data}
 \alias{tree_data}
 \title{Example of a list containing a tree and a table of characters for six species}
-\format{A list of 2 elements:
+\format{
+A list of 2 elements:
 \describe{
 \item{phy}{object of class phylo for 6 species}
 \item{data}{matrix of 6 rows and 28 columns}
-}}
+}
+}
 \usage{
 tree_data
 }

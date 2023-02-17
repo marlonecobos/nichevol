@@ -4,12 +4,14 @@
 \name{occ_list}
 \alias{occ_list}
 \title{Example of occurrence records for six species}
-\format{A list of 6 data.frames:
+\format{
+A list of 6 data.frames:
 \describe{
 \item{species}{species name, a code in this example}
 \item{x}{longitude, longitude value}
 \item{y}{latitude, latitude value}
-}}
+}
+}
 \usage{
 occ_list
 }

@@ -4,7 +4,9 @@
 \name{tree}
 \alias{tree}
 \title{Example of a phylogenetic tree for six species}
-\format{An object of class phylo for 6 species.}
+\format{
+An object of class phylo for 6 species.
+}
 \usage{
 tree
 }

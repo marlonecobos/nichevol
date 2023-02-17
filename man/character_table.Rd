@@ -4,7 +4,9 @@
 \name{character_table}
 \alias{character_table}
 \title{Example of character table for six species}
-\format{A character matrix with 6 rows and 28 columns.}
+\format{
+A character matrix with 6 rows and 28 columns.
+}
 \usage{
 character_table
 }
