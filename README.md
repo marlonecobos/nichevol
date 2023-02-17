@@ -3,24 +3,37 @@ Uncertainty in Reconstructions
 ================
 Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
-  - [Package description](#package-description)
-  - [Installing the package](#installing-the-package)
-      - [Stable version](#stable-version)
-      - [Latest version](#latest-version)
-  - [Exploring the nichevol package](#exploring-the-nichevol-package)
-      - [Setting a directory](#setting-a-directory)
-      - [Loading the package](#loading-the-package)
-      - [Functions in nichevol](#functions-in-nichevol)
-  - [Using nichevol with simple
-    examples](#using-nichevol-with-simple-examples)
-      - [Packages needed for data
-        management](#packages-needed-for-data-management)
-      - [Initial data (example data)](#initial-data-example-data)
-      - [Preparing data for analyses](#preparing-data-for-analyses)
-      - [Ancestral reconstructions and smoothing of
-        results](#ancestral-reconstructions-and-smoothing-of-results)
-      - [Representations of results](#representations-of-results)
-  - [References](#references)
+- <a href="#package-description" id="toc-package-description">Package
+  description</a>
+- <a href="#installing-the-package"
+  id="toc-installing-the-package">Installing the package</a>
+  - <a href="#stable-version" id="toc-stable-version">Stable version</a>
+  - <a href="#latest-version" id="toc-latest-version">Latest version</a>
+- <a href="#exploring-the-nichevol-package"
+  id="toc-exploring-the-nichevol-package">Exploring the nichevol
+  package</a>
+  - <a href="#setting-a-directory" id="toc-setting-a-directory">Setting a
+    directory</a>
+  - <a href="#loading-the-package" id="toc-loading-the-package">Loading the
+    package</a>
+  - <a href="#functions-in-nichevol"
+    id="toc-functions-in-nichevol">Functions in nichevol</a>
+- <a href="#using-nichevol-with-simple-examples"
+  id="toc-using-nichevol-with-simple-examples">Using nichevol with simple
+  examples</a>
+  - <a href="#packages-needed-for-data-management"
+    id="toc-packages-needed-for-data-management">Packages needed for data
+    management</a>
+  - <a href="#initial-data-example-data"
+    id="toc-initial-data-example-data">Initial data (example data)</a>
+  - <a href="#preparing-data-for-analyses"
+    id="toc-preparing-data-for-analyses">Preparing data for analyses</a>
+  - <a href="#ancestral-reconstructions-and-smoothing-of-results"
+    id="toc-ancestral-reconstructions-and-smoothing-of-results">Ancestral
+    reconstructions and smoothing of results</a>
+  - <a href="#representations-of-results"
+    id="toc-representations-of-results">Representations of results</a>
+- <a href="#references" id="toc-references">References</a>
 
 <br>
 
@@ -73,7 +86,7 @@ open, and try again. If during the installation you are asked to update
 packages, please do it. If any of the packages gives an error, please
 install it alone using *install.packages()*, then try re-installing
 **nichevol** again. Also, it may be a good idea to update R and RStudio
-(if you are using it).
+(if you are using this last).
 
 ``` r
 # Installing and loading packages
@@ -120,15 +133,14 @@ library(nichevol)
 
 ### Functions in nichevol
 
-Four main types of functions are included in **nichevol**: (1) ones that
-help in preparing data (exploration plots and tables of characters) for
-ancestral reconstruction; (2) ones that perform the ancestral
-reconstructions (maximum parsimony and maximum likelihood); (3) some
+Three main types of functions are included in **nichevol**: (1) ones
+that help in preparing data (exploration plots and tables of characters)
+for ancestral reconstruction; (2) ones that perform the ancestral
+reconstructions (maximum parsimony and maximum likelihood); and (3) some
 complementary functions that help in performing post-reconstruction
 steps (reconstruction smoothing, and niche and niche evolution
-representations); and (4) ones that help in producing virtual species
-for exploring hypotheses. Of course, other helper functions are used in
-the package, but they won’t be used as commonly.
+representations). Of course, other helper functions are used in the
+package, but they won’t be used as commonly.
 
 A complete list of the functions in the **nichevol** package can be
 found in the package documentation. Use the following code to see the
@@ -180,12 +192,6 @@ analyses. For instance, they help in producing bar-like labels that
 represent the niches of species, or they can be used to represent how
 niches have evolved across the phylogeny.
 
-#### Functions for simulation of virtual species
-
-This module is still under development, but it is intended to help in
-creating a suite of virtual species’ niches and their phylogenetic
-relationships, to explore hypotheses of niche evolution.
-
 <br>
 
 <hr>
@@ -200,8 +206,7 @@ will require them. Notice that **nichevol** is already loaded, but these
 other packages need to be loaded separately.
 
 ``` r
-library(raster) # for reading environmental layers
-library(rgdal) # for reading shapefiles
+library(terra) # for reading environmental layers and spatial objects
 library(ape) # for plotting phylogenetic trees and node labels
 library(geiger) # for merging a phylogenetic tree with a table of niche characters
 ```
@@ -209,20 +214,23 @@ library(geiger) # for merging a phylogenetic tree with a table of niche characte
 ### Initial data (example data)
 
 The following lines of code will help to get example data prepared for
-demonstrating the usage of **nichevol**. These data were used in an
-article in which the methods implemented in **nichevol** were proposed,
-illustrated, and explained (see Owens et al. in review). These data are
-included in the package, so their use is straightforward.
+demonstrating the usage of **nichevol**. These data are similar to the
+ones used in an article in which the methods implemented in **nichevol**
+were proposed, illustrated, and explained (see Owens et al. 2020). These
+data are included in the package, so their use is straightforward.
 
 ``` r
-# variable at coarse resolution to be used as example only
-temp <- getData("worldclim", var = "bio", res = 10)[[1]]
-
-# examples of species accessible areas
-data("m_list", package = "nichevol")
-
-# examples of species occurrences
+## list of species records
 data("occ_list", package = "nichevol")
+
+## list of species accessible areas
+m_files <- list.files(system.file("extdata", package = "nichevol"),
+                      pattern = "m\\d.gpkg", full.names = TRUE)
+
+m_list <- lapply(m_files, terra::vect)
+
+## raster variable
+temp <- rast(system.file("extdata", "temp.tif", package = "nichevol"))
 
 # a simple phylogenetic tree for demonstrations
 data("tree", package = "nichevol")
@@ -241,1105 +249,553 @@ data("tree_data", package = "nichevol")
 Before starting to play with the functions, consider that **nichevol**
 allows distinct ways to prepare data, depending on the user’s needs. The
 example data downloaded before can be used with the functions designed
-to work with multiple variables and all taxa at the time
-(*histograms\_env*, *stats\_evalues*, *bin\_tables*, *bin\_tables0*). We
-will see examples with these options first, but examples with the
-functions that work with data in the R environment and only for one
-variable at a time are also shown.
+to work with multiple variables and all taxa at a time
+(`histograms_env`, `stats_evalues`, `bin_tables`, `bin_tables0`).
+However, examples with the functions that work with data in the R
+environment and only for one variable at a time are shown in detail
+here.
 
 #### Exploring data numerically
 
-**Multiple variables**
-
-First check the help:
-
-``` r
-help(stats_evalues)
-```
-
-Now, to run the
-code,
-
-``` r
-stats <- stats_evalues(stats = c("mean", "sd", "median", "range", "quantile"), 
-                       M_folder = "Folder_with_Ms", M_format = "shp", 
-                       occ_folder = "Folder_with_occs", longitude = "lon_column", 
-                       latitude = "lat_column", var_folder = "Folder_with_vars", 
-                       var_format = "GTiff", percentage_out = 0)
-```
-
-**One variable**
-
-First check the help:
+First check the function documentation:
 
 ``` r
 help(stats_eval)
 ```
 
-Now, to run the
-code,
+Now, to run the code,
 
 ``` r
 stat <- stats_eval(stats = c("mean", "sd", "median", "range", "quantile"), 
                    Ms = m_list, occurrences = occ_list, species = "species",
                    longitude = "x", latitude = "y", variable = temp, 
                    percentage_out = 0)
-#> Preparing statistics from environmental layer and species data:
-#>   1 of 6 species finished
-#>   2 of 6 species finished
-#>   3 of 6 species finished
-#>   4 of 6 species finished
-#>   5 of 6 species finished
-#>   6 of 6 species finished
 
-knitr::kable(stat[[1]], caption = "Table of descriptive statistics of temperature (x 10) in accessible areas for the species of interest.", digits = 2) %>% kable_styling(font_size = 12)
+knitr::kable(stat[[1]], caption = "Table of descriptive statistics of temperature (x 10) in accessible areas for the species of interest.", digits = 2) # %>% kable_styling(font_size = 12)
 ```
 
-<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
-
-<caption style="font-size: initial !important;">
-
+<table>
+<caption>
 Table of descriptive statistics of temperature (x 10) in accessible
 areas for the species of interest.
-
 </caption>
-
 <thead>
-
 <tr>
-
 <th style="text-align:left;">
-
 Species
-
 </th>
-
 <th style="text-align:right;">
-
 mean
-
 </th>
-
 <th style="text-align:right;">
-
 sd
-
 </th>
-
 <th style="text-align:right;">
-
 median
-
 </th>
-
 <th style="text-align:right;">
-
 range1
-
 </th>
-
 <th style="text-align:right;">
-
 range2
-
 </th>
-
 <th style="text-align:right;">
-
 quantile.0.
-
 </th>
-
 <th style="text-align:right;">
-
 quantile.25.
-
 </th>
-
 <th style="text-align:right;">
-
 quantile.50.
-
 </th>
-
 <th style="text-align:right;">
-
 quantile.75.
-
 </th>
-
 <th style="text-align:right;">
-
 quantile.100.
-
 </th>
-
 </tr>
-
 </thead>
-
 <tbody>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 9830
-
 </td>
-
 <td style="text-align:right;">
-
-218.47
-
+21.84
 </td>
-
 <td style="text-align:right;">
-
-55.10
-
+5.54
 </td>
-
 <td style="text-align:right;">
-
-240
-
+23.81
 </td>
-
 <td style="text-align:right;">
-
-14
-
+1.56
 </td>
-
 <td style="text-align:right;">
-
-263
-
+27.01
 </td>
-
 <td style="text-align:right;">
-
-14
-
+1.56
 </td>
-
 <td style="text-align:right;">
-
-223.00
-
+21.69
 </td>
-
 <td style="text-align:right;">
-
-240
-
+23.81
 </td>
-
 <td style="text-align:right;">
-
-249
-
+25.35
 </td>
-
 <td style="text-align:right;">
-
-263
-
+27.01
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 3351
-
 </td>
-
 <td style="text-align:right;">
-
-244.63
-
+24.36
 </td>
-
 <td style="text-align:right;">
-
-14.78
-
+1.65
 </td>
-
 <td style="text-align:right;">
-
-249
-
+24.84
 </td>
-
 <td style="text-align:right;">
-
-175
-
+17.56
 </td>
-
 <td style="text-align:right;">
-
-272
-
+27.01
 </td>
-
 <td style="text-align:right;">
-
-175
-
+17.56
 </td>
-
 <td style="text-align:right;">
-
-237.00
-
+23.45
 </td>
-
 <td style="text-align:right;">
-
-249
-
+24.84
 </td>
-
 <td style="text-align:right;">
-
-254
-
+25.54
 </td>
-
 <td style="text-align:right;">
-
-272
-
+27.01
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 6933
-
 </td>
-
 <td style="text-align:right;">
-
-152.98
-
+15.67
 </td>
-
 <td style="text-align:right;">
-
-76.81
-
+7.47
 </td>
-
 <td style="text-align:right;">
-
-168
-
+17.53
 </td>
-
 <td style="text-align:right;">
-
-\-1
-
+-0.01
 </td>
-
 <td style="text-align:right;">
-
-269
-
+27.16
 </td>
-
 <td style="text-align:right;">
-
-\-1
-
+-0.01
 </td>
-
 <td style="text-align:right;">
-
-80.75
-
+8.49
 </td>
-
 <td style="text-align:right;">
-
-168
-
+17.53
 </td>
-
 <td style="text-align:right;">
-
-215
-
+21.51
 </td>
-
 <td style="text-align:right;">
-
-269
-
+27.16
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 761
-
 </td>
-
 <td style="text-align:right;">
-
-222.27
-
+22.28
 </td>
-
 <td style="text-align:right;">
-
-52.65
-
+5.35
 </td>
-
 <td style="text-align:right;">
-
-238
-
+23.71
 </td>
-
 <td style="text-align:right;">
-
-\-27
-
+-3.20
 </td>
-
 <td style="text-align:right;">
-
-263
-
+27.01
 </td>
-
 <td style="text-align:right;">
-
-\-27
-
+-3.20
 </td>
-
 <td style="text-align:right;">
-
-227.00
-
+22.52
 </td>
-
 <td style="text-align:right;">
-
-238
-
+23.71
 </td>
-
 <td style="text-align:right;">
-
-249
-
+25.21
 </td>
-
 <td style="text-align:right;">
-
-263
-
+27.01
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 6773
-
 </td>
-
 <td style="text-align:right;">
-
-245.29
-
+25.00
 </td>
-
 <td style="text-align:right;">
-
-10.69
-
+1.05
 </td>
-
 <td style="text-align:right;">
-
-248
-
+25.14
 </td>
-
 <td style="text-align:right;">
-
-160
-
+16.67
 </td>
-
 <td style="text-align:right;">
-
-269
-
+27.01
 </td>
-
 <td style="text-align:right;">
-
-160
-
+16.67
 </td>
-
 <td style="text-align:right;">
-
-240.00
-
+24.41
 </td>
-
 <td style="text-align:right;">
-
-248
-
+25.14
 </td>
-
 <td style="text-align:right;">
-
-252
-
+25.74
 </td>
-
 <td style="text-align:right;">
-
-269
-
+27.01
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 7516
-
 </td>
-
 <td style="text-align:right;">
-
-211.02
-
+20.95
 </td>
-
 <td style="text-align:right;">
-
-78.19
-
+7.68
 </td>
-
 <td style="text-align:right;">
-
-256
-
+25.12
 </td>
-
 <td style="text-align:right;">
-
-\-31
-
+-3.72
 </td>
-
 <td style="text-align:right;">
-
-288
-
+28.91
 </td>
-
 <td style="text-align:right;">
-
-\-31
-
+-3.72
 </td>
-
 <td style="text-align:right;">
-
-165.75
-
+16.40
 </td>
-
 <td style="text-align:right;">
-
-256
-
+25.12
 </td>
-
 <td style="text-align:right;">
-
-261
-
+26.07
 </td>
-
 <td style="text-align:right;">
-
-288
-
+28.91
 </td>
-
 </tr>
-
 </tbody>
-
 </table>
 
 ``` r
 
-knitr::kable(stat[[2]], caption = "Table of descriptive statistics of temperature (x 10) in occurrences of the species of interest.", digits = 2) %>% kable_styling(font_size = 12)
+knitr::kable(stat[[2]], caption = "Table of descriptive statistics of temperature (x 10) in occurrences of the species of interest.", digits = 2) #%>% kable_styling(font_size = 12)
 ```
 
-<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
-
-<caption style="font-size: initial !important;">
-
+<table>
+<caption>
 Table of descriptive statistics of temperature (x 10) in occurrences of
 the species of interest.
-
 </caption>
-
 <thead>
-
 <tr>
-
 <th style="text-align:left;">
-
 Species
-
 </th>
-
 <th style="text-align:right;">
-
 mean
-
 </th>
-
 <th style="text-align:right;">
-
 sd
-
 </th>
-
 <th style="text-align:right;">
-
 median
-
 </th>
-
 <th style="text-align:right;">
-
 range1
-
 </th>
-
 <th style="text-align:right;">
-
 range2
-
 </th>
-
 <th style="text-align:right;">
-
 quantile.0.
-
 </th>
-
 <th style="text-align:right;">
-
 quantile.25.
-
 </th>
-
 <th style="text-align:right;">
-
 quantile.50.
-
 </th>
-
 <th style="text-align:right;">
-
 quantile.75.
-
 </th>
-
 <th style="text-align:right;">
-
 quantile.100.
-
 </th>
-
 </tr>
-
 </thead>
-
 <tbody>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 9830
-
 </td>
-
 <td style="text-align:right;">
-
-255.57
-
+25.67
 </td>
-
 <td style="text-align:right;">
-
-4.28
-
+0.54
 </td>
-
 <td style="text-align:right;">
-
-255
-
+25.59
 </td>
-
 <td style="text-align:right;">
-
-245
-
+23.79
 </td>
-
 <td style="text-align:right;">
-
-263
-
+27.01
 </td>
-
 <td style="text-align:right;">
-
-245
-
+23.79
 </td>
-
 <td style="text-align:right;">
-
-252
-
+25.36
 </td>
-
 <td style="text-align:right;">
-
-255
-
+25.59
 </td>
-
 <td style="text-align:right;">
-
-259
-
+26.02
 </td>
-
 <td style="text-align:right;">
-
-263
-
+27.01
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 3351
-
 </td>
-
 <td style="text-align:right;">
-
-254.93
-
+25.49
 </td>
-
 <td style="text-align:right;">
-
-4.12
-
+0.67
 </td>
-
 <td style="text-align:right;">
-
-254
-
+25.54
 </td>
-
 <td style="text-align:right;">
-
-244
-
+23.67
 </td>
-
 <td style="text-align:right;">
-
-266
-
+27.00
 </td>
-
 <td style="text-align:right;">
-
-244
-
+23.67
 </td>
-
 <td style="text-align:right;">
-
-252
-
+25.08
 </td>
-
 <td style="text-align:right;">
-
-254
-
+25.54
 </td>
-
 <td style="text-align:right;">
-
-258
-
+25.90
 </td>
-
 <td style="text-align:right;">
-
-266
-
+27.00
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 6933
-
 </td>
-
 <td style="text-align:right;">
-
-259.94
-
+25.95
 </td>
-
 <td style="text-align:right;">
-
-5.27
-
+0.73
 </td>
-
 <td style="text-align:right;">
-
-260
-
+25.91
 </td>
-
 <td style="text-align:right;">
-
-243
-
+24.47
 </td>
-
 <td style="text-align:right;">
-
-269
-
+27.11
 </td>
-
 <td style="text-align:right;">
-
-243
-
+24.47
 </td>
-
 <td style="text-align:right;">
-
-256
-
+25.35
 </td>
-
 <td style="text-align:right;">
-
-260
-
+25.91
 </td>
-
 <td style="text-align:right;">
-
-264
-
+26.72
 </td>
-
 <td style="text-align:right;">
-
-269
-
+27.11
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 761
-
 </td>
-
 <td style="text-align:right;">
-
-255.42
-
+25.59
 </td>
-
 <td style="text-align:right;">
-
-4.28
-
+0.59
 </td>
-
 <td style="text-align:right;">
-
-255
-
+25.59
 </td>
-
 <td style="text-align:right;">
-
-246
-
+24.02
 </td>
-
 <td style="text-align:right;">
-
-263
-
+26.89
 </td>
-
 <td style="text-align:right;">
-
-246
-
+24.02
 </td>
-
 <td style="text-align:right;">
-
-251
-
+25.21
 </td>
-
 <td style="text-align:right;">
-
-255
-
+25.59
 </td>
-
 <td style="text-align:right;">
-
-259
-
+26.02
 </td>
-
 <td style="text-align:right;">
-
-263
-
+26.89
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 6773
-
 </td>
-
 <td style="text-align:right;">
-
-250.14
-
+25.34
 </td>
-
 <td style="text-align:right;">
-
-5.17
-
+0.69
 </td>
-
 <td style="text-align:right;">
-
-250
-
+25.41
 </td>
-
 <td style="text-align:right;">
-
-240
-
+23.61
 </td>
-
 <td style="text-align:right;">
-
-268
-
+26.98
 </td>
-
 <td style="text-align:right;">
-
-240
-
+23.61
 </td>
-
 <td style="text-align:right;">
-
-247
-
+24.82
 </td>
-
 <td style="text-align:right;">
-
-250
-
+25.41
 </td>
-
 <td style="text-align:right;">
-
-253
-
+25.83
 </td>
-
 <td style="text-align:right;">
-
-268
-
+26.98
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 7516
-
 </td>
-
 <td style="text-align:right;">
-
-259.09
-
+25.78
 </td>
-
 <td style="text-align:right;">
-
-6.30
-
+0.65
 </td>
-
 <td style="text-align:right;">
-
-260
-
+25.91
 </td>
-
 <td style="text-align:right;">
-
-241
-
+24.09
 </td>
-
 <td style="text-align:right;">
-
-278
-
+27.72
 </td>
-
 <td style="text-align:right;">
-
-241
-
+24.09
 </td>
-
 <td style="text-align:right;">
-
-256
-
+25.31
 </td>
-
 <td style="text-align:right;">
-
-260
-
+25.91
 </td>
-
 <td style="text-align:right;">
-
-263
-
+26.14
 </td>
-
 <td style="text-align:right;">
-
-278
-
+27.72
 </td>
-
 </tr>
-
 </tbody>
-
 </table>
+
+To work with multiple variables check the function `stats_evalues`.
 
 <br>
 
 #### Exploring data graphically
-
-**Multiple variables**
-
-First check the help:
-
-``` r
-help(histograms_env)
-```
-
-Now, to run the code,
-
-``` r
-hists <- histograms_env(M_folder = "Folder_with_Ms", M_format = "shp",
-                        occ_folder = "Folder_with_occs", longitude = "lon_column",
-                        latitude = "lat_column", var_folder = "Folder_with_vars",
-                        var_format = "GTiff")
-```
-
-**One variable**
 
 First check the help:
 
@@ -1347,8 +803,7 @@ First check the help:
 help(hist_evalues)
 ```
 
-Now, to run the
-code,
+Now, to run the code,
 
 ``` r
 hist_evalues(M = m_list[[1]], occurrences = occ_list[[1]], species = "species", 
@@ -1358,42 +813,11 @@ hist_evalues(M = m_list[[1]], occurrences = occ_list[[1]], species = "species",
 
 ![](README_files/figure-gfm/histogram-1.png)<!-- -->
 
+To work with multiple variables check the function `histograms_env`.
+
 <br>
 
 #### Preparing tables of ecological niche characters
-
-**Multiple variables: When using ranges obtained in histograms**
-
-First check the help:
-
-``` r
-help(bin_tables)
-```
-
-Now, to run the code,
-
-``` r
-bins <- bin_tables(ranges, percentage_out = 5, bin_size = 10)
-```
-
-**Multiple variables: When using data from local directory**
-
-First check the help:
-
-``` r
-help(bin_tables0)
-```
-
-Now, to run the code,
-
-``` r
-bins <- bin_tables0(M_folder = "Folder_with_Ms", M_format = "shp",
-                    occ_folder = "Folder_with_occs", longitude = "lon_column",
-                    latitude = "lat_column", var_folder = "Folder_with_vars",
-                    var_format = "GTiff", percentage_out = 5, bin_size = 10)
-```
-
-**One variable: When using data from the R environment**
 
 First check the help:
 
@@ -1401,1294 +825,482 @@ First check the help:
 help(bin_table)
 ```
 
-Now, to run the
-code,
+Now, to run the code,
 
 ``` r
 bin_tabl <- bin_table(Ms = m_list, occurrences = occ_list, species = "species",
                       longitude = "x", latitude = "y", variable = temp, 
                       percentage_out = 5, bin_size = 10)
-#> 
-#>    Preparing range values:
-#>   1 of 6 species finished
-#>   2 of 6 species finished
-#>   3 of 6 species finished
-#>   4 of 6 species finished
-#>   5 of 6 species finished
-#>   6 of 6 species finished
-#>    Preparing bin tables using ranges:
-#>   1 of 6 species finished
-#>   2 of 6 species finished
-#>   3 of 6 species finished
-#>   4 of 6 species finished
-#>   5 of 6 species finished
-#>   6 of 6 species finished
 
-knitr::kable(bin_tabl, caption = "Table characters for ecological niches of the species of interest.") %>% 
-  kable_styling(font_size = 12)
+knitr::kable(bin_tabl, caption = "Table characters for ecological niches of the species of interest.") #%>% kable_styling(font_size = 12)
 ```
 
-<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
-
-<caption style="font-size: initial !important;">
-
+<table>
+<caption>
 Table characters for ecological niches of the species of interest.
-
 </caption>
-
 <thead>
-
 <tr>
-
 <th style="text-align:left;">
-
 </th>
-
 <th style="text-align:left;">
-
-20 to 30
-
+3.93 to 5.179
 </th>
-
 <th style="text-align:left;">
-
-31 to 40
-
+5.179 to 6.428
 </th>
-
 <th style="text-align:left;">
-
-41 to 50
-
+6.428 to 7.677
 </th>
-
 <th style="text-align:left;">
-
-51 to 60
-
+7.677 to 8.926
 </th>
-
 <th style="text-align:left;">
-
-61 to 70
-
+8.926 to 10.175
 </th>
-
 <th style="text-align:left;">
-
-71 to 80
-
+10.175 to 11.424
 </th>
-
 <th style="text-align:left;">
-
-81 to 90
-
+11.424 to 12.673
 </th>
-
 <th style="text-align:left;">
-
-91 to 100
-
+12.673 to 13.922
 </th>
-
 <th style="text-align:left;">
-
-101 to 110
-
+13.922 to 15.171
 </th>
-
 <th style="text-align:left;">
-
-111 to 120
-
+15.171 to 16.42
 </th>
-
 <th style="text-align:left;">
-
-121 to 130
-
+16.42 to 17.669
 </th>
-
 <th style="text-align:left;">
-
-131 to 140
-
+17.669 to 18.918
 </th>
-
 <th style="text-align:left;">
-
-141 to 150
-
+18.918 to 20.167
 </th>
-
 <th style="text-align:left;">
-
-151 to 160
-
+20.167 to 21.416
 </th>
-
 <th style="text-align:left;">
-
-161 to 170
-
+21.416 to 22.665
 </th>
-
 <th style="text-align:left;">
-
-171 to 180
-
+22.665 to 23.914
 </th>
-
 <th style="text-align:left;">
-
-181 to 190
-
+23.914 to 25.163
 </th>
-
 <th style="text-align:left;">
-
-191 to 200
-
+25.163 to 26.412
 </th>
-
 <th style="text-align:left;">
-
-201 to 210
-
+26.412 to 27.661
 </th>
-
 <th style="text-align:left;">
-
-211 to 220
-
+27.661 to 28.91
 </th>
-
-<th style="text-align:left;">
-
-221 to 230
-
-</th>
-
-<th style="text-align:left;">
-
-231 to 240
-
-</th>
-
-<th style="text-align:left;">
-
-241 to 250
-
-</th>
-
-<th style="text-align:left;">
-
-251 to 260
-
-</th>
-
-<th style="text-align:left;">
-
-261 to 270
-
-</th>
-
-<th style="text-align:left;">
-
-271 to 280
-
-</th>
-
-<th style="text-align:left;">
-
-281 to 290
-
-</th>
-
-<th style="text-align:left;">
-
-291 to 300
-
-</th>
-
 </tr>
-
 </thead>
-
 <tbody>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 9830
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
-?
-
+1
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 3351
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
-0
-
+1
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 6933
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 761
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 6773
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 RD 7516
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
 </tr>
-
 </tbody>
-
 </table>
+
+To work with multiple variables check the functions `bin_tables0` and
+`bin_tables`.
 
 <br>
 
@@ -2696,7 +1308,7 @@ RD 7516
 
 These functions work with one variable at the time, but users can
 perform several analyses in a loop if needed. The variable to be
-explored here is annual mean temperature.
+explored here is temperature.
 
 #### Phylogenetic tree and data
 
@@ -2732,2160 +1344,1085 @@ par_rec_table <- bin_par_rec(tree_data)
 s_par_rec_table <- smooth_rec(par_rec_table)
 
 # results
-knitr::kable(s_par_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum parsimony reconstructions for their ancestors.") %>% kable_styling(font_size = 12)
+knitr::kable(s_par_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum parsimony reconstructions for their ancestors.") #%>% kable_styling(font_size = 12)
 ```
 
-<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
-
-<caption style="font-size: initial !important;">
-
+<table>
+<caption>
 Table characters for ecological niches of the species of interest and
 maximum parsimony reconstructions for their ancestors.
-
 </caption>
-
 <thead>
-
 <tr>
-
 <th style="text-align:left;">
-
 </th>
-
 <th style="text-align:left;">
-
 21 to 30
-
 </th>
-
 <th style="text-align:left;">
-
 31 to 40
-
 </th>
-
 <th style="text-align:left;">
-
 41 to 50
-
 </th>
-
 <th style="text-align:left;">
-
 51 to 60
-
 </th>
-
 <th style="text-align:left;">
-
 61 to 70
-
 </th>
-
 <th style="text-align:left;">
-
 71 to 80
-
 </th>
-
 <th style="text-align:left;">
-
 81 to 90
-
 </th>
-
 <th style="text-align:left;">
-
 91 to 100
-
 </th>
-
 <th style="text-align:left;">
-
 101 to 110
-
 </th>
-
 <th style="text-align:left;">
-
 111 to 120
-
 </th>
-
 <th style="text-align:left;">
-
 121 to 130
-
 </th>
-
 <th style="text-align:left;">
-
 131 to 140
-
 </th>
-
 <th style="text-align:left;">
-
 141 to 150
-
 </th>
-
 <th style="text-align:left;">
-
 151 to 160
-
 </th>
-
 <th style="text-align:left;">
-
 161 to 170
-
 </th>
-
 <th style="text-align:left;">
-
 171 to 180
-
 </th>
-
 <th style="text-align:left;">
-
 181 to 190
-
 </th>
-
 <th style="text-align:left;">
-
 191 to 200
-
 </th>
-
 <th style="text-align:left;">
-
 201 to 210
-
 </th>
-
 <th style="text-align:left;">
-
 211 to 220
-
 </th>
-
 <th style="text-align:left;">
-
 221 to 230
-
 </th>
-
 <th style="text-align:left;">
-
 231 to 240
-
 </th>
-
 <th style="text-align:left;">
-
 241 to 250
-
 </th>
-
 <th style="text-align:left;">
-
 251 to 260
-
 </th>
-
 <th style="text-align:left;">
-
 261 to 270
-
 </th>
-
 <th style="text-align:left;">
-
 271 to 280
-
 </th>
-
 <th style="text-align:left;">
-
 281 to 290
-
 </th>
-
 <th style="text-align:left;">
-
 291 to 300
-
 </th>
-
 </tr>
-
 </thead>
-
 <tbody>
-
 <tr>
-
 <td style="text-align:left;">
-
 t1
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
-t2
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-t5
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-t6
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
-<td style="text-align:left;">
-
-?
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
 t3
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 t4
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
+t2
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;">
+?
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+t5
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;">
+?
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+t6
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;">
+?
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 7
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 8
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 9
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
-?
-
+1
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
+<td style="text-align:left;">
+0
+</td>
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 10
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 11
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
+0
+</td>
+<td style="text-align:left;">
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
 <td style="text-align:left;">
-
-?
-
+0
 </td>
-
 </tr>
-
 </tbody>
-
 </table>
 
 <br>
@@ -4908,2694 +2445,1352 @@ ml_rec_table <- bin_ml_rec(tree_data)
 s_ml_rec_table <- smooth_rec(ml_rec_table)
 
 # results
-knitr::kable(s_ml_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum likelihood reconstructions for their ancestors.", digits = 2) %>% kable_styling(font_size = 12)
+knitr::kable(s_ml_rec_table, caption = "Table characters for ecological niches of the species of interest and maximum likelihood reconstructions for their ancestors.", digits = 2) #%>% kable_styling(font_size = 12)
 ```
 
-<table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;">
-
-<caption style="font-size: initial !important;">
-
+<table>
+<caption>
 Table characters for ecological niches of the species of interest and
 maximum likelihood reconstructions for their ancestors.
-
 </caption>
-
 <thead>
-
 <tr>
-
 <th style="text-align:left;">
-
 </th>
-
 <th style="text-align:left;">
-
 21 to 30
-
 </th>
-
 <th style="text-align:left;">
-
 31 to 40
-
 </th>
-
 <th style="text-align:left;">
-
 41 to 50
-
 </th>
-
 <th style="text-align:left;">
-
 51 to 60
-
 </th>
-
 <th style="text-align:left;">
-
 61 to 70
-
 </th>
-
 <th style="text-align:left;">
-
 71 to 80
-
 </th>
-
 <th style="text-align:left;">
-
 81 to 90
-
 </th>
-
 <th style="text-align:left;">
-
 91 to 100
-
 </th>
-
 <th style="text-align:left;">
-
 101 to 110
-
 </th>
-
 <th style="text-align:left;">
-
 111 to 120
-
 </th>
-
 <th style="text-align:left;">
-
 121 to 130
-
 </th>
-
 <th style="text-align:left;">
-
 131 to 140
-
 </th>
-
 <th style="text-align:left;">
-
 141 to 150
-
 </th>
-
 <th style="text-align:left;">
-
 151 to 160
-
 </th>
-
 <th style="text-align:left;">
-
 161 to 170
-
 </th>
-
 <th style="text-align:left;">
-
 171 to 180
-
 </th>
-
 <th style="text-align:left;">
-
 181 to 190
-
 </th>
-
 <th style="text-align:left;">
-
 191 to 200
-
 </th>
-
 <th style="text-align:left;">
-
 201 to 210
-
 </th>
-
 <th style="text-align:left;">
-
 211 to 220
-
 </th>
-
 <th style="text-align:left;">
-
 221 to 230
-
 </th>
-
 <th style="text-align:left;">
-
 231 to 240
-
 </th>
-
 <th style="text-align:left;">
-
 241 to 250
-
 </th>
-
 <th style="text-align:left;">
-
 251 to 260
-
 </th>
-
 <th style="text-align:left;">
-
 261 to 270
-
 </th>
-
 <th style="text-align:left;">
-
 271 to 280
-
 </th>
-
 <th style="text-align:left;">
-
 281 to 290
-
 </th>
-
 <th style="text-align:left;">
-
 291 to 300
-
 </th>
-
 </tr>
-
 </thead>
-
 <tbody>
-
 <tr>
-
 <td style="text-align:left;">
-
 t1
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 t2
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 t5
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 t6
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 t3
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 t4
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 7
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 8
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 9
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 10
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 11
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 0
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 1
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 <td style="text-align:left;">
-
 ?
-
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 LogLik
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
-\-1.94239804997617
-
+-1.94239804997617
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
-\-3.05129755942324
-
+-3.05129755942324
 </td>
-
 <td style="text-align:left;">
-
-\-3.05129755182966
-
+-3.05129755182966
 </td>
-
 <td style="text-align:left;">
-
-\-3.05129755182966
-
+-3.05129755182966
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 Rates
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
-0.837890723752584
-
+0.837890723461922
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
-19.086193925592
-
+19.0861939235768
 </td>
-
 <td style="text-align:left;">
-
-19.0861886797572
-
+19.0861886797177
 </td>
-
 <td style="text-align:left;">
-
-19.0861886797572
-
+19.0861886797177
 </td>
-
 </tr>
-
 <tr>
-
 <td style="text-align:left;">
-
 SE
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
-0.772282720496786
-
+0.772282648904347
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
 NA
-
 </td>
-
 <td style="text-align:left;">
-
-19.2536025237534
-
+19.2536007815173
 </td>
-
 <td style="text-align:left;">
-
-19.2536494379157
-
+19.2536494378799
 </td>
-
 <td style="text-align:left;">
-
-19.2536494379157
-
+19.2536494378799
 </td>
-
 </tr>
-
 </tbody>
-
 </table>
 
 <br>
@@ -7606,7 +3801,7 @@ NA
 
 ``` r
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.6)
+niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.8, width = 1.5)
 ```
 
 ![](README_files/figure-gfm/tree_niches-1.png)<!-- -->
@@ -7615,7 +3810,7 @@ niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.6)
 
 ``` r
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.6)
+niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.8, width = 1.5)
 ```
 
 ![](README_files/figure-gfm/an_niches-1.png)<!-- -->
@@ -7624,8 +3819,8 @@ niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.6)
 
 ``` r
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.6)
-nichevol_labels(tree, s_ml_rec_table, height = 0.6)
+niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.8, width = 1.5)
+nichevol_labels(tree, s_ml_rec_table, height = 0.8, width = 1.5)
 ```
 
 ![](README_files/figure-gfm/niche_evol-1.png)<!-- -->
@@ -7635,12 +3830,12 @@ nichevol_labels(tree, s_ml_rec_table, height = 0.6)
 ``` r
 par(mfrow = c(1, 2))
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.6, width = 1.3)
+niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.8, width = 1.5)
 niche_legend(position = "topleft", cex = 0.6)
 
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.6, width = 1.3)
-nichevol_labels(tree, s_ml_rec_table, height = 0.6, width = 1.3)
+niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.8, width = 1.5)
+nichevol_labels(tree, s_ml_rec_table, height = 0.8, width = 1.5)
 nichevol_legend(position = "topleft", cex = 0.6)
 ```
 
@@ -7652,12 +3847,21 @@ nichevol_legend(position = "topleft", cex = 0.6)
 
 ## References
 
-  - Barve, N., V. Barve, A. Jimenez-Valverde, A. Lira-Noriega, S. P.
-    Maher, A. T. Peterson, J. Soberón, and F. Villalobos. 2011. The
-    crucial role of the accessible area in ecological niche modeling and
-    species distribution modeling. Ecological Modelling 222:1810-1819.
-  - Owens, H. L., L. P. Campbell, L. L. Dornak, E. E. Saupe, N. Barve,
-    J. Soberón, K. Ingenloff, A. Lira-Noriega, C. M. Hensz, C. E. Myers,
-    and A. T. Peterson. 2013. Constraints on interpretation of
-    ecological niche models by limited environmental ranges on
-    calibration areas. Ecological Modelling 263:10-18.
+- Barve, N., V. Barve, A. Jimenez-Valverde, A. Lira-Noriega, S. P.
+  Maher, A. T. Peterson, J. Soberón, and F. Villalobos. 2011. The
+  crucial role of the accessible area in ecological niche modeling and
+  species distribution modeling. Ecological Modelling 222:1810-1819.
+- Machado-Stredel, F., M. E. Cobos, and A. T. Peterson. 2021. A
+  simulation-based method for selecting calibration areas for ecological
+  niche models and species distribution models. Frontiers of
+  Biogeography, 13(4):e48814e.
+- Owens, H. L., L. P. Campbell, L. L. Dornak, E. E. Saupe, N. Barve, J.
+  Soberón, K. Ingenloff, A. Lira-Noriega, C. M. Hensz, C. E. Myers,
+  and A. T. Peterson. 2013. Constraints on interpretation of ecological
+  niche models by limited environmental ranges on calibration areas.
+  Ecological Modelling 263:10-18.
+- Owens, H. L., V. Ribeiro, E. E. Saupe, M. E. Cobos, P. A.
+  Hosner, J. C. Cooper, A. M. Samy, V. Barve, N. Barve, C. J.
+  Muñoz-R, A. T. Peterson. 2020. Acknowledging Uncertainty in
+  Evolutionary Reconstructions of Ecological Niches. Ecology and
+  Evolution 10(14):6967–6977.
