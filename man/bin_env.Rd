@@ -18,8 +18,7 @@ for all species. Columns must be minimum and maximum, and rows correspond to
 species.}
 
 \item{bin_size}{(numeric) size of bins. Range of environmental values to
-be considered when creating each character in bin tables. See details.
-Default = 10.}
+be considered when creating each character in bin tables. See details.}
 }
 \value{
 A character matrix (table of characters) containing bins for a given variable

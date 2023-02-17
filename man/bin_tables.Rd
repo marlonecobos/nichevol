@@ -4,8 +4,8 @@
 \alias{bin_tables}
 \title{Bin tables of environmental conditions in M and for occurrences from objects}
 \usage{
-bin_tables(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
-  output_directory, overwrite = FALSE)
+bin_tables(ranges, percentage_out = 5, n_bins = 20, bin_size, save = FALSE,
+           output_directory, overwrite = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{ranges}{list of ranges of environmental values in M and in species
@@ -14,9 +14,11 @@ occurrences derived from using the function \code{\link{histograms_env}}.}
 \item{percentage_out}{(numeric) percentage of extreme environmental data in M
 to be excluded in bin creation for further analyses. See details. Default = 5.}
 
-\item{bin_size}{(numeric) size of bins. Range of environmental values to
-be considered when creating each character in bin tables. See details.
-Default = 10.}
+\item{n_bins}{(numeric) number of bins to be created from the range of
+environmental values considered when creating each character in bin tables.
+Default = 20. See details.}
+
+\item{bin_size}{(numeric) argument deprecated, use n_bins instead.}
 
 \item{save}{(logical) whether or not to save the results in working directory.
 Default = FALSE.}
@@ -26,6 +28,8 @@ written.}
 
 \item{overwrite}{(logical) whether or not to overwrite existing results
 in \code{output_directory}. Default = FALSE.}
+
+\item{verbose}{(logical) whether messages should be printed. Default = TRUE.}
 }
 \value{
 A list named as in \code{ranges} containing the table(s) of characters.
@@ -64,12 +68,10 @@ accessible area for the species (M). Being too rare, these values may have
 never been explored by the species; therefore, including them in the process
 of preparation of the table of characters (bin table) is risky.
 
-The argument \code{bin_size} helps to create characters that represent not
-only one value of an environmental variable, but a range of environmental
-conditions. For instance, if a variable of precipitation in mm is used, a
-value of 10 for \code{bin_size} indicates that each character will represent
-a class that correspond to 10 continuous values of precipitation (e.g., from
-100 to 110 mm).
+The argument \code{n_bins} helps to define how many characters (bins) will be
+considered for the range of values in each variable. This is, a value of 20
+determines that a range of temperature (5-25) will be split approximately
+every 1 degree. The argument \code{bin_size} has been deprecated.
 }
 \examples{
 # simple list of ranges
@@ -89,7 +91,7 @@ ranges <- list(temp = data.frame(Species = c("sp1", "sp2", "sp3"),
                                  M_95_upperCL = c(3114, 2376, 2568)))
 
 # bin preparation
-bins <- bin_tables(ranges, percentage_out = 5, bin_size = 10)
+bins <- bin_tables(ranges, percentage_out = 5, n_bins = 20)
 
 # see arguments save and output_directory to write results in local directory
 }

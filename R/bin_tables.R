@@ -9,15 +9,17 @@
 #' occurrences derived from using the function \code{\link{histograms_env}}.
 #' @param percentage_out (numeric) percentage of extreme environmental data in M
 #' to be excluded in bin creation for further analyses. See details. Default = 5.
-#' @param bin_size (numeric) size of bins. Range of environmental values to
-#' be considered when creating each character in bin tables. See details.
-#' Default = 10.
+#' @param n_bins (numeric) number of bins to be created from the range of
+#' environmental values considered when creating each character in bin tables.
+#' Default = 20. See details.
+#' @param bin_size (numeric) argument deprecated, use n_bins instead.
 #' @param save (logical) whether or not to save the results in working directory.
 #' Default = FALSE.
 #' @param output_directory (character) name of the folder in which results will be
 #' written.
 #' @param overwrite (logical) whether or not to overwrite existing results
 #' in \code{output_directory}. Default = FALSE.
+#' @param verbose (logical) whether messages should be printed. Default = TRUE.
 #'
 #' @details
 #' The percentage to be defined in \code{percentage_out} must correspond with
@@ -32,12 +34,10 @@
 #' never been explored by the species; therefore, including them in the process
 #' of preparation of the table of characters (bin table) is risky.
 #'
-#' The argument \code{bin_size} helps to create characters that represent not
-#' only one value of an environmental variable, but a range of environmental
-#' conditions. For instance, if a variable of precipitation in mm is used, a
-#' value of 10 for \code{bin_size} indicates that each character will represent
-#' a class that correspond to 10 continuous values of precipitation (e.g., from
-#' 100 to 110 mm).
+#' The argument \code{n_bins} helps to define how many characters (bins) will be
+#' considered for the range of values in each variable. This is, a value of 20
+#' determines that a range of temperature (5-25) will be split approximately
+#' every 1 degree. The argument \code{bin_size} has been deprecated.
 #'
 #' @return
 #' A list named as in \code{ranges} containing the table(s) of characters.
@@ -60,8 +60,8 @@
 #' @export
 #'
 #' @usage
-#' bin_tables(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
-#'   output_directory, overwrite = FALSE)
+#' bin_tables(ranges, percentage_out = 5, n_bins = 20, bin_size, save = FALSE,
+#'            output_directory, overwrite = FALSE, verbose = TRUE)
 #'
 #' @examples
 #' # simple list of ranges
@@ -81,20 +81,24 @@
 #'                                  M_95_upperCL = c(3114, 2376, 2568)))
 #'
 #' # bin preparation
-#' bins <- bin_tables(ranges, percentage_out = 5, bin_size = 10)
+#' bins <- bin_tables(ranges, percentage_out = 5, n_bins = 20)
 #'
 #' # see arguments save and output_directory to write results in local directory
 
-bin_tables <- function(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
-                       output_directory, overwrite = FALSE) {
+bin_tables <- function(ranges, percentage_out = 5, n_bins = 20, bin_size,
+                       save = FALSE, output_directory, overwrite = FALSE,
+                       verbose = TRUE) {
   # checking for potential errors
   if (missing(ranges)) {stop("Argument 'ranges' is missing.")}
+  if (!missing(bin_size)) {
+    warning("Argument 'bin_size' is deprecated, using 'n_bins'.")
+  }
   if (save == TRUE) {
     if (missing(output_directory)) {
       stop("Argument 'output_directory' is missing.")
     } else {
       if (overwrite == FALSE & dir.exists(output_directory)) {
-        stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
+        stop("'output_directory' already exists, to replace it use 'overwrite' = TRUE.")
       }
       if (overwrite == TRUE & dir.exists(output_directory)) {
         unlink(x = output_directory, recursive = TRUE, force = TRUE)
@@ -102,13 +106,16 @@ bin_tables <- function(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
     }
   }
 
-  message("\nPreparing bin tables using ranges:")
+  if (verbose == TRUE) {
+    message("\nPreparing bin tables using ranges:")
+  }
 
   # directory for results
   if (save == TRUE) {dir.create(output_directory)}
 
   bin_tabs <- lapply(1:length(ranges), function(i) {
     # preparing ranges
+    spnames <- ranges[[1]][, 1]
     cl <- paste0("M_", 100 - percentage_out, c("_lowerCL", "_upperCL"))
     sp_r <- paste0("Species_", c("lower", "upper"))
 
@@ -116,31 +123,11 @@ bin_tables <- function(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
     M_range <- ranges[[i]][, cl]
     sp_range <- ranges[[i]][, 2:3]
 
-    if (overall_range[2] > 999) {
-      overall_range <- round(overall_range / 10)
-      M_range <- round(M_range / 10)
-      sp_range <- round(sp_range / 10)
-    }
-    if (overall_range[2] > 9999) {
-      overall_range <- round(overall_range / 100)
-      M_range <- round(M_range / 100)
-      sp_range <- round(sp_range / 100)
-    }
-
-    # modification of range
-    o_minimum <- overall_range[1]
-    o_minimumc <- ifelse(o_minimum == 0, 0,
-                         floor(o_minimum / bin_size) * bin_size) - bin_size
-
-    o_maximum <- overall_range[2]
-    o_maximumc <- ifelse(o_maximum == 0, 0,
-                         ceiling(o_maximum / bin_size) * bin_size) + bin_size
-
-    overall_range <- c(o_minimumc, o_maximumc)
-
     # bin tables
+    bin_size <- diff(overall_range) / n_bins
+
     bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
-    rownames(bin_table) <- as.character(ranges[[i]][, 1])
+    rownames(bin_table) <- gsub("_", " ", spnames)
 
     # write table
     if (save == TRUE) {
@@ -149,7 +136,9 @@ bin_tables <- function(ranges, percentage_out = 5, bin_size = 10, save = FALSE,
                 row.names = TRUE)
     }
 
-    message(i, " of ", length(ranges), " variables processed")
+    if (verbose == TRUE) {
+      message(i, " of ", length(ranges), " variables processed")
+    }
 
     return(bin_table)
   })
