@@ -58,20 +58,6 @@
 "tree_data"
 
 
-#' Example of accessible areas for six species
-#'
-#' A list of 6 elements (SpatialPolygonsDataFrame objects) representing
-#' accessible areas for 6 species.
-#'
-#' @format A list of 6 SpatialPolygonsDataFrame objects.
-#'
-#' @examples
-#' data("m_list", package = "nichevol")
-#'
-#' str(m_list)
-"m_list"
-
-
 #' Example of occurrence records for six species
 #'
 #' A list of 6 data.frames containing name and geographic coordinates for
@@ -89,3 +75,40 @@
 #'
 #' str(occ_list)
 "occ_list"
+
+
+#' Example of accessible areas for a species
+#'
+#' A SpatVector object representing the accessible area for a species.
+#'
+#' @format A SpatVector object.
+#'
+#' @name m
+#' @aliases m1 m2 m3 m4 m5 m6
+#'
+#' @return No return value, used with function \code{\link[terra]{vect}} to
+#' bring an example of an accessible area for a species.
+#'
+#' @examples
+#' m1 <- terra::vect(system.file("extdata", "m1.gpkg", package = "nichevol"))
+#'
+#' terra::plot(m1)
+NULL
+
+
+#' Example of an environmental variable used in analysis
+#'
+#' A SpatRaster object representing the variable temperature.
+#'
+#' @format A SpatRaster object.
+#'
+#' @name temp
+#'
+#' @return No return value, used with function \code{\link[terra]{rast}} to
+#' bring an example of an environmental variable used in analysis.
+#'
+#' @examples
+#' temp <- terra::rast(system.file("extdata", "temp.tif", package = "nichevol"))
+#'
+#' terra::plot(temp)
+NULL
