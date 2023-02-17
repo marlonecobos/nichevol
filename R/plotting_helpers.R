@@ -39,9 +39,9 @@
 #'
 #' @usage
 #' niche_labels(tree, whole_rec_table, label_type = "tip_node",
-#'   tip_offset = 0.015, present = "1", unknown = "?",
-#'   present_col = "#e41a1c", unknown_col = "#969696",
-#'   absent_col = "#377eb8", width = 1, height = 1)
+#'              tip_offset = 0.015, present = "1", unknown = "?",
+#'              present_col = "#e41a1c", unknown_col = "#969696",
+#'              absent_col = "#377eb8", width = 1, height = 1)
 #'
 #' @examples
 #' # a simple tree
@@ -69,8 +69,8 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
                          tip_offset = 0.015, present = "1", unknown = "?",
                          present_col = "#e41a1c", unknown_col = "#969696",
                          absent_col = "#377eb8", width = 1, height = 1) {
-  if (missing(tree)) {stop("Argument tree needs to be defined.")}
-  if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
+  if (missing(tree)) {stop("Argument 'tree' needs to be defined.")}
+  if (missing(whole_rec_table)) {stop("Argument 'whole_rec_table' needs to be defined.")}
   if ("LogLik" %in% rownames(whole_rec_table)) {
     whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
   }
@@ -86,10 +86,10 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
   # getting info from plot
   tp_info <- get("last_plot.phylo", envir = .PlotPhyloEnv)
   if (tp_info$type != "phylogram") {
-    stop("niche_labels can be used only for plots of type phylogram.")
+    stop("'niche_labels' can be used only for plots of type phylogram.")
   }
   if (!tp_info$direction %in% c("rightwards", "leftwards")) {
-    stop("niche_labels can be used only for rightwards or leftwards phylograms.")
+    stop("'niche_labels' can be used only for rightwards or leftwards phylograms.")
   }
   if (tp_info$direction == "leftwards") {tip_offset <- -tip_offset}
 
@@ -262,8 +262,8 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
                             present_col = "#252525", unknown_col = "#d9d9d9",
                             no_change_col = "#b2df8a", retraction_col = "#984ea3",
                             expansion_col = "#4daf4a", width = 1, height = 1) {
-  if (missing(tree)) {stop("Argument tree needs to be defined.")}
-  if (missing(whole_rec_table)) {stop("Argument whole_rec_table needs to be defined.")}
+  if (missing(tree)) {stop("Argument 'tree' needs to be defined.")}
+  if (missing(whole_rec_table)) {stop("Argument 'whole_rec_table' needs to be defined.")}
   if ("LogLik" %in% rownames(whole_rec_table)) {
     whole_rec_table <- whole_rec_table[1:(nrow(whole_rec_table) - 3), ]
   }
@@ -279,10 +279,10 @@ nichevol_labels <- function(tree, whole_rec_table, ancestor_line = FALSE,
   # getting info from plot
   tp_info <- get("last_plot.phylo", envir = .PlotPhyloEnv)
   if (tp_info$type != "phylogram") {
-    stop("nichevol_labels can be used only for plots of type phylogram.")
+    stop("'nichevol_labels' can be used only for plots of type phylogram.")
   }
   if (!tp_info$direction %in% c("rightwards", "leftwards")) {
-    stop("nichevol_labels can be used only for rightwards or leftwards phylograms.")
+    stop("'nichevol_labels' can be used only for rightwards or leftwards phylograms.")
   }
 
   xx <- tp_info$xx
@@ -413,7 +413,7 @@ niche_legend <- function(position, legend = c("Uncertain", "Present", "Not prese
   if (missing(position)) {stop("Argument position needs to be defined")}
   cp <- class(position)[1]
   if (!cp %in% c("character", "numeric")) {
-    stop("Argument position needs to be of class character or numeric.")
+    stop("Argument 'position' needs to be of class character or numeric.")
   }
 
   # legend

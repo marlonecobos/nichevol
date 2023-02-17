@@ -37,7 +37,7 @@
 
 
 bin_ml_rec <- function(tree_data, ...) {
-  if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
+  if (missing(tree_data)) {stop("Argument 'tree_data' needs to be defined.")}
 
   # Data from geiger::treedata
   tphy <- tree_data$phy

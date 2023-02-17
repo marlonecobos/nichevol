@@ -37,7 +37,7 @@
 
 
 bin_par_rec <- function(tree_data, ...) {
-  if (missing(tree_data)) {stop("Argument tree_data needs to be defined.")}
+  if (missing(tree_data)) {stop("Argument 'tree_data' needs to be defined.")}
 
   # Data for analyses
   tphy <- ape::reorder.phylo(tree_data$phy, order = "cladewise")

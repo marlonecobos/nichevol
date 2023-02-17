@@ -71,11 +71,11 @@
 #'
 #' @usage
 #' nichevol_bars(tree, whole_rec_table, ancestor_line = FALSE,
-#'   present = "1", absent = "0", unknown = "?",
-#'   present_col = "#252525", unknown_col = "#d9d9d9",
-#'   no_change_col = "#b2df8a", retraction_col = "#984ea3",
-#'   expansion_col = "#4daf4a", width = 50, height = 5,
-#'   res = 300, output_directory, overwrite = FALSE)
+#'               present = "1", absent = "0", unknown = "?",
+#'               present_col = "#252525", unknown_col = "#d9d9d9",
+#'               no_change_col = "#b2df8a", retraction_col = "#984ea3",
+#'               expansion_col = "#4daf4a", width = 50, height = 5,
+#'               res = 300, output_directory, overwrite = FALSE)
 #'
 #' @examples
 #' # a simple tree
@@ -115,7 +115,7 @@ nichevol_bars <- function(tree, whole_rec_table, ancestor_line = FALSE,
     stop("Argument 'output_directory' is missing.")
   } else {
     if (overwrite == FALSE & dir.exists(output_directory)) {
-      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
+      stop("'output_directory' already exists, to replace it use 'overwrite' = TRUE.")
     }
     if (overwrite == TRUE & dir.exists(output_directory)) {
       unlink(x = output_directory, recursive = TRUE, force = TRUE)

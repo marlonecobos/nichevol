@@ -46,9 +46,9 @@
 #'
 #' @usage
 #' niche_bars(tree, whole_rec_table, present = "1", unknown = "?",
-#'   present_col = "#e41a1c", unknown_col = "#969696",
-#'   absent_col = "#377eb8", width = 50, height = 5, res = 300,
-#'   output_directory, overwrite = FALSE)
+#'            present_col = "#e41a1c", unknown_col = "#969696",
+#'            absent_col = "#377eb8", width = 50, height = 5, res = 300,
+#'            output_directory, overwrite = FALSE)
 #'
 #' @examples
 #' # a simple tree
@@ -87,7 +87,7 @@ niche_bars <- function(tree, whole_rec_table, present = "1", unknown = "?",
     stop("Argument 'output_directory' is missing.")
   } else {
     if (overwrite == FALSE & dir.exists(output_directory)) {
-      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
+      stop("'output_directory' already exists, to replace it use 'overwrite' = TRUE.")
     }
     if (overwrite == TRUE & dir.exists(output_directory)) {
       unlink(x = output_directory, recursive = TRUE, force = TRUE)

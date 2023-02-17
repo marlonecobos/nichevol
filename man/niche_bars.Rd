@@ -5,9 +5,9 @@
 \title{PNG bar figures to represent ecological niches of distinct taxa}
 \usage{
 niche_bars(tree, whole_rec_table, present = "1", unknown = "?",
-  present_col = "#e41a1c", unknown_col = "#969696",
-  absent_col = "#377eb8", width = 50, height = 5, res = 300,
-  output_directory, overwrite = FALSE)
+           present_col = "#e41a1c", unknown_col = "#969696",
+           absent_col = "#377eb8", width = 50, height = 5, res = 300,
+           output_directory, overwrite = FALSE)
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
