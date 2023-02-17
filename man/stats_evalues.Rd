@@ -5,9 +5,10 @@
 \title{Statistics of environmental conditions in M and for occurrences (multiple variables)}
 \usage{
 stats_evalues(stats = c("median", "range"), M_folder, M_format, occ_folder,
-  longitude, latitude, var_folder, var_format, round = FALSE, round_names,
-  multiplication_factor = 1, percentage_out = 0, save = FALSE,
-  output_directory, overwrite = FALSE)
+              longitude, latitude, var_folder, var_format, round = FALSE,
+              round_names, multiplication_factor = 1, percentage_out = 0,
+              save = FALSE, output_directory, overwrite = FALSE,
+              verbose = TRUE)
 }
 \arguments{
 \item{stats}{(character) name or vector of names of functions to be applied
@@ -19,7 +20,7 @@ the accessible area (M) for each species to be analyzed. See details.}
 \item{M_format}{format of files representing the accessible area (M) for the
 species. Names of M files must match the ones for occurrence files in
 \code{occ_folder}. Format options are: "shp", "gpkg", or any of the options
-in \code{\link[raster]{writeFormats}} (e.g., "GTiff").}
+supported by \code{\link[terra]{rast}} (e.g., "tif" or "asc").}
 
 \item{occ_folder}{(character) name of the folder containing csv files of
 occurrence data for all species. Names of csv files must match the ones of M
@@ -34,8 +35,9 @@ values of latitude.}
 \item{var_folder}{(character) name of the folder containing layers to
 represent environmental variables.}
 
-\item{var_format}{format of layers to represent environmental variables. See
-options in \code{\link[raster]{writeFormats}} (e.g., "GTiff").}
+\item{var_format}{format of layers to represent environmental variables.
+Format options are all the ones supported by \code{\link[terra]{rast}}
+(e.g., "tif" or "asc").}
 
 \item{round}{(logical) whether or not to round the values of one or more
 variables after multiplying them times the value in \code{multiplication_factor}.
@@ -58,6 +60,8 @@ be written.}
 
 \item{overwrite}{(logical) whether or not to overwrite existing results in
 \code{output_directory}. Default = FALSE.}
+
+\item{verbose}{(logical) whether messages should be printed. Default = TRUE.}
 }
 \value{
 A list named as the variables present in \code{var_folder}, containing all
@@ -73,7 +77,7 @@ records. This is done using data read directly from a local directory, and
 can be applied to various species and multiple variables.
 }
 \details{
-Coordinates in csv files in \code{occ_folder}, SpatialPolygons*-like files in
+Coordinates in csv files in \code{occ_folder}, SpatVector-like files in
 \code{M_folder}, and raster layers in \code{var_folder} must coincide in the
 geographic projection in which they are represented. WGS84 with no planar
 projection is recommended.
@@ -83,7 +87,8 @@ accessible for a species for relevant periods of time. Defining M is usually
 a hard task, but also a very important one, because it allows identifying
 uncertainties about the ability of a species to maintain populations in
 certain environmental conditions. For further details on this topic, see
-Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
+Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}
+and Machado-Stredel et al. (2021) \url{https://doi.org/10.21425/F5FBG48814}.
 
 Rounding variables may be useful when multiple variables are considered and
 the values of some or all of them are too small (e.g., when using principal
@@ -104,6 +109,6 @@ stats <- stats_evalues(stats = c("median", "range"), M_folder = "Folder_with_Ms"
                        M_format = "shp", occ_folder = "Folder_with_occs",
                        longitude = "lon_column", latitude = "lat_column",
                        var_folder = "Folder_with_vars", var_format = "GTiff",
-                       percentage_out = 0)
+                       percentage_out = 5)
 }
 }

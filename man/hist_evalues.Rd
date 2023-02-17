@@ -5,10 +5,10 @@
 \title{Histograms of environmental conditions in M and for occurrences (one species)}
 \usage{
 hist_evalues(M, occurrences, species, longitude, latitude, variable,
-  CL_lines = c(95, 99), col = NULL)
+             CL_lines = c(95, 99), col = NULL)
 }
 \arguments{
-\item{M}{a SpatialPolygons* object representing the accessible area (M)
+\item{M}{a SpatVector object representing the accessible area (M)
 for one species. See details.}
 
 \item{occurrences}{a data.frame of occurrence records for one species. See
@@ -23,8 +23,8 @@ values of longitude.}
 \item{latitude}{(character) name of the column in \code{occurrences} containing
 values of latitude.}
 
-\item{variable}{a RasterLayer of an environmental variable of interest.
-See details.}
+\item{variable}{a single SpatRaster layer representing an environmental
+variable of interest. See details.}
 
 \item{CL_lines}{(numeric) confidence limits of environmental values in M to
 be plotted as lines in the histograms. See details. Default = c(95, 99).}
@@ -38,8 +38,8 @@ conditions in M, lines for the confidence limits of values in M, and the
 location of values in occurrence records, for one species at the time.
 }
 \details{
-Coordinates in \code{occurrences}, SpatialPolygons* object in \code{M}, and
-RasterLayer in \code{variable} must coincide in the geographic projection in
+Coordinates in \code{occurrences}, SpatVector object in \code{M}, and
+SpatRaster in \code{variable} must coincide in the geographic projection in
 which they are represented. WGS84 with no planar projection is recommended.
 
 The accessible area (M) is understood as the geographic area that has been
@@ -47,22 +47,25 @@ accessible to a species over relevant periods of time. Defining M is usually
 a hard task, but also a very important one because it allows identifying
 uncertainties about the ability of a species to maintain populations under
 certain environmental conditions. For further details on this topic, see
-Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
+Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}
+and Machado-Stredel et al. (2021) \url{https://doi.org/10.21425/F5FBG48814}.
 }
 \examples{
-# getting a variable at coarse resolution
-\donttest{
-tmpd <- file.path(tempdir(), "bios") # temporal directory
-dir.create(tmpd)
-temp <- raster::getData("worldclim", var = "bio", res = 10, path = tmpd)[[1]]
-
 # example data
-data("m_list", package = "nichevol")
+## list of species records
 data("occ_list", package = "nichevol")
+
+## list of species accessible areas
+m_files <- list.files(system.file("extdata", package = "nichevol"),
+                      pattern = "m\\\\d.gpkg", full.names = TRUE)
+
+m_list <- lapply(m_files, terra::vect)
+
+## raster variable
+temp <- terra::rast(system.file("extdata", "temp.tif", package = "nichevol"))
 
 # running stats
 hist_evalues(M = m_list[[1]], occurrences = occ_list[[1]], species = "species",
              longitude = "x", latitude = "y", variable = temp,
              CL_lines = c(95, 99), col = c("blue", "red"))
-}
 }

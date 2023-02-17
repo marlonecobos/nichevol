@@ -5,13 +5,13 @@
 \title{Statistics of environmental conditions in M and for occurrences (one variable)}
 \usage{
 stats_eval(stats = c("median", "range"), Ms, occurrences, species,
-  longitude, latitude, variable, percentage_out = 0)
+           longitude, latitude, variable, percentage_out = 0, verbose = TRUE)
 }
 \arguments{
 \item{stats}{(character) name or vector of names of functions to be applied
 to get basic statistics of environmental values.}
 
-\item{Ms}{a list of SpatialPolygons* objects representing the accessible area
+\item{Ms}{a list of SpatVector objects representing the accessible area
 (M) for each species to be analyzed. The order of species represented by each
 object here must coincide with the one in \code{occurrences}. See details.}
 
@@ -28,11 +28,13 @@ values of longitude.}
 \item{latitude}{(character) name of the column in occurrence files containing
 values of latitude.}
 
-\item{variable}{a RasterLayer of an environmental variable of interest.
-See details.}
+\item{variable}{a single SpatRaster layer of an environmental variable of
+interest. See details.}
 
 \item{percentage_out}{(numeric) percentage of extreme environmental data in M
 to be excluded in bin creation for further analyses. See details. Default = 0.}
+
+\item{verbose}{(logical) whether messages should be printed. Default = TRUE.}
 }
 \value{
 A list containing tables with statistics of the values in \code{variable},
@@ -44,8 +46,8 @@ of environmental conditions in accessible areas (M) and occurrence
 records for one environmental variable at a time.
 }
 \details{
-Coordinates in \code{occurrences}, SpatialPolygons* objects in \code{Ms}, and
-RasterLayer in \code{variable} must coincide in the geographic projection in
+Coordinates in \code{occurrences}, SpatVector objects in \code{Ms}, and
+SpatRaster in \code{variable} must coincide in the geographic projection in
 which they are represented. WGS84 with no planar projection is recommended.
 
 Accessible area (M) is understood as the geographic area that has been
@@ -53,7 +55,8 @@ accessible for a species for relevant periods of time. Defining M is usually
 a hard task, but also a very important one, because it allows identifying
 uncertainties about the ability of a species to maintain populations in
 certain environmental conditions. For further details on this topic, see
-Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
+Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}
+and Machado-Stredel et al. (2021) \url{https://doi.org/10.21425/F5FBG48814}.
 
 The percentage to be defined in \code{percentage_out} excludes a percentage
 of extreme environmental values to prevent from considering extremely rare
@@ -63,20 +66,22 @@ including them in the process of preparation of the table of characters
 (bin table) is risky.
 }
 \examples{
-# getting a variable at coarse resolution
-\donttest{
-tmpd <- file.path(tempdir(), "bios") # temporal directory
-dir.create(tmpd)
-temp <- raster::getData("worldclim", var = "bio", res = 10, path = tmpd)[[1]]
-
 # example data
-data("m_list", package = "nichevol")
+## list of species records
 data("occ_list", package = "nichevol")
+
+## list of species accessible areas
+m_files <- list.files(system.file("extdata", package = "nichevol"),
+                      pattern = "m\\\\d.gpkg", full.names = TRUE)
+
+m_list <- lapply(m_files, terra::vect)
+
+## raster variable
+temp <- terra::rast(system.file("extdata", "temp.tif", package = "nichevol"))
 
 # running stats
 stat <- stats_eval(stats = c("mean", "sd", "median", "range", "quantile"),
                    Ms = m_list, occurrences = occ_list, species = "species",
                    longitude = "x", latitude = "y", variable = temp,
                    percentage_out = 0)
-}
 }

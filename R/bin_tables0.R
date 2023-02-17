@@ -45,7 +45,7 @@
 #' @param verbose (logical) whether messages should be printed. Default = TRUE.
 #'
 #' @details
-#' Coordinates in csv files in \code{occ_folder}, SpatialPolygons*-like files in
+#' Coordinates in csv files in \code{occ_folder}, SpatVector-like files in
 #' \code{M_folder}, and raster layers in \code{var_folder} must coincide in the
 #' geographic projection in which they are represented. WGS84 with no planar
 #' projection is recommended.
@@ -55,7 +55,8 @@
 #' a hard task, but also a very important one, because it allows identifying
 #' uncertainties about the ability of a species to maintain populations in
 #' certain environmental conditions. For further details on this topic, see
-#' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
+#' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}
+#' and Machado-Stredel et al. (2021) \url{https://doi.org/10.21425/F5FBG48814}.
 #'
 #' Rounding variables may be useful when multiple variables are considered and
 #' the values of some or all of them are too small (e.g., when using principal
@@ -203,7 +204,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
       # processing
       ## get values of variables in M
       mvar <- terra::crop(variables[[i]], M, mask = TRUE)
-      mval <- na.omit(mvar[])
+      mval <- na.omit(mvar[][, 1])
 
       ## distance of each absolute value to median value
       medians <- median(mval)
@@ -218,7 +219,7 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
 
       ## occurrences
       occval <- na.omit(terra::extract(mvar, as.matrix(occ[, c(longitude,
-                                                      latitude)])))
+                                                      latitude)])))[, 1]
       sp_range[[j]] <- range(occval)
 
       if (verbose == TRUE) {
@@ -227,16 +228,16 @@ bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
     }
 
     # overall range
-    M_range <- do.call(rbind, M_range)
-    sp_range <- do.call(rbind, sp_range)
-    overall_range <- range(c(rbind(M_range, sp_range)))
+    M_range <- round(do.call(rbind, M_range), 2)
+    sp_range <- round(do.call(rbind, sp_range), 2)
+    overall_range <- range(c(c(M_range), c(sp_range)))
 
     # bin tables
     if (verbose == TRUE) {
       message("\n   Preparing character tables using ranges:")
     }
 
-    bin_size <- overall_range / n_bins
+    bin_size <- diff(overall_range) / n_bins
 
     bin_table <- bin_env(overall_range, M_range, sp_range, bin_size)
     rownames(bin_table) <- gsub("_", " ", spnames)

@@ -11,7 +11,7 @@
 #' @param M_format format of files representing the accessible area (M) for the
 #' species. Names of M files must match the ones for occurrence files in
 #' \code{occ_folder}. Format options are: "shp", "gpkg", or any of the options
-#' in \code{\link[raster]{writeFormats}} (e.g., "GTiff").
+#' supported by \code{\link[terra]{rast}} (e.g., "tif" or "asc").
 #' @param occ_folder (character) name of the folder containing csv files of
 #' occurrence data for all species. Names of csv files must match the ones of M
 #' files in \code{M_folder}.
@@ -21,8 +21,9 @@
 #' values of latitude.
 #' @param var_folder (character) name of the folder containing layers to
 #' represent environmental variables.
-#' @param var_format format of layers to represent environmental variables. See
-#' options in \code{\link[raster]{writeFormats}} (e.g., "GTiff").
+#' @param var_format format of layers to represent environmental variables.
+#' Format options are all the ones supported by \code{\link[terra]{rast}}
+#' (e.g., "tif" or "asc").
 #' @param CL_lines (numeric) confidence limits of environmental values in M to
 #' be plotted as lines in the histograms. See details. Default = c(95, 99).
 #' @param col colors for lines representing confidence limits. If NULL, colors
@@ -37,13 +38,14 @@
 #' @param save_ranges (logical) whether or not to save the values identified as
 #' ranges considering the whole set of values and confidence limits defined in
 #' \code{CL_lines}. Default = FALSE.
-#' @param output_directory (character) name of the folder in which results will be
-#' written.
+#' @param output_directory (character) name of the folder in which results will
+#' be written.
 #' @param overwrite (logical) whether or not to overwrite existing results in
 #' \code{output_directory}. Default = FALSE.
+#' @param verbose (logical) whether messages should be printed. Default = TRUE.
 #'
 #' @details
-#' Coordinates in csv files in \code{occ_folder}, SpatialPolygons*-like files in
+#' Coordinates in csv files in \code{occ_folder}, SpatVector-like files in
 #' \code{M_folder}, and raster layers in \code{var_folder} must coincide in the
 #' geographic projection in which they are represented. WGS84 with no planar
 #' projection is recommended.
@@ -53,7 +55,8 @@
 #' a hard task, but also a very important one, because it allows identifying
 #' uncertainties about the ability of a species to maintain populations under
 #' certain environmental conditions. For further details on this topic, see
-#' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
+#' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}
+#' and Machado-Stredel et al. (2021) \url{https://doi.org/10.21425/F5FBG48814}.
 #'
 #' Rounding variables may be useful when multiple variables are considered and
 #' the values of some or all of them are too small (e.g., when using principal
@@ -72,16 +75,16 @@
 #' @importFrom grDevices gray.colors
 #' @importFrom utils write.csv read.csv
 #' @importFrom stats na.omit median
-#' @importFrom raster extract crop mask nlayers raster stack
-#' @importFrom rgdal readOGR
+#' @importFrom terra extract crop nlyr rast vect
 #'
 #' @export
 #'
 #' @usage
 #' histograms_env(M_folder, M_format, occ_folder, longitude, latitude,
-#'   var_folder, var_format, CL_lines = c(95, 99), col = NULL,
-#'   round = FALSE, round_names = NULL, multiplication_factor = 1,
-#'   save_ranges = FALSE, output_directory, overwrite = FALSE)
+#'                var_folder, var_format, CL_lines = c(95, 99), col = NULL,
+#'                round = FALSE, round_names = NULL, multiplication_factor = 1,
+#'                save_ranges = FALSE, output_directory, overwrite = FALSE,
+#'                verbose = TRUE)
 #'
 #' @examples
 #' # example of how to define arguments, check argument descriptions above
@@ -98,7 +101,7 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
                            CL_lines = c(95, 99), col = NULL, round = FALSE,
                            round_names = NULL, multiplication_factor = 1,
                            save_ranges = FALSE, output_directory,
-                           overwrite = FALSE) {
+                           overwrite = FALSE, verbose = TRUE) {
   # checking for potential errors
   if (missing(M_folder)) {stop("Argument 'M_folder' is missing.")}
   if (missing(M_format)) {stop("Argument 'M_format' is missing.")}
@@ -111,7 +114,7 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
     stop("Argument 'output_directory' is missing.")
   } else {
     if (overwrite == FALSE & dir.exists(output_directory)) {
-      stop("'output_directory' already exists, to replace it use overwrite = TRUE.")
+      stop("'output_directory' already exists, to replace it use 'overwrite' = TRUE.")
     }
     if (overwrite == TRUE & dir.exists(output_directory)) {
       unlink(x = output_directory, recursive = TRUE, force = TRUE)
@@ -127,43 +130,42 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
   }
 
   # formats and data to start
-  message("\nPreparing data, please wait...\n")
-  if (M_format %in% c("shp", "gpkg")) {
-    if (M_format == "shp") {
-      M_patt <- ".shp$"
-      subs <- ".shp"
-      mlist <- gsub(subs, "", list.files(path = M_folder, pattern = M_patt))
-      spnames <- mlist
-    } else {
-      M_patt <- ".gpkg$"
-      subs <- ".gpkg"
-      mlist <- list.files(path = M_folder, pattern = M_patt)
-      spnames <- gsub(subs, "", mlist)
-    }
-  } else {
-    M_patt <- paste0(rformat_type(var_format), "$")
-    subs <- rformat_type(var_format)
-    mlist <- list.files(path = M_folder, pattern = M_patt, full.names = TRUE)
-    spnames <- gsub(subs, "", list.files(path = M_folder, pattern = M_patt))
+  if (verbose == TRUE) {
+    message("\nPreparing data, please wait...\n")
   }
-  v_patt <- paste0(rformat_type(var_format), "$")
 
+  ## records
   occlist <- list.files(path = occ_folder, pattern = ".csv$", full.names = TRUE)
-  variables <- raster::stack(list.files(path = var_folder, pattern = v_patt,
-                                        full.names = TRUE))
 
+  ## M areas
+  M_patt <- paste0(M_format, "$")
+  mlist <- list.files(path = M_folder, pattern = M_patt, full.names = TRUE)
+
+  ## species names
+  subs <- paste0(".", M_format)
+  spnames <- gsub(subs, "", list.files(path = M_folder, pattern = M_patt))
+
+  ## variables
+  v_patt <- paste0(var_format, "$")
+  variables <- terra::rast(list.files(path = var_folder, pattern = v_patt,
+                                      full.names = TRUE))
+
+  ### rounding variables
   if (round == TRUE) {
     rounds <- round(variables[[round_names]] * multiplication_factor)
     var_names <- names(variables)
     noround <- var_names[!var_names %in% round_names]
-    variables <- raster::stack(variables[[noround]], rounds)
+    variables <- c(variables[[noround]], rounds)
   }
 
   # directory for results
   dir.create(output_directory)
 
-  nvars <- raster::nlayers(variables)
-  message("Preparing environmental values and histograms from layers and species data:")
+  nvars <- terra::nlyr(variables)
+
+  if (verbose == TRUE) {
+    message("Preparing environmental values and histograms from layers and species data:")
+  }
 
   ranges <- lapply(1:nvars, function(i) {
     # data
@@ -175,19 +177,16 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
     sp_ranges <- list()
     y_values <- list()
 
-    message("\n   Preparing environmental values:")
+    if (verbose == TRUE) {
+      message("\n   Preparing environmental values:")
+    }
 
     for (j in 1:length(occlist)) {
       ## M
       if (M_format %in% c("shp", "gpkg")) {
-        if (M_format == "shp") {
-          M <- rgdal::readOGR(dsn = M_folder, layer = mlist[j], verbose = FALSE)
-        } else {
-          M <- rgdal::readOGR(paste0(M_folder, "/", mlist[j]), spnames[j],
-                              verbose = FALSE)
-        }
+        M <- terra::vect(mlist[j])
       } else {
-        M <- raster::raster(mlist[j])
+        M <- terra::rast(mlist[j])
       }
 
       ## occurrences
@@ -195,7 +194,7 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
 
       # processing
       ## get values of variables in M
-      mvar <- raster::mask(raster::crop(variables[[i]], M), M)
+      mvar <- terra::crop(variables[[i]], M, mask = TRUE)
       mval <- na.omit(mvar[])
 
       ## distance of each absolute value to median value
@@ -203,7 +202,8 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
       df_layer[[j]] <- abs(mval - medians)
       names(df_layer[[j]]) <- mval
 
-      occval <- na.omit(raster::extract(mvar, occ[, c(longitude, latitude)]))
+      occval <- na.omit(terra::extract(mvar,
+                                       as.matrix(occ[, c(longitude, latitude)])))
       occ_dfs[[j]] <- abs(occval - medians)
       names(occ_dfs[[j]]) <- occval
 
@@ -221,7 +221,9 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
       M_limits[[j]] <- do.call(c, M_limit)
       sp_ranges[[j]] <- range(occval)
 
-      message("\t", j, " of ", length(occlist), " species finished")
+      if (verbose == TRUE) {
+        message("\t", j, " of ", length(occlist), " species finished")
+      }
     }
 
     ## ranges final values for variables
@@ -240,7 +242,9 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
     }
 
     ## frecuency of each value in M
-    message("\n   Preparing histogram plots using environmental values...")
+    if (verbose == TRUE) {
+      message("\n   Preparing histogram plots using environmental values...")
+    }
     pdf_histograms(env_data = df_layer, occ_data = occ_dfs, y_values = y_values,
                    sp_names = spnames, variable_name = names(variables)[i],
                    CL_lines = CL_lines, limits = limits, col = col,
@@ -251,8 +255,10 @@ histograms_env <- function(M_folder, M_format, occ_folder, longitude,
   })
 
   if (save_ranges == TRUE) {
-    message("\ncsv files with the environmental ranges were saved in ",
-        output_directory, "\n")
+    if (verbose == TRUE) {
+      message("\ncsv files with the environmental ranges were saved in ",
+              output_directory, "\n")
+    }
   }
 
   names(ranges) <- names(variables)

@@ -5,10 +5,10 @@
 \title{Bin table of environmental conditions in M and for occurrences}
 \usage{
 bin_table(Ms, occurrences, species, longitude, latitude, variable,
-  percentage_out = 5, bin_size = 10)
+          percentage_out = 5, n_bins = 20, bin_size, verbose = TRUE)
 }
 \arguments{
-\item{Ms}{a list of SpatialPolygons* objects representing the accessible area
+\item{Ms}{a list of SpatVector objects representing the accessible area
 (M) for all species to be analyzed. The order of species represented by each
 object here must coincide with the one in \code{occurrences}. See details.}
 
@@ -25,15 +25,19 @@ values of longitude.}
 \item{latitude}{(character) name of the column in occurrence files containing
 values of latitude.}
 
-\item{variable}{a RasterLayer of an environmental variable of interest.
-See details.}
+\item{variable}{a single SpatRaster layer representing an environmental
+variable of interest. See details.}
 
 \item{percentage_out}{(numeric) percentage of extreme environmental data in M
 to be excluded in bin creation for further analyses. See details. Default = 5.}
 
-\item{bin_size}{(numeric) size of bins. Range of environmental values to
-be considered when creating each character in bin tables. See details.
-Default = 10.}
+\item{n_bins}{(numeric) number of bins to be created from the range of
+environmental values considered when creating each character in bin tables.
+Default = 20. See details.}
+
+\item{bin_size}{(numeric) argument deprecated, use n_bins instead.}
+
+\item{verbose}{(logical) whether messages should be printed. Default = TRUE.}
 }
 \value{
 A list containing a table of characters to represent ecological niches of the
@@ -57,8 +61,8 @@ conditions in accessible areas (M) and for species occurrence records
 (i.e., table of characters).
 }
 \details{
-Coordinates in \code{occurrences}, SpatialPolygons* objects in \code{Ms}, and
-RasterLayer in \code{variable} must coincide in the geographic projection in
+Coordinates in \code{occurrences}, SpatVector objects in \code{Ms}, and
+SpatRaster in \code{variable} must coincide in the geographic projection in
 which they are represented. WGS84 with no planar projection is recommended.
 
 Accessible area (M) is understood as the geographic area that has been
@@ -66,7 +70,8 @@ accessible for a species for relevant periods of time. Defining M is usually
 a hard task, but also a very important one, because it allows identifying
 uncertainties about the ability of a species to maintain populations in
 certain environmental conditions. For further details on this topic, see
-Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
+Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}
+and Machado-Stredel et al. (2021) \url{https://doi.org/10.21425/F5FBG48814}.
 
 The percentage to be defined in \code{percentage_out} excludes a percentage
 of extreme environmental values to prevent from considering extremely rare
@@ -75,27 +80,28 @@ rare, these values may have never been explored by the species; therefore,
 including them in the process of preparation of the table of characters
 (bin table) is risky.
 
-The argument \code{bin_size} helps to create characters that represent not
-only one value of an environmental variable, but a range of environmental
-conditions. For instance, if a variable of precipitation in mm is used, a
-value of 10 for \code{bin_size} indicates that each character will represent
-a class that correspond to 10 continuous values of precipitation (e.g., from
-100 to 110 mm).
+The argument \code{n_bins} helps to define how many characters (bins) will be
+considered for the range of values in each variable. This is, a value of 20
+determines that a range of temperature (5-25) will be split approximately
+every 1 degree. The argument \code{bin_size} has been deprecated.
 }
 \examples{
-# getting a variable at coarse resolution
-\donttest{
-tmpd <- file.path(tempdir(), "bios") # temporal directory
-dir.create(tmpd)
-temp <- raster::getData("worldclim", var = "bio", res = 10, path = tmpd)[[1]]
-
 # example data
-data("m_list", package = "nichevol")
+## list of species records
 data("occ_list", package = "nichevol")
+
+## list of species accessible areas
+m_files <- list.files(system.file("extdata", package = "nichevol"),
+                      pattern = "m\\\\d.gpkg", full.names = TRUE)
+
+m_list <- lapply(m_files, terra::vect)
+
+## raster variable
+temp <- terra::rast(system.file("extdata", "temp.tif", package = "nichevol"))
+
 
 # preparing bins
 char_table <- bin_table(Ms = m_list, occurrences = occ_list, species = "species",
                         longitude = "x", latitude = "y", variable = temp,
-                        percentage_out = 5, bin_size = 10)
-}
+                        percentage_out = 5, n_bins = 20)
 }

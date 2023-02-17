@@ -4,7 +4,7 @@
 #' conditions in M, lines for the confidence limits of values in M, and the
 #' location of values in occurrence records, for one species at the time.
 #'
-#' @param M a SpatialPolygons* object representing the accessible area (M)
+#' @param M a SpatVector object representing the accessible area (M)
 #' for one species. See details.
 #' @param occurrences a data.frame of occurrence records for one species. See
 #' details.
@@ -14,16 +14,16 @@
 #' values of longitude.
 #' @param latitude (character) name of the column in \code{occurrences} containing
 #' values of latitude.
-#' @param variable a RasterLayer of an environmental variable of interest.
-#' See details.
+#' @param variable a single SpatRaster layer representing an environmental
+#' variable of interest. See details.
 #' @param CL_lines (numeric) confidence limits of environmental values in M to
 #' be plotted as lines in the histograms. See details. Default = c(95, 99).
 #' @param col colors for lines representing confidence limits. If NULL, colors
 #' are selected from a gray palette. Default = NULL.
 #'
 #' @details
-#' Coordinates in \code{occurrences}, SpatialPolygons* object in \code{M}, and
-#' RasterLayer in \code{variable} must coincide in the geographic projection in
+#' Coordinates in \code{occurrences}, SpatVector object in \code{M}, and
+#' SpatRaster in \code{variable} must coincide in the geographic projection in
 #' which they are represented. WGS84 with no planar projection is recommended.
 #'
 #' The accessible area (M) is understood as the geographic area that has been
@@ -31,45 +31,48 @@
 #' a hard task, but also a very important one because it allows identifying
 #' uncertainties about the ability of a species to maintain populations under
 #' certain environmental conditions. For further details on this topic, see
-#' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}.
+#' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}
+#' and Machado-Stredel et al. (2021) \url{https://doi.org/10.21425/F5FBG48814}.
 #'
 #' @importFrom grDevices gray.colors
 #' @importFrom graphics abline hist points
 #' @importFrom stats na.omit median
-#' @importFrom raster extract crop mask
+#' @importFrom terra extract crop
 #'
 #' @export
 #'
 #' @usage
 #' hist_evalues(M, occurrences, species, longitude, latitude, variable,
-#'   CL_lines = c(95, 99), col = NULL)
+#'              CL_lines = c(95, 99), col = NULL)
 #'
 #' @examples
-#' # getting a variable at coarse resolution
-#' \donttest{
-#' tmpd <- file.path(tempdir(), "bios") # temporal directory
-#' dir.create(tmpd)
-#' temp <- raster::getData("worldclim", var = "bio", res = 10, path = tmpd)[[1]]
-#'
 #' # example data
-#' data("m_list", package = "nichevol")
+#' ## list of species records
 #' data("occ_list", package = "nichevol")
+#'
+#' ## list of species accessible areas
+#' m_files <- list.files(system.file("extdata", package = "nichevol"),
+#'                       pattern = "m\\d.gpkg", full.names = TRUE)
+#'
+#' m_list <- lapply(m_files, terra::vect)
+#'
+#' ## raster variable
+#' temp <- terra::rast(system.file("extdata", "temp.tif", package = "nichevol"))
 #'
 #' # running stats
 #' hist_evalues(M = m_list[[1]], occurrences = occ_list[[1]], species = "species",
 #'              longitude = "x", latitude = "y", variable = temp,
 #'              CL_lines = c(95, 99), col = c("blue", "red"))
-#' }
 
 hist_evalues <- function(M, occurrences, species, longitude, latitude, variable,
                          CL_lines = c(95, 99), col = NULL) {
   # checking for potential errors
-  if (missing(M)) {stop("Argument M is missing.")}
-  if (missing(occurrences)) {stop("Argument occurrences is missing.")}
-  if (missing(species)) {stop("Argument species is missing.")}
-  if (missing(longitude)) {stop("Argument longitude is missing.")}
-  if (missing(latitude)) {stop("Argument latitude is missing.")}
-  if (missing(variable)) {stop("Argument variable is missing.")}
+  if (missing(M)) {stop("Argument 'M' is missing.")}
+  if (missing(occurrences)) {stop("Argument 'occurrences' is missing.")}
+  if (missing(species)) {stop("Argument 'species' is missing.")}
+  if (missing(longitude)) {stop("Argument 'longitude' is missing.")}
+  if (missing(latitude)) {stop("Argument 'latitude' is missing.")}
+  if (missing(variable)) {stop("Argument 'variable' is missing.")}
   if (is.null(col)) {
     col <- sort(gray.colors(lcll + 1), decreasing = TRUE)[1:lcll]
   }
@@ -87,15 +90,17 @@ hist_evalues <- function(M, occurrences, species, longitude, latitude, variable,
   lcll <- length(CL_lines)
 
   ## get values of variables in M
-  mvar <- raster::mask(raster::crop(variable, M), M)
-  mval <- na.omit(mvar[])
+  mvar <- terra::crop(variable, M, mask = TRUE)
+  mval <- na.omit(mvar[][, 1])
 
   ## distance of each absolute value to median value
   medians <- median(mval)
   df_layer <- abs(mval - medians)
   names(df_layer) <- mval
 
-  occval <- na.omit(raster::extract(mvar, occurrences[, c(longitude, latitude)]))
+  occval <- na.omit(terra::extract(mvar,
+                                   as.matrix(occurrences[, c(longitude,
+                                                             latitude)])))[, 1]
   occ_dfs <- abs(occval - medians)
   names(occ_dfs) <- occval
 
