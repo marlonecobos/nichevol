@@ -19,14 +19,14 @@
 #' \code{\link{histograms_env}}, \code{\link{niche_bars}},
 #' \code{\link{nichevol_bars}}, \code{\link{niche_labels}},
 #' \code{\link{nichevol_labels}}, \code{\link{niche_legend}},
-#' \code{\link{nichevol_legend}}, \code{\link{random_polygons}},
-#' \code{\link{smooth_rec}}, \code{\link{stats_eval}}, \code{\link{stats_evalues}}
+#' \code{\link{nichevol_legend}}, \code{\link{smooth_rec}},
+#' \code{\link{stats_eval}}, \code{\link{stats_evalues}}
 #'
 #' Other functions (important helpers)
 #'
-#' \code{\link{bin_env}}, \code{\link{make_9blocks}}, \code{\link{pdf_histograms}},
-#' \code{\link{rename_tips}}, \code{\link{rformat_type}},
-#' \code{\link{score_tip}}, \code{\link{score_tree}}, \code{\link{sig_sq}}
+#' \code{\link{bin_env}}, \code{\link{pdf_histograms}},
+#' \code{\link{rename_tips}}, \code{\link{score_tip}},
+#' \code{\link{score_tree}}, \code{\link{sig_sq}}
 #'
 #' @docType package
 #' @name nichevol
