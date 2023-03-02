@@ -159,7 +159,7 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
     message("Preparing statistics from environmental layers and species data:")
   }
 
-  nvars <- terra::nlyr(variables)
+  n_vars <- terra::nlyr(variables)
 
   var_stats <- lapply(1:n_vars, function(i) {
     sp_stats <- lapply(1:length(occlist), function(j) {
