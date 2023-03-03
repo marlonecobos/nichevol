@@ -121,14 +121,3 @@ considered for the range of values in each variable. This is, a value of 20
 determines that a range of temperature (5-25) will be split approximately
 every 1 degree. The argument \code{bin_size} has been deprecated.
 }
-\examples{
-# example of how to define arguments, check argument descriptions above
-\donttest{
-bins <- bin_tables0(M_folder = "Folder_with_Ms", M_format = "shp",
-                    occ_folder = "Folder_with_occs", longitude = "lon_column",
-                    latitude = "lat_column", var_folder = "Folder_with_vars",
-                    var_format = "tif", percentage_out = 5, n_bins = 30)
-}
-
-# see arguments save and output_directory to write results in local directory
-}

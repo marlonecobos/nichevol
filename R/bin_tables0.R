@@ -103,17 +103,7 @@
 #'             round_names, multiplication_factor = 1,
 #'             percentage_out = 5, n_bins = 20, bin_size, save = FALSE,
 #'             output_directory, overwrite = FALSE, verbose = TRUE)
-#'
-#' @examples
-#' # example of how to define arguments, check argument descriptions above
-#' \donttest{
-#' bins <- bin_tables0(M_folder = "Folder_with_Ms", M_format = "shp",
-#'                     occ_folder = "Folder_with_occs", longitude = "lon_column",
-#'                     latitude = "lat_column", var_folder = "Folder_with_vars",
-#'                     var_format = "tif", percentage_out = 5, n_bins = 30)
-#' }
-#'
-#' # see arguments save and output_directory to write results in local directory
+
 
 bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
                         latitude, var_folder, var_format,
