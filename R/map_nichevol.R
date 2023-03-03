@@ -4,24 +4,64 @@
 #' geographic areas corresponding to environmental bins of niche or events of
 #' niche evolution detected in reconstructions.
 #'
-#'
 #' @param whole_rec_table matrix of environmental bins for all tips and nodes
 #' derived from functions \code{\link{bin_par_rec}} or \code{\link{bin_ml_rec}}.
 #' @param variable a SpatRaster layer corresponding to the variable for which
 #' the reconstruction was performed (represented in \code{whole_rec_table}).
 #' @param return (character) type of result to return. Options are: "niche",
 #' "evolution", or "nichevol" (a combination of both). Default = "niche". If
-#' "niche", values correspond to that defined in \code{from}. See details.
+#' "niche", values correspond to that defined in \code{from}. See Value.
 #' @param from (character) if \code{return} = "niche" tip or node for which layer
-#' will be prepared, otherwise, node from which niche comparison will be
-#' performed. Default = NULL. See details.
+#' will be prepared, otherwise, initial node from which niche comparison will be
+#' performed. See example.
 #' @param to (character) valid if \code{return} = "evolution" or "nichevol".
-#' Tip or node to compare against \code{from} to detected changes. See details.
+#' Tip or node to compare against \code{from} to detected changes.
+#' Default = NULL. See example.
 #' @param id_unknown (logical) whether to identify areas of unknown or uncertain
 #' change. Default = TRUE. See details.
 #' @param verbose (logical) whether messages should be printed. Default = TRUE.
 #'
 #' @details
+#' Defining \code{id_unknown} = TRUE allows to map areas where niche or niche
+#' change are uncertain. \code{id_unknown} = FALSE returns NA in areas with these
+#' characteristics, hence they will not be visible when plotting the resulting
+#' map.
+#'
+#' @return
+#' A SpatRaster object classified according to values of niche in
+#' \code{whole_rec_table}, and/or according to niche changes detected in
+#' comparisons between an ancestor and a tip, or another more recent ancestor.
+#'
+#' Options of values resulting from classifications are as follow:
+#'
+#' If \code{return} = "niche":
+#' | ID|        category|
+#' |:--|----------------|
+#' |  0|          Absent|
+#' | 10|         Unknown|
+#' |100|         Present|
+#'
+#' If \code{return} = "evolution":
+#' | ID|        category|
+#' |:--|----------------|
+#' |  0|          Stable|
+#' |  1|   Expansion low|
+#' |  3|  Expansion high|
+#' |  2| Retraction high|
+#' |  4|  Retraction low|
+#' | 10|         Unknown|
+#'
+#' If \code{return} = "nichevol":
+#' | ID|        category|
+#' |:--|----------------|
+#' |  0|          Stable|
+#' |  1|   Expansion low|
+#' |  3|  Expansion high|
+#' | 10|         Unknown|
+#' |100|         Present|
+#' |102| Retraction high|
+#' |104|  Retraction low|
+#'
 #'
 #' @usage
 #' map_nichevol(whole_rec_table, variable, return = "niche", from, to = NULL,
