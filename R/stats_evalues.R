@@ -89,14 +89,47 @@
 #'               verbose = TRUE)
 #'
 #' @examples
-#' # example of how to define arguments, check argument descriptions above
-#' \donttest{
-#' stats <- stats_evalues(stats = c("median", "range"), M_folder = "Folder_with_Ms",
-#'                        M_format = "shp", occ_folder = "Folder_with_occs",
-#'                        longitude = "lon_column", latitude = "lat_column",
-#'                        var_folder = "Folder_with_vars", var_format = "GTiff",
+#' # preparing data and directories for examples
+#' ## directories
+#' tempdir <- file.path(tempdir(), "nevol_test")
+#' dir.create(tempdir)
+#'
+#' cvariables <- paste0(tempdir, "/variables")
+#' dir.create(cvariables)
+#'
+#' records <- paste0(tempdir, "/records")
+#' dir.create(records)
+#'
+#' m_areas <- paste0(tempdir, "/M_areas")
+#' dir.create(m_areas)
+#'
+#' ## data
+#' data("occ_list", package = "nichevol")
+#'
+#' temp <- system.file("extdata", "temp.tif", package = "nichevol")
+#'
+#' m_files <- list.files(system.file("extdata", package = "nichevol"),
+#'                       pattern = "m\\d.gpkg", full.names = TRUE)
+#'
+#' ## writing data in temporal directories
+#' spnames <- sapply(occ_list, function (x) as.character(x[1, 1]))
+#' ocnames <-  paste0(records, "/", spnames, ".csv")
+#'
+#' occs <- lapply(1:length(spnames), function (x) {
+#'   write.csv(occ_list[[x]], ocnames[x], row.names = FALSE)
+#' })
+#'
+#' to_replace <- paste0(system.file("extdata", package = "nichevol"), "/")
+#'
+#' otemp <- gsub(to_replace, "", temp)
+#' file.copy(from = temp, to = paste0(cvariables, "/", otemp))
+#'
+#' file.copy(from = m_files, to = paste0(m_areas, "/", spnames, ".gpkg"))
+#' stats <- stats_evalues(stats = c("median", "range"), M_folder = m_areas,
+#'                        M_format = "gpkg", occ_folder = records,
+#'                        longitude = "x", latitude = "y",
+#'                        var_folder = cvariables, var_format = "tif",
 #'                        percentage_out = 5)
-#' }
 
 stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
                           occ_folder, longitude, latitude, var_folder,
@@ -176,7 +209,7 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
       # processing
       ## get values of variables in M
       mvar <- terra::crop(variables[[i]], M, mask = TRUE)
-      mval <- na.omit(mvar[])
+      mval <- na.omit(mvar[][, 1])
 
       if (percentage_out > 0) {
         medians <- median(mval)
@@ -189,7 +222,7 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
 
       ## occurrences
       occval <- na.omit(terra::extract(mvar, as.matrix(occ[, c(longitude,
-                                                               latitude)])))
+                                                               latitude)]))[, 1])
 
       ## obtaining statistics
       if (length(stats) > 1) {
@@ -212,9 +245,10 @@ stats_evalues <- function(stats = c("median", "range"), M_folder, M_format,
     })
 
     # preparing tables with results
-    m_table <- data.frame(Species = mlist,
+    spnames <- gsub("_", " ", spnames)
+    m_table <- data.frame(Species = spnames,
                           do.call(rbind, lapply(sp_stats, function(x) {x[[1]]})))
-    o_table <- data.frame(Species = mlist,
+    o_table <- data.frame(Species = spnames,
                           do.call(rbind, lapply(sp_stats, function(x) {x[[2]]})))
 
     # write table
