@@ -103,6 +103,49 @@
 #'             round_names, multiplication_factor = 1,
 #'             percentage_out = 5, n_bins = 20, bin_size, save = FALSE,
 #'             output_directory, overwrite = FALSE, verbose = TRUE)
+#'
+#' @examples
+#' # preparing data and directories for example
+#' ## directories
+#' tempdir <- file.path(tempdir(), "nevol_test")
+#' dir.create(tempdir)
+#'
+#' cvariables <- paste0(tempdir, "/variables")
+#' dir.create(cvariables)
+#'
+#' records <- paste0(tempdir, "/records")
+#' dir.create(records)
+#'
+#' m_areas <- paste0(tempdir, "/M_areas")
+#' dir.create(m_areas)
+#'
+#' ## data
+#' data("occ_list", package = "nichevol")
+#'
+#' temp <- system.file("extdata", "temp.tif", package = "nichevol")
+#'
+#' m_files <- list.files(system.file("extdata", package = "nichevol"),
+#'                       pattern = "m\\d.gpkg", full.names = TRUE)
+#'
+#' ## writing data in temporal directories
+#' spnames <- sapply(occ_list, function (x) as.character(x[1, 1]))
+#' ocnames <-  paste0(records, "/", spnames, ".csv")
+#'
+#' occs <- lapply(1:length(spnames), function (x) {
+#'   write.csv(occ_list[[x]], ocnames[x], row.names = FALSE)
+#' })
+#'
+#' to_replace <- paste0(system.file("extdata", package = "nichevol"), "/")
+#'
+#' otemp <- gsub(to_replace, "", temp)
+#' file.copy(from = temp, to = paste0(cvariables, "/", otemp))
+#'
+#' file.copy(from = m_files, to = paste0(m_areas, "/", spnames, ".gpkg"))
+#'
+#' # preparing tables
+#' tabs <- bin_tables0(M_folder = m_areas, M_format = "gpkg", occ_folder = records,
+#'                     longitude = "x", latitude = "y", var_folder = cvariables,
+#'                     var_format = "tif")
 
 
 bin_tables0 <- function(M_folder, M_format, occ_folder, longitude,
