@@ -101,6 +101,8 @@
 #' m_areas <- paste0(tempdir, "/M_areas")
 #' dir.create(m_areas)
 #'
+#' histdir <- paste0(tempdir, "/Hists")
+#'
 #' ## data
 #' data("occ_list", package = "nichevol")
 #'
