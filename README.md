@@ -39,6 +39,8 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/marlonecobos/nichevol/workflows/R-CMD-check/badge.svg)](https://github.com/marlonecobos/nichevol/actions)
 [![Travis build
 status](https://travis-ci.org/marlonecobos/nichevol.svg?branch=master)](https://travis-ci.org/marlonecobos/nichevol)
 <!-- badges: end -->
