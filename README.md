@@ -1,5 +1,5 @@
-nichevol: Assessment of Species’ Ecological Niche Evolution Considering
-Uncertainty in Reconstructions
+nichevol: Tools for Ecological Niche Evolution Assessment Considering
+Uncertainty
 ================
 Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
@@ -38,9 +38,6 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 <br>
 
 <!-- badges: start -->
-
-[![R build
-status](https://github.com/marlonecobos/nichevol/workflows/R-CMD-check/badge.svg)](https://github.com/marlonecobos/nichevol/actions)
 
 [![Travis build
 status](https://travis-ci.org/marlonecobos/nichevol.svg?branch=master)](https://travis-ci.org/marlonecobos/nichevol)

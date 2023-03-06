@@ -1,5 +1,5 @@
 ---
-title: "nichevol: Assessment of Species’ Ecological Niche Evolution Considering Uncertainty in Reconstructions"
+title: "nichevol: Tools for Ecological Niche Evolution Assessment Considering Uncertainty"
 author: "Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson"
 output:
   github_document:
@@ -17,8 +17,6 @@ opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 <br>
 
 <!-- badges: start -->
-[![R build status](https://github.com/marlonecobos/nichevol/workflows/R-CMD-check/badge.svg)](https://github.com/marlonecobos/nichevol/actions)
-
 [![Travis build status](https://travis-ci.org/marlonecobos/nichevol.svg?branch=master)](https://travis-ci.org/marlonecobos/nichevol)
 <!-- badges: end -->
 
