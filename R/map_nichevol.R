@@ -100,7 +100,10 @@ map_nichevol <- function(whole_rec_table, variable, return = "niche",
   if (missing(whole_rec_table)) {stop("Argument 'whole_rec_table' must be defined.")}
   if (missing(variable)) {stop("Argument 'variable' must be defined.")}
   if (missing(from)) {stop("Argument 'from' must be defined.")}
-  if (missing(to)) {stop("Argument 'to' must be defined.")}
+  if (!return %in% c("niche", "evolution", "nichevol")) {
+    stop("Argument 'return' is not valid.")
+  }
+  if (return != "niche" & missing(to)) {stop("Argument 'to' must be defined.")}
 
   n_list <- find_niche_lims(whole_rec_table, tip_or_node = from,
                             return = "values")
