@@ -49,11 +49,11 @@ Note: Try the code below first... If you have any problem during the installatio
 
 ```{r installation, eval=FALSE, include=TRUE, message=FALSE, warning=FALSE}
 # Installing and loading packages
-if(!require(devtools)){
-    install.packages("devtools")
+if(!require(remotes)){
+    install.packages("remotes")
 }
 if(!require(nichevol)){
-    devtools::install_github("marlonecobos/nichevol")
+    remotes::install_github("marlonecobos/nichevol")
 }
 ```
 
@@ -145,12 +145,6 @@ temp <- rast(system.file("extdata", "temp.tif", package = "nichevol"))
 
 # a simple phylogenetic tree for demonstrations
 data("tree", package = "nichevol")
-
-# a table of charaters representing species ecological niches derived from bin_table
-data("character_table", package = "nichevol")
-
-# a list that matches the tree with the character table 
-data("tree_data", package = "nichevol")
 ```
 
 <br>
@@ -217,7 +211,7 @@ Now, to run the code,
 ```{r bin_table, include=TRUE, message=FALSE, warning=FALSE}
 bin_tabl <- bin_table(Ms = m_list, occurrences = occ_list, species = "species",
                       longitude = "x", latitude = "y", variable = temp, 
-                      percentage_out = 5, bin_size = 10)
+                      percentage_out = 5, n_bins = 20)
 
 knitr::kable(bin_tabl, caption = "Table characters for ecological niches of the species of interest.") #%>% kable_styling(font_size = 12)
 ```
@@ -236,6 +230,7 @@ With the following code, the phylogenetic tree will be plotted, and its nodes wi
 
 ```{r tree_data, include=TRUE, message=FALSE, warning=FALSE}
 # exploring tree
+tree$tip.label <- rownames(bin_tabl)
 plot.phylo(tree, label.offset = 0.04)
 nodelabels()
 ```
@@ -254,6 +249,9 @@ help(smooth_rec)
 Now, to run the code,
 
 ```{r par_rec, include=TRUE, message=FALSE, warning=FALSE}
+# tree and data together
+tree_data <- treedata(tree, bin_tabl)
+
 # reconstruction
 par_rec_table <- bin_par_rec(tree_data)
 
@@ -295,36 +293,61 @@ knitr::kable(s_ml_rec_table, caption = "Table characters for ecological niches o
 
 ```{r tree_niches, include=TRUE, message=FALSE, warning=FALSE}
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.8, width = 1.5)
+niche_labels(tree, s_par_rec_table, label_type = "tip", height = 0.8, width = 1.5)
 ```
 
 #### Reconstructed ecological niches of ancestors
 
 ```{r an_niches, include=TRUE, message=FALSE, warning=FALSE}
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.8, width = 1.5)
+niche_labels(tree, s_par_rec_table, label_type = "tip_node", height = 0.8, width = 1.5)
 ```
 
 #### Evolution of ecological niches in the group 
 
 ```{r niche_evol, include=TRUE, message=FALSE, warning=FALSE}
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.8, width = 1.5)
-nichevol_labels(tree, s_ml_rec_table, height = 0.8, width = 1.5)
+niche_labels(tree, s_par_rec_table, label_type = "tip", height = 0.8, width = 1.5)
+nichevol_labels(tree, s_par_rec_table, height = 0.8, width = 1.5)
 ```
 
-#### A final, more informative plot 
+#### A more informative plot 
 
 ```{r niche_evolfin, include=TRUE, message=FALSE, warning=FALSE, fig.width=10}
 par(mfrow = c(1, 2))
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.8, width = 1.5)
+niche_labels(tree, s_par_rec_table, label_type = "tip_node", height = 0.8, width = 1.5)
 niche_legend(position = "topleft", cex = 0.6)
 
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.8, width = 1.5)
-nichevol_labels(tree, s_ml_rec_table, height = 0.8, width = 1.5)
+niche_labels(tree, s_par_rec_table, label_type = "tip", height = 0.8, width = 1.5)
+nichevol_labels(tree, s_par_rec_table, height = 0.8, width = 1.5)
 nichevol_legend(position = "topleft", cex = 0.6)
+```
+
+
+#### Mapping niches and evolution 
+
+Evolution occurred between node 9 and the species RD 6933. Let's map and see how things look like in geography.
+
+```{r map_nichevol, include=TRUE, message=FALSE, warning=FALSE, fig.width=12, fig.height=12}
+# preparing layers to represent niches and evolution
+niche9 <- map_nichevol(whole_rec_table = s_par_rec_table, variable = temp, 
+                       return = "niche", from = "9")
+nichesp <- map_nichevol(whole_rec_table = s_par_rec_table, variable = temp, 
+                        return = "niche", from = "RD 6933")
+
+evol_8vssp <- map_nichevol(whole_rec_table = s_par_rec_table, variable = temp, 
+                           return = "evolution", from = "9", to = "RD 6933")
+nichevol_8vssp <- map_nichevol(whole_rec_table = s_par_rec_table, variable = temp, 
+                               return = "nichevol", from = "9", to = "RD 6933")
+
+par(mfrow = c(2, 2))
+plot(niche9, main = "Niche node 9")
+plot(nichesp, main = "Niche RD 6933")
+
+plot(evol_8vssp, main = "Evolution 9 vs RD 6933")
+plot(nichevol_8vssp, main = "Niche node 9, evolution to RD 6933")
 ```
 
 <br>

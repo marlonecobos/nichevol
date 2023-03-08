@@ -92,11 +92,11 @@ install it alone using *install.packages()*, then try re-installing
 
 ``` r
 # Installing and loading packages
-if(!require(devtools)){
-    install.packages("devtools")
+if(!require(remotes)){
+    install.packages("remotes")
 }
 if(!require(nichevol)){
-    devtools::install_github("marlonecobos/nichevol")
+    remotes::install_github("marlonecobos/nichevol")
 }
 ```
 
@@ -236,12 +236,6 @@ temp <- rast(system.file("extdata", "temp.tif", package = "nichevol"))
 
 # a simple phylogenetic tree for demonstrations
 data("tree", package = "nichevol")
-
-# a table of charaters representing species ecological niches derived from bin_table
-data("character_table", package = "nichevol")
-
-# a list that matches the tree with the character table 
-data("tree_data", package = "nichevol")
 ```
 
 <br>
@@ -832,7 +826,7 @@ Now, to run the code,
 ``` r
 bin_tabl <- bin_table(Ms = m_list, occurrences = occ_list, species = "species",
                       longitude = "x", latitude = "y", variable = temp, 
-                      percentage_out = 5, bin_size = 10)
+                      percentage_out = 5, n_bins = 20)
 
 knitr::kable(bin_tabl, caption = "Table characters for ecological niches of the species of interest.") #%>% kable_styling(font_size = 12)
 ```
@@ -1319,6 +1313,7 @@ nodes will be added.
 
 ``` r
 # exploring tree
+tree$tip.label <- rownames(bin_tabl)
 plot.phylo(tree, label.offset = 0.04)
 nodelabels()
 ```
@@ -1339,6 +1334,9 @@ help(smooth_rec)
 Now, to run the code,
 
 ``` r
+# tree and data together
+tree_data <- treedata(tree, bin_tabl)
+
 # reconstruction
 par_rec_table <- bin_par_rec(tree_data)
 
@@ -1359,116 +1357,71 @@ maximum parsimony reconstructions for their ancestors.
 <th style="text-align:left;">
 </th>
 <th style="text-align:left;">
-21 to 30
+3.93 to 5.179
 </th>
 <th style="text-align:left;">
-31 to 40
+5.179 to 6.428
 </th>
 <th style="text-align:left;">
-41 to 50
+6.428 to 7.677
 </th>
 <th style="text-align:left;">
-51 to 60
+7.677 to 8.926
 </th>
 <th style="text-align:left;">
-61 to 70
+8.926 to 10.175
 </th>
 <th style="text-align:left;">
-71 to 80
+10.175 to 11.424
 </th>
 <th style="text-align:left;">
-81 to 90
+11.424 to 12.673
 </th>
 <th style="text-align:left;">
-91 to 100
+12.673 to 13.922
 </th>
 <th style="text-align:left;">
-101 to 110
+13.922 to 15.171
 </th>
 <th style="text-align:left;">
-111 to 120
+15.171 to 16.42
 </th>
 <th style="text-align:left;">
-121 to 130
+16.42 to 17.669
 </th>
 <th style="text-align:left;">
-131 to 140
+17.669 to 18.918
 </th>
 <th style="text-align:left;">
-141 to 150
+18.918 to 20.167
 </th>
 <th style="text-align:left;">
-151 to 160
+20.167 to 21.416
 </th>
 <th style="text-align:left;">
-161 to 170
+21.416 to 22.665
 </th>
 <th style="text-align:left;">
-171 to 180
+22.665 to 23.914
 </th>
 <th style="text-align:left;">
-181 to 190
+23.914 to 25.163
 </th>
 <th style="text-align:left;">
-191 to 200
+25.163 to 26.412
 </th>
 <th style="text-align:left;">
-201 to 210
+26.412 to 27.661
 </th>
 <th style="text-align:left;">
-211 to 220
-</th>
-<th style="text-align:left;">
-221 to 230
-</th>
-<th style="text-align:left;">
-231 to 240
-</th>
-<th style="text-align:left;">
-241 to 250
-</th>
-<th style="text-align:left;">
-251 to 260
-</th>
-<th style="text-align:left;">
-261 to 270
-</th>
-<th style="text-align:left;">
-271 to 280
-</th>
-<th style="text-align:left;">
-281 to 290
-</th>
-<th style="text-align:left;">
-291 to 300
+27.661 to 28.91
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-t1
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+RD 9830
 </td>
 <td style="text-align:left;">
 0
@@ -1525,10 +1478,7 @@ t1
 1
 </td>
 <td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
+1
 </td>
 <td style="text-align:left;">
 ?
@@ -1536,114 +1486,7 @@ t1
 </tr>
 <tr>
 <td style="text-align:left;">
-t3
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-t4
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+RD 3351
 </td>
 <td style="text-align:left;">
 0
@@ -1701,12 +1544,6 @@ t4
 </td>
 <td style="text-align:left;">
 1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-0
 </td>
 <td style="text-align:left;">
 0
@@ -1714,25 +1551,7 @@ t4
 </tr>
 <tr>
 <td style="text-align:left;">
-t2
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+RD 6933
 </td>
 <td style="text-align:left;">
 0
@@ -1792,36 +1611,12 @@ t2
 1
 </td>
 <td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
+0
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-t5
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+RD 761
 </td>
 <td style="text-align:left;">
 0
@@ -1881,18 +1676,12 @@ t5
 1
 </td>
 <td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
+0
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-t6
+RD 6773
 </td>
 <td style="text-align:left;">
 0
@@ -1911,6 +1700,53 @@ t6
 </td>
 <td style="text-align:left;">
 0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RD 7516
 </td>
 <td style="text-align:left;">
 0
@@ -1970,13 +1806,7 @@ t6
 1
 </td>
 <td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
+1
 </td>
 </tr>
 <tr>
@@ -2029,25 +1859,7 @@ t6
 0
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+?
 </td>
 <td style="text-align:left;">
 1
@@ -2060,12 +1872,6 @@ t6
 </td>
 <td style="text-align:left;">
 ?
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
 </td>
 </tr>
 <tr>
@@ -2118,25 +1924,7 @@ t6
 0
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+1
 </td>
 <td style="text-align:left;">
 1
@@ -2149,12 +1937,6 @@ t6
 </td>
 <td style="text-align:left;">
 ?
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
 </td>
 </tr>
 <tr>
@@ -2207,24 +1989,6 @@ t6
 0
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
@@ -2238,12 +2002,6 @@ t6
 </td>
 <td style="text-align:left;">
 ?
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
 </td>
 </tr>
 <tr>
@@ -2299,24 +2057,6 @@ t6
 0
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
@@ -2327,12 +2067,6 @@ t6
 </td>
 <td style="text-align:left;">
 ?
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
 </td>
 </tr>
 <tr>
@@ -2388,24 +2122,6 @@ t6
 0
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
@@ -2416,12 +2132,6 @@ t6
 </td>
 <td style="text-align:left;">
 ?
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
 </td>
 </tr>
 </tbody>
@@ -2460,116 +2170,71 @@ maximum likelihood reconstructions for their ancestors.
 <th style="text-align:left;">
 </th>
 <th style="text-align:left;">
-21 to 30
+3.93 to 5.179
 </th>
 <th style="text-align:left;">
-31 to 40
+5.179 to 6.428
 </th>
 <th style="text-align:left;">
-41 to 50
+6.428 to 7.677
 </th>
 <th style="text-align:left;">
-51 to 60
+7.677 to 8.926
 </th>
 <th style="text-align:left;">
-61 to 70
+8.926 to 10.175
 </th>
 <th style="text-align:left;">
-71 to 80
+10.175 to 11.424
 </th>
 <th style="text-align:left;">
-81 to 90
+11.424 to 12.673
 </th>
 <th style="text-align:left;">
-91 to 100
+12.673 to 13.922
 </th>
 <th style="text-align:left;">
-101 to 110
+13.922 to 15.171
 </th>
 <th style="text-align:left;">
-111 to 120
+15.171 to 16.42
 </th>
 <th style="text-align:left;">
-121 to 130
+16.42 to 17.669
 </th>
 <th style="text-align:left;">
-131 to 140
+17.669 to 18.918
 </th>
 <th style="text-align:left;">
-141 to 150
+18.918 to 20.167
 </th>
 <th style="text-align:left;">
-151 to 160
+20.167 to 21.416
 </th>
 <th style="text-align:left;">
-161 to 170
+21.416 to 22.665
 </th>
 <th style="text-align:left;">
-171 to 180
+22.665 to 23.914
 </th>
 <th style="text-align:left;">
-181 to 190
+23.914 to 25.163
 </th>
 <th style="text-align:left;">
-191 to 200
+25.163 to 26.412
 </th>
 <th style="text-align:left;">
-201 to 210
+26.412 to 27.661
 </th>
 <th style="text-align:left;">
-211 to 220
-</th>
-<th style="text-align:left;">
-221 to 230
-</th>
-<th style="text-align:left;">
-231 to 240
-</th>
-<th style="text-align:left;">
-241 to 250
-</th>
-<th style="text-align:left;">
-251 to 260
-</th>
-<th style="text-align:left;">
-261 to 270
-</th>
-<th style="text-align:left;">
-271 to 280
-</th>
-<th style="text-align:left;">
-281 to 290
-</th>
-<th style="text-align:left;">
-291 to 300
+27.661 to 28.91
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-t1
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+RD 9830
 </td>
 <td style="text-align:left;">
 0
@@ -2626,10 +2291,7 @@ t1
 1
 </td>
 <td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
+1
 </td>
 <td style="text-align:left;">
 ?
@@ -2637,28 +2299,7 @@ t1
 </tr>
 <tr>
 <td style="text-align:left;">
-t2
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+RD 3351
 </td>
 <td style="text-align:left;">
 0
@@ -2718,33 +2359,12 @@ t2
 1
 </td>
 <td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
+0
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-t5
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+RD 6933
 </td>
 <td style="text-align:left;">
 0
@@ -2804,36 +2424,12 @@ t5
 1
 </td>
 <td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
+0
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-t6
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+RD 761
 </td>
 <td style="text-align:left;">
 0
@@ -2893,36 +2489,12 @@ t6
 1
 </td>
 <td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
+0
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-t3
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+RD 6773
 </td>
 <td style="text-align:left;">
 0
@@ -2982,33 +2554,12 @@ t3
 1
 </td>
 <td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
-</td>
-<td style="text-align:left;">
-?
+0
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-t4
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
+RD 7516
 </td>
 <td style="text-align:left;">
 0
@@ -3069,15 +2620,6 @@ t4
 </td>
 <td style="text-align:left;">
 1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
 </td>
 </tr>
 <tr>
@@ -3130,40 +2672,16 @@ t4
 0
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
 ?
 </td>
 <td style="text-align:left;">
-?
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:left;">
 ?
@@ -3219,40 +2737,16 @@ t4
 0
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
 ?
 </td>
 <td style="text-align:left;">
-?
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:left;">
 ?
@@ -3308,40 +2802,16 @@ t4
 0
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
 ?
 </td>
 <td style="text-align:left;">
-?
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:left;">
 ?
@@ -3397,40 +2867,16 @@ t4
 0
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
 ?
 </td>
 <td style="text-align:left;">
-?
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:left;">
 ?
@@ -3486,40 +2932,16 @@ t4
 0
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
 ?
 </td>
 <td style="text-align:left;">
-?
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:left;">
 ?
@@ -3575,7 +2997,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+-3.46573590313359
 </td>
 <td style="text-align:left;">
 NA
@@ -3587,31 +3009,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
--1.94239804997617
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
--3.05129755942324
-</td>
-<td style="text-align:left;">
--3.05129755182966
-</td>
-<td style="text-align:left;">
--3.05129755182966
+-5.49306144388884
 </td>
 </tr>
 <tr>
@@ -3664,7 +3062,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+855.964596564529
 </td>
 <td style="text-align:left;">
 NA
@@ -3676,31 +3074,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-0.837890723461922
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-19.0861939235768
-</td>
-<td style="text-align:left;">
-19.0861886797177
-</td>
-<td style="text-align:left;">
-19.0861886797177
+557.653395948505
 </td>
 </tr>
 <tr>
@@ -3753,7 +3127,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+1658231.13989086
 </td>
 <td style="text-align:left;">
 NA
@@ -3765,31 +3139,7 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-0.772282648904347
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-19.2536007815173
-</td>
-<td style="text-align:left;">
-19.2536494378799
-</td>
-<td style="text-align:left;">
-19.2536494378799
+62372.4765130361
 </td>
 </tr>
 </tbody>
@@ -3803,7 +3153,7 @@ NA
 
 ``` r
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.8, width = 1.5)
+niche_labels(tree, s_par_rec_table, label_type = "tip", height = 0.8, width = 1.5)
 ```
 
 ![](README_files/figure-gfm/tree_niches-1.png)<!-- -->
@@ -3812,7 +3162,7 @@ niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.8, width = 1.5
 
 ``` r
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.8, width = 1.5)
+niche_labels(tree, s_par_rec_table, label_type = "tip_node", height = 0.8, width = 1.5)
 ```
 
 ![](README_files/figure-gfm/an_niches-1.png)<!-- -->
@@ -3821,27 +3171,54 @@ niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.8, width 
 
 ``` r
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.8, width = 1.5)
-nichevol_labels(tree, s_ml_rec_table, height = 0.8, width = 1.5)
+niche_labels(tree, s_par_rec_table, label_type = "tip", height = 0.8, width = 1.5)
+nichevol_labels(tree, s_par_rec_table, height = 0.8, width = 1.5)
 ```
 
 ![](README_files/figure-gfm/niche_evol-1.png)<!-- -->
 
-#### A final, more informative plot
+#### A more informative plot
 
 ``` r
 par(mfrow = c(1, 2))
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip_node", height = 0.8, width = 1.5)
+niche_labels(tree, s_par_rec_table, label_type = "tip_node", height = 0.8, width = 1.5)
 niche_legend(position = "topleft", cex = 0.6)
 
 plot.phylo(tree, label.offset = 0.04)
-niche_labels(tree, s_ml_rec_table, label_type = "tip", height = 0.8, width = 1.5)
-nichevol_labels(tree, s_ml_rec_table, height = 0.8, width = 1.5)
+niche_labels(tree, s_par_rec_table, label_type = "tip", height = 0.8, width = 1.5)
+nichevol_labels(tree, s_par_rec_table, height = 0.8, width = 1.5)
 nichevol_legend(position = "topleft", cex = 0.6)
 ```
 
 ![](README_files/figure-gfm/niche_evolfin-1.png)<!-- -->
+
+#### Mapping niches and evolution
+
+Evolution occurred between node 9 and the species RD 6933. Let’s map and
+see how things look like in geography.
+
+``` r
+# preparing layers to represent niches and evolution
+niche9 <- map_nichevol(whole_rec_table = s_par_rec_table, variable = temp, 
+                       return = "niche", from = "9")
+nichesp <- map_nichevol(whole_rec_table = s_par_rec_table, variable = temp, 
+                        return = "niche", from = "RD 6933")
+
+evol_8vssp <- map_nichevol(whole_rec_table = s_par_rec_table, variable = temp, 
+                           return = "evolution", from = "9", to = "RD 6933")
+nichevol_8vssp <- map_nichevol(whole_rec_table = s_par_rec_table, variable = temp, 
+                               return = "nichevol", from = "9", to = "RD 6933")
+
+par(mfrow = c(2, 2))
+plot(niche9, main = "Niche node 9")
+plot(nichesp, main = "Niche RD 6933")
+
+plot(evol_8vssp, main = "Evolution 9 vs RD 6933")
+plot(nichevol_8vssp, main = "Niche node 9, evolution to RD 6933")
+```
+
+![](README_files/figure-gfm/map_nichevol-1.png)<!-- -->
 
 <br>
 
