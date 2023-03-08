@@ -103,13 +103,18 @@ map_nichevol <- function(whole_rec_table, variable, return = "niche",
   if (!return %in% c("niche", "evolution", "nichevol")) {
     stop("Argument 'return' is not valid.")
   }
-  if (return != "niche" & missing(to)) {stop("Argument 'to' must be defined.")}
+  if (return != "niche" & is.null(to)) {stop("Argument 'to' must be defined.")}
 
   n_list <- find_niche_lims(whole_rec_table, tip_or_node = from,
                             return = "values")
 
-  e_list <- find_evol_lims(whole_rec_table, from = from, to = to,
-                           return = "values", verbose = verbose)
+  if (return == "niche") {
+    e_list <- NULL
+  } else {
+    e_list <- find_evol_lims(whole_rec_table, from = from, to = to,
+                             return = "values", verbose = verbose)
+  }
+
 
   return(nichevol_layer(variable, niche_list = n_list, evol_list = e_list,
                         return = return, id_unknown = id_unknown))
@@ -151,7 +156,7 @@ all_limits <- function(value_vector, split_list, type = c("niche", "change"),
         while (ad < (length(value_vector) - 1)) {
           ocon <- sum(c(ad, ad + 1) %in% j) >= 1
           if (value_vector[ad] != value_vector[ad + 1] & ocon) {
-            if (sum(j %in% ad) >= 1) {
+            if (sum(j == ad) >= 1) {
               ls[ad] <- j[j == ad]
             } else {
               ls[ad] <- j[j == (ad + 1)]
@@ -160,12 +165,15 @@ all_limits <- function(value_vector, split_list, type = c("niche", "change"),
           ad <- ad + 1
         }
 
-        gx <- j[j %in% na.omit(ls)]
-        gt <- na.omit(ls)[na.omit(ls) %in% j]
-        names(gt) <- sapply(gt, function(x) {names(gx[gx == x])})
+        lsnona <- na.omit(ls)
+        gt <- j[j %in% lsnona]
 
         if (max(gt) != max(j)) {
           gt <- c(gt, j[j == max(j)])
+
+          if (length(gt) == 2) {
+            gt <- c(gt, gt[2])
+          }
         }
         if (1 %in% j) {
           gt <- c(j[1], gt)
@@ -298,9 +306,9 @@ find_niche_lims <- function(whole_rec_table, tip_or_node, return = c("values", "
   alims <- all_limits(value_vector = tn, split_list = lims, type = "niche")
 
   ## critical values and bin numbers
-  avals <- critical_limits(alims, return = "values")
+  avals <- critical_limits(all_limits = alims, return = "values")
 
-  abins <- critical_limits(alims, return = "bins")
+  abins <- critical_limits(all_limits = alims, return = "bins")
 
   # results
   if (return[1] == "values") {
