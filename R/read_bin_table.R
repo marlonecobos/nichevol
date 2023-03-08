@@ -25,7 +25,12 @@ read_bin_table <- function(file) {
 
   cnames <- colnames(tab)
 
-  colnames(tab) <- gsub("X", "", gsub(".to.", " to ", cnames, fixed = TRUE))
+  colnames(tab) <- gsub("X", "",
+                        gsub("X.", "-",
+                             gsub(".to.", " to ",
+                                  gsub(".to..", " to -", cnames, fixed = TRUE),
+                                  fixed = TRUE),
+                             fixed = TRUE))
 
   return(as.matrix(tab))
 }
