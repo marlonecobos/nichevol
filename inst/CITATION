@@ -1,35 +1,24 @@
 citHeader("To cite nichevol in publications use:")
 
-citEntry(
-entry = "Article",
-title        = "Acknowledging uncertainty in evolutionary reconstructions of ecological niches",
-author       = personList(as.person("Hannah L. Owens"),
-                          as.person("Vivian Ribeiro"),
-                          as.person("Erin E. Saupe"),
-                          as.person("Marlon E. Cobos"),
-                          as.person("Peter A. Hosner"),
-                          as.person("Jacob C. Cooper"),
-                          as.person("Abdallah M. Samy"),
-                          as.person("Vijay Barve"),
-                          as.person("Narayani Barve"),
-                          as.person("Carlos J. Muñoz-R"),
-                          as.person("A. Townsend Peterson")),
-journal      = "Ecology and Evolution",
-year         = "2020",
-volume       = "10",
-number       = "14",
-pages        = "6967–6977",
-month        = "",
-publisher    = "",
-url          = "https://doi.org/10.1002/ece3.6359",
-doi          = "10.1002/ece3.6359",
-
-textVersion  = paste(
-        "Owens, H. L., V. Ribeiro, E. E. Saupe, M. E. Cobos, P. A. Hosner, J. C. Cooper,",
-        "A. M. Samy, V. Barve, N. Barve, C. J. Muñoz-R, A. T. Peterson (2020)",
-        "Acknowledging Uncertainty in Evolutionary Reconstructions of Ecological Niches.",
-        "Ecology and Evolution 10(14):6967–6977. https://doi.org/10.1002/ece3.6359."
+bibentry(
+     bibtype = "Article",
+     title   = "Acknowledging uncertainty in evolutionary reconstructions of ecological niches",
+     author  = c(person("Hannah L.", "Owens"),
+                 person("Vivian", "Ribeiro"),
+                 person("Erin E.", "Saupe"),
+                 person("Marlon E.", "Cobos"),
+                 person("Peter A.", "Hosner"),
+                 person("Jacob C.", "Cooper"),
+                 person("Abdallah M.", "Samy"),
+                 person("Vijay", "Barve"),
+                 person("Narayani", "Barve"),
+                 person("Carlos J.", "Muñoz-R"),
+                 person("A. Townsend", "Peterson")),
+     journal = "Ecology and Evolution",
+     year    = "2020",
+     volume  = "10",
+     number  = "14",
+     pages   = "6967–6977",
+     url     = "https://doi.org/10.1002/ece3.6359",
+     doi     = "10.1002/ece3.6359",
 )
-)
-
-
