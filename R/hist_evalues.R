@@ -31,8 +31,8 @@
 #' a hard task, but also a very important one because it allows identifying
 #' uncertainties about the ability of a species to maintain populations under
 #' certain environmental conditions. For further details on this topic, see
-#' Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}
-#' and Machado-Stredel et al. (2021) \url{https://doi.org/10.21425/F5FBG48814}.
+#' Barve et al. (2011) <doi:10.1016/j.ecolmodel.2011.02.011>
+#' and Machado-Stredel et al. (2021) <doi:10.21425/F5FBG48814>.
 #'
 #' @importFrom grDevices gray.colors
 #' @importFrom graphics abline hist points

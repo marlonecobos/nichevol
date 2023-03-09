@@ -55,8 +55,8 @@ accessible for a species for relevant periods of time. Defining M is usually
 a hard task, but also a very important one, because it allows identifying
 uncertainties about the ability of a species to maintain populations in
 certain environmental conditions. For further details on this topic, see
-Barve et al. (2011) in \url{https://doi.org/10.1016/j.ecolmodel.2011.02.011}
-and Machado-Stredel et al. (2021) \url{https://doi.org/10.21425/F5FBG48814}.
+Barve et al. (2011) \url{doi:10.1016/j.ecolmodel.2011.02.011}
+and Machado-Stredel et al. (2021) \url{doi:10.21425/F5FBG48814}.
 
 The percentage to be defined in \code{percentage_out} excludes a percentage
 of extreme environmental values to prevent from considering extremely rare
