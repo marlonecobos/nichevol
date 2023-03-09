@@ -22,10 +22,11 @@ for interpretations.
 
 \code{\link{bin_ml_rec}}, \code{\link{bin_par_rec}}, \code{\link{bin_table}},
 \code{\link{bin_tables}}, \code{\link{bin_tables0}}, \code{\link{hist_evalues}},
-\code{\link{histograms_env}}, \code{\link{niche_bars}},
-\code{\link{nichevol_bars}}, \code{\link{niche_labels}},
-\code{\link{nichevol_labels}}, \code{\link{niche_legend}},
-\code{\link{nichevol_legend}}, \code{\link{smooth_rec}},
+\code{\link{histograms_env}}, \code{\link{map_nichevol}},
+\code{\link{niche_bars}}, \code{\link{nichevol_bars}},
+\code{\link{niche_labels}}, \code{\link{nichevol_labels}},
+\code{\link{niche_legend}}, \code{\link{nichevol_legend}},
+\code{\link{set_uncertainty}}, \code{\link{smooth_rec}},
 \code{\link{stats_eval}}, \code{\link{stats_evalues}}
 
 Other functions (important helpers)
