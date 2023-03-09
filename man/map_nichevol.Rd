@@ -74,6 +74,11 @@ geographic areas corresponding to environmental bins of niche or events of
 niche evolution detected in reconstructions.
 }
 \details{
+Mapping is done following Cobos et al. (2021) \url{doi:10.1111/jav.02868}.
+This allows to represent geographic areas with environments where
+niche expanded, retracted, or stayed stable (evolution). Niche is
+represented as presence, absence, or unknown.
+
 Defining \code{id_unknown} = TRUE allows to map areas where niche or niche
 change are uncertain. \code{id_unknown} = FALSE returns NA in areas with these
 characteristics, hence they will not be visible when plotting the resulting
