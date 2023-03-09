@@ -1,3 +1,33 @@
+## Resubmission 0.1.20
+This is a resubmission. In this version I have made the following changes: 
+
+* Changed package CITATION file to replace old-style personList() or as.personList(). 
+* Changed package CITATION file to replace old-style citEntry() with bibentry().
+* Replaced URLs by dois in documentation for functions: bin_table, bin_tables0, hist_evalues, histograms_env, stats_eval, and stats_evalues.
+
+## Test environments
+* Ubuntu 22.04 LTS, R 4.2.2 (local)
+* MacOS 12.6.3, R release (GitHub Actions)
+* Windows 10.0.20348, R release (GitHub Actions)
+* Ubuntu 22.04 LTS, R release (GitHub Actions)
+* Ubuntu 22.04 LTS, R devel (GitHub Actions)
+* Ubuntu 22.04 LTS, R oldrel-1 (GitHub Actions)
+
+
+## R CMD check results
+There were no ERRORs:
+
+There were no WARNINGs:
+
+There were no NOTEs:
+
+
+## Downstream dependencies
+There are currently no downstream dependencies for this package. 
+
+<br>
+<hr>
+
 ## V 0.1.20 first submission
 In this version I have made the following changes: 
 
