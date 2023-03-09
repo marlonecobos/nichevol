@@ -9,6 +9,7 @@ Fourth release with all tools working and with the following updates:
 * Improved documentation of most functions.
 * Added functions to help mapping niche evolution detected based on reconstructions.
 * Added function to help read prepared data written in a directory.
+* Added function to help set uncertainty manually in examples with poorly known species.
 
 
 # nichevol 0.1.19 

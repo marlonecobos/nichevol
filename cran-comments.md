@@ -6,6 +6,7 @@ In this version I have made the following changes:
 * Added the argument verbose to make message suppression easier in functions that needed it: bin_table, bin_tables0, bin_tables, histograms_env, stats_eval, stats_evalues, and map_nichevol (new).
 * Added functions to help mapping niche evolution detected based on reconstructions, map_nichevol and helpers.
 * Added function to help read prepared data written in a directory: read_bin_table and read_bin_tables.
+* Added function to help set uncertainty manually in examples with poorly known species: set_uncertainty.
 
 ## Test environments
 * Ubuntu 22.04 LTS, R 4.2.2 (local)
