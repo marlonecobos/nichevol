@@ -2,6 +2,7 @@
 % Please edit documentation in R/nichevol.R
 \docType{package}
 \name{nichevol}
+\alias{nichevol-package}
 \alias{nichevol}
 \title{nichevol: Assessment of Species’ Ecological Niche Evolution Considering
 Uncertainty in Reconstructions}
@@ -36,3 +37,22 @@ Other functions (important helpers)
 \code{\link{score_tree}}, \code{\link{sig_sq}}
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/marlonecobos/nichevol}
+  \item Report bugs at \url{https://github.com/marlonecobos/nichevol/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Marlon E. Cobos \email{manubio13@gmail.com}
+
+Authors:
+\itemize{
+  \item Marlon E. Cobos \email{manubio13@gmail.com}
+  \item Hannah L. Owens \email{hannah.owens@gmail.com}
+  \item A. Townsend Peterson \email{town@ku.edu}
+}
+
+}

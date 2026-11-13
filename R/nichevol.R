@@ -29,6 +29,5 @@
 #' \code{\link{rename_tips}}, \code{\link{score_tip}},
 #' \code{\link{score_tree}}, \code{\link{sig_sq}}
 #'
-#' @docType package
 #' @name nichevol
-NULL
+"_PACKAGE"
