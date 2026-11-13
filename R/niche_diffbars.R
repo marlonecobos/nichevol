@@ -20,11 +20,13 @@
 #' @param unknown_col color for line representing environments where the species
 #' presence is unknown (uncertain). Default = "#d9d9d9".
 #' @param no_change_col color for area of the bar representing environments where
-#' no change has been detected. Default = "#b2df8a".
+#' no change has been detected. Default = "#a6dba0".
 #' @param retraction_col color for area of the bar representing environments where
-#' niche retraction has been detected. Default = "#984ea3".
+#' niche retraction has been detected. Default = "#7b3294".
 #' @param expansion_col color for area of the bar representing environments where
-#' niche expansion has been detected. Default = "#4daf4a".
+#' niche expansion has been detected. Default = "#008837".
+#' @param uncertain_col color for area of the bar representing environments where
+#' niche evolution is uncertain. Default = "#c2a5cf".
 #' @param width (numeric) width of the device in mm to be passed to the
 #' \code{\link[grDevices]{png}} function. Default = 50.
 #' @param height (numeric) height of the device in mm to be passed to the
@@ -46,13 +48,13 @@
 #' Changes in niches (evolution) are defined as follows:
 #' - if (ancestor == present & descendant == absent) {change <- "retraction"}
 #' - if (ancestor == present & descendant == present) {change <- "no_change"}
-#' - if (ancestor == present & descendant == unknown) {change <- "no_change"}
+#' - if (ancestor == present & descendant == unknown) {change <- "uncertain"}
 #' - if (ancestor == absent & descendant == present) {change <- "expansion"}
 #' - if (ancestor == absent & descendant == absent) {change <- "no_change"}
-#' - if (ancestor == absent & descendant == unknown) {change <- "no_change"}
-#' - if (ancestor == unknown & descendant == absent) {change <- "no_change"}
-#' - if (ancestor == unknown & descendant == present) {change <- "no_change"}
-#' - if (ancestor == unknown & descendant == unknown) {change <- "no_change"}
+#' - if (ancestor == absent & descendant == unknown) {change <- "uncertain"}
+#' - if (ancestor == unknown & descendant == absent) {change <- "uncertain"}
+#' - if (ancestor == unknown & descendant == present) {change <- "uncertain"}
+#' - if (ancestor == unknown & descendant == unknown) {change <- "uncertain"}
 #'
 #' If \code{ancestor_line} is TRUE, the ancestor line will be plotted on the bar
 #' representing niche evolution. The line will represent where, in the range of
@@ -73,9 +75,10 @@
 #' nichevol_bars(tree, whole_rec_table, ancestor_line = FALSE,
 #'               present = "1", absent = "0", unknown = "?",
 #'               present_col = "#252525", unknown_col = "#d9d9d9",
-#'               no_change_col = "#b2df8a", retraction_col = "#984ea3",
-#'               expansion_col = "#4daf4a", width = 50, height = 5,
-#'               res = 300, output_directory, overwrite = FALSE)
+#'               no_change_col = "#a6dba0", retraction_col = "#7b3294",
+#'               expansion_col = "#008837", uncertain_col = "#c2a5cf",
+#'               width = 50, height = 5, res = 300,
+#'               output_directory, overwrite = FALSE)
 #'
 #' @examples
 #' # a simple tree
@@ -101,9 +104,10 @@
 nichevol_bars <- function(tree, whole_rec_table, ancestor_line = FALSE,
                           present = "1", absent = "0", unknown = "?",
                           present_col = "#252525", unknown_col = "#d9d9d9",
-                          no_change_col = "#b2df8a", retraction_col = "#984ea3",
-                          expansion_col = "#4daf4a", width = 50, height = 5,
-                          res = 300, output_directory, overwrite = FALSE) {
+                          no_change_col = "#a6dba0", retraction_col = "#7b3294",
+                          expansion_col = "#008837", uncertain_col = "#c2a5cf",
+                          width = 50, height = 5, res = 300,
+                          output_directory, overwrite = FALSE) {
 
   # testing for potential errors
   if (missing(tree)) {stop("Argument 'tree' is needed to perform the analyses.")}
@@ -160,13 +164,13 @@ nichevol_bars <- function(tree, whole_rec_table, ancestor_line = FALSE,
       to <- whole_rec_table[all_comb[x, 2], z]
       if (from == present & to == absent) {comp <- "loss"}
       if (from == present & to == present) {comp <- "nc"}
-      if (from == present & to == unknown) {comp <- "nc"}
+      if (from == present & to == unknown) {comp <- "un"}
       if (from == absent & to == present) {comp <- "gain"}
       if (from == absent & to == absent) {comp <- "nc"}
-      if (from == absent & to == unknown) {comp <- "nc"}
-      if (from == unknown & to == absent) {comp <- "nc"}
-      if (from == unknown & to == present) {comp <- "nc"}
-      if (from == unknown & to == unknown) {comp <- "nc"}
+      if (from == absent & to == unknown) {comp <- "un"}
+      if (from == unknown & to == absent) {comp <- "un"}
+      if (from == unknown & to == present) {comp <- "un"}
+      if (from == unknown & to == unknown) {comp <- "un"}
       return(comp)
     })
 
@@ -183,11 +187,10 @@ nichevol_bars <- function(tree, whole_rec_table, ancestor_line = FALSE,
 
     poly_lines <- sapply(1:(length(h_vertices) - 1), function(y) {
       # polygons
-      if (comp[y] == "nc") {
-        pcolor <- no_change_col
-      } else {
-        pcolor <- ifelse(comp[y] == "gain", expansion_col, retraction_col)
-      }
+      pcolor <- ifelse(comp[y] == "nc", no_change_col,
+                       ifelse(comp[y] == "un", uncertain_col,
+                              ifelse(comp[y] == "gain", expansion_col,
+                                     retraction_col)))
 
       xs <- c(h_vertices[y], h_vertices[y + 1], h_vertices[y + 1], h_vertices[y])
       polygon(x = xs, y = v_vertices, col = pcolor, border = NA)
@@ -216,20 +219,20 @@ nichevol_bars <- function(tree, whole_rec_table, ancestor_line = FALSE,
 
   if (ancestor_line == TRUE) {
     legend("center",
-           legend = c("Uncertain", "Present", "No change", "Retraction", "Expansion"),
-           lty = c(1, NA, NA, NA, NA), lwd = 2,
-           col = c("transparent", NA, NA, NA, NA), bty = "n")
-
-    legend("center", legend = c("                ", "", "", "", ""), bty = "n",
-           pch = 22, pt.bg = c(NA, NA, no_change_col, retraction_col, expansion_col),
-           pt.cex = 2.2, lty = 1, col = "transparent")
-
-    legend("center", legend = c("                  ", "", "", "", ""),
-           bty = "n", lty = c(1, 1, NA, NA, NA), lwd = 2,
-           col = c(unknown_col, present_col, NA, NA, NA))
+           legend = c("Anc uncertain", "Anc present", "No change",
+                      "Retraction", "Expansion", "Uncertain"),
+           bty = "n",
+           pch = c(NA, NA, rep(22, 4)),
+           lty = c(1, 1, NA, NA, NA, NA), lwd = 2,
+           pt.bg = c(NA, NA, no_change_col, retraction_col,
+                     expansion_col, uncertain_col),
+           col = c(unknown_col, present_col, rep("transparent", 4)),
+           pt.cex = 2.2)
   } else {
-    legend("center", legend = c("No change", "Retraction", "Expansion"),
-           pch = 22, pt.bg = c(no_change_col, retraction_col, expansion_col),
+    legend("center",
+           legend = c("No change", "Retraction", "Expansion", "Uncertain"),
+           pch = 22,
+           pt.bg = c(no_change_col, retraction_col, expansion_col, uncertain_col),
            col = "transparent", pt.cex = 2.2, bty = "n")
   }
 

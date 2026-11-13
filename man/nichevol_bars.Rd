@@ -7,9 +7,10 @@
 nichevol_bars(tree, whole_rec_table, ancestor_line = FALSE,
               present = "1", absent = "0", unknown = "?",
               present_col = "#252525", unknown_col = "#d9d9d9",
-              no_change_col = "#b2df8a", retraction_col = "#984ea3",
-              expansion_col = "#4daf4a", width = 50, height = 5,
-              res = 300, output_directory, overwrite = FALSE)
+              no_change_col = "#a6dba0", retraction_col = "#7b3294",
+              expansion_col = "#008837", uncertain_col = "#c2a5cf",
+              width = 50, height = 5, res = 300,
+              output_directory, overwrite = FALSE)
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
@@ -36,13 +37,16 @@ is present. Default = "#252525".}
 presence is unknown (uncertain). Default = "#d9d9d9".}
 
 \item{no_change_col}{color for area of the bar representing environments where
-no change has been detected. Default = "#b2df8a".}
+no change has been detected. Default = "#a6dba0".}
 
 \item{retraction_col}{color for area of the bar representing environments where
-niche retraction has been detected. Default = "#984ea3".}
+niche retraction has been detected. Default = "#7b3294".}
 
 \item{expansion_col}{color for area of the bar representing environments where
-niche expansion has been detected. Default = "#4daf4a".}
+niche expansion has been detected. Default = "#008837".}
+
+\item{uncertain_col}{color for area of the bar representing environments where
+niche evolution is uncertain. Default = "#c2a5cf".}
 
 \item{width}{(numeric) width of the device in mm to be passed to the
 \code{\link[grDevices]{png}} function. Default = 50.}
@@ -79,13 +83,13 @@ Changes in niches (evolution) are defined as follows:
 \itemize{
 \item if (ancestor == present & descendant == absent) {change <- "retraction"}
 \item if (ancestor == present & descendant == present) {change <- "no_change"}
-\item if (ancestor == present & descendant == unknown) {change <- "no_change"}
+\item if (ancestor == present & descendant == unknown) {change <- "uncertain"}
 \item if (ancestor == absent & descendant == present) {change <- "expansion"}
 \item if (ancestor == absent & descendant == absent) {change <- "no_change"}
-\item if (ancestor == absent & descendant == unknown) {change <- "no_change"}
-\item if (ancestor == unknown & descendant == absent) {change <- "no_change"}
-\item if (ancestor == unknown & descendant == present) {change <- "no_change"}
-\item if (ancestor == unknown & descendant == unknown) {change <- "no_change"}
+\item if (ancestor == absent & descendant == unknown) {change <- "uncertain"}
+\item if (ancestor == unknown & descendant == absent) {change <- "uncertain"}
+\item if (ancestor == unknown & descendant == present) {change <- "uncertain"}
+\item if (ancestor == unknown & descendant == unknown) {change <- "uncertain"}
 }
 
 If \code{ancestor_line} is TRUE, the ancestor line will be plotted on the bar
