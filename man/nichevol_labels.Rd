@@ -2,19 +2,21 @@
 % Please edit documentation in R/plotting_helpers.R
 \name{nichevol_labels}
 \alias{nichevol_labels}
-\title{Labels to represent changes of niche characteristics between ancestors and descendants}
+\title{Labels to represent changes of niche between ancestors and descendants}
 \usage{
 nichevol_labels(tree, whole_rec_table, ancestor_line = FALSE,
-  present = "1", absent = "0", unknown = "?",
-  present_col = "#252525", unknown_col = "#d9d9d9",
-  no_change_col = "#b2df8a", retraction_col = "#984ea3",
-  expansion_col = "#4daf4a", width = 1, height = 1)
+                present = "1", absent = "0", unknown = "?",
+                present_col = "#252525", unknown_col = "#d9d9d9",
+                no_change_col = "#a6dba0", retraction_col = "#7b3294",
+                expansion_col = "#008837", uncertain_col = "#c2a5cf",
+                width = 1, height = 1)
 }
 \arguments{
 \item{tree}{an object of class "phylo".}
 
 \item{whole_rec_table}{matrix of reconstructed bins for nodes and species
-derived from a process of maximum parsimony or maximum likelihood reconstruction.
+derived from a process of maximum parsimony or maximum likelihood
+reconstruction.
 See functions \code{\link{bin_par_rec}} or \code{\link{bin_ml_rec}}.}
 
 \item{ancestor_line}{controls whether ancestor line is plotted.
@@ -35,47 +37,50 @@ is present. Default = "#252525".}
 \item{unknown_col}{color for line representing environments where the species
 presence is unknown (uncertain). Default = "#d9d9d9".}
 
-\item{no_change_col}{color for area of the bar representing environments where
-no change has been detected. Default = "#b2df8a".}
+\item{no_change_col}{color for area of the bar representing environments
+where no change has been detected. Default = "#a6dba0".}
 
-\item{retraction_col}{color for area of the bar representing environments where
-niche retraction has been detected. Default = "#984ea3".}
+\item{retraction_col}{color for area of the bar representing environments
+where niche retraction has been detected. Default = "#7b3294".}
 
-\item{expansion_col}{color for area of the bar representing environments where
-niche expansion has been detected. Default = "#4daf4a".}
+\item{expansion_col}{color for area of the bar representing environments
+where niche expansion has been detected. Default = "#008837".}
+
+\item{uncertain_col}{color for area of the bar representing environments
+where niche evolution is uncertain. Default = "#c2a5cf"}
 
 \item{width}{value defining the width of bars representing changes in niches;
 default = 1.}
 
-\item{height}{value defining the height of bars representing changes in niches;
-default = 1.}
+\item{height}{value defining the height of bars representing changes in
+niches; default = 1.}
 }
 \description{
-nichevol_labels helps in adding bar-type labels that represent how
-species' niches changed from ancestors to descendants.
+nichevol_labels helps in adding bar-type labels that
+represent how species' niches changed from ancestors to descendants.
 }
 \details{
-For the moment, only plots of type "phylogram" with "rightwards" or "leftwards"
-directions, created with the function \code{\link[ape]{plot.phylo}} from the
-package \code{ape} are supported.
+For the moment, only plots of type "phylogram" with "rightwards" or
+"leftwards" directions, created with the function \code{\link[ape]{plot.phylo}}
+from the package \code{ape} are supported.
 
 Evolution of ecological niches is represented in one environmental dimension,
 with vertical bars indicating if the niche of the descendant has expanded,
-retracted, or has not changed compared to its ancestor's niche. Lower values of
-environmental variables are represented in the lower part of the bar, and the
-opposite part of the bar represents higher values.
+retracted, or has not changed compared to its ancestor's niche. Lower values
+of environmental variables are represented in the lower part of the bar, and
+the opposite part of the bar represents higher values.
 
 Changes in niches (evolution) are defined as follows:
 \itemize{
 \item if (ancestor == present & descendant == absent) {change <- "retraction"}
 \item if (ancestor == present & descendant == present) {change <- "no_change"}
-\item if (ancestor == present & descendant == unknown) {change <- "no_change"}
+\item if (ancestor == present & descendant == unknown) {change <- "uncertain"}
 \item if (ancestor == absent & descendant == present) {change <- "expansion"}
 \item if (ancestor == absent & descendant == absent) {change <- "no_change"}
-\item if (ancestor == absent & descendant == unknown) {change <- "no_change"}
-\item if (ancestor == unknown & descendant == absent) {change <- "no_change"}
-\item if (ancestor == unknown & descendant == present) {change <- "no_change"}
-\item if (ancestor == unknown & descendant == unknown) {change <- "no_change"}
+\item if (ancestor == absent & descendant == unknown) {change <- "uncertain"}
+\item if (ancestor == unknown & descendant == absent) {change <- "uncertain"}
+\item if (ancestor == unknown & descendant == present) {change <- "uncertain"}
+\item if (ancestor == unknown & descendant == unknown) {change <- "uncertain"}
 }
 
 If \code{ancestor_line} is TRUE, the ancestor line will be plotted on the bar

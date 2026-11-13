@@ -5,11 +5,13 @@
 \title{Legends for niche evolution labels in phylogenetic trees}
 \usage{
 nichevol_legend(position, ancestor_line = FALSE,
-  ancestor_legend = c("Uncertain", "Present"),
-  evol_legend = c("No change", "Retraction", "Expansion"),
-  ancestor_col = c("#d9d9d9", "#252525"),
-  evol_col = c("#b2df8a", "#984ea3", "#4daf4a"),
-  pch = 22, pt.cex = 2.2, lty = 1, lwd = 1, cex = 1, bty = "n", ...)
+                ancestor_legend = c("Anc uncertain", "Anc present"),
+                evol_legend = c("No change", "Retraction",
+                                "Expansion", "Uncertain"),
+                ancestor_col = c("#d9d9d9", "#252525"),
+                evol_col = c("#a6dba0", "#7b3294", "#008837", "#c2a5cf"),
+                pch = 22, pt.cex = 2.2, lty = 1, lwd = 1,
+                cex = 1, bty = "n", ...)
 }
 \arguments{
 \item{position}{(character or numeric) position of legend. If character,
@@ -21,17 +23,17 @@ Default = FALSE.}
 
 \item{ancestor_legend}{(character) vector of length = two indicating the text
 to identify environments with uncertain presence and true presence of the
-species. Default = c("Uncertain", "Present").}
+species. Default = c("Anc uncertain", "Anc present").}
 
 \item{evol_legend}{(character) vector of length = three indicating the text
 to identify environments where niches have not changed, have retracted or
-expanded. Default = c("No change", "Retraction", "Expansion").}
+expanded. Default = c("No change", "Retraction", "Expansion", "Uncertain).}
 
 \item{ancestor_col}{vector of two colors to represent what is indicated in
 \code{ancestor_legend}. Default = c("#d9d9d9", "#252525").}
 
 \item{evol_col}{vector of three colors to represent what is indicated in
-\code{evol_legend}. Default = c("#b2df8a", "#984ea3", "#4daf4a").}
+\code{evol_legend}. Default = c("#a6dba0", "#7b3294", "#008837", "#c2a5cf").}
 
 \item{pch}{point type as in \code{\link[graphics]{points}}. Default = 22.}
 
