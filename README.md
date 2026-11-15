@@ -29,10 +29,12 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/marlonecobos/nichevol/workflows/R-CMD-check/badge.svg)](https://github.com/marlonecobos/nichevol/actions)
-[![Travis build
-status](https://travis-ci.org/marlonecobos/nichevol.svg?branch=master)](https://travis-ci.org/marlonecobos/nichevol)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/nichevol)](https://CRAN.R-project.org/package=nichevol)
+[![downloads](https://cranlogs.r-pkg.org/badges/grand-total/nichevol)](https://cranlogs.r-pkg.org:443/badges/grand-total/nichevol)
+[![License](https://img.shields.io/badge/license-GPL%20(%3E=%203)-lightgrey.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
+[![R-CMD-check](https://github.com/marlonecobos/nichevol/workflows/R-CMD-check/badge.svg)](https://github.com/marlonecobos/nichevol/actions/workflows/check-standard.yaml)
+
 <!-- badges: end -->
 
 <hr>
@@ -536,7 +538,7 @@ nichevol_legend(position = "topleft", cex = 0.6)
 Niche evolution occurred between node 9 and the species RD 6933. Let’s
 map and see how things look like in geography. The label outside limits
 in the legend refers to areas with environments that were not considered
-in the analyses (i.e., environments outside the ragne of values in the
+in the analyses (i.e., environments outside the range of values in the
 bins). See documentation of the function `map_nichevol` for more
 details.
 

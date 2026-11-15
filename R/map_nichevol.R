@@ -23,7 +23,7 @@
 #'
 #' @details
 #' Mapping is done following Cobos et al. (2021) <doi:10.1111/jav.02868> with
-#' modifications to rerpresent undertain changes. This allows to represent
+#' modifications to show uncertain changes. This allows to represent
 #' geographic areas with environments where niche expanded, retracted,
 #' stayed stable, or changes are uncertain (for the option "evolution"). For
 #' the option "niche", areas are labeled as presence, absence, or unknown.
