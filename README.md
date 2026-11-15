@@ -20,7 +20,9 @@ Marlon E. Cobos, Hannah L. Owens, and A. Townsend Peterson
   - [Preparing data for analyses](#preparing-data-for-analyses)
   - [Ancestral reconstructions and smoothing of
     results](#ancestral-reconstructions-and-smoothing-of-results)
-  - [Representations of results](#representations-of-results)
+  - [Plotting results on a phylogenetic
+    tree](#plotting-results-on-a-phylogenetic-tree)
+  - [Mapping niches and evolution](#mapping-niches-and-evolution)
 - [References](#references)
 
 <br>
@@ -98,9 +100,8 @@ install it alone using *install.packages()*, then try re-installing
 if(!require(remotes)){
     install.packages("remotes")
 }
-if(!require(nichevol)){
-    remotes::install_github("marlonecobos/nichevol")
-}
+
+remotes::install_github("marlonecobos/nichevol")
 ```
 
 <br>
@@ -195,7 +196,8 @@ results from comparing reconstructed niches of ancestors with niches of
 descendants. Other functions help in representing results of previous
 analyses. For instance, they help in producing bar-like labels that
 represent the niches of species, or they can be used to represent how
-niches have evolved across the phylogeny.
+niches have evolved across the phylogeny. Another function helps in
+mapping niches and niche evolution in geographic space.
 
 <br>
 
@@ -471,7 +473,7 @@ maximum likelihood reconstructions for their ancestors.
 
 <br>
 
-### Representations of results
+### Plotting results on a phylogenetic tree
 
 #### Ecological niches of species on the phylogeny
 
@@ -493,6 +495,13 @@ niche_labels(tree, s_par_rec_table, label_type = "tip_node", height = 0.8, width
 
 #### Evolution of ecological niches in the group
 
+The function nichevol_labels() is used to represent the evolution of
+ecological niches in the phylogeny. The function uses the results of the
+ancestral reconstruction and smoothing of results. The colors represent
+the changes from ancestral to descendant niches. Uncertainty in the
+reconstructions is the result of comparisons when the state of the niche
+is unknown in the ancestor or descendant.
+
 ``` r
 plot.phylo(tree, label.offset = 0.04)
 niche_labels(tree, s_par_rec_table, label_type = "tip", height = 0.8, width = 1.5)
@@ -502,6 +511,9 @@ nichevol_labels(tree, s_par_rec_table, height = 0.8, width = 1.5)
 ![](README_files/figure-gfm/niche_evol-1.png)<!-- -->
 
 #### A more informative plot
+
+The functions niche_legend() and nichevol_legend() are used to add
+legends to the plot.
 
 ``` r
 par(mfrow = c(1, 2))
@@ -517,10 +529,16 @@ nichevol_legend(position = "topleft", cex = 0.6)
 
 ![](README_files/figure-gfm/niche_evolfin-1.png)<!-- -->
 
-#### Mapping niches and evolution
+<br>
 
-Evolution occurred between node 9 and the species RD 6933. Let’s map and
-see how things look like in geography.
+### Mapping niches and evolution
+
+Niche evolution occurred between node 9 and the species RD 6933. Let’s
+map and see how things look like in geography. The label outside limits
+in the legend refers to areas with environments that were not considered
+in the analyses (i.e., environments outside the ragne of values in the
+bins). See documentation of the function `map_nichevol` for more
+details.
 
 ``` r
 # preparing layers to represent niches and evolution
@@ -538,7 +556,7 @@ par(mfrow = c(2, 2))
 plot(niche9, main = "Niche node 9")
 plot(nichesp, main = "Niche RD 6933")
 
-plot(evol_8vssp, main = "Evolution 9 vs RD 6933")
+plot(evol_8vssp, main = "Evolution from node 9 to RD 6933")
 plot(nichevol_8vssp, main = "Niche node 9, evolution to RD 6933")
 ```
 
