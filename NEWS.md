@@ -1,3 +1,10 @@
+# nichevol 0.1.21 
+Fifth release with the following updates:
+
+* Uncertainty replases no-change in niche evolution in comparisons when acestral and/or descendant niche are unknown.
+* Niche labels and legends in plottinf options now include uncertainty in addition to no change.
+* Maps derived from niche comparisons between ancestral and descendat niches now include uncernatin as an option. Areas with environments not considered in analyses can now be plotted and labeled.
+
 # nichevol 0.1.20 
 Fourth release with all tools working and with the following updates:
 
