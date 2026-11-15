@@ -212,15 +212,15 @@ niche_labels <- function(tree, whole_rec_table, label_type = "tip_node",
 #' the opposite part of the bar represents higher values.
 #'
 #' Changes in niches (evolution) are defined as follows:
-#' - if (ancestor == present & descendant == absent) {change <- "retraction"}
-#' - if (ancestor == present & descendant == present) {change <- "no_change"}
-#' - if (ancestor == present & descendant == unknown) {change <- "uncertain"}
-#' - if (ancestor == absent & descendant == present) {change <- "expansion"}
-#' - if (ancestor == absent & descendant == absent) {change <- "no_change"}
-#' - if (ancestor == absent & descendant == unknown) {change <- "uncertain"}
-#' - if (ancestor == unknown & descendant == absent) {change <- "uncertain"}
-#' - if (ancestor == unknown & descendant == present) {change <- "uncertain"}
-#' - if (ancestor == unknown & descendant == unknown) {change <- "uncertain"}
+#' - if (ancestor == present & descendant == absent) change <- "retraction"
+#' - if (ancestor == present & descendant == present) change <- "no_change"
+#' - if (ancestor == present & descendant == unknown) change <- "uncertain"
+#' - if (ancestor == absent & descendant == present) change <- "expansion"
+#' - if (ancestor == absent & descendant == absent) change <- "no_change"
+#' - if (ancestor == absent & descendant == unknown) change <- "uncertain"
+#' - if (ancestor == unknown & descendant == absent) change <- "uncertain"
+#' - if (ancestor == unknown & descendant == present) change <- "uncertain"
+#' - if (ancestor == unknown & descendant == unknown) change <- "uncertain"
 #'
 #' If \code{ancestor_line} is TRUE, the ancestor line will be plotted on the bar
 #' representing niche evolution. The line will represent where, in the range of

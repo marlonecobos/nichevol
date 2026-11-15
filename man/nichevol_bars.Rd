@@ -81,15 +81,15 @@ values at the right.
 
 Changes in niches (evolution) are defined as follows:
 \itemize{
-\item if (ancestor == present & descendant == absent) {change <- "retraction"}
-\item if (ancestor == present & descendant == present) {change <- "no_change"}
-\item if (ancestor == present & descendant == unknown) {change <- "uncertain"}
-\item if (ancestor == absent & descendant == present) {change <- "expansion"}
-\item if (ancestor == absent & descendant == absent) {change <- "no_change"}
-\item if (ancestor == absent & descendant == unknown) {change <- "uncertain"}
-\item if (ancestor == unknown & descendant == absent) {change <- "uncertain"}
-\item if (ancestor == unknown & descendant == present) {change <- "uncertain"}
-\item if (ancestor == unknown & descendant == unknown) {change <- "uncertain"}
+\item if (ancestor == present & descendant == absent) change <- "retraction"
+\item if (ancestor == present & descendant == present) change <- "no_change"
+\item if (ancestor == present & descendant == unknown) change <- "uncertain"
+\item if (ancestor == absent & descendant == present) change <- "expansion"
+\item if (ancestor == absent & descendant == absent) change <- "no_change"
+\item if (ancestor == absent & descendant == unknown) change <- "uncertain"
+\item if (ancestor == unknown & descendant == absent) change <- "uncertain"
+\item if (ancestor == unknown & descendant == present) change <- "uncertain"
+\item if (ancestor == unknown & descendant == unknown) change <- "uncertain"
 }
 
 If \code{ancestor_line} is TRUE, the ancestor line will be plotted on the bar
