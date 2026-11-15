@@ -5,7 +5,7 @@
 \title{Maps of niche reconstructions and changes detected}
 \usage{
 map_nichevol(whole_rec_table, variable, return = "niche", from, to = NULL,
-             id_unknown = TRUE, verbose = TRUE)
+             id_outside = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{whole_rec_table}{matrix of environmental bins for all tips and nodes
@@ -16,18 +16,18 @@ the reconstruction was performed (represented in \code{whole_rec_table}).}
 
 \item{return}{(character) type of result to return. Options are: "niche",
 "evolution", or "nichevol" (a combination of both). Default = "niche". If
-"niche", values correspond to that defined in \code{from}. See Value.}
+"niche", values correspond to those defined in \code{from}. See Value.}
 
-\item{from}{(character) if \code{return} = "niche" tip or node for which layer
-will be prepared, otherwise, initial node from which niche comparison will be
-performed. See example.}
+\item{from}{(character) if \code{return} = "niche" tip or node for which
+the layer will be prepared, otherwise, initial node from which niche
+comparison will be performed. See example.}
 
 \item{to}{(character) valid if \code{return} = "evolution" or "nichevol".
 Tip or node to compare against \code{from} to detected changes.
 Default = NULL. See example.}
 
-\item{id_unknown}{(logical) whether to identify areas of unknown or uncertain
-change. Default = TRUE. See details.}
+\item{id_outside}{(logical) whether to identify areas outside limits of
+analysis. Default = TRUE. See details.}
 
 \item{verbose}{(logical) whether messages should be printed. Default = TRUE.}
 }
@@ -36,36 +36,39 @@ A SpatRaster object classified according to values of niche in
 \code{whole_rec_table}, and/or according to niche changes detected in
 comparisons between an ancestor and a tip, or another more recent ancestor.
 
-Options of values resulting from classifications are as follow:
+Options of values resulting from classifications are as follows:
 
 If \code{return} = "niche":\tabular{ll}{
-   ID \tab category \cr
+   id \tab category \cr
    0 \tab Absent \cr
    10 \tab Unknown \cr
    100 \tab Present \cr
+   110 \tab Outside limits \cr
 }
 
 
 If \code{return} = "evolution":\tabular{ll}{
-   ID \tab category \cr
+   id \tab category \cr
    0 \tab Stable \cr
    1 \tab Expansion low \cr
    3 \tab Expansion high \cr
    2 \tab Retraction high \cr
    4 \tab Retraction low \cr
-   10 \tab Unknown \cr
+   5 \tab Uncertain \cr
+   110 \tab Outside limits \cr
 }
 
 
 If \code{return} = "nichevol":\tabular{ll}{
-   ID \tab category \cr
-   0 \tab Stable \cr
+   id \tab category \cr
+   0 \tab Absent \cr
    1 \tab Expansion low \cr
    3 \tab Expansion high \cr
-   10 \tab Unknown \cr
+   15 \tab Uncertain \cr
    100 \tab Present \cr
    102 \tab Retraction high \cr
    104 \tab Retraction low \cr
+   110 \tab Outside limits \cr
 }
 }
 \description{
@@ -74,15 +77,17 @@ geographic areas corresponding to environmental bins of niche or events of
 niche evolution detected in reconstructions.
 }
 \details{
-Mapping is done following Cobos et al. (2021) \url{doi:10.1111/jav.02868}.
-This allows to represent geographic areas with environments where
-niche expanded, retracted, or stayed stable (evolution). Niche is
-represented as presence, absence, or unknown.
+Mapping is done following Cobos et al. (2021) \url{doi:10.1111/jav.02868} with
+modifications to rerpresent undertain changes. This allows to represent
+geographic areas with environments where niche expanded, retracted,
+stayed stable, or changes are uncertain (for the option "evolution"). For
+the option "niche", areas are labeled as presence, absence, or unknown.
 
-Defining \code{id_unknown} = TRUE allows to map areas where niche or niche
-change are uncertain. \code{id_unknown} = FALSE returns NA in areas with these
-characteristics, hence they will not be visible when plotting the resulting
-map.
+Defining \code{id_outside} = TRUE allows to map areas where environmental
+conditions are outside the limits of the environments considered in ancestral
+reconstructions (i.e., outside the bins). \code{id_outside} = FALSE returns
+NA in areas with these characteristics, hence they will not be visible when
+plotting the resulting map.
 }
 \examples{
 # a tree

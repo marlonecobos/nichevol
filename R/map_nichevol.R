@@ -10,67 +10,72 @@
 #' the reconstruction was performed (represented in \code{whole_rec_table}).
 #' @param return (character) type of result to return. Options are: "niche",
 #' "evolution", or "nichevol" (a combination of both). Default = "niche". If
-#' "niche", values correspond to that defined in \code{from}. See Value.
-#' @param from (character) if \code{return} = "niche" tip or node for which layer
-#' will be prepared, otherwise, initial node from which niche comparison will be
-#' performed. See example.
+#' "niche", values correspond to those defined in \code{from}. See Value.
+#' @param from (character) if \code{return} = "niche" tip or node for which
+#' the layer will be prepared, otherwise, initial node from which niche
+#' comparison will be performed. See example.
 #' @param to (character) valid if \code{return} = "evolution" or "nichevol".
 #' Tip or node to compare against \code{from} to detected changes.
 #' Default = NULL. See example.
-#' @param id_unknown (logical) whether to identify areas of unknown or uncertain
-#' change. Default = TRUE. See details.
+#' @param id_outside (logical) whether to identify areas outside limits of
+#' analysis. Default = TRUE. See details.
 #' @param verbose (logical) whether messages should be printed. Default = TRUE.
 #'
 #' @details
-#' Mapping is done following Cobos et al. (2021) <doi:10.1111/jav.02868>.
-#' This allows to represent geographic areas with environments where
-#'  niche expanded, retracted, or stayed stable (evolution). Niche is
-#' represented as presence, absence, or unknown.
+#' Mapping is done following Cobos et al. (2021) <doi:10.1111/jav.02868> with
+#' modifications to rerpresent undertain changes. This allows to represent
+#' geographic areas with environments where niche expanded, retracted,
+#' stayed stable, or changes are uncertain (for the option "evolution"). For
+#' the option "niche", areas are labeled as presence, absence, or unknown.
 #'
-#' Defining \code{id_unknown} = TRUE allows to map areas where niche or niche
-#' change are uncertain. \code{id_unknown} = FALSE returns NA in areas with these
-#' characteristics, hence they will not be visible when plotting the resulting
-#' map.
+#' Defining \code{id_outside} = TRUE allows to map areas where environmental
+#' conditions are outside the limits of the environments considered in ancestral
+#' reconstructions (i.e., outside the bins). \code{id_outside} = FALSE returns
+#' NA in areas with these characteristics, hence they will not be visible when
+#' plotting the resulting map.
 #'
 #' @return
 #' A SpatRaster object classified according to values of niche in
 #' \code{whole_rec_table}, and/or according to niche changes detected in
 #' comparisons between an ancestor and a tip, or another more recent ancestor.
 #'
-#' Options of values resulting from classifications are as follow:
+#' Options of values resulting from classifications are as follows:
 #'
 #' If \code{return} = "niche":
-#' | ID|        category|
+#' | id|        category|
 #' |:--|----------------|
 #' |  0|          Absent|
 #' | 10|         Unknown|
 #' |100|         Present|
+#' |110|  Outside limits|
 #'
 #' If \code{return} = "evolution":
-#' | ID|        category|
+#' | id|        category|
 #' |:--|----------------|
 #' |  0|          Stable|
 #' |  1|   Expansion low|
 #' |  3|  Expansion high|
 #' |  2| Retraction high|
 #' |  4|  Retraction low|
-#' | 10|         Unknown|
+#' |  5|       Uncertain|
+#' |110|  Outside limits|
 #'
 #' If \code{return} = "nichevol":
-#' | ID|        category|
+#' | id|        category|
 #' |:--|----------------|
-#' |  0|          Stable|
+#' |  0|          Absent|
 #' |  1|   Expansion low|
 #' |  3|  Expansion high|
-#' | 10|         Unknown|
+#' | 15|       Uncertain|
 #' |100|         Present|
 #' |102| Retraction high|
 #' |104|  Retraction low|
+#' |110|  Outside limits|
 #'
 #'
 #' @usage
 #' map_nichevol(whole_rec_table, variable, return = "niche", from, to = NULL,
-#'              id_unknown = TRUE, verbose = TRUE)
+#'              id_outside = TRUE, verbose = TRUE)
 #'
 #' @export
 #'
@@ -101,7 +106,7 @@
 #' terra::plot(nevol_map)
 
 map_nichevol <- function(whole_rec_table, variable, return = "niche",
-                         from, to = NULL, id_unknown = TRUE, verbose = TRUE) {
+                         from, to = NULL, id_outside = TRUE, verbose = TRUE) {
   if (missing(whole_rec_table)) {stop("Argument 'whole_rec_table' must be defined.")}
   if (missing(variable)) {stop("Argument 'variable' must be defined.")}
   if (missing(from)) {stop("Argument 'from' must be defined.")}
@@ -122,7 +127,7 @@ map_nichevol <- function(whole_rec_table, variable, return = "niche",
 
 
   return(nichevol_layer(variable, niche_list = n_list, evol_list = e_list,
-                        return = return, id_unknown = id_unknown))
+                        return = return, id_outside = id_outside))
 }
 
 
@@ -258,9 +263,21 @@ find_evol_lims <- function(whole_rec_table, from, to, return = c("values", "bins
     return(ifelse(from == present & to == absent, TRUE, FALSE))
   })
 
-  stable <- !expansion & !retraction
+  uncertain <- sapply(1:ncol(to_find), function(z) {
+    from <- to_find[1, z]
+    to <- to_find[2, z]
+    unrules <- c(from == unknown & to == present,
+                 from == unknown & to == absent,
+                 from == present & to == unknown,
+                 from == absent & to == unknown,
+                 from == unknown & to == unknown)
+    return(ifelse(sum(unrules) >= 1, TRUE, FALSE))
+  })
 
-  uns <- list(expansion = expansion, retraction = retraction, stable = stable)
+  stable <- !expansion & !retraction & !uncertain
+
+  uns <- list(expansion = expansion, retraction = retraction,
+              stable = stable, uncertain = uncertain)
 
   ## limits of changes
   lims <- lapply(uns, function(x) {
@@ -326,7 +343,7 @@ find_niche_lims <- function(whole_rec_table, tip_or_node, return = c("values", "
 # creates a raster layer to show areas of niche and niche evolution
 nichevol_layer <- function(variable, niche_list,
                            return = c("niche", "evolution", "nichevol"),
-                           evol_list = NULL, id_unknown = TRUE) {
+                           evol_list = NULL, id_outside = TRUE) {
   if (missing(variable)) {stop("Argument 'variable' must be defined.")}
   if (class(variable)[1] != "SpatRaster") {
     stop("Argument 'variable' must be an object of class 'SpatRaster'.")
@@ -346,7 +363,8 @@ nichevol_layer <- function(variable, niche_list,
   vmm <- terra::minmax(variable)
   nav <- terra::NAflag(variable)
 
-  unk <- ifelse(id_unknown == TRUE, 10, nav)
+  out <- ifelse(id_outside == TRUE, 110, nav)
+  unk <- 10
 
   # reclassification and details
   if (return[1] %in% c("niche", "nichevol")) {
@@ -358,6 +376,7 @@ nichevol_layer <- function(variable, niche_list,
     recm <- do.call(rbind, rec_l)
     recm <- recm[order(recm[, 1]), ]
 
+    # fix in case of rounding inconsistencies
     for (i in 2:nrow(recm)) {
       recm[i, 1] <- recm[i - 1, 2]
     }
@@ -365,20 +384,22 @@ nichevol_layer <- function(variable, niche_list,
     # NAs for values outside ranges
     nnas <- range(c(recm[, 1:2]))
 
-    recm <- rbind(c(From = vmm[1], To = nnas[1], becomes = nav), recm,
-                  c(From = nnas[2], To = vmm[2], becomes = nav))
+    recm <- rbind(c(From = vmm[1], To = nnas[1], becomes = out), recm,
+                  c(From = nnas[2], To = vmm[2], becomes = out))
 
-    ni <- terra::classify(variable, recm, others = nav)
+    ni <- terra::classify(variable, recm, others = out)
   }
 
   if (return[1] %in% c("evolution", "nichevol")) {
     pres <- niche_list$present
     ns <- names(evol_list)
-    nvs <- ifelse(ns == "expansion", 1, ifelse(ns == "retraction", 2, 0))
+    nvs <- ifelse(ns == "expansion", 1,
+                  ifelse(ns == "retraction", 2,
+                         ifelse(ns == "stable", 0, 5)))
     rec_l <- lapply(1:length(evol_list), function(x) {
       etab <- evol_list[[x]]
       if (nrow(etab) > 0) {
-        if(nrow(etab) > 1) {
+        if (nrow(etab) > 1) {
           vs <- rep(nvs[x], nrow(etab))
           if (nvs[x] == 1) {
             vs <- seq(1, 10, 2)[1:length(vs)]
@@ -386,9 +407,13 @@ nichevol_layer <- function(variable, niche_list,
           if (nvs[x] == 2) {
             vs <- seq(2, 10, 2)[1:length(vs)]
           }
+          if (nvs[x] == 5) {
+            vs <- 5
+          }
           cbind(etab, becomes = vs)
         } else {
-          nvst <- ifelse(etab[1, 2] <= pres[1, 1], 0, ifelse(nvs[x] == 0, 0, 2))
+          nvst <- ifelse(etab[1, 2] <= pres[1, 1], 0,
+                         ifelse(nvs[x] %in% c(0, 5), 0, 2))
           vs <- nvs[x] + nvst
         }
         cbind(etab, becomes = vs)
@@ -407,13 +432,14 @@ nichevol_layer <- function(variable, niche_list,
     # NAs for values outside ranges
     nnas <- range(c(recm[, 1:2]))
 
-    recm <- rbind(c(From = vmm[1], To = nnas[1], becomes = nav), recm,
-                  c(From = nnas[2], To = vmm[2], becomes = nav))
+    recm <- rbind(c(From = vmm[1], To = nnas[1], becomes = out), recm,
+                  c(From = nnas[2], To = vmm[2], becomes = out))
 
-    ev <- terra::classify(variable, recm, others = nav)
+    ev <- terra::classify(variable, recm, others = out)
 
     if (return[1] == "nichevol") {
       ni <- ni + ev
+      ni <- terra::subst(ni, from = 220, to = 110)
     } else {
       ni <- ev
     }
@@ -421,19 +447,20 @@ nichevol_layer <- function(variable, niche_list,
 
   # results with categories
   if (return[1] == "evolution") {
-    cates <- data.frame(ID = c(0, 1, 3, 2, 4, 10),
+    cates <- data.frame(id = c(0, 1, 3, 2, 4, 15, 110),
                         category = c("Stable", "Expansion low",
                                      "Expansion high", "Retraction high",
-                                     "Retraction low", "Unknown"))
+                                     "Retraction low", "Uncertain",
+                                     "Outside limits"))
   } else {
-    cates <- data.frame(ID = c(100, 0, 1, 3, 102, 104, 10),
+    cates <- data.frame(id = c(100, 0, 1, 3, 102, 104, 15, 110),
                         category = c("Present", "Absent", "Expansion low",
                                      "Expansion high", "Retraction high",
-                                     "Retraction low", "Unknown"))
+                                     "Retraction low", "Uncertain",
+                                     "Outside limits"))
   }
 
-  cates_ni <- cates[cates$ID %in% terra::unique(ni)[, 1], ]
-
+  cates_ni <- cates[cates$id %in% terra::unique(ni)[, 1], ]
   levels(ni) <- cates_ni
 
   return(ni)
