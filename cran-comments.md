@@ -1,3 +1,29 @@
+## V 0.1.21 first submission
+
+In this version the following changes were made:
+
+* Niche evolution is labelled as uncertain when ancestral or descendat niche is unknown.
+* This change was implemented in functions that add labels and legends to a phylogenetic tree and in the mapping function.
+
+## Test environments
+
+*   Ubuntu 26.04 LTS, R 4.5.3 (local)
+*   MacOS 26.7.2, R release (GitHub Actions) 
+*   Microsoft Windows Server 2025, R release (GitHub Actions) 
+*   Ubuntu 26.04 LTS, R release (GitHub Actions)  
+*   Ubuntu 26.04 LTS, R devel (GitHub Actions) 
+*   Ubuntu 26.04 LTS, R oldrel-1 (GitHub Actions)  
+
+## R CMD check results
+
+There were no ERRORs.
+
+There were no WARNINGs:
+
+There were no NOTEs:
+
+
+
 ## Second resubmission 0.1.20
 This is a resubmission. In this version I have made the following changes: 
 
